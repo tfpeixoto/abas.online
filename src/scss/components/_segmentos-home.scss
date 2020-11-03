@@ -1,0 +1,30 @@
+.segmentos{
+  text-align: center;
+
+  .segmentos__card{
+    margin-bottom: 50px;
+
+    a{
+      img{
+        border-radius: 20px;
+        margin-bottom: 1rem;
+      }
+      h3{
+        color: $roxo;
+        transition: all ease-in-out .25s;
+      }
+      p{
+        color: $cinza;
+        transition: all ease-in-out .25s;
+      }
+
+      &:hover{
+        text-decoration: none;
+
+        img, h3, p{
+          opacity: .8;
+        }
+      }
+    }
+  }
+}

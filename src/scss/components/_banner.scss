@@ -1,0 +1,19 @@
+.banner{
+  background-color: $roxo;
+  color: $white;
+  display: block;
+  padding-top: 250px;
+  text-shadow: 0 5px 10px rgba(0,0,0,.2);
+  z-index: -1;
+
+  &.banner-home{
+    background: url(../images/Banner.jpg) no-repeat;
+    background-attachment: fixed;
+    background-position: center center;
+    background-size: cover;
+    min-height: 768px;
+  }
+  .btn{
+    color: $roxo;
+  }
+}

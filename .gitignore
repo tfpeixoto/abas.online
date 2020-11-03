@@ -1,0 +1,16 @@
+package-lock.json
+
+node_modules
+
+dist/*.php
+
+dist/wp-admin
+
+dist/wp-includes
+
+dist/wp-content/*.php
+dist/wp-content/languages
+dist/wp-content/upgrade
+dist/wp-content/uploads
+
+dist/wp-content/themes/twentytwenty

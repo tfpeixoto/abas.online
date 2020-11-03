@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="<?= get_template_directory_uri() . '/css/' . $estiloPagina ?>" as="style" media="print" onload="this.media='all'; this.onload=null;" crossorigin>
+
+  <?php wp_head(); ?>
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#"><?php the_custom_logo(); ?></a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alterna navegação">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <?php
+        wp_nav_menu(array(
+          'theme_location'  => 'menu-principal',
+          'depth'           => 2,
+          'container'       => 'div',
+          'container_class' => 'collapse navbar-collapse',
+          'container_id'    => 'navbarNav',
+          'menu_class'      => 'navbar-nav ml-auto',
+          'fallback_cb'     => 'WP_Bootstrap_Navwalker::fallback',
+          'walker'          => new WP_Bootstrap_Navwalker(),
+        ));
+        ?>
+
+        <!-- <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Soluções </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Integrações</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Preços</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Entrar</a>
+            </li>
+            <li class="nav-item">
+              <a type="button" href="#" class="btn btn-amarelo">Solicitar demonstração <i class="fas fa-chevron-right"></i></a>
+            </li>
+          </ul>
+        </div> -->
+    </div>
+    </nav>
+  </header>

@@ -1,0 +1,127 @@
+footer{
+  .footer__content{
+    background: #FAFAFA;
+    border: 20px solid $white;
+    border-radius: 40px;
+    padding: 100px 0;
+  
+    .footer__marca{
+      margin-bottom: 1rem;
+    }
+    .footer__contato{
+      font-weight: 800;
+
+      ul{
+        li{
+          margin-bottom: .5rem;
+
+          a{
+            display: flex;
+            align-items: center;
+
+            i{
+              color: $roxo;
+              font-size: 2rem;
+              margin-right: .5rem;
+              min-width: 40px;
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+    .footer__menu{
+      ul{
+        li{
+          line-height: 1.2;
+          margin-bottom: .5rem;
+
+          &.dropdown-header{
+            color: $roxo;
+            font-size: 1rem;
+            font-weight: 800;
+            margin-top: 1rem;
+            padding: 0;
+            text-transform: uppercase;
+            transition: all ease-in-out .25s;
+          }
+          &:first-child{
+            margin-top: 0;
+          }
+          a{
+            &:hover{
+              font-weight: 600;
+            }
+          }
+        }
+      }
+    }
+    a{
+      color: $cinza;
+
+      &:hover{
+        color: $roxo;
+        text-decoration: none;
+      }
+    }
+    ul{
+      li{
+        list-style: none;
+      }
+    }
+    p{
+      font-size: 1rem;
+      margin-bottom: 0;
+  
+      strong{
+        color: $roxo;
+        font-size: 1.1rem;
+      }
+    }
+    form{
+      background: $white;
+      border-radius: 5px;
+      box-shadow: 0 5px 10px rgba(0,0,0,.16);
+      font-size: .8rem;
+      margin-top: 1rem;
+      min-height: 40px;
+      position: relative;
+  
+      input{
+        border: 0 !important;
+        font-size: .9rem;
+        padding: 20px;
+      }
+      button{
+        background: $roxo;
+        border: 0;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        color: $white;
+        height: 40px;
+        padding: 10px 15px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transition: all ease-in-out .25s;
+  
+        &:hover{
+          filter: brightness(80%);
+        }
+      }
+    }
+  }
+  .footer__copy{
+    background: $roxo;
+    color: $white;
+    border: 20px solid $white;
+    border-radius: 40px;
+    margin-top: -40px;
+    text-align: center;
+
+    p{
+      margin-bottom: 0;
+      padding: 15px;
+    }
+  }
+}

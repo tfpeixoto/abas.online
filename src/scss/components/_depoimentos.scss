@@ -1,0 +1,13 @@
+.depoimentos{
+  background: $roxo;
+  color: $white;
+
+  .depoimento__nome{
+    color: $amarelo;
+  }
+  .depoimento__cargo{
+    font-family: Roboto, sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+  }
+}

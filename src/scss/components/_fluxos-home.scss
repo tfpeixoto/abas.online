@@ -1,0 +1,49 @@
+.fluxos {
+  .fluxos__container {
+    .fluxos__btns {
+
+      .nav-link {
+        background: #fafafa;
+        border-radius: 10px;
+        color: $roxo;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 0.2rem;
+        padding: 1.5rem 2rem;
+        transition: all ease-in-out 0.25s;
+
+        &.active {
+          background: $roxo;
+          color: $amarelo;
+          font-weight: 700;
+
+          &:before {
+            content: "\f053";
+            display: inline-block;
+            font-family: "font awesome 5 free", sans-serif;
+            margin-right: 1rem;
+          }
+        }
+      }
+    }
+    .tab-pane {
+      img {
+        position: absolute;
+        top: 0;
+        max-height: 100%;
+        z-index: -1;
+      }
+      h3 {
+        color: $amarelo;
+        padding: 0 1.5rem;
+      }
+      p {
+        color: $white;
+        padding: 0 1.5rem;
+      }
+      .btn {
+        margin: 0 1.5rem;
+      }
+    }
+  }
+}
