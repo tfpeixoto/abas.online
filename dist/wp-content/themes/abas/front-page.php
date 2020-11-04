@@ -1,5 +1,7 @@
 <?php
-/* Theme template: Home */
+/*
+ * Template name: Home
+*/
 $estiloPagina = "home.css";
 require_once("header.php");
 ?>
@@ -10,20 +12,21 @@ require_once("header.php");
       <div class="col-12 text-center">
         <h1>Sistema de automação de processos totalmente personalizável</h1>
         <p class="lead">Com workflow simples e flexível, nós facilitamos a comunicação entre setores, possibilitamos a criação de ideias e inovações, gerenciamos prazos, demandas operacionais, de TI e muito mais!</p>
-        <a type="button" href="#" class="btn btn-amarelo">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
+        <a type="button" href="#" class="btn btn-amarelo" data-toggle="modal" data-target="#modalConversao">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
       </div>
     </div>
   </div>
 </section>
 
-<section class="intro">
+<section class="intro bg-cinza-claro">
   <div class="container">
-    <div class="row">
-      <div class="col-12 col-md-3">
-        <h2 class="text-roxo">O que é o Abas Online?</h2>
+    <div class="row d-flex justify-content-between align-items-center">
+      <div class="col-12 col-md-5">
+        <img src="<?php bloginfo('template_url'); ?>/images/canivete-suico.png" alt="Abas Online - Canivete Suíço" />
       </div>
 
-      <div class="col-12 col-md-9">
+      <div class="col-12 col-md-6">
+        <h2 class="text-roxo">O que é o Abas Online?</h2>
         <p class="lead text-roxo font-weight-bold">Somos o único e mais completo Software de Gestão de Processos capaz de criar e automatizar fluxos de trabalho para atender diversas áreas em uma única empresa.</p>
         <p>Nosso <strong>gerenciador de tarefas</strong> contribui diretamente para o aumento da produtividade e redução do custo operacional, através da otimização de processos de vários setores:</p>
         <p>Departamento Pessoal, Comercial, Marketing, Recursos Humanos, Financeiro, Tecnologia da Informação e muito mais. </p>
@@ -193,59 +196,59 @@ require_once("header.php");
         <h2 class="text-roxo">Por que o Abas é o melhor gerenciador de tarefas para a sua empresa?</h2>
       </div>
     </div>
+  </div>
 
-    <div class="row d-flex justify-content-between align-items-center dobras__item">
-      <div class="col-12 col-md-5">
-        <img src="<?php bloginfo('template_url'); ?>/images/eliminamos-planilhas.png" alt="#" />
-      </div>
+  <div class="dobras__item">
+    <div class="container">
+      <div class="row d-flex justify-content-between align-items-center">
+        <div class="col-12 col-md-5">
+          <img src="<?php bloginfo('template_url'); ?>/images/eliminamos-planilhas.png" alt="#" />
+        </div>
 
-      <div class="col-12 col-md-6">
-        <h3 class="h2">Eliminamos planilhas e centralizamos tarefas</h3>
-        <p>Somos o sistema de gestão de processos mais completo do país. Por isso, transformamos controles manuais de qualquer setor do seu negócio em processos automáticos: gerenciamento de vendas, alertas automáticos, gestão de contas a pagar e a receber, compras, estoque e muito mais. Além disso, com o nosso sistema as suas atividades ficam centralizadas em um único gerenciador, facilitando a rotina e fortalecendo a segurança das informações.</p>
-        <a type="button" href="#" class="btn btn-outline-roxo">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
-      </div>
-    </div>
-
-    <div class="row d-flex justify-content-between align-items-center flex-row-reverse dobras__item">
-      <div class="col-12 col-md-5">
-        <img src="<?php bloginfo('template_url'); ?>/images/eliminamos-planilhas.png" alt="#" />
-      </div>
-
-      <div class="col-12 col-md-6">
-        <h3 class="h2">Não limitamos funcionalidades por assinatura</h3>
-        <p>Isso mesmo, você não precisa fazer upgrade de plano para usar mais recursos do sistema! Somos o único software para gestão de processos que não limita funcionalidades. Assim que você se torna um de nossos clientes, todas as opções de fluxos de trabalho estarão disponíveis para o uso do seu negócio. Quanto mais processos você cria, mais fácil se torna seu trabalho.</p>
-        <a type="button" href="#" class="btn btn-outline-roxo">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
-      </div>
-    </div>
-
-    <div class="row d-flex justify-content-between align-items-center dobras__item">
-      <div class="col-12 col-md-5">
-        <img src="<?php bloginfo('template_url'); ?>/images/eliminamos-planilhas.png" alt="#" />
-      </div>
-
-      <div class="col-12 col-md-6">
-        <h3 class="h2">Customizamos o sistema de acordo com as necessidades da sua empresa</h3>
-        <p>Nossa estrutura é totalmente flexível e nossa implantação é totalmente personalizada. Modelamos o sistema para atender cada especificidade do seu negócio. Todo novo cliente recebe treinamento técnico e aprofundado para dominar a operação do processo de criação e gestão dos fluxos de trabalho.</p>
-        <a type="button" href="#" class="btn btn-outline-roxo">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
+        <div class="col-12 col-md-6">
+          <h3 class="h2">Eliminamos planilhas e centralizamos tarefas</h3>
+          <p>Somos o sistema de gestão de processos mais completo do país. Por isso, transformamos controles manuais de qualquer setor do seu negócio em processos automáticos: gerenciamento de vendas, alertas automáticos, gestão de contas a pagar e a receber, compras, estoque e muito mais. Além disso, com o nosso sistema as suas atividades ficam centralizadas em um único gerenciador, facilitando a rotina e fortalecendo a segurança das informações.</p>
+          <a type="button" href="#" class="btn btn-outline-roxo">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
+        </div>
       </div>
     </div>
   </div>
-</section>
 
-<section class="depoimentos">
-  <div class="container">
-    <div class="row">
-      <div class="col-12 col-md-7">
-        <p>O Abas Online é uma plataforma moderna, intuitiva e flexível que atende as necessidades diárias do setor jurídico e acaba por proporcionar maior eficiência e produtividade aos procedimentos internos. Importante destacar que o atendimento e suporte técnico ao cliente são excelentes.</p>
+  <div class="dobras__item">
+    <div class="container">
+      <div class="row d-flex justify-content-between align-items-center flex-row-reverse">
+        <div class="col-12 col-md-5">
+          <img src="<?php bloginfo('template_url'); ?>/images/eliminamos-planilhas.png" alt="#" />
+        </div>
 
-        <h4><span class="depoimento__nome">Letícia Azevedo</span><br />
-          <span class="depoimento__cargo">Advogada da Group Software</span></h4>
-
-        <img src="#" alt="#" />
+        <div class="col-12 col-md-6">
+          <h3 class="h2">Não limitamos funcionalidades por assinatura</h3>
+          <p>Isso mesmo, você não precisa fazer upgrade de plano para usar mais recursos do sistema! Somos o único software para gestão de processos que não limita funcionalidades. Assim que você se torna um de nossos clientes, todas as opções de fluxos de trabalho estarão disponíveis para o uso do seu negócio. Quanto mais processos você cria, mais fácil se torna seu trabalho.</p>
+          <a type="button" href="#" class="btn btn-outline-roxo">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
+        </div>
       </div>
     </div>
   </div>
+
+  <div class="dobras__item">
+    <div class="container">
+      <div class="row d-flex justify-content-between align-items-center">
+        <div class="col-12 col-md-5">
+          <img src="<?php bloginfo('template_url'); ?>/images/eliminamos-planilhas.png" alt="#" />
+        </div>
+
+        <div class="col-12 col-md-6">
+          <h3 class="h2">Customizamos o sistema de acordo com as necessidades da sua empresa</h3>
+          <p>Nossa estrutura é totalmente flexível e nossa implantação é totalmente personalizada. Modelamos o sistema para atender cada especificidade do seu negócio. Todo novo cliente recebe treinamento técnico e aprofundado para dominar a operação do processo de criação e gestão dos fluxos de trabalho.</p>
+          <a type="button" href="#" class="btn btn-outline-roxo">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
 </section>
+
+<?php require_once("template_parts/depoimentos.php"); ?>
 
 <section class="cta">
   <div class="container">
@@ -253,12 +256,13 @@ require_once("header.php");
       <div class="col-12 col-md-6 text-center">
         <h2 class="text-amarelo">Quer automatizar todos os processos da sua empresa?</h2>
         <p>Personalizamos todo nosso sistema à sua maneira, para impulsionar os resultados da sua gestão.</p>
-        <a type="button" href="#" class="btn btn-roxo">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
+        <a type="button" href="#" class="btn btn-roxo" data-target="#modalConversao">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
       </div>
     </div>
   </div>
 </section>
 
 <?php
+require_once("template_parts/modal.php");
 require_once("footer.php");
 ?>

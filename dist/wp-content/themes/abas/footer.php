@@ -36,6 +36,7 @@
             <li><a href="#" title="#">CRM</a></li>
             <li class="dropdown-header"><a href="#" title="#">Integrações</a></li>
             <li class="dropdown-header"><a href="#" title="#">Preço</a></li>
+            <li class="dropdown-header"><a href="#" title="#">Blog</a></li>
           </ul>
         </div>
 

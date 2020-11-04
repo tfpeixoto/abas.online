@@ -1,0 +1,19 @@
+.conteudo{
+  h2, h3{
+    color: $roxo;
+  }
+  .lead{
+    color: $roxo;
+    font-family: "Roboto Slab", serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+
+    @include media-breakpoint-up(md) {
+      padding: 0 5rem;
+    }
+  }
+  img{
+    height: auto;
+    max-width: 100%;
+  }
+}

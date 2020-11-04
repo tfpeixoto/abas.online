@@ -51,11 +51,6 @@ gulp.task('imagemin', function () {
 
 gulp.task('js', function () {
   return gulp.src([
-    // 'src/js/components/jquery-3.5.1.min.js',
-    // 'src/js/components/popper-1.16.1.min.js',
-    // 'src/js/components/bootstrap-4.5.0.min.js',
-    // 'src/js/components/jquery.mask-1.14.16.min.js',
-    // 'src/js/components/jquery.validate-1.19.2.min.js',
     'src/js/acoes.js',
   ])
     .pipe(concat('scripts.js'))

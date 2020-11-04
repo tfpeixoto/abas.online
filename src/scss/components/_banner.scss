@@ -12,6 +12,14 @@
     background-position: center center;
     background-size: cover;
     min-height: 768px;
+
+    h1{
+      font-size: 3.5rem;
+    }
+  }
+  h1{
+    font-size: 3rem;
+    margin-bottom: 2rem;
   }
   .btn{
     color: $roxo;
