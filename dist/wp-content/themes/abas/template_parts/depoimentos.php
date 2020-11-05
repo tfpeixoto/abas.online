@@ -1,6 +1,18 @@
+<?php
+$args = array(
+  "post_type" => "depoimentos",
+  "orderby" => "rand",
+  "posts_per_page" => 1,
+);
+$depoimentos = new WP_Query($args);
+if ($depoimentos->have_posts()) {
+  while ($depoimentos->have_posts()) {
+    $depoimentos->the_post();
+?>
+
 <style>
   .depoimentos{
-    background: url(<?php bloginfo('template_url'); ?>/images/depoimentos.jpg) no-repeat;
+    background: url(<?php the_post_thumbnail_url(); ?>) no-repeat;
     background-size: cover;
     background-position: top center;
   }
@@ -10,12 +22,12 @@
   <div class="container">
     <div class="row">
       <div class="col-12 col-md-6">
-        <p>O Abas Online é uma plataforma moderna, intuitiva e flexível que atende as necessidades diárias do setor jurídico e acaba por proporcionar maior eficiência e produtividade aos procedimentos internos. Importante destacar que o atendimento e suporte técnico ao cliente são excelentes.</p>
+        <?php the_content(); ?>
 
         <div class="row mt-5">
           <div class="col-6">
-            <h4><span class="depoimento__nome">Letícia Azevedo</span><br />
-              <span class="depoimento__cargo">Advogada da Group Software</span></h4>
+            <h4><span class="depoimento__nome"><?php the_title(); ?></span><br />
+              <span class="depoimento__cargo"><?php echo "Group Software" // the_field('cargo'); ?></span></h4>
           </div>
 
           <div class="col-6">
@@ -26,3 +38,7 @@
     </div>
   </div>
 </section>
+
+<?php }
+    } ?>
+  </div>

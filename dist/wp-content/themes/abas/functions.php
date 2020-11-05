@@ -10,6 +10,7 @@ function abas_adiciona_recursos_tema()
 }
 add_action('after_setup_theme', 'abas_adiciona_recursos_tema');
 
+
 // Registra menu bootstrap
 function register_navwalker()
 {
@@ -17,12 +18,14 @@ function register_navwalker()
 }
 add_action('after_setup_theme', 'register_navwalker');
 
+
 // Registra menus editáveis
 register_nav_menus(array(
   'menu-principal' => __('Menu Principal', 'group-software'),
   'menu-rodape' => __('Menu Rodapé', 'group-software'),
   // 'menu-social' => __('Menu Social', 'group-software'),
 ));
+
 
 // Adiciona estilos e scrits
 function abas_scripts()
@@ -39,3 +42,134 @@ function abas_scripts()
   wp_enqueue_script('acoes', get_template_directory_uri() . '/js/scripts.min.js', array('jquery'), '1.0', true);
 }
 add_action('wp_enqueue_scripts', 'abas_scripts');
+
+
+// Configs do Gutemberg
+function wpabas_config()
+{
+  // 1. Responsividade nas mídias incorporadas, como o bloco do YouTube, por exemplo.
+  add_theme_support('responsive-embeds');
+
+  // 2. Estilo padrão de cada bloco.
+  add_theme_support('wp-block-styles');
+
+  // 3. Alinhamentos de blocos: largura completa (Full) e largura ampla (Wide)
+  add_theme_support('align-wide');
+
+  add_theme_support('editor-color-palette', array(
+    array(
+      'name' => __('Roxo', 'abas'),
+      'slug' => 'roxo',
+      'color' => '#411C54',
+    ),
+    array(
+      'name' => __('Amarelo', 'abas'),
+      'slug' => 'amarelo',
+      'color' => '#F2C30D',
+    ),
+    array(
+      'name' => __('Cinza', 'abas'),
+      'slug' => 'cinza',
+      'color' => '#404040',
+    ),
+    array(
+      'name' => __('Cinza Claro', 'abas'),
+      'slug' => 'cinza-claro',
+      'color' => '#fafafa',
+    ),
+    array(
+      'name' => __('Branco', 'abas'),
+      'slug' => 'branco',
+      'color' => '#ffffff',
+    ),
+  ));
+}
+add_action('after_setup_theme', 'wpabas_config', 0);
+
+
+// Post Type Integrações
+function cadastrando_post_type_integracoes()
+{
+  $nomeSingular = 'Integração';
+  $nomePlural = 'Integrações';
+  $description = $nomeSingular . ' do Abas';
+
+  $labels = array(
+    'name' => $nomePlural,
+    'singular_name' => $nomeSingular,
+    'add_new_item' => "Adicionar novo " . $nomeSingular,
+    'edit_item' => 'Editar ' . $nomeSingular,
+  );
+
+  $supports = array(
+    'title',
+    'editor',
+    'thumbnail',
+  );
+
+  $args = array(
+    'labels' => $labels,
+    'public' => true,
+    'description' => $description,
+    'menu_icon' => 'dashicons-admin-plugins',
+    'supports' => $supports
+  );
+  register_post_type('integracoes', $args);
+}
+add_action('init', 'cadastrando_post_type_integracoes');
+function tipo_integracao()
+{
+  $nomeSingular = 'Tipo';
+  $nomePlural = 'Tipos';
+
+  $labels = array(
+    'name' => $nomePlural,
+    'singular_name' => $nomeSingular,
+    'add_new_item' => "Adicionar novo " . $nomeSingular,
+    'edit_item' => 'Editar ' . $nomeSingular,
+  );
+
+  $args = array(
+    'labels' => $labels,
+    'public' => true,
+    'show_ui' => true,
+    'hierarchical' => true,
+  );
+  register_taxonomy('tipo_integracao', 'integracoes', $args);
+}
+add_action('init', 'tipo_integracao');
+
+
+// Post Type Depoimentos
+function cadastrando_post_type_depoimentos()
+{
+  $nomeSingular = 'Depoimento';
+  $nomePlural = 'Depoimentos';
+  $description = $nomeSingular . ' da Group Software';
+
+  $labels = array(
+    'name' => $nomePlural,
+    'singular_name' => $nomeSingular,
+    'add_new_item' => "Adicionar novo " . $nomeSingular,
+    'edit_item' => 'Editar ' . $nomeSingular,
+  );
+
+  $supports = array(
+    'title',
+    'editor',
+    'thumbnail'
+  );
+
+  $args = array(
+    'labels' => $labels,
+    'public' => true,
+    'description' => $description,
+    'hierarchical' => true,
+    'menu_icon' => 'dashicons-admin-users',
+    'show_ui' => true,
+    'supports' => $supports,
+  );
+
+  register_post_type('depoimentos', $args);
+}
+add_action('init', 'cadastrando_post_type_depoimentos');

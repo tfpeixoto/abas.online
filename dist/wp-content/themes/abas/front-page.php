@@ -113,7 +113,7 @@ require_once("header.php");
 
     <div class="row">
       <div class="col-12">
-        <a type="button" href="#" class="btn btn-amarelo">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
+        <a type="button" href="#" class="btn btn-amarelo" data-toggle="modal" data-target="#modalConversao">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
       </div>
     </div>
   </div>
@@ -145,7 +145,7 @@ require_once("header.php");
             <img src="<?php bloginfo('template_url'); ?>/images/imagem-tab.png" class="img-fluid" alt="#" />
             <h3>Gestão de tarefas e prazos</h3>
             <p>Monitore tarefas do início ao fim. Crie lembretes de prazos a vencer, check list de rotinas e formulários customizados para solicitação de demandas. Estabeleça vencimentos para garantir que projetos sejam realizados no tempo correto.</p>
-            <a type="button" href="#" title="#" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
+            <a type="button" href="gestao-tarefas" title="#" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
           </div>
 
           <div class="tab-pane fade" id="v-pills-lgpd" role="tabpanel" aria-labelledby="v-pills-lgpd-tab">
@@ -208,7 +208,7 @@ require_once("header.php");
         <div class="col-12 col-md-6">
           <h3 class="h2">Eliminamos planilhas e centralizamos tarefas</h3>
           <p>Somos o sistema de gestão de processos mais completo do país. Por isso, transformamos controles manuais de qualquer setor do seu negócio em processos automáticos: gerenciamento de vendas, alertas automáticos, gestão de contas a pagar e a receber, compras, estoque e muito mais. Além disso, com o nosso sistema as suas atividades ficam centralizadas em um único gerenciador, facilitando a rotina e fortalecendo a segurança das informações.</p>
-          <a type="button" href="#" class="btn btn-outline-roxo">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
+          <a type="button" href="#" class="btn btn-outline-roxo" data-toggle="modal" data-target="#modalConversao">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
         </div>
       </div>
     </div>
@@ -224,7 +224,7 @@ require_once("header.php");
         <div class="col-12 col-md-6">
           <h3 class="h2">Não limitamos funcionalidades por assinatura</h3>
           <p>Isso mesmo, você não precisa fazer upgrade de plano para usar mais recursos do sistema! Somos o único software para gestão de processos que não limita funcionalidades. Assim que você se torna um de nossos clientes, todas as opções de fluxos de trabalho estarão disponíveis para o uso do seu negócio. Quanto mais processos você cria, mais fácil se torna seu trabalho.</p>
-          <a type="button" href="#" class="btn btn-outline-roxo">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
+          <a type="button" href="#" class="btn btn-outline-roxo" data-toggle="modal" data-target="#modalConversao">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
         </div>
       </div>
     </div>
@@ -240,7 +240,7 @@ require_once("header.php");
         <div class="col-12 col-md-6">
           <h3 class="h2">Customizamos o sistema de acordo com as necessidades da sua empresa</h3>
           <p>Nossa estrutura é totalmente flexível e nossa implantação é totalmente personalizada. Modelamos o sistema para atender cada especificidade do seu negócio. Todo novo cliente recebe treinamento técnico e aprofundado para dominar a operação do processo de criação e gestão dos fluxos de trabalho.</p>
-          <a type="button" href="#" class="btn btn-outline-roxo">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
+          <a type="button" href="#" class="btn btn-outline-roxo" data-toggle="modal" data-target="#modalConversao">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
         </div>
       </div>
     </div>
@@ -248,21 +248,9 @@ require_once("header.php");
   </div>
 </section>
 
-<?php require_once("template_parts/depoimentos.php"); ?>
-
-<section class="cta">
-  <div class="container">
-    <div class="row d-flex justify-content-center">
-      <div class="col-12 col-md-6 text-center">
-        <h2 class="text-amarelo">Quer automatizar todos os processos da sua empresa?</h2>
-        <p>Personalizamos todo nosso sistema à sua maneira, para impulsionar os resultados da sua gestão.</p>
-        <a type="button" href="#" class="btn btn-roxo" data-target="#modalConversao">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<?php
+<?php 
+require_once("template_parts/depoimentos.php");
+require_once("template_parts/cta.php");
 require_once("template_parts/modal.php");
 require_once("footer.php");
 ?>
