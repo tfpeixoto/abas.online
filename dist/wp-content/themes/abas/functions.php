@@ -21,9 +21,9 @@ add_action('after_setup_theme', 'register_navwalker');
 
 // Registra menus editáveis
 register_nav_menus(array(
-  'menu-principal' => __('Menu Principal', 'group-software'),
-  'menu-rodape' => __('Menu Rodapé', 'group-software'),
-  // 'menu-social' => __('Menu Social', 'group-software'),
+  'menu-principal' => __('Menu Principal', 'abas-online'),
+  'menu-footer-01' => __('Menu Footer - Coluna 01', 'abas-online'),
+  'menu-footer-02' => __('Menu Footer - Coluna 02', 'abas-online'),
 ));
 
 

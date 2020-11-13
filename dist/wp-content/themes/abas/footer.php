@@ -25,33 +25,33 @@
         </div>
 
         <div class="col-12 col-md-3 footer__menu">
-          <ul>
-            <li class="dropdown-header">Fluxo de trabalho</li>
-            <li><a href="#" title="#">Gestão de ideias e inovações</a></li>
-            <li><a href="#" title="#">Gestão de tarefas</a></li>
-            <li><a href="#" title="#">Gestão de manutenções</a></li>
-            <li><a href="#" title="#">Gestão de compras</a></li>
-            <li><a href="#" title="#">Gestão de LGPD</a></li>
-            <li><a href="#" title="#">Gestão de pessoas: onboarding</a></li>
-            <li><a href="#" title="#">CRM</a></li>
-            <li class="dropdown-header"><a href="#" title="#">Integrações</a></li>
-            <li class="dropdown-header"><a href="#" title="#">Preço</a></li>
-            <li class="dropdown-header"><a href="#" title="#">Blog</a></li>
-          </ul>
+          <?php
+          wp_nav_menu(array(
+            'theme_location'  => 'menu-footer-01',
+            'depth'           => 2,
+            'container'       => '',
+            'container_class' => '',
+            'container_id'    => '',
+            'menu_class'      => '',
+            'fallback_cb'     => 'WP_Bootstrap_Navwalker::fallback',
+            'walker'          => new WP_Bootstrap_Navwalker(),
+          ));
+          ?>
         </div>
 
         <div class="col-12 col-md-3 footer__menu">
-          <ul>
-            <li class="dropdown-header">Segmento</li>
-            <li><a href="#" title="#">Departamento Pessoal</a></li>
-            <li><a href="#" title="#">Recursos humanos</a></li>
-            <li><a href="#" title="#">Compras e estoque</a></li>
-            <li><a href="#" title="#">Manutenção</a></li>
-            <li><a href="#" title="#">Jurídico</a></li>
-            <li><a href="#" title="#">Tecnologia da informação</a></li>
-            <li><a href="#" title="#">Marketing</a></li>
-            <li><a href="#" title="#">Comercial e Financeiro</a></li>
-          </ul>
+          <?php
+          wp_nav_menu(array(
+            'theme_location'  => 'menu-footer-02',
+            'depth'           => 2,
+            'container'       => '',
+            'container_class' => '',
+            'container_id'    => '',
+            'menu_class'      => '',
+            'fallback_cb'     => 'WP_Bootstrap_Navwalker::fallback',
+            'walker'          => new WP_Bootstrap_Navwalker(),
+          ));
+          ?>
         </div>
       </div>
     </div>

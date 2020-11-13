@@ -22,7 +22,7 @@ require_once("header.php");
   <div class="container">
     <div class="row d-flex justify-content-between align-items-center">
       <div class="col-12 col-md-5">
-        <img src="<?php bloginfo('template_url'); ?>/images/canivete-suico.png" alt="Abas Online - Canivete Suíço" />
+        <img src="<?php bloginfo('template_url'); ?>/images/canivete-suico.png" class="img-fluid" alt="Abas Online - Canivete Suíço" />
       </div>
 
       <div class="col-12 col-md-6">
@@ -127,8 +127,8 @@ require_once("header.php");
       </div>
     </div>
 
-    <div class="row d-flex justify-content-center flex-row-reverse fluxos__container">
-      <div class="col-5 fluxos__btns">
+    <div class="row d-flex justify-content-center align-items-center flex-row-reverse fluxos__container">
+      <div class="col-12 col-md-5 fluxos__btns">
         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
           <a class="nav-link active" id="v-pills-ideias-tab" data-toggle="pill" href="#v-pills-ideias" role="tab" aria-controls="v-pills-ideias" aria-selected="true">Gestão de ideias e inovações</a>
           <a class="nav-link" id="v-pills-lgpd-tab" data-toggle="pill" href="#v-pills-lgpd" role="tab" aria-controls="v-pills-lgpd" aria-selected="false">Gestão de LGPD</a>
@@ -139,48 +139,54 @@ require_once("header.php");
         </div>
       </div>
 
-      <div class="col-7">
+      <div class="col-12 col-md-7">
         <div class="tab-content" id="v-pills-tabContent">
-          <div class="tab-pane fade show active" id="v-pills-ideias" role="tabpanel" aria-labelledby="v-pills-ideias-tab">
-            <img src="<?php bloginfo('template_url'); ?>/images/imagem-tab.png" class="img-fluid" alt="#" />
-            <h3>Gestão de tarefas e prazos</h3>
-            <p>Monitore tarefas do início ao fim. Crie lembretes de prazos a vencer, check list de rotinas e formulários customizados para solicitação de demandas. Estabeleça vencimentos para garantir que projetos sejam realizados no tempo correto.</p>
-            <a type="button" href="gestao-tarefas" title="#" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
+          <div class="tab-pane fade show active" id="v-pills-ideias" role="tabpanel" aria-labelledby="v-pills-ideias-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/imagem-tab.png) no-repeat">
+            <div class="tab-pane__content">
+              <h3>Gestão de tarefas e prazos</h3>
+              <p>Monitore tarefas do início ao fim. Crie lembretes de prazos a vencer, check list de rotinas e formulários customizados para solicitação de demandas. Estabeleça vencimentos para garantir que projetos sejam realizados no tempo correto.</p>
+              <a type="button" href="gestao-tarefas" title="#" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
+            </div>
           </div>
 
-          <div class="tab-pane fade" id="v-pills-lgpd" role="tabpanel" aria-labelledby="v-pills-lgpd-tab">
-            <img src="<?php bloginfo('template_url'); ?>/images/imagem-tab.png" alt="#" />
-            <h3>Gestão de tarefas e prazos 2</h3>
-            <p>Monitore tarefas do início ao fim. Crie lembretes de prazos a vencer, check list de rotinas e formulários customizados para solicitação de demandas. Estabeleça vencimentos para garantir que projetos sejam realizados no tempo correto.</p>
-            <a type="button" href="#" title="#" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
+          <div class="tab-pane fade" id="v-pills-lgpd" role="tabpanel" aria-labelledby="v-pills-lgpd-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/imagem-tab.png) no-repeat">
+            <div class="tab-pane__content">
+              <h3>Gestão de tarefas e prazos 2</h3>
+              <p>Monitore tarefas do início ao fim. Crie lembretes de prazos a vencer, check list de rotinas e formulários customizados para solicitação de demandas. Estabeleça vencimentos para garantir que projetos sejam realizados no tempo correto.</p>
+              <a type="button" href="#" title="#" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
+            </div>
           </div>
 
-          <div class="tab-pane fade" id="v-pills-compras" role="tabpanel" aria-labelledby="v-pills-compras-tab">
-            <img src="<?php bloginfo('template_url'); ?>/images/imagem-tab.png" alt="#" />
-            <h3>Gestão de tarefas e prazos 3</h3>
-            <p>Monitore tarefas do início ao fim. Crie lembretes de prazos a vencer, check list de rotinas e formulários customizados para solicitação de demandas. Estabeleça vencimentos para garantir que projetos sejam realizados no tempo correto.</p>
-            <a type="button" href="#" title="#" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
+          <div class="tab-pane fade" id="v-pills-compras" role="tabpanel" aria-labelledby="v-pills-compras-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/imagem-tab.png) no-repeat">
+            <div class="tab-pane__content">
+              <h3>Gestão de tarefas e prazos 3</h3>
+              <p>Monitore tarefas do início ao fim. Crie lembretes de prazos a vencer, check list de rotinas e formulários customizados para solicitação de demandas. Estabeleça vencimentos para garantir que projetos sejam realizados no tempo correto.</p>
+              <a type="button" href="#" title="#" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
+            </div>
           </div>
 
-          <div class="tab-pane fade" id="v-pills-tarefas" role="tabpanel" aria-labelledby="v-pills-tarefas-tab">
-            <img src="<?php bloginfo('template_url'); ?>/images/imagem-tab.png" alt="#" />
-            <h3>Gestão de tarefas e prazos 4</h3>
-            <p>Monitore tarefas do início ao fim. Crie lembretes de prazos a vencer, check list de rotinas e formulários customizados para solicitação de demandas. Estabeleça vencimentos para garantir que projetos sejam realizados no tempo correto.</p>
-            <a type="button" href="#" title="#" class="btn btn-white">Veja mais</a>
+          <div class="tab-pane fade" id="v-pills-tarefas" role="tabpanel" aria-labelledby="v-pills-tarefas-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/imagem-tab.png) no-repeat">
+            <div class="tab-pane__content">
+              <h3>Gestão de tarefas e prazos 4</h3>
+              <p>Monitore tarefas do início ao fim. Crie lembretes de prazos a vencer, check list de rotinas e formulários customizados para solicitação de demandas. Estabeleça vencimentos para garantir que projetos sejam realizados no tempo correto.</p>
+              <a type="button" href="#" title="#" class="btn btn-white">Veja mais</a>
+            </div>
           </div>
 
-          <div class="tab-pane fade" id="v-pills-pessoas" role="tabpanel" aria-labelledby="v-pills-pessoas-tab">
-            <img src="<?php bloginfo('template_url'); ?>/images/imagem-tab.png" alt="#" />
-            <h3>Gestão de tarefas e prazos 5</h3>
-            <p>Monitore tarefas do início ao fim. Crie lembretes de prazos a vencer, check list de rotinas e formulários customizados para solicitação de demandas. Estabeleça vencimentos para garantir que projetos sejam realizados no tempo correto.</p>
-            <a type="button" href="#" title="#" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
+          <div class="tab-pane fade" id="v-pills-pessoas" role="tabpanel" aria-labelledby="v-pills-pessoas-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/imagem-tab.png) no-repeat">
+            <div class="tab-pane__content">
+              <h3>Gestão de tarefas e prazos 5</h3>
+              <p>Monitore tarefas do início ao fim. Crie lembretes de prazos a vencer, check list de rotinas e formulários customizados para solicitação de demandas. Estabeleça vencimentos para garantir que projetos sejam realizados no tempo correto.</p>
+              <a type="button" href="#" title="#" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
+            </div>
           </div>
 
-          <div class="tab-pane fade" id="v-pills-crm" role="tabpanel" aria-labelledby="v-pills-crm-tab">
-            <img src="<?php bloginfo('template_url'); ?>/images/imagem-tab.png" alt="#" />
-            <h3>Gestão de tarefas e prazos 6</h3>
-            <p>Monitore tarefas do início ao fim. Crie lembretes de prazos a vencer, check list de rotinas e formulários customizados para solicitação de demandas. Estabeleça vencimentos para garantir que projetos sejam realizados no tempo correto.</p>
-            <a type="button" href="#" title="#" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
+          <div class="tab-pane fade" id="v-pills-crm" role="tabpanel" aria-labelledby="v-pills-crm-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/imagem-tab.png) no-repeat">
+            <div class="tab-pane__content">
+              <h3>Gestão de tarefas e prazos 6</h3>
+              <p>Monitore tarefas do início ao fim. Crie lembretes de prazos a vencer, check list de rotinas e formulários customizados para solicitação de demandas. Estabeleça vencimentos para garantir que projetos sejam realizados no tempo correto.</p>
+              <a type="button" href="#" title="#" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
+            </div>
           </div>
         </div>
       </div>
@@ -202,7 +208,7 @@ require_once("header.php");
     <div class="container">
       <div class="row d-flex justify-content-between align-items-center">
         <div class="col-12 col-md-5">
-          <img src="<?php bloginfo('template_url'); ?>/images/eliminamos-planilhas.png" alt="#" />
+          <img src="<?php bloginfo('template_url'); ?>/images/eliminamos-planilhas.png" class="img-fluid" alt="#" />
         </div>
 
         <div class="col-12 col-md-6">
@@ -218,7 +224,7 @@ require_once("header.php");
     <div class="container">
       <div class="row d-flex justify-content-between align-items-center flex-row-reverse">
         <div class="col-12 col-md-5">
-          <img src="<?php bloginfo('template_url'); ?>/images/eliminamos-planilhas.png" alt="#" />
+          <img src="<?php bloginfo('template_url'); ?>/images/eliminamos-planilhas.png" class="img-fluid" alt="#" />
         </div>
 
         <div class="col-12 col-md-6">
@@ -234,7 +240,7 @@ require_once("header.php");
     <div class="container">
       <div class="row d-flex justify-content-between align-items-center">
         <div class="col-12 col-md-5">
-          <img src="<?php bloginfo('template_url'); ?>/images/eliminamos-planilhas.png" alt="#" />
+          <img src="<?php bloginfo('template_url'); ?>/images/eliminamos-planilhas.png" class="img-fluid" alt="#" />
         </div>
 
         <div class="col-12 col-md-6">
@@ -248,7 +254,7 @@ require_once("header.php");
   </div>
 </section>
 
-<?php 
+<?php
 require_once("template_parts/depoimentos.php");
 require_once("template_parts/cta.php");
 require_once("template_parts/modal.php");

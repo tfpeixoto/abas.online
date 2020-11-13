@@ -1,0 +1,35 @@
+.modal{
+  .modal-header{
+    border-bottom: none;
+
+    .modal-title{
+      color: $roxo;
+      font-size: 2rem;
+      line-height: 1.2;
+      text-align: center;
+    }
+  }
+  .modal-body{
+    .form-group{
+      margin: .5rem auto;
+      width: 350px;
+
+      label{
+        font-size: 1rem;
+        font-weight: 700;
+        margin: .5rem 1rem .25rem 1rem;
+      }
+      input{
+        border: 2px solid $roxo;
+        border-radius: 10px;
+        min-height: 60px;
+        padding: 1rem;
+      }
+      .btn{
+        margin-top: 1rem;
+        text-transform: uppercase;
+        width: 100%;
+      }
+    }
+  }
+}

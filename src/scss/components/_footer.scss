@@ -1,9 +1,9 @@
 footer{
   .footer__content{
     background: #FAFAFA;
-    border: 20px solid $white;
-    border-radius: 40px;
+    border-radius: 20px;
     padding: 100px 0;
+    margin: 15px;
   
     .footer__marca{
       margin-bottom: 1rem;
@@ -37,18 +37,22 @@ footer{
           margin-bottom: .5rem;
 
           &.dropdown-header{
-            color: $roxo;
             font-size: 1rem;
             font-weight: 800;
-            margin-top: 1rem;
             padding: 0;
             text-transform: uppercase;
             transition: all ease-in-out .25s;
+
+            a{
+              color: $roxo;
+            }
           }
           &:first-child{
             margin-top: 0;
           }
           a{
+            padding: 0 0 5px 0;
+
             &:hover{
               font-weight: 600;
             }
@@ -114,9 +118,8 @@ footer{
   .footer__copy{
     background: $roxo;
     color: $white;
-    border: 20px solid $white;
-    border-radius: 40px;
-    margin-top: -40px;
+    border-radius: 20px;
+    margin: 15px;
     text-align: center;
 
     p{

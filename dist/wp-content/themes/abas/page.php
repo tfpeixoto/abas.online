@@ -18,8 +18,7 @@ require_once("header.php");
   <div class="container">
     <div class="row">
       <div class="col-12 text-center">
-        <?php the_title('<h1>', '</h1>'); ?>
-        <p class="lead"><?php the_field('slogan'); ?></p>
+        <h1><?php the_field('slogan'); ?></h1>
         <a type="button" href="#" class="btn btn-amarelo" data-toggle="modal" data-target="#modalConversao">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
       </div>
     </div>

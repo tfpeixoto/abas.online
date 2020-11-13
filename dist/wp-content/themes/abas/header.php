@@ -33,6 +33,8 @@
         ));
         ?>
 
+        <a type="button" href="#" class="btn btn-amarelo">Solicitar demonstração <i class="fas fa-chevron-right"></i></a>
+
         <!-- <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
