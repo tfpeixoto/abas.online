@@ -1,9 +1,16 @@
-.wp-block-columns{
+.wp-block-columns {
+  line-height: 1.5;
   margin: 100px auto;
 
-  // &:nth-child(even){
-  //   flex-direction: row-reverse;
-  // }
+  h2 {
+    margin-bottom: 1rem;
+  }
+  p {
+    margin-bottom: 1rem;
+  }
+  &:nth-child(even) {
+    flex-direction: row-reverse;
+  }
 }
 
 // Estilos de alinhamento do Gutemberg
@@ -53,40 +60,40 @@
 
 // cor roxo
 .has-roxo-background-color {
-	background-color: #411C54;
+  background-color: #411c54;
 }
 .has-roxo-color {
-	color: #411C54;
+  color: #411c54;
 }
 
 // cor amarelo
 .has-amarelo-background-color {
-	background-color: #F2C30D;
+  background-color: #f2c30d;
 }
 .has-amarelo-color {
-	color: #F2C30D;
+  color: #f2c30d;
 }
 
 // cor cinza
 .has-cinza-background-color {
-	background-color: #404040;
+  background-color: #404040;
 }
 .has-cinza-color {
-	color: #404040;
+  color: #404040;
 }
 
 // cor cinza claro
 .has-cinza-claro-background-color {
-	background-color: #fafafa;
+  background-color: #fafafa;
 }
 .has-cinza-claro-color {
-	color: #fafafa;
+  color: #fafafa;
 }
 
 // cor branco
 .has-branco-background-color {
-	background-color: #ffffff;
+  background-color: #ffffff;
 }
 .has-branco-color {
-	color: #ffffff;
+  color: #ffffff;
 }

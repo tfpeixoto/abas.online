@@ -9,18 +9,18 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form id="formLead" data-form>
           <div class="form-group">
             <label for="nome">Nome</label>
-            <input type="nome" class="form-control" id="nome" placeholder="Seu nome">
+            <input type="nome" data-nome class="form-control" id="nome" placeholder="Seu nome">
           </div>
           <div class="form-group">
             <label for="email">E-mail</label>
-            <input type="email" class="form-control" id="email" placeholder="nome@email.com">
+            <input type="email" data-email class="form-control" id="email" placeholder="nome@email.com">
           </div>
           <div class="form-group">
             <label for="telefone">Telefone/Whatsapp</label>
-            <input type="telefone" class="form-control" id="telefone" placeholder="(00) 00000-0000">
+            <input type="telefone" data-telefone class="form-control" id="telefone" placeholder="(00) 00000-0000">
           </div>
           <div class="form-group text-center">
             <button type="submit" class="btn btn-roxo">Receber contato</button>
