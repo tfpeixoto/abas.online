@@ -33,7 +33,7 @@
         ));
         ?>
 
-        <a type="button" href="#" class="btn btn-amarelo"  data-toggle="modal" data-target="#modalConversao">Solicitar demonstração <i class="fas fa-chevron-right"></i></a>
+        <a type="button" href="#" class="btn btn-amarelo d-none d-md-block"  data-toggle="modal" data-target="#modalConversao">Solicitar demonstração <i class="fas fa-chevron-right"></i></a>
     </div>
     </nav>
   </header>

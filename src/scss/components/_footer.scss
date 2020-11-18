@@ -1,28 +1,32 @@
-footer{
-  .footer__content{
-    background: #FAFAFA;
+footer {
+  .footer__content {
+    background: #fafafa;
     border-radius: 20px;
     padding: 100px 0;
     margin: 15px;
-  
-    .footer__marca{
+
+    .footer__marca {
       margin-bottom: 1rem;
     }
-    .footer__contato{
+    .footer__contato {
       font-weight: 800;
+      margin-top: 1rem;
 
-      ul{
-        li{
-          margin-bottom: .5rem;
+      @include media-breakpoint-up(md) {
+        margin: 0;
+      }
+      ul {
+        li {
+          margin-bottom: 0.5rem;
 
-          a{
+          a {
             display: flex;
             align-items: center;
 
-            i{
+            i {
               color: $roxo;
               font-size: 2rem;
-              margin-right: .5rem;
+              margin-right: 0.5rem;
               min-width: 40px;
               text-align: center;
             }
@@ -30,73 +34,84 @@ footer{
         }
       }
     }
-    .footer__menu{
-      ul{
-        li{
-          line-height: 1.2;
-          margin-bottom: .5rem;
+    .footer__menu {
+      margin-top: 1rem;
 
-          &.dropdown-header{
+      @include media-breakpoint-up(md) {
+        margin: 0;
+      }
+      ul {
+        li {
+          line-height: 1.2;
+          margin-bottom: 0.5rem;
+          text-align: center;
+
+          @include media-breakpoint-up(md) {
+            text-align: left;
+          }
+          &.dropdown-header {
             font-size: 1rem;
             font-weight: 800;
             padding: 0;
             text-transform: uppercase;
-            transition: all ease-in-out .25s;
+            transition: all ease-in-out 0.25s;
 
-            a{
+            a {
               color: $roxo;
             }
           }
-          &:first-child{
+          &:first-child {
             margin-top: 0;
           }
-          a{
+          a {
             padding: 0 0 5px 0;
 
-            &:hover{
+            &:hover {
               font-weight: 600;
             }
           }
         }
       }
     }
-    a{
+    a {
       color: $cinza;
 
-      &:hover{
+      &:hover {
         color: $roxo;
         text-decoration: none;
       }
     }
-    ul{
-      li{
+    ul {
+      padding-inline-start: 0;
+
+      li {
         list-style: none;
       }
     }
-    p{
+    p {
       font-size: 1rem;
       margin-bottom: 0;
-  
-      strong{
+
+      strong {
         color: $roxo;
         font-size: 1.1rem;
       }
     }
-    form{
+    form {
       background: $white;
       border-radius: 5px;
-      box-shadow: 0 5px 10px rgba(0,0,0,.16);
-      font-size: .8rem;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.16);
+      font-size: 0.8rem;
       margin-top: 1rem;
       min-height: 40px;
       position: relative;
-  
-      input{
+
+      input {
         border: 0 !important;
-        font-size: .9rem;
+        font-size: 0.9rem;
         padding: 20px;
       }
-      button{
+      button {
         background: $roxo;
         border: 0;
         border-top-right-radius: 5px;
@@ -107,22 +122,22 @@ footer{
         position: absolute;
         right: 0;
         top: 0;
-        transition: all ease-in-out .25s;
-  
-        &:hover{
+        transition: all ease-in-out 0.25s;
+
+        &:hover {
           filter: brightness(80%);
         }
       }
     }
   }
-  .footer__copy{
+  .footer__copy {
     background: $roxo;
     color: $white;
     border-radius: 20px;
     margin: 15px;
     text-align: center;
 
-    p{
+    p {
       margin-bottom: 0;
       padding: 15px;
     }
