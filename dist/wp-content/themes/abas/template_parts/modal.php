@@ -12,15 +12,15 @@
         <form id="formLead" onsubmit="cadastrarLead(event, this);">
           <div class="form-group">
             <label for="nome">Nome</label>
-            <input type="text" name="nome" class="form-control" id="nome" placeholder="Seu nome">
+            <input type="text" name="Nome" class="form-control" id="nome" placeholder="Seu nome">
           </div>
           <div class="form-group">
             <label for="email">E-mail</label>
-            <input type="email" name="email" class="form-control" id="email" placeholder="nome@email.com">
+            <input type="email" name="E-mail" class="form-control" id="email" placeholder="nome@email.com">
           </div>
           <div class="form-group">
             <label for="telefone">Telefone/Whatsapp</label>
-            <input type="text" name="contato" class="form-control" id="telefone" placeholder="(00) 00000-0000">
+            <input type="text" name="Contato" class="form-control" id="telefone" placeholder="(00) 00000-0000">
           </div>
           <div class="form-group text-center">
             <button type="submit" class="btn btn-roxo">Receber contato</button>

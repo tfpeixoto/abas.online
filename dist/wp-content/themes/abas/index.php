@@ -39,12 +39,6 @@ require_once("header.php");
   </div>
 </section>
 
-<section class="conteudo">
-  <div class="container-fluid">
-    <?php the_content(); ?>
-  </div>
-</section>
-
 <?php require_once("template_parts/depoimentos.php"); ?>
 
 <section class="cta">

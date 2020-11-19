@@ -39,73 +39,73 @@ require_once("header.php");
   <div class="container">
     <div class="row">
       <div class="col-12 col-md-4 segmentos__card">
-        <a href="#" title="#">
-          <img src="<?php bloginfo('template_url'); ?>/images/imagem-segmento.png" class="img-fluid" alt="#" />
+        <a href="departamento-pessoal" title="Gestão de departamento pessoal">
+          <img src="<?php bloginfo('template_url'); ?>/images/thumbs/departamento-pessoal.jpg" class="img-fluid" alt="Gestão de departamento pessoal" />
           <h3>Departamento Pessoal</h3>
           <p>Personalize alertas e faça cálculo automático de férias por período de aquisição e substituição de funcionários. Calcule os benefícios: VT, VA e VR.</p>
         </a>
       </div>
 
       <div class="col-12 col-md-4 segmentos__card">
-        <a href="#" title="#">
-          <img src="<?php bloginfo('template_url'); ?>/images/imagem-segmento.png" class="img-fluid" alt="#" />
+        <a href="recursos-humanos" title="Gestão de recursos humanos">
+          <img src="<?php bloginfo('template_url'); ?>/images/thumbs/recursos-humanos.jpg" class="img-fluid" alt="Gestão de recursos humanos" />
           <h3>Recursos Humanos</h3>
           <p>Facilite a seleção de candidatos: abertura e acompanhamento de vagas e envio automático de e-mails com o status da oportunidade.</p>
         </a>
       </div>
 
       <div class="col-12 col-md-4 segmentos__card">
-        <a href="#" title="#">
-          <img src="<?php bloginfo('template_url'); ?>/images/imagem-segmento.png" class="img-fluid" alt="#" />
+        <a href="#" title="Gestão de compras e estoque">
+          <img src="<?php bloginfo('template_url'); ?>/images/thumbs/compras-estoque.jpg" class="img-fluid" alt="Gestão de compras e estoque" />
           <h3>Compras e Estoque</h3>
           <p>Gerencie o processo de compras e estoque - desde o envio de e-mails ao fornecedor solicitando cotações até a baixa no estoque.</p>
         </a>
       </div>
 
       <div class="col-12 col-md-4 segmentos__card">
-        <a href="#" title="#">
-          <img src="<?php bloginfo('template_url'); ?>/images/imagem-segmento.png" class="img-fluid" alt="#" />
+        <a href="manutencao" title="Gestão de manutenções">
+          <img src="<?php bloginfo('template_url'); ?>/images/thumbs/manutencao.jpg" class="img-fluid" alt="Gestão de manutenções" />
           <h3>Manutenção</h3>
           <p>Controle as manutenções que possuem periodicidade, receba alertas dos vencimentos e facilite a vistoria de acordo com as normas da ABNT.</p>
         </a>
       </div>
 
       <div class="col-12 col-md-4 segmentos__card">
-        <a href="#" title="#">
-          <img src="<?php bloginfo('template_url'); ?>/images/imagem-segmento.png" class="img-fluid" alt="#" />
+        <a href="juridico" title="Gestão de setor jurídico">
+          <img src="<?php bloginfo('template_url'); ?>/images/thumbs/juridico.jpg" class="img-fluid" alt="Gestão de setor jurídico" />
           <h3>Jurídico</h3>
           <p>Rastreie dados pessoais e sensíveis, facilitando a elaboração do DPIA. Monitore os incidentes de segurança e a gestão de solicitação dos titulares.</p>
         </a>
       </div>
 
       <div class="col-12 col-md-4 segmentos__card">
-        <a href="#" title="#">
-          <img src="<?php bloginfo('template_url'); ?>/images/imagem-segmento.png" class="img-fluid" alt="#" />
+        <a href="tecnologia-da-informacao" title="Gestão de demandas de TI">
+          <img src="<?php bloginfo('template_url'); ?>/images/thumbs/tecnologia-informacao.jpg" class="img-fluid" alt="Gestão de demandas de TI" />
           <h3>Tecnologia da Informação</h3>
           <p>Crie tarefas e faça a gestão de demandas do time de desenvolvimento. Aloque horas, acompanhe o andamento e envie status das atividades.</p>
         </a>
       </div>
 
       <div class="col-12 col-md-4 segmentos__card">
-        <a href="#" title="#">
-          <img src="<?php bloginfo('template_url'); ?>/images/imagem-segmento.png" class="img-fluid" alt="#" />
+        <a href="marketing-e-comercial" title="Gestão de Marketing">
+          <img src="<?php bloginfo('template_url'); ?>/images/thumbs/marketing.jpg" class="img-fluid" alt="Gestão de Marketing" />
           <h3>Marketing</h3>
           <p>Crie fluxos e campanhas de e-mails automáticos. “Converse” com sua base a fim de nutrí-los com conteúdos úteis e compartilháveis.</p>
         </a>
       </div>
 
       <div class="col-12 col-md-4 segmentos__card">
-        <a href="#" title="#">
-          <img src="<?php bloginfo('template_url'); ?>/images/imagem-segmento.png" class="img-fluid" alt="#" />
+        <a href="marketing-e-comercial" title="Gestão de departamento comercial">
+          <img src="<?php bloginfo('template_url'); ?>/images/thumbs/comercial.jpg" class="img-fluid" alt="Gestão de departamento comercial" />
           <h3>Comercial</h3>
           <p>Gerencie as vendas e obtenha relatórios com os principais indicadores do seu negócio. Com a gestão a vista identifique gaps e melhore seus resultados.</p>
         </a>
       </div>
 
       <div class="col-12 col-md-4 segmentos__card">
-        <a href="#" title="#">
-          <img src="<?php bloginfo('template_url'); ?>/images/imagem-segmento.png" class="img-fluid" alt="#" />
-          <h3>Comercial e Financeiro</h3>
+        <a href="financeiro" title="Gestão de departamento financeiro">
+          <img src="<?php bloginfo('template_url'); ?>/images/thumbs/financeiro.jpg" class="img-fluid" alt="Gestão de departamento financeiro" />
+          <h3>Financeiro</h3>
           <p>Automatize e controle todo o processo financeiro: alçadas de aprovações, contas a pagar, a receber, reembolso de despesas e muito mais!</p>
         </a>
       </div>
@@ -131,9 +131,9 @@ require_once("header.php");
       <div class="col-12 col-md-5 fluxos__btns">
         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
           <a class="nav-link active" id="v-pills-ideias-tab" data-toggle="pill" href="#v-pills-ideias" role="tab" aria-controls="v-pills-ideias" aria-selected="true">Gestão de ideias e inovações</a>
+          <a class="nav-link" id="v-pills-tarefas-tab" data-toggle="pill" href="#v-pills-tarefas" role="tab" aria-controls="v-pills-tarefas" aria-selected="false">Gestão de tarefas e prazos</a>
           <a class="nav-link" id="v-pills-lgpd-tab" data-toggle="pill" href="#v-pills-lgpd" role="tab" aria-controls="v-pills-lgpd" aria-selected="false">Gestão de LGPD</a>
           <a class="nav-link" id="v-pills-compras-tab" data-toggle="pill" href="#v-pills-compras" role="tab" aria-controls="v-pills-compras" aria-selected="false">Gestão de Compras</a>
-          <a class="nav-link" id="v-pills-tarefas-tab" data-toggle="pill" href="#v-pills-tarefas" role="tab" aria-controls="v-pills-tarefas" aria-selected="false">Gestão de tarefas e prazos</a>
           <a class="nav-link" id="v-pills-pessoas-tab" data-toggle="pill" href="#v-pills-pessoas" role="tab" aria-controls="v-pills-pessoas" aria-selected="false">Gestão de pessoas: onboarding</a>
           <a class="nav-link" id="v-pills-crm-tab" data-toggle="pill" href="#v-pills-crm" role="tab" aria-controls="v-pills-crm" aria-selected="false">CRM</a>
         </div>
@@ -141,51 +141,52 @@ require_once("header.php");
 
       <div class="col-12 col-md-7">
         <div class="tab-content" id="v-pills-tabContent">
-          <div class="tab-pane fade show active" id="v-pills-ideias" role="tabpanel" aria-labelledby="v-pills-ideias-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/imagem-tab.png) no-repeat">
+          <div class="tab-pane fade show active" id="v-pills-ideias" role="tabpanel" aria-labelledby="v-pills-ideias-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/tabs/ideias-inovacoes.jpg) no-repeat">
+            <div class="tab-pane__content">
+              <h3>Gestão de ideias e inovações</h3>
+              <p>Transforme as ideias dos colaboradores em resultados financeiros reais. Personalize campanhas para incentivar pessoas a enviarem sugestões inovadoras para problemas ou oportunidades reais do seu negócio. Controle as aprovações e status dos projetos de forma fácil e flexível.
+              </p>
+              <a type="button" href="gestao-de-ideias-e-inovacoes" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="v-pills-tarefas" role="tabpanel" aria-labelledby="v-pills-tarefas-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/tabs/tarefas-prazos.jpg) no-repeat">
             <div class="tab-pane__content">
               <h3>Gestão de tarefas e prazos</h3>
               <p>Monitore tarefas do início ao fim. Crie lembretes de prazos a vencer, check list de rotinas e formulários customizados para solicitação de demandas. Estabeleça vencimentos para garantir que projetos sejam realizados no tempo correto.</p>
-              <a type="button" href="gestao-tarefas" title="#" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
+              <a type="button" href="gestao-tarefas" class="btn btn-white">Veja mais</a>
             </div>
           </div>
 
-          <div class="tab-pane fade" id="v-pills-lgpd" role="tabpanel" aria-labelledby="v-pills-lgpd-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/imagem-tab.png) no-repeat">
+          <div class="tab-pane fade" id="v-pills-lgpd" role="tabpanel" aria-labelledby="v-pills-lgpd-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/tabs/lgpd.jpg) no-repeat">
             <div class="tab-pane__content">
-              <h3>Gestão de tarefas e prazos 2</h3>
-              <p>Monitore tarefas do início ao fim. Crie lembretes de prazos a vencer, check list de rotinas e formulários customizados para solicitação de demandas. Estabeleça vencimentos para garantir que projetos sejam realizados no tempo correto.</p>
-              <a type="button" href="#" title="#" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
+              <h3>Gestão de LGPD</h3>
+              <p>ALTERAR Donec leo nisl, malesuada sit amet velit gravida, elementum ornare libero. Proin eget velit quam. Sed ornare porta libero, id placerat lectus laoreet eu. Nunc posuere tellus odio, vitae commodo massa aliquet in.</p>
+              <a type="button" href="gestao-de-lgpd" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
             </div>
           </div>
 
-          <div class="tab-pane fade" id="v-pills-compras" role="tabpanel" aria-labelledby="v-pills-compras-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/imagem-tab.png) no-repeat">
+          <div class="tab-pane fade" id="v-pills-compras" role="tabpanel" aria-labelledby="v-pills-compras-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/tabs/compras.jpg) no-repeat">
             <div class="tab-pane__content">
-              <h3>Gestão de tarefas e prazos 3</h3>
-              <p>Monitore tarefas do início ao fim. Crie lembretes de prazos a vencer, check list de rotinas e formulários customizados para solicitação de demandas. Estabeleça vencimentos para garantir que projetos sejam realizados no tempo correto.</p>
-              <a type="button" href="#" title="#" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
+              <h3>Gestão de compras</h3>
+              <p>ALTERAR Donec leo nisl, malesuada sit amet velit gravida, elementum ornare libero. Proin eget velit quam. Sed ornare porta libero, id placerat lectus laoreet eu. Nunc posuere tellus odio, vitae commodo massa aliquet in.</p>
+              <a type="button" href="gestao-de-compras" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
             </div>
           </div>
 
-          <div class="tab-pane fade" id="v-pills-tarefas" role="tabpanel" aria-labelledby="v-pills-tarefas-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/imagem-tab.png) no-repeat">
+
+          <div class="tab-pane fade" id="v-pills-pessoas" role="tabpanel" aria-labelledby="v-pills-pessoas-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/tabs/gestao-pessoas.jpg) no-repeat">
             <div class="tab-pane__content">
-              <h3>Gestão de tarefas e prazos 4</h3>
-              <p>Monitore tarefas do início ao fim. Crie lembretes de prazos a vencer, check list de rotinas e formulários customizados para solicitação de demandas. Estabeleça vencimentos para garantir que projetos sejam realizados no tempo correto.</p>
-              <a type="button" href="#" title="#" class="btn btn-white">Veja mais</a>
+              <h3>Gestão de Pessoas: onboarding remoto</h3>
+              <p>Faça a integração dos seus novos colaboradores de forma totalmente remota. Defina um processo de aprendizado para novos funcionários e estipule prazos para cada etapa. Receba atualizações de status em tempo real, verifique o progresso do aprendizado e compartilhe facilmente arquivos com os novos membros da equipe.</p>
+              <a type="button" href="#" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
             </div>
           </div>
 
-          <div class="tab-pane fade" id="v-pills-pessoas" role="tabpanel" aria-labelledby="v-pills-pessoas-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/imagem-tab.png) no-repeat">
+          <div class="tab-pane fade" id="v-pills-crm" role="tabpanel" aria-labelledby="v-pills-crm-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/tabs/crm.jpg) no-repeat">
             <div class="tab-pane__content">
-              <h3>Gestão de tarefas e prazos 5</h3>
-              <p>Monitore tarefas do início ao fim. Crie lembretes de prazos a vencer, check list de rotinas e formulários customizados para solicitação de demandas. Estabeleça vencimentos para garantir que projetos sejam realizados no tempo correto.</p>
-              <a type="button" href="#" title="#" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
-            </div>
-          </div>
-
-          <div class="tab-pane fade" id="v-pills-crm" role="tabpanel" aria-labelledby="v-pills-crm-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/imagem-tab.png) no-repeat">
-            <div class="tab-pane__content">
-              <h3>Gestão de tarefas e prazos 6</h3>
-              <p>Monitore tarefas do início ao fim. Crie lembretes de prazos a vencer, check list de rotinas e formulários customizados para solicitação de demandas. Estabeleça vencimentos para garantir que projetos sejam realizados no tempo correto.</p>
-              <a type="button" href="#" title="#" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
+              <h3>CRM</h3>
+              <p>ALTERAR Donec leo nisl, malesuada sit amet velit gravida, elementum ornare libero. Proin eget velit quam. Sed ornare porta libero, id placerat lectus laoreet eu. Nunc posuere tellus odio, vitae commodo massa aliquet in.</p>
+              <a type="button" href="crm" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
             </div>
           </div>
         </div>
@@ -224,7 +225,7 @@ require_once("header.php");
     <div class="container">
       <div class="row d-flex justify-content-between align-items-center flex-row-reverse">
         <div class="col-12 col-md-5">
-          <img src="<?php bloginfo('template_url'); ?>/images/eliminamos-planilhas.png" class="img-fluid" alt="#" />
+          <img src="<?php bloginfo('template_url'); ?>/images/sem-limite-funcionalidades.png" class="img-fluid" alt="#" />
         </div>
 
         <div class="col-12 col-md-6">
@@ -240,7 +241,7 @@ require_once("header.php");
     <div class="container">
       <div class="row d-flex justify-content-between align-items-center">
         <div class="col-12 col-md-5">
-          <img src="<?php bloginfo('template_url'); ?>/images/eliminamos-planilhas.png" class="img-fluid" alt="#" />
+          <img src="<?php bloginfo('template_url'); ?>/images/sistema-customizado.png" class="img-fluid" alt="#" />
         </div>
 
         <div class="col-12 col-md-6">

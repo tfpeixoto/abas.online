@@ -1,4 +1,5 @@
 .banner{
+  background-attachment: fixed;
   background-color: $roxo;
   color: $white;
   display: block;
@@ -8,7 +9,6 @@
 
   &.banner-home{
     background: url(../images/banner.jpg) no-repeat;
-    background-attachment: fixed;
     background-position: center center;
     background-size: cover;
     min-height: 768px;

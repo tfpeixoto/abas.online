@@ -18,7 +18,7 @@ if ($depoimentos->have_posts()) {
   }
 </style>
 
-<section class="depoimentos">
+<section class="depoimentos d-flex align-items-center">
   <div class="container">
     <div class="row">
       <div class="col-12 col-md-6">
