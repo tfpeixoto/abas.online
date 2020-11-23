@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="modalConversao" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalConversao" tabindex="-1" role="dialog" aria-labelledby="Conversao" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -10,17 +10,26 @@
       </div>
       <div class="modal-body">
         <form id="formLead" onsubmit="cadastrarLead(event, this);">
+          <div class="form-group text-center">
+            <div id="msgSucesso" class="alert alert-success text-center" role="alert" style="display: none">
+              Tudo certo! Em breve um consultor entrará em contato.
+            </div>
+            <div id="msgErro" class="alert alert-danger text-center" role="alert" style="display: none">
+              Ops! Algo deu errado, por favor tente novamente.
+            </div>
+          </div>
+
           <div class="form-group">
             <label for="nome">Nome</label>
-            <input type="text" name="Nome" class="form-control" id="nome" placeholder="Seu nome">
+            <input type="text" name="nome" class="form-control" id="nome" placeholder="Seu nome">
           </div>
           <div class="form-group">
             <label for="email">E-mail</label>
-            <input type="email" name="E-mail" class="form-control" id="email" placeholder="nome@email.com">
+            <input type="email" name="email" class="form-control" id="email" placeholder="nome@email.com">
           </div>
           <div class="form-group">
             <label for="telefone">Telefone/Whatsapp</label>
-            <input type="text" name="Contato" class="form-control" id="telefone" placeholder="(00) 00000-0000">
+            <input type="text" name="contato" class="form-control" id="telefone" placeholder="(00) 00000-0000">
           </div>
           <div class="form-group text-center">
             <button type="submit" class="btn btn-roxo">Receber contato</button>

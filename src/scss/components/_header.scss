@@ -67,8 +67,8 @@ header {
             visibility: initial;
           }
           @include media-breakpoint-up(sm) {
-            box-shadow: -1px 2px 19px 3px rgba(14, 0, 40, 0.05);
-            padding: 1rem;
+            box-shadow: -1px 2px 19px 3px rgba(14, 0, 40, 0.1);
+            padding: 1rem .75rem;
             width: 300px;
           }
           .dropdown-header {
@@ -88,7 +88,7 @@ header {
               align-items: center;
               border-radius: 10px;
               display: flex;
-              padding: 0.25rem .5rem;
+              padding: 0.2rem .5rem;
               margin: 0 1rem;
               transition: all ease-in-out 0.25s;
               width: auto;

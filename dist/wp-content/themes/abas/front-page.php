@@ -38,6 +38,12 @@ require_once("header.php");
 <section class="segmentos">
   <div class="container">
     <div class="row">
+      <div class="col-12">
+        <h2>Conheça nossas soluções para vários segmentos</h2>
+      </div>
+    </div>
+
+    <div class="row">
       <div class="col-12 col-md-4 segmentos__card">
         <a href="departamento-pessoal" title="Gestão de departamento pessoal">
           <img src="<?php bloginfo('template_url'); ?>/images/thumbs/departamento-pessoal.jpg" class="img-fluid" alt="Gestão de departamento pessoal" />
@@ -55,7 +61,7 @@ require_once("header.php");
       </div>
 
       <div class="col-12 col-md-4 segmentos__card">
-        <a href="#" title="Gestão de compras e estoque">
+        <a href="gestao-de-compras" title="Gestão de compras e estoque">
           <img src="<?php bloginfo('template_url'); ?>/images/thumbs/compras-estoque.jpg" class="img-fluid" alt="Gestão de compras e estoque" />
           <h3>Compras e Estoque</h3>
           <p>Gerencie o processo de compras e estoque - desde o envio de e-mails ao fornecedor solicitando cotações até a baixa no estoque.</p>
@@ -90,7 +96,7 @@ require_once("header.php");
         <a href="marketing-e-comercial" title="Gestão de Marketing">
           <img src="<?php bloginfo('template_url'); ?>/images/thumbs/marketing.jpg" class="img-fluid" alt="Gestão de Marketing" />
           <h3>Marketing</h3>
-          <p>Crie fluxos e campanhas de e-mails automáticos. “Converse” com sua base a fim de nutrí-los com conteúdos úteis e compartilháveis.</p>
+          <p>Crie fluxos e campanhas de e-mails automáticos. “Converse” com sua base a fim de nutri-los com conteúdos úteis e compartilháveis.</p>
         </a>
       </div>
 
@@ -123,7 +129,7 @@ require_once("header.php");
   <div class="container">
     <div class="row">
       <div class="col-12 text-center mb-5">
-        <h2 class="text-roxo">Organize fluxos de trabalho em Abas</h2>
+        <h2 class="text-roxo">Organize fluxos de trabalho em abas</h2>
       </div>
     </div>
 

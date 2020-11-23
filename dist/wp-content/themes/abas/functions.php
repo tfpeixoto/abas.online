@@ -173,3 +173,16 @@ function cadastrando_post_type_depoimentos()
   register_post_type('depoimentos', $args);
 }
 add_action('init', 'cadastrando_post_type_depoimentos');
+
+
+// SIDEBAR
+register_sidebar(
+  array(
+    "name" => "Barra lateral",
+    "id" => "sidebar",
+    "before_widget" => "<div class='widget mt-5'>",
+    "after_widget" => "</div>",
+    "before_title" => "<h5>",
+    "after_title" => "</h5>",
+  )
+);

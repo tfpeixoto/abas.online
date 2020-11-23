@@ -4,12 +4,12 @@ require_once("header.php");
 ?>
 
 <style>
-  <?php if (get_the_post_thumbnail_url()) : ?>
-    .banner {
-      background: url(<?php the_post_thumbnail_url(); ?>) no-repeat;
-      background-size: cover;
-      background-position: top center;
-    }
+  <?php if (get_the_post_thumbnail_url()) : ?>.banner {
+    background: url(<?php the_post_thumbnail_url(); ?>) no-repeat;
+    background-position: center center;
+    background-size: cover;
+  }
+
   <?php else :
   endif; ?>
 </style>

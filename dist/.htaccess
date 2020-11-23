@@ -13,3 +13,9 @@ RewriteRule . /abas/dist/index.php [L]
 </IfModule>
 
 # END WordPress
+# BEGIN WP-HUMMINGBIRD-CACHING
+# As diretrizes (linhas) entre "BEGIN WP-HUMMINGBIRD-CACHING" e "END WP-HUMMINGBIRD-CACHING" são
+# geradas dinamicamente e só devem ser modificadas através de filtros do WordPress.
+# Quaisquer alterações nas diretivas entre esses marcadores serão sobrescritas.
+
+# END WP-HUMMINGBIRD-CACHING

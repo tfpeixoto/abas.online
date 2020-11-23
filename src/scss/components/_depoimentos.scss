@@ -1,14 +1,37 @@
-.depoimentos{
-  background: $roxo;
+.depoimentos {
+  background-attachment: fixed !important;
+  background-color: $roxo;
+  background: url(../images/bg-depoimentos.jpg) no-repeat;
+  background-position: center center;
+  background-size: cover;
   color: $white;
   min-height: 500px;
 
-  .depoimento__nome{
-    color: $amarelo;
+  .depoimento__conteudo {
+    margin-bottom: 1rem;
+    text-align: center;
+
+    @include media-breakpoint-up(md) {
+      text-align: left;
+      margin-bottom: 0;
+    }
+    .depoimento__nome {
+      color: $amarelo;
+    }
+    .depoimento__cargo {
+      font-family: Roboto, sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+    }
   }
-  .depoimento__cargo{
-    font-family: Roboto, sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
+  .depoimento__foto {
+    text-align: center;
+
+    img {
+      max-height: 250px;
+      max-width: 250px;
+      border-radius: 20px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    }
   }
 }

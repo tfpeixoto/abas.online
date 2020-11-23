@@ -1,0 +1,19 @@
+// PLUGINS
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700;800;900&family=Roboto:ital,wght@0,400;0,900;1,400;1,900&display=swap");
+@import "components/variaveis";
+@import "../../node_modules/bootstrap/scss/bootstrap";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/solid";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/brands";
+@import "components/wordpress";
+
+// HOME
+@import "components/geral";
+@import "components/header";
+@import "components/banner";
+@import "components/lista-posts";
+@import "components/depoimentos";
+
+// FOOTER
+@import "components/modal";
+@import "components/footer";

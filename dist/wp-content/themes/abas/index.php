@@ -2,38 +2,57 @@
 /*
  * Template name: Blog
 */
-$estiloPagina = "page.css";
+$estiloPagina = "blog.css";
 require_once("header.php");
 ?>
 
-<section class="banner">
+<section class="banner banner-blog">
   <div class="container">
     <div class="row">
       <div class="col-12 text-center">
-        <h1>Blog do Abas</h1>
+        <h2 class="font-weight-bold">Blog do Abas</h2>
       </div>
     </div>
   </div>
 </section>
 
-<section class="blog">
+<section class="blog__list">
   <div class="container">
-    <div class="row">
-      <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+    <div class="row lista-posts">
+      <div class="col-12 col-md-9">
+        <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
-          <article class="col-12 col-md-8 my-5">
-            <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><img src="<?php the_post_thumbnail_url(); ?>" class="img-fluid" alt="#" /></a>
-            <h3><a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a></h3>
-            <div class="text-muted">12 de Nov</div>
-            <p><?php the_excerpt(); ?></p>
-            <a type="button" class="btn btn-primary">Ler mais</a>
-          </article>
+            <article class="row d-flex align-items-center justify-content-start py-3 my-5">
+              <div class="col-12 col-md-4 blog__image">
+                <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><img src="<?php the_post_thumbnail_url(); ?>" class="img-fluid" alt="#" /></a>
+              </div>
 
-      <?php endwhile;
-      endif ?>
+              <div class="col-12 col-md-8 blog__content">
+                <h3>
+                  <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
+                    <?php the_title(); ?>
+                  </a>
+                </h3>
 
-      <aside class="col-12 col-md-4">
+                <div class="text-muted">
+                  <?php
+                  $date = date_i18n('j \d\e F \d\e Y');
+                  echo $date;
+                  ?> | <?php the_category(' '); ?>
+                </div>
 
+                <p><?php the_excerpt(); ?></p>
+                
+                <a type="button" href="<?php the_permalink(); ?>" class="btn btn-roxo">Ler mais</a>
+              </div>
+            </article>
+
+        <?php endwhile;
+        endif ?>
+      </div>
+
+      <aside class="col-12 col-md-3">
+        <?php dynamic_sidebar('Barra lateral'); ?>
       </aside>
     </div>
   </div>
