@@ -15,7 +15,11 @@
   <header>
     <div class="container">
       <nav class="navbar navbar-expand-lg navbar-light">
-        <?php the_custom_logo(); ?>
+        <a href="<?php $url = site_url();
+                  echo $url ?>">
+          <img src="<?php bloginfo('template_url'); ?>/images/marca-abas-positiva.svg" width="150" height="54" class="navbar-brand positiva" alt="Abas Online" />
+          <img src="<?php bloginfo('template_url'); ?>/images/marca-abas-negativa.svg" width="150" height="54" class="navbar-brand negativa" alt="Abas Online" />
+        </a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alterna navegação">
           <span class="navbar-toggler-icon"></span>
@@ -34,7 +38,7 @@
         ));
         ?>
 
-        <a type="button" href="#" class="btn btn-amarelo d-none d-md-block"  data-toggle="modal" data-target="#modalConversao">Solicitar demonstração <i class="fas fa-chevron-right"></i></a>
+        <a type="button" href="#" class="btn btn-amarelo d-none d-md-block" data-toggle="modal" data-target="#modalConversao">Solicitar demonstração <i class="fas fa-chevron-right"></i></a>
+      </nav>
     </div>
-    </nav>
   </header>

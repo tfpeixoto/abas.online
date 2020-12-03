@@ -22,7 +22,7 @@ require_once("header.php");
       <div class="col-12 col-md-9">
         <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
-            <article class="row d-flex align-items-center justify-content-start py-3 my-5">
+            <article class="row d-flex justify-content-start py-3 my-5">
               <div class="col-12 col-md-4 blog__image">
                 <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><img src="<?php the_post_thumbnail_url(); ?>" class="img-fluid" alt="#" /></a>
               </div>
@@ -35,10 +35,7 @@ require_once("header.php");
                 </h3>
 
                 <div class="text-muted">
-                  <?php
-                  $date = date_i18n('j \d\e F \d\e Y');
-                  echo $date;
-                  ?> | <?php the_category(' '); ?>
+                <?php the_date('j \d\e F \d\e Y'); ?> | <?php the_category(' '); ?>
                 </div>
 
                 <p><?php the_excerpt(); ?></p>
@@ -73,6 +70,7 @@ require_once("header.php");
 </section>
 
 <?php
+require_once("template_parts/acesso.php");
 require_once("template_parts/modal.php");
 require_once("footer.php");
 ?>

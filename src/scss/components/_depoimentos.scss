@@ -1,7 +1,6 @@
 .depoimentos {
   background-attachment: fixed !important;
   background-color: $roxo;
-  background: url(../images/bg-depoimentos.jpg) no-repeat;
   background-position: center center;
   background-size: cover;
   color: $white;
@@ -22,14 +21,55 @@
       font-family: Roboto, sans-serif;
       font-size: 1rem;
       font-weight: 400;
+
+      @include media-breakpoint-up(md) {
+        &:before {
+          background: url(../images/grafismo-3bolinhas.png) no-repeat;
+          background-size: contain;
+          display: block;
+          content: " ";
+          right: 250px;
+          height: 50px;
+          position: absolute;
+          bottom: 0;
+          transform: rotate(-45deg);
+          width: 50px;
+        }
+      }
     }
   }
   .depoimento__foto {
-    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
 
+    &:before {
+      background: url(../images/grafismo-3bolinhas.png) no-repeat;
+      background-size: contain;
+      display: block;
+      content: " ";
+      left: 50px;
+      height: 50px;
+      position: absolute;
+      top: 0;
+      transform: rotate(-45deg);
+      width: 50px;
+    }
+    &:after {
+      background: url(../images/grafismo-3bolinhas.png) no-repeat;
+      background-size: contain;
+      bottom: 0;
+      display: block;
+      content: " ";
+      height: 50px;
+      position: absolute;
+      right: 50px;
+      transform: rotate(45deg);
+      width: 50px;
+    }
     img {
-      max-height: 250px;
-      max-width: 250px;
+      max-height: 200px;
+      max-width: 200px;
       border-radius: 20px;
       box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     }

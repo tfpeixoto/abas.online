@@ -10,8 +10,8 @@
 
           <form class="newsletter">
             <div class="form-group">
-              <label for="email" class="sr-only">E-mail</label>
-              <input type="text" class="form-control" id="email" placeholder="Digite seu e-mail">
+              <label for="email-news" class="sr-only">E-mail</label>
+              <input type="text" class="form-control" id="email-news" placeholder="Digite seu e-mail">
               <button type="submit">Enviar</button>
             </div>
           </form>

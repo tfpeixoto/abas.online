@@ -1,55 +1,71 @@
-.modal{
-  .modal-header{
+.modal {
+  .modal-header {
     border-bottom: none;
 
-    .modal-title{
+    .modal-title {
       color: $roxo;
-      font-size: 2rem;
+      font-size: 1.5rem;
       line-height: 1.2;
       text-align: center;
+
+      @include media-breakpoint-up(md) {
+        font-size: 2rem;
+      }
     }
   }
-  .modal-body{
-    .form-group{
-      margin: .5rem auto;
-      width: 350px;
+  .modal-body {
+    padding: 0 1rem;
 
-      label{
+    @include media-breakpoint-up(md) {
+      padding: 1rem;
+    }
+    .form-group {
+      margin: 0 auto;
+
+      @include media-breakpoint-up(md) {
+        margin: 0.5rem auto;
+        width: 350px;
+      }
+
+      label {
         font-size: 1rem;
         font-weight: 700;
-        margin: .5rem 1rem .25rem 1rem;
+        margin: 0.5rem 1rem 0.25rem 1rem;
 
-        &.error{
+        &.error {
           background: #f8d7da;
           border-radius: 5px;
           color: $danger;
-          font-size: .8rem;
+          font-size: 0.8rem;
           line-height: 1.2;
           margin: 0;
-          padding: .25rem .5rem;
+          padding: 0.25rem 0.5rem;
           width: 100%;
         }
       }
-      input{
+      input {
         border: 2px solid $roxo;
         border-radius: 10px;
         min-height: 60px;
         padding: 1rem;
 
-        &.error{
+        &.error {
           border: 2px solid $danger;
         }
       }
-      .btn{
-        box-shadow: 0 5px 5px rgba(0,0,0,.1);
+      .btn {
+        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
         margin-top: 1rem;
         text-transform: uppercase;
         width: 100%;
 
-        &:active{
+        &:active {
           box-shadow: none;
         }
       }
+    }
+    a{
+      color: $roxo;
     }
   }
 }

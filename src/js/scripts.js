@@ -1,7 +1,25 @@
+// Incluir fixed no header
+function navbarFixed() {
+  if ($('header').length) {
+    $(window).on('scroll', function () {
+      var scroll = $(window).scrollTop();
+      if (scroll) {
+        $("header").addClass("fixed");
+      } else {
+        $("header").removeClass("fixed");
+      }
+    });
+  };
+};
+navbarFixed()
+
 // Incluir data-toggle nos links do Gutemberg
 function obterLinks() {
   let linkModal = document.querySelectorAll("a[href='#modalConversao']")
+  let linkAcesso = document.querySelectorAll("a[href='#modalAcesso']")
+
   $(linkModal).attr("data-toggle", "modal")
+  $(linkAcesso).attr("data-toggle", "modal")
 }
 obterLinks()
 
@@ -22,6 +40,28 @@ function cadastrarLead(event, form) {
   };
 
   fetch("https://abas.online/api/table/value/5fa92dbe1188287877c0fc19?actions=false", requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+}
+
+// API
+function cadastrarLead(event, form) {
+  event.preventDefault();
+
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", "");
+
+  var raw = new FormData(form)
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+  };
+
+  fetch("", requestOptions)
     .then(response => response.text())
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
@@ -92,3 +132,13 @@ function validarFormulario(formLead) {
   });
 }
 validarFormulario('#formLead');
+
+// Scroll após clique
+$("#v-pills-tab a").on('click', function (e) {
+  e.preventDefault();
+  var position = $("#v-pills-tabContent").offset().top;
+
+  $("body, html").animate({
+    scrollTop: position - 100
+  } /* speed */);
+});

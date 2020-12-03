@@ -24,10 +24,7 @@ require_once("header.php");
           <article class="col-12 col-md-8">
             <div class="text-center mb-5 blog__title">
               <div class="text-muted">
-                <?php
-                $date = date_i18n('j \d\e F \d\e Y');
-                echo $date;
-                ?> . <?php the_category(' '); ?>
+                <?php the_date('j \d\e F \d\e Y'); ?> | <?php the_category(' '); ?>
               </div>
               <h1><?php the_title(); ?></h1>
             </div>
@@ -62,6 +59,7 @@ require_once("header.php");
 </section>
 
 <?php
+require_once("template_parts/acesso.php");
 require_once("template_parts/modal.php");
 require_once("footer.php");
 ?>

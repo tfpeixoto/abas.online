@@ -4,6 +4,42 @@ header {
   width: 100%;
   z-index: 1;
 
+  .navbar {
+    background: $white;
+    transition: all ease-in-out 1s;
+
+    .navbar-brand {
+      height: auto;
+      width: 150px;
+
+      &.positiva {
+        display: block;
+      }
+      &.negativa {
+        display: none;
+      }
+    }
+  }
+  &.fixed {
+    .navbar {
+      background: $roxo;
+
+      .navbar-brand {
+        height: auto;
+        width: 150px;
+
+        &.positiva {
+          display: none;
+        }
+        &.negativa {
+          display: block;
+        }
+      }
+      .nav-link {
+        color: $white !important;
+      }
+    }
+  }
   nav {
     background: $white;
     border-radius: 10px;
@@ -59,7 +95,7 @@ header {
           transition: all 0.3s ease-in;
           visibility: hidden;
           min-width: 100%;
-          
+
           @include media-breakpoint-down(sm) {
             background: none;
             opacity: 1;
@@ -68,7 +104,7 @@ header {
           }
           @include media-breakpoint-up(sm) {
             box-shadow: -1px 2px 19px 3px rgba(14, 0, 40, 0.1);
-            padding: 1rem .75rem;
+            padding: 1rem 0.75rem;
             width: 300px;
           }
           .dropdown-header {
@@ -88,8 +124,8 @@ header {
               align-items: center;
               border-radius: 10px;
               display: flex;
-              padding: 0.2rem .5rem;
-              margin: 0 1rem;
+              padding: 0.2rem 0.5rem;
+              margin: 0 .5rem;
               transition: all ease-in-out 0.25s;
               width: auto;
 

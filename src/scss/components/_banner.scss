@@ -3,6 +3,7 @@
   color: $white;
   display: block;
   height: 100%;
+  min-height: 400px;
   padding-top: 150px;
   text-shadow: 0 5px 10px rgba(0, 0, 0, 0.75);
   z-index: -1;
@@ -48,5 +49,6 @@
   }
   .btn {
     color: $roxo;
+    text-shadow: none;
   }
 }

@@ -46,6 +46,7 @@ require_once("header.php");
 </section>
 
 <?php
+require_once("template_parts/acesso.php");
 require_once("template_parts/modal.php");
 require_once("footer.php");
 ?>
