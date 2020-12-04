@@ -116,9 +116,28 @@ function cadastrarLead(event, form) {
   };
 
   fetch("https://abas.online/api/table/value/5fa92dbe1188287877c0fc19?actions=false", requestOptions)
-    .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
+    .then(response => response.json())
+    .then(result => {
+      console.log(result)
+      var message = `<div id="msgSuccess" class="alert alert-success text-center" role="alert">Obrigado! Em breve entraremos em contato.</div>`
+      return retornoForm(form, message)
+    })
+    .catch(error => {
+      console.log('error', error)
+      var message = `<div id="msgErro" class="alert alert-danger text-center" role="alert">Ops! Algo deu errado, por favor tente novamente.</div>`
+      return retornoForm(form, message)
+    });
+}
+
+function retornoForm(form, message) {
+  var retorno = document.getElementById('retornoEnvio')
+
+  form.reset()
+  retorno.innerHTML = message
+
+  setInterval(function () {
+    $('#modalConversao').modal('hide')
+  }, 5000)
 }
 
 // API - Acessar sistema

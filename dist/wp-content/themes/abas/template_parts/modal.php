@@ -10,12 +10,8 @@
       </div>
       <div class="modal-body">
         <form id="formLead" onsubmit="cadastrarLead(event, this);">
-          <div class="form-group text-center">
-            <div id="msgSucesso" class="alert alert-success text-center" role="alert" style="display: none">
-              Tudo certo! Em breve um consultor entrará em contato.
-            </div>
-            <div id="msgErro" class="alert alert-danger text-center" role="alert" style="display: none">
-              Ops! Algo deu errado, por favor tente novamente.
+          <div class="form-group">
+            <div id="retornoEnvio" class="text-center">
             </div>
           </div>
 
