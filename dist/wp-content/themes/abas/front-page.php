@@ -137,8 +137,8 @@ require_once("header.php");
     <div class="row d-flex justify-content-center align-items-center flex-row-reverse fluxos__container">
       <div class="col-12 col-md-5 fluxos__btns">
         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-          <!-- <a class="nav-link active" id="v-pills-ideias-tab" data-toggle="pill" href="#v-pills-ideias" role="tab" aria-controls="v-pills-ideias" aria-selected="true">Gestão de ideias e inovações</a> -->
-          <a class="nav-link" id="v-pills-tarefas-tab" data-toggle="pill" href="#v-pills-tarefas" role="tab" aria-controls="v-pills-tarefas" aria-selected="false">Gestão de tarefas e prazos</a>
+          <!-- <a class="nav-link" id="v-pills-ideias-tab" data-toggle="pill" href="#v-pills-ideias" role="tab" aria-controls="v-pills-ideias" aria-selected="true">Gestão de ideias e inovações</a> -->
+          <a class="nav-link active" id="v-pills-tarefas-tab" data-toggle="pill" href="#v-pills-tarefas" role="tab" aria-controls="v-pills-tarefas" aria-selected="false">Gestão de tarefas e prazos</a>
           <!-- <a class="nav-link" id="v-pills-lgpd-tab" data-toggle="pill" href="#v-pills-lgpd" role="tab" aria-controls="v-pills-lgpd" aria-selected="false">Gestão de LGPD</a> -->
           <a class="nav-link" id="v-pills-compras-tab" data-toggle="pill" href="#v-pills-compras" role="tab" aria-controls="v-pills-compras" aria-selected="false">Gestão de Compras</a>
           <a class="nav-link" id="v-pills-pessoas-tab" data-toggle="pill" href="#v-pills-pessoas" role="tab" aria-controls="v-pills-pessoas" aria-selected="false">Gestão de pessoas: onboarding</a>
@@ -150,7 +150,7 @@ require_once("header.php");
       <div class="col-12 col-md-7">
         <div class="tab-content" id="v-pills-tabContent">
           <?php /*
-          <div class="tab-pane fade show active" id="v-pills-ideias" role="tabpanel" aria-labelledby="v-pills-ideias-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/tabs/ideias-inovacoes.jpg) no-repeat">
+          <div class="tab-pane fade" id="v-pills-ideias" role="tabpanel" aria-labelledby="v-pills-ideias-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/tabs/ideias-inovacoes.jpg) no-repeat">
             <div class="tab-pane__content">
               <h3>Gestão de ideias e inovações</h3>
               <p>Transforme as ideias dos colaboradores em resultados financeiros reais. Personalize campanhas para incentivar pessoas a enviarem sugestões inovadoras para problemas ou oportunidades reais do seu negócio. Controle as aprovações e status dos projetos de forma fácil e flexível.
@@ -181,7 +181,7 @@ require_once("header.php");
           <div class="tab-pane fade" id="v-pills-compras" role="tabpanel" aria-labelledby="v-pills-compras-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/tabs/compras.jpg) no-repeat">
             <div class="tab-pane__content">
               <h3>Gestão de compras</h3>
-              <p>ALTERAR Donec leo nisl, malesuada sit amet velit gravida, elementum ornare libero. Proin eget velit quam. Sed ornare porta libero, id placerat lectus laoreet eu. Nunc posuere tellus odio, vitae commodo massa aliquet in.</p>
+              <p>Automatize e organize todo o fluxo de compras da sua empresa, desde o registro do pedido até a baixa no estoque. Tenha dashboards dinâmicos com visão completa das cotações, pedidos de orçamentos automáticos e muito mais.</p>
               <a type="button" href="gestao-de-compras" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
             </div>
           </div>
@@ -198,7 +198,7 @@ require_once("header.php");
           <div class="tab-pane fade" id="v-pills-crm" role="tabpanel" aria-labelledby="v-pills-crm-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/tabs/crm.jpg) no-repeat">
             <div class="tab-pane__content">
               <h3>CRM</h3>
-              <p>ALTERAR Donec leo nisl, malesuada sit amet velit gravida, elementum ornare libero. Proin eget velit quam. Sed ornare porta libero, id placerat lectus laoreet eu. Nunc posuere tellus odio, vitae commodo massa aliquet in.</p>
+              <p>Organize e automatize todo o seu processo de vendas com painéis personalizados e com os indicadores mais importantes para seu negócio, registre o histórico de vendas gerando mais aprendizado para equipe por meio de uma base de dados confiável e muito mais.</p>
               <a type="button" href="crm" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
             </div>
           </div>
@@ -206,7 +206,7 @@ require_once("header.php");
           <div class="tab-pane fade" id="v-pills-manutencoes" role="tabpanel" aria-labelledby="v-pills-manutencoes-tab" style="background: url(<?php bloginfo('template_url'); ?>/images/tabs/manutencoes.jpg) no-repeat">
             <div class="tab-pane__content">
               <h3>Manutenções</h3>
-              <p>ALTERAR Donec leo nisl, malesuada sit amet velit gravida, elementum ornare libero. Proin eget velit quam. Sed ornare porta libero, id placerat lectus laoreet eu. Nunc posuere tellus odio, vitae commodo massa aliquet in.</p>
+              <p>Torne a gestão de manutenção da sua empresa em um processo inteligente e prático. Crie rotinas automatizadas para solicitação de orçamentos e armazene todas as informações em uma única ferramenta.</p>
               <a type="button" href="gestao-de-manutencao" class="btn btn-white">Veja mais <i class="fas fa-chevron-right"></i></a>
             </div>
           </div>
