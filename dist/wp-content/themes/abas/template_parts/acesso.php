@@ -9,7 +9,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form id="formAcesso" onsubmit="cadastrarLead(event, this);">
+        <form id="formAcesso" onsubmit="acessaSistema(event, this);">
           <div class="form-group text-center">
             <div id="msgSucesso" class="alert alert-success text-center" role="alert" style="display: none">
               Tudo certo! Em breve um consultor entrará em contato.
@@ -20,12 +20,12 @@
           </div>
 
           <div class="form-group">
-            <label for="email-acesso">E-mail</label>
-            <input type="email" name="email" class="form-control" id="email-acesso" placeholder="nome@email.com">
+            <label for="username">E-mail</label>
+            <input type="email" name="username" class="form-control" id="username" placeholder="nome@email.com">
           </div>
           <div class="form-group">
-            <label for="senha">Telefone/Whatsapp</label>
-            <input type="password" name="senha" class="form-control" id="senha" placeholder="Senha">
+            <label for="password">Telefone/Whatsapp</label>
+            <input type="password" name="password" class="form-control" id="password" placeholder="Senha">
           </div>
           <div class="form-group">
             <button type="submit" class="btn btn-roxo">Receber contato</button>

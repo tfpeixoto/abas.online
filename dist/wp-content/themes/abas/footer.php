@@ -5,6 +5,7 @@
         <div class="col-12 col-md-3">
           <img src="<?php bloginfo('template_url'); ?>/images/marca.png" alt="Abas Online" class="footer__marca" />
 
+          <?php /*
           <p><strong>Receba nossos conteúdos por e-mail</strong></p>
           <p>Cadastre seu e-mail e receba dicas periódicas sobre como aumentar a produtividade de sua equipe.</p>
 
@@ -15,6 +16,7 @@
               <button type="submit">Enviar</button>
             </div>
           </form>
+          */ ?>
         </div>
 
         <div class="col-12 col-md-3 footer__contato">

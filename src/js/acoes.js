@@ -23,50 +23,6 @@ function obterLinks() {
 }
 obterLinks()
 
-// API
-function cadastrarLead(event, form) {
-  event.preventDefault();
-
-  var myHeaders = new Headers();
-  myHeaders.append("Authorization", "Bearer V1HQV3b/kYquj59KRsu3Ru");
-
-  var raw = new FormData(form)
-
-  var requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: raw,
-    redirect: 'follow'
-  };
-
-  fetch("https://abas.online/api/table/value/5fa92dbe1188287877c0fc19?actions=false", requestOptions)
-    .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
-}
-
-// API
-function cadastrarLead(event, form) {
-  event.preventDefault();
-
-  var myHeaders = new Headers();
-  myHeaders.append("Authorization", "");
-
-  var raw = new FormData(form)
-
-  var requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: raw,
-    redirect: 'follow'
-  };
-
-  fetch("", requestOptions)
-    .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
-}
-
 // Mascara de telefone - 10 e 11 digitos
 var maskBehavior = function (val) {
   return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
@@ -142,3 +98,82 @@ $("#v-pills-tab a").on('click', function (e) {
     scrollTop: position - 100
   } /* speed */);
 });
+
+// API - Cadastrar lead no Abas
+function cadastrarLead(event, form) {
+  event.preventDefault();
+
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", "Bearer V1HQV3b/kYquj59KRsu3Ru");
+
+  var raw = new FormData(form)
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+  };
+
+  fetch("https://abas.online/api/table/value/5fa92dbe1188287877c0fc19?actions=false", requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+}
+
+// API - Acessar sistema
+// dadosLogin = {
+//   username: 'abas@teste.com',
+//   password: 'abas@123'
+// }
+
+// baseUrlApi = 'https://abas.online/api';
+// baseUrlFrontEnd = 'https://abas.online';
+
+// function login() {
+//   if (!this.dadosLogin.username || !this.dadosLogin.password) {
+//     // Esse alerta deve ser alterado
+//     return alert('validation.errorsFound');
+//   }
+
+//   const dadosUsuarioLogado = localStorage.profile ? JSON.parse(localStorage.profile) : '';
+
+//   if (dadosUsuarioLogado && dadosUsuarioLogado.username) {
+//     this.openApp();
+//   }
+
+//   fetch(`${baseUrlAPI}/user/login`, {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'Authorization': 'Basic ' + btoa(this.dadosLogin.username + ':' + this.dadosLogin.password)
+//     },
+//     body: JSON.stringify({
+//       username: dadosLogin.username,
+//       password: dadosLogin.password
+//     })
+//   })
+//     .then(u => {
+//       return u.text();
+//     }).then(user => {
+//       const userData = JSON.parse(user);
+//       this.authSuccess(true, userData, this.dadosLogin.password);
+//     })
+//     .catch(() => alert('user.login.subTitle'));
+// }
+
+// function authSuccess(token, user, password) {
+//   if ('error' in user) {
+//     alert('Login error');
+//     return;
+//   }
+//   delete user.password;
+//   delete user.tokens;
+//   localStorage['profile'] = JSON.stringify(user);
+//   localStorage['id_token'] = token;
+//   localStorage['base_token'] = btoa(user.username + ':' + password);
+// }
+
+// function openApp() {
+//   window.location.href = `${baseUrlFrontEnd}/workspaces`;
+// }

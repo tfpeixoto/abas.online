@@ -1,0 +1,77 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: url(images/bg-login.jpg) no-repeat;
+  background-size: cover;
+  background-position: center center;
+  background-color: #3F2154;
+  color: rgb(94, 108, 132);
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.box{
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 30px rgba(53,22,70,.5);
+  padding: 2rem;
+  margin: auto;
+  max-width: 400px;
+  text-align: center;
+  width: 100%;
+}
+
+.marca{
+  height: auto;
+  margin: 2rem auto;
+  max-width: 150px;
+}
+
+.form-signin .checkbox {
+  font-weight: 400;
+}
+.form-signin .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  background: rgb(250, 251, 252);
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  background: rgb(250, 251, 252);
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.form-signin .btn{
+  background: #3F2154 ;
+  border: none;
+  color: white;
+  font-weight: bold;
+}
+
+.form-signin .btn:active{
+  background: #3F2154;
+  color: #F2C30D;
+}
+
+.form-signin a{
+  color:   #3F2154;
+}
