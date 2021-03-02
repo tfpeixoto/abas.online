@@ -10,8 +10,6 @@
 
 namespace RankMath\Google;
 
-use RankMath\Helpers\Security;
-
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -191,6 +189,8 @@ class Console extends Analytics {
 			$args
 		);
 
+		$this->log_failed_request( $response, 'console', $start_date, func_get_args() );
+
 		if ( ! $this->is_success() || ! isset( $response['rows'] ) ) {
 			return false;
 		}
@@ -276,7 +276,7 @@ class Console extends Analytics {
 		if ( is_null( $rank_math_site_url ) ) {
 			$default            = trailingslashit( strtolower( home_url() ) );
 			$rank_math_site_url = get_option( 'rank_math_google_analytic_profile', [ 'profile' => $default ] );
-			$rank_math_site_url = $rank_math_site_url['profile'];
+			$rank_math_site_url = empty( $rank_math_site_url['profile'] ) ? $default : $rank_math_site_url['profile'];
 		}
 
 		return $rank_math_site_url;

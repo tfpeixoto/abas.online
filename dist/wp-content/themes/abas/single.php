@@ -1,7 +1,4 @@
 <?php
-/*
- * Template name: Blog
-*/
 $estiloPagina = "blog.css";
 require_once("header.php");
 ?>

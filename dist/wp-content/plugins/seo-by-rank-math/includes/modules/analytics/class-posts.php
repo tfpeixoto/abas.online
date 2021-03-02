@@ -11,14 +11,9 @@
 namespace RankMath\Analytics;
 
 use stdClass;
-use Exception;
 use WP_Error;
 use WP_REST_Request;
-use RankMath\Helper;
-use RankMath\Google\Api;
 use RankMath\Analytics\DB;
-use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Param;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -60,14 +55,12 @@ class Posts extends Objects {
 			->selectCount( 'query', 'keywords' )
 			->whereLike( 'page', $post->page, '%', '' )
 			->whereBetween( 'created', [ $this->start_date, $this->end_date ] )
-			->where( 'clicks', '>', 0 )
 			->getVar();
 
 		$old_keywords = DB::analytics()
 			->distinct()
 			->selectCount( 'query', 'keywords' )
 			->whereLike( 'page', $post->page, '%', '' )
-			->where( 'clicks', '>', 0 )
 			->whereBetween( 'created', [ $this->compare_start_date, $this->compare_end_date ] )
 			->getVar();
 
@@ -106,7 +99,7 @@ class Posts extends Objects {
 		$pages   = \array_keys( $objects['rows'] );
 		$console = $this->get_analytics_data(
 			[
-				'limit'     => "LIMIT {$offset}, {$per_page}",
+				'limit'     => "LIMIT 0, {$per_page}",
 				'sub_where' => " AND page IN ('" . join( "', '", $pages ) . "')",
 			]
 		);

@@ -10,12 +10,6 @@
 
 namespace RankMath\Analytics;
 
-use Exception;
-use RankMath\Helper;
-use RankMath\Google\Api;
-use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Param;
-
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -43,7 +37,6 @@ class Summary {
 			->selectSum( 'clicks', 'clicks' )
 			->selectAvg( 'position', 'position' )
 			->whereBetween( 'created', [ Stats::get()->start_date, Stats::get()->end_date ] )
-			->where( 'clicks', '>', 0 )
 			->one();
 
 		$old_stats = DB::analytics()
@@ -51,15 +44,14 @@ class Summary {
 			->selectSum( 'clicks', 'clicks' )
 			->selectAvg( 'position', 'position' )
 			->whereBetween( 'created', [ Stats::get()->compare_start_date, Stats::get()->compare_end_date ] )
-			->where( 'clicks', '>', 0 )
 			->one();
 
-		$query = $wpdb->prepare(
+		$query    = $wpdb->prepare(
 			"SELECT ROUND(AVG(keywords),0) as keywords
 			 FROM (
 			    SELECT count(DISTINCT(query)) AS keywords
 				FROM {$wpdb->prefix}rank_math_analytics_gsc
-				WHERE clicks > 0 AND created BETWEEN %s AND %s
+				WHERE created BETWEEN %s AND %s
 			    GROUP BY created
 			) as ks",
 			Stats::get()->start_date,
@@ -72,7 +64,7 @@ class Summary {
 			 FROM (
 				 SELECT count(DISTINCT(query)) AS keywords
  				FROM {$wpdb->prefix}rank_math_analytics_gsc
- 				WHERE clicks > 0 AND created BETWEEN %s AND %s
+ 				WHERE created BETWEEN %s AND %s
  			    GROUP BY created
 			) as ks",
 			Stats::get()->compare_start_date,
@@ -173,7 +165,6 @@ class Summary {
 			->selectAvg( 'position', 'position' )
 			->selectAvg( 'ctr', 'ctr' )
 			->whereBetween( 'created', [ $this->start_date, $this->end_date ] )
-			->where( 'clicks', '>', 0 )
 			->one();
 
 		$old_stats = DB::analytics()
@@ -183,7 +174,6 @@ class Summary {
 			->selectAvg( 'position', 'position' )
 			->selectAvg( 'ctr', 'ctr' )
 			->whereBetween( 'created', [ $this->compare_start_date, $this->compare_end_date ] )
-			->where( 'clicks', '>', 0 )
 			->one();
 
 		$stats->clicks = [
@@ -237,7 +227,6 @@ class Summary {
 			->selectSum( 'clicks', 'clicks' )
 			->selectAvg( 'ctr', 'ctr' )
 			->whereBetween( 'created', [ $this->start_date, $this->end_date ] )
-			->where( 'clicks', '>', 0 )
 			->one();
 
 		$summary = apply_filters( 'rank_math/analytics/posts_summary', $summary );
@@ -271,7 +260,7 @@ class Summary {
 			 FROM (
 			    SELECT count(DISTINCT(query)) AS keywords, SUM(impressions) AS impressions, SUM(clicks) AS clicks, AVG(ctr) AS ctr, AVG(position) AS position
 				FROM {$wpdb->prefix}rank_math_analytics_gsc
-				WHERE clicks > 0 AND created BETWEEN %s AND %s
+				WHERE created BETWEEN %s AND %s
 			    GROUP BY created
 			) as ks",
 			$this->start_date,
@@ -284,7 +273,7 @@ class Summary {
 			 FROM (
 				 SELECT count(DISTINCT(query)) AS keywords, SUM(impressions) AS impressions, SUM(clicks) AS clicks, AVG(ctr) AS ctr, AVG(position) AS position
  				FROM {$wpdb->prefix}rank_math_analytics_gsc
- 				WHERE clicks > 0 AND created BETWEEN %s AND %s
+ 				WHERE created BETWEEN %s AND %s
  			    GROUP BY created
 			) as ks",
 			$this->compare_start_date,
@@ -347,7 +336,6 @@ class Summary {
 			->selectAvg( 'position', 'position' )
 			->selectAvg( 'ctr', 'ctr' )
 			->whereBetween( 'created', [ $this->start_date, $this->end_date ] )
-			->where( 'clicks', '>', 0 )
 			->groupBy( $interval )
 			->orderBy( 'created', 'ASC' )
 			->get();
@@ -358,7 +346,7 @@ class Summary {
 			 FROM (
 			    SELECT created, count(DISTINCT(query)) AS keywords
 				FROM {$wpdb->prefix}rank_math_analytics_gsc
-				WHERE clicks > 0 AND created BETWEEN %s AND %s
+				WHERE created BETWEEN %s AND %s
 			    GROUP BY created
 			) as ka
 			GROUP BY {$interval}",

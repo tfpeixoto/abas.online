@@ -35,11 +35,12 @@ require_once("header.php");
                 </h3>
 
                 <div class="text-muted">
-                <?php the_date('j \d\e F \d\e Y'); ?> | <?php the_category(' '); ?>
+                  <?php $date = get_the_date('j \d\e F \d\e Y');
+                  echo $date; ?> | <?php the_category(' '); ?>
                 </div>
 
                 <p><?php the_excerpt(); ?></p>
-                
+
                 <a type="button" href="<?php the_permalink(); ?>" class="btn btn-roxo">Ler mais</a>
               </div>
             </article>

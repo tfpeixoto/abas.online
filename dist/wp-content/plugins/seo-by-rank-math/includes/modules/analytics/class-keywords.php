@@ -10,12 +10,7 @@
 
 namespace RankMath\Analytics;
 
-use Exception;
 use WP_REST_Request;
-use RankMath\Helper;
-use RankMath\Google\Api;
-use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Param;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -189,7 +184,7 @@ class Keywords extends Posts {
 			$wpdb->prepare(
 				"SELECT DATE_FORMAT( created,'%%Y-%%m-%%d') as date, COUNT(query) as total
 				FROM {$wpdb->prefix}rank_math_analytics_gsc
-				WHERE clicks > 0 AND position BETWEEN {$range} AND created BETWEEN %s AND %s
+				WHERE position BETWEEN {$range} AND created BETWEEN %s AND %s
 				GROUP BY created
 				ORDER BY created ASC",
 				$this->start_date,

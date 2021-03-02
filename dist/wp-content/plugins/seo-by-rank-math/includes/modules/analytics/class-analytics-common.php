@@ -4,7 +4,7 @@
  *
  * @since      1.0.49
  * @package    RankMath
- * @subpackage RankMath\modules
+ * @subpackage RankMath\Analytics
  * @author     Rank Math <support@rankmath.com>
  */
 
@@ -12,8 +12,10 @@ namespace RankMath\Analytics;
 
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Conditional;
 use RankMath\Google\Console;
+use MyThemeShop\Helpers\Conditional;
+use RankMath\Analytics\Workflow\Jobs;
+use RankMath\Analytics\Workflow\Workflow;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -37,14 +39,14 @@ class Analytics_Common {
 		}
 
 		new GTag();
-		Data_Fetcher::get();
+		Jobs::get();
+		Workflow::get();
 
 		$this->action( 'rest_api_init', 'init_rest_api' );
 		$this->filter( 'rank_math/webmaster/google_verify', 'add_site_verification' );
 
 		$this->filter( 'rank_math/tools/analytics_clear_caches', 'analytics_clear_caches' );
 		$this->filter( 'rank_math/tools/analytics_reindex_posts', 'analytics_reindex_posts' );
-		$this->filter( 'rank_math/tools/analytics_recreate_table', 'analytics_recreate_table' );
 	}
 
 	/**
@@ -111,25 +113,15 @@ class Analytics_Common {
 	 * @return string
 	 */
 	public function analytics_reindex_posts() {
-		DB::objects()->truncate();
-		DB::table( 'postmeta' )->where( 'meta_key', 'rank_math_analytic_object_id' )->delete();
-		delete_option( 'rank_math_flat_posts_done' );
-		Data_Fetcher::get()->flat_posts();
+		DB::objects()
+			->truncate();
+
+		DB::table( 'postmeta' )
+			->where( 'meta_key', 'rank_math_analytic_object_id' )
+			->delete();
+
+		( new \RankMath\Analytics\Workflow\Objects() )->flat_posts();
+
 		return __( 'Post re-index in progress.', 'rank-math' );
-	}
-
-	/**
-	 * Recreate tables.
-	 */
-	public function analytics_recreate_table() {
-		delete_option( 'rank_math_analytics_installed' );
-		( new \RankMath\Analytics\Installer() )->install( false );
-
-		if ( defined( 'RANK_MATH_PRO_VERSION' ) ) {
-			delete_option( 'rank_math_analytics_pro_installed' );
-			( new \RankMathPro\Analytics\Installer() )->install();
-		}
-
-		return __( 'Tables re-created.', 'rank-math' );
 	}
 }

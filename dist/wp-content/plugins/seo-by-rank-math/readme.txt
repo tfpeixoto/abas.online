@@ -1,19 +1,19 @@
-=== Rank Math - SEO Plugin for WordPress ===
+=== Rank Math SEO - Best SEO Plugin for WordPress ===
 Contributors: rankmath
 Plugin link: https://rankmath.com/?utm_source=LP&utm_campaign=WP
-Tags: seo, sitemap, google search console, schema, redirection
-Tested up to: 5.5.3
+Tags: seo, sitemap, google search console, schema, redirection, WordPress SEO
+Tested up to: 5.6.1
 Requires at least: 5.2
 Requires PHP: 7.0
-Stable tag: 1.0.53.1
+Stable tag: 1.0.58
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 
-Rank Math is a revolutionary WordPress SEO plugin that combines the features of many SEO tools in a single package & helps you multiply your traffic.
+Rank Math SEO is a revolutionary WordPress SEO plugin that combines the features of many SEO tools in a single package & helps you multiply your traffic.
 
 == Description ==
 
-**SEO Plugin For WordPress**
+**Rank Math SEO - Best SEO Plugin for WordPress**
 ★★★★★<br>
 
 **SEO is the most consistent source of traffic for any website.** We created <a href="https://rankmath.com/wordpress/plugin/seo-suite/?utm_source=LP&utm_campaign=WP" target="_blank">**Rank Math, a WordPress SEO plugin**</a>, to help every website owner get access to the SEO tools they need to improve their SEO and attract more traffic to their website.
@@ -475,22 +475,17 @@ Please drop us an email at support@rankmath.com and we would be more than happy 
 
 == Changelog ==
 
-= 1.0.53.1 [Nov 29, 2020] =
-* Improved: Made plugin compatible with the PHP 8.0
-* Improved: Plugin's plan handling that was causing a conflict with the Analytics module as well
-* Fixed: Focus Keyword field background color in the Elementor Editor's light theme
-
-= 1.0.53 [Nov 27, 2020] =
-* Improved: Google Access token for the [Analytics Module](https://rankmath.com/kb/analytics/) refreshes only when the data fetching is done via a cron job
-* * Improved: Hardened the security in some places in the plugin
-* Improved: Restrict [Schema](https://rankmath.com/kb/rich-snippets/) output on password-protected pages
-* Improved: Moved the URL field in the desktop preview area to appear before the title
-* Improved: Clicking the preview area in the Classic Editor now opens the meta editor
-* Fixed: Modules page was not getting [translated](https://rankmath.com/kb/multiple-languages-seo-rankmath-translatepress/) completely
-* Fixed: [Import tool](https://rankmath.com/kb/import-export-settings/) was not importing the taxonomy metadata from the AIO SEO Pro plugin
-* Fixed: SERP Preview was showing the wrong permalink for the secondary language category pages of WPML plugin
-* Fixed: Redirections were not working for the secondary language of WPML plugin
-* Removed: 'Head, Footer and Post Injections' plugin from the conflicting plugin lists
-* Removed: Site Kit's developer ID from the GA tracking code as it was not required
+= 1.0.58 [Feb 17, 2021] =
+* Improved: The [Local SEO](https://rankmath.com/kb/local-seo/) is much better with the Rank Math SEO plugin than ever
+* Improved: Query related to page search in the About & Contact page options of [local SEO settings](https://rankmath.com/kb/titles-and-meta/#local-seo)
+* Improved: Create tables related to different modules only if those modules are activated. This improves the speed of the plugin further
+* Improved: Updated CMB2 library to keep it updated to the latest version
+* Improved: The overall speed and security of the plugin
+* Fixed: ["Exclude Logged in Users"](https://rankmath.com/kb/connect-your-google-account/#4-connect-google-analytics-with-rank-math) option was not working in the [Analytics module](https://rankmath.com/kb/analytics/)
+* Fixed: Missing telephone & image data for the Attorney [Schema](https://rankmath.com/blog/schema-markup/)
+* Fixed: Few Business types in the Local Schema were showing invalid `hasMap` & `geo` attributes
+* Fixed: A PHP error related to analytics table after opening the analytics settings
+* Fixed: A fatal error happening on some installations when the site was [updating from Rank Math](https://rankmath.com/kb/update-rank-math-manually/) v1.0.48 or less
+* Fixed: CLI command to generate the [Sitemap](https://rankmath.com/kb/submit-sitemap-to-google/) in PHP 8 was not working
 
 Full changelog can be found here - **[Rank Math SEO changelog](https://rankmath.com/changelog/?utm_source=LP&utm_campaign=WP)**

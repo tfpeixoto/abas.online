@@ -78,7 +78,17 @@ class JsonLD {
 		$schema = \json_decode( file_get_contents( 'php://input' ), true );
 		$schema = $this->replace_variables( $schema );
 		$schema = $this->filter( $schema, $this, $data );
-		$schema = wp_parse_args( $schema['schema'], array_pop( $data ) );
+
+		if ( isset( $data[ $schema['schemaID'] ] ) ) {
+			$current_data = $data[ $schema['schemaID'] ];
+			unset( $data[ $schema['schemaID'] ] );
+		} else {
+			$current_data = array_pop( $data );
+		}
+		$schema = wp_parse_args( $schema['schema'], $current_data );
+		if ( ! empty( $schema['@type'] ) && in_array( $schema['@type'], [ 'WooCommerceProduct', 'EDDProduct' ], true ) ) {
+			$schema['@type'] = 'Product';
+		}
 
 		// Merge.
 		$data = array_merge( $data, [ 'schema' => $schema ] );
@@ -144,7 +154,9 @@ class JsonLD {
 				'@graph'   => array_values( $data ),
 			];
 
-			echo '<script type="application/ld+json" class="rank-math-' . esc_attr( $class ) . '">' . wp_json_encode( $json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n";
+			$options = defined( 'RANKMATH_DEBUG' ) && RANKMATH_DEBUG ? JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES : JSON_UNESCAPED_SLASHES;
+
+			echo '<script type="application/ld+json" class="rank-math-' . esc_attr( $class ) . '">' . wp_json_encode( wp_kses_post_deep( $json ), $options ) . '</script>' . "\n";
 		}
 	}
 
@@ -236,24 +248,32 @@ class JsonLD {
 	/**
 	 * Replace variable.
 	 *
-	 * @param  array $schemas Schema to replace.
+	 * @param array  $schemas Schema to replace.
+	 * @param object $object  Current Object.
+	 *
 	 * @return array
 	 */
-	public function replace_variables( $schemas ) {
+	public function replace_variables( $schemas, $object = [] ) {
 		$new_schemas = [];
+		$object      = empty( $object ) ? get_queried_object() : $object;
 
 		foreach ( $schemas as $key => $schema ) {
 			if ( 'metadata' === $key ) {
 				$new_schemas['isPrimary'] = ! empty( $schema['isPrimary'] );
+
+				if ( ! empty( $schema['type'] ) && 'custom' === $schema['type'] ) {
+					$new_schemas['isCustom'] = true;
+				}
+
 				continue;
 			}
 
 			if ( is_array( $schema ) ) {
-				$new_schemas[ $key ] = $this->replace_variables( $schema );
+				$new_schemas[ $key ] = $this->replace_variables( $schema, $object );
 				continue;
 			}
 
-			$new_schemas[ $key ] = Str::contains( '%', $schema ) ? Helper::replace_vars( $schema, get_queried_object() ) : $schema;
+			$new_schemas[ $key ] = Str::contains( '%', $schema ) ? Helper::replace_seo_fields( $schema, $object ) : $schema;
 
 			if ( '' === $new_schemas[ $key ] ) {
 				unset( $new_schemas[ $key ] );

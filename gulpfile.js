@@ -21,20 +21,20 @@ gulp.task('browser-sync', function () {
 gulp.task('sass', function () {
   return gulp.src(['src/scss/**/*.scss'])
     .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError)) // converter o Sass em CSS
-    .pipe(gulp.dest('dist/wp-content/themes/abas/css'));
+    .pipe(gulp.dest('src/css'));
 });
 
-// gulp.task('purgecss', ['sass'], function () {
-//   return gulp.src([
-//     'src/css/*.css',
-//   ])
-//     .pipe(purgecss({
-//       content: ['dist/wp-content/themes/abas/*.php', 'public/wp-content/themes/abas/template_parts/*.php']
-//       // whitelist: [],
-//       // whitelistPatterns: []
-//     }))
-//     .pipe(gulp.dest('dist/wp-content/themes/abas/css'))
-// });
+gulp.task('purgecss', ['sass'], function () {
+  return gulp.src([
+    'src/css/*.css',
+  ])
+    .pipe(purgecss({
+      content: ['dist/wp-content/themes/abas/*.php', 'public/wp-content/themes/abas/template_parts/*.php'],
+      whitelist: ['btn']
+      // whitelistPatterns: []
+    }))
+    .pipe(gulp.dest('dist/wp-content/themes/abas/css'))
+});
 
 /* Imagens */
 gulp.task('imagemin', function () {
@@ -61,9 +61,9 @@ gulp.task('js', function () {
 });
 
 gulp.task('watch', function () {
-  gulp.watch(['src/scss/**/*.scss'], ['sass']);
+  gulp.watch(['src/scss/**/*.scss'], ['sass', 'purgecss']);
   gulp.watch('src/js/**/*.js', ['js']);
   gulp.watch('src/images/**/*', ['imagemin']);
 });
 
-gulp.task('default', ['sass', 'imagemin', 'js', 'watch', 'browser-sync']);
+gulp.task('default', ['sass', 'imagemin', 'purgecss', 'js', 'watch', 'browser-sync']);

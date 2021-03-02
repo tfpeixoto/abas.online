@@ -128,8 +128,9 @@ class DB {
 			->getVar();
 
 		$size = $wpdb->get_var( 'SELECT SUM((data_length + index_length)) AS size FROM information_schema.TABLES WHERE table_schema="' . $wpdb->dbname . '" AND (table_name="' . $wpdb->prefix . 'rank_math_analytics_gsc")' ); // phpcs:ignore
-
 		$data = compact( 'days', 'rows', 'size' );
+
+		$data = apply_filters( 'rank_math/analytics/analytics_tables_info', $data );
 
 		set_transient( $key, $data, DAY_IN_SECONDS );
 
@@ -148,9 +149,9 @@ class DB {
 		}
 
 		$id = self::objects()
-			->select( 'id' )
-			->limit( 1 )
-			->getVar();
+		->select( 'id' )
+		->limit( 1 )
+		->getVar();
 
 		$rank_math_gsc_has_data = $id > 0 ? true : false;
 		return $rank_math_gsc_has_data;
@@ -159,22 +160,42 @@ class DB {
 	/**
 	 * Check if a date exists in the sysyem.
 	 *
-	 * @param string $date Date.
-	 *
+	 * @param  string $date   Date.
+	 * @param  string $action Action.
 	 * @return boolean
 	 */
-	public static function date_exists( $date ) {
-		$is_console   = \RankMath\Google\Console::is_console_connected();
-		$is_analytics = \RankMath\Google\Analytics::is_analytics_connected();
+	public static function date_exists( $date, $action = 'console' ) {
+		$table = [
+			'console'   => 'rank_math_analytics_gsc',
+			'analytics' => 'rank_math_analytics_ga',
+			'adsense'   => 'rank_math_analytics_adsense',
+		];
 
-		if ( ! $is_console && ! $is_analytics ) {
-			return true;
-		}
+		$table = self::table( $table[ $action ] );
 
-		$id = self::analytics();
-		if ( ! $is_console && $is_analytics ) {
-			$id = self::table( 'rank_math_analytics_ga' );
-		}
+		$id = $table
+			->select( 'id' )
+			->where( 'created', $date )
+			->getVar();
+
+		return $id > 0 ? true : false;
+	}
+
+	/**
+	 * Check if a date exists in the sysyem.
+	 *
+	 * @param  string $date  Date.
+	 * @param  string $table Table name.
+	 * @return boolean
+	 */
+	public static function job_date_exists( $date, $table = 'console' ) {
+		$tables = [
+			'adsense'   => 'rank_math_analytics_adsense',
+			'analytics' => 'rank_math_analytics_ga',
+			'console'   => 'rank_math_analytics_gsc',
+		];
+		$table  = isset( $tables[ $table ] ) ? $tables [ $table ] : $table;
+		$id     = self::table( $table );
 
 		$id = $id
 			->select( 'id' )
@@ -195,6 +216,8 @@ class DB {
 		if ( empty( $args ) ) {
 			return false;
 		}
+
+		unset( $args['id'] );
 
 		$args = wp_parse_args(
 			$args,
@@ -232,9 +255,9 @@ class DB {
 			unset( $args['id'] );
 
 			$updated = self::objects()->set( $args )
-				->where( 'id', $old_id )
-				->where( 'object_id', absint( $args['object_id'] ) )
-				->update();
+			->where( 'id', $old_id )
+			->where( 'object_id', absint( $args['object_id'] ) )
+			->update();
 
 			if ( ! empty( $updated ) ) {
 				return $old_id;
@@ -310,6 +333,11 @@ class DB {
 			$data[] = $row['ctr'];
 
 			$placeholders[] = '(' . implode( ', ', $placeholder ) . ')';
+		}
+
+		// Don't run insert with empty dataset, return 0 since no rows affected.
+		if ( empty( $data ) ) {
+			return 0;
 		}
 
 		// Stitch all rows together.
