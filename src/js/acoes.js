@@ -104,7 +104,7 @@ function cadastrarLead(event, form) {
   event.preventDefault();
 
   var myHeaders = new Headers();
-  myHeaders.append("Authorization", "Bearer V1HQV3b/kYquj59KRsu3Ru");
+  myHeaders.append("Authorization", "Bearer fV/oh7SnZJ4baYPayeQgRO");
 
   var raw = new FormData(form)
 
