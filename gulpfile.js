@@ -30,8 +30,8 @@ gulp.task('purgecss', ['sass'], function () {
   ])
     .pipe(purgecss({
       content: ['dist/wp-content/themes/abas/*.php', 'public/wp-content/themes/abas/template_parts/*.php'],
-      whitelist: ['btn']
-      // whitelistPatterns: []
+      whitelist: ['btn', 'fixed'],
+      whitelistPatterns: [/wp-block-columns/, /^has/, /^depoimento/, /^modal/]
     }))
     .pipe(gulp.dest('dist/wp-content/themes/abas/css'))
 });

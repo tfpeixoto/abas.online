@@ -115,7 +115,7 @@ function cadastrarLead(event, form) {
     redirect: 'follow'
   };
 
-  fetch("https://api.abas.online/api/table/value/5fa92dbe1188287877c0fc19?actions=false", requestOptions)
+  fetch("https://api.abas.online/api/table/value/603cdda9f0f8d700125fae6d?actions=true", requestOptions)
     .then(response => response.json())
     .then(result => {
       console.log(result)

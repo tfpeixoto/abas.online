@@ -4,12 +4,9 @@
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/solid";
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/brands";
-@import "components/wordpress";
 
 // HOME
-@import "components/geral";
-@import "components/header";
-@import "components/banner";
+@import "components/wordpress";
 @import "components/segmentos-home";
 @import "components/fluxos-home";
 @import "components/dobras";

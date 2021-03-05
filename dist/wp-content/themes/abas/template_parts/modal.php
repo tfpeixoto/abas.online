@@ -20,6 +20,10 @@
             <input type="text" name="nome" class="form-control" id="nome" placeholder="Seu nome">
           </div>
           <div class="form-group">
+            <label for="empresa">Empresa</label>
+            <input type="text" name="empresa" class="form-control" id="empresa" placeholder="Empresa">
+          </div>
+          <div class="form-group">
             <label for="email">E-mail</label>
             <input type="email" name="email" class="form-control" id="email" placeholder="nome@email.com">
           </div>

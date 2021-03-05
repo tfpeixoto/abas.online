@@ -58,12 +58,19 @@
   }
 }
 
+.wp-block-button__link{
+  &:hover{
+    background: #411c54 !important;
+    color: $white !important;
+  }
+}
+
 // cor roxo
 .has-roxo-background-color {
-  background-color: #411c54;
+  background-color: #411c54 !important;
 }
 .has-roxo-color {
-  color: #411c54;
+  color: #411c54 !important;
 }
 
 // cor amarelo

@@ -1,13 +1,11 @@
 header {
+  margin-top: 20px;
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 1;
 
   .navbar {
-    background: $white;
-    transition: all ease-in-out 1s;
-
     .navbar-brand {
       height: auto;
       width: 150px;
@@ -44,7 +42,6 @@ header {
     background: $white;
     border-radius: 10px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
 
     #navbarNav {
       .nav-link {

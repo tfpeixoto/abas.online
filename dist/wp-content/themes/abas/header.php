@@ -16,11 +16,12 @@
   <link rel="preload" href="<?= get_template_directory_uri() . '/webfonts/fa-solid-900.woff' ?>" as="font" type="font/woff2" crossorigin="anonymous">
   <link rel="preload" href="<?= get_template_directory_uri() . '/webfonts/fa-brands-400.woff' ?>" as="font" type="font/woff2" crossorigin="anonymous">
   <link rel="preload" href="<?= get_template_directory_uri() . '/webfonts/fa-regular-400.woff' ?>" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  <?php wp_head(); ?>
 
   <link rel="stylesheet" href="<?= get_template_directory_uri() . '/css/critical.css' ?>" as="style" media="print" onload="this.media='all'; this.onload=null;" crossorigin>
   <link rel="stylesheet" href="<?= get_template_directory_uri() . '/css/' . $estiloPagina ?>" as="style" media="print" onload="this.media='all'; this.onload=null;" crossorigin>
 
-  <?php wp_head(); ?>
 </head>
 
 <body <?php body_class(); ?>>
