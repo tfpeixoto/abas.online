@@ -88,8 +88,8 @@ export default class GzipConfig extends React.Component {
 				htaccessWritable={ this.props.data.htaccess_writable }
 				htaccessWritten={ this.props.data.htaccess_written }
 				serverSnippets={ this.props.data.snippets }
-				enableGzip={ this.props.enableGzip }
-				disableGzip={ this.props.disableGzip }
+				enable={ this.props.enableGzip }
+				disable={ this.props.disableGzip }
 				server={ this.props.data.server_name }
 			/>
 		);

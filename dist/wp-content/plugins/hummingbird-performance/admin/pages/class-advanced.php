@@ -38,7 +38,7 @@ class Advanced extends Page {
 			'db'     => __( 'Database Cleanup', 'wphb' ),
 			'lazy'   => __( 'Lazy Load', 'wphb' ),
 			'system' => __( 'System Information', 'wphb' ),
-			'health' => __( 'Site Health', 'wphb' ),
+			'health' => __( 'Plugin Health', 'wphb' ),
 		);
 	}
 
@@ -95,13 +95,13 @@ class Advanced extends Page {
 		);
 
 		/**
-		 * Site health meta box.
+		 * Plugin health meta box.
 		 *
 		 * @since 2.7.0
 		 */
 		$this->add_meta_box(
 			'advanced/site-health',
-			__( 'Site Health', 'wphb' ),
+			__( 'Plugin Health', 'wphb' ),
 			array( $this, 'site_health_metabox' ),
 			null,
 			null,
@@ -253,20 +253,18 @@ class Advanced extends Page {
 
 	/**
 	 * *************************
-	 * Site health page meta boxes.
+	 * Plugin health page meta boxes.
 	 *
 	 * @since 2.7.0
 	 ***************************/
 
 	/**
-	 * Site health meta box.
+	 * Plugin health meta box.
 	 *
 	 * @since 2.7.0
 	 */
 	public function site_health_metabox() {
 		$advanced_module = Utils::get_module( 'advanced' );
-
-		$db = $advanced_module->get_db_size();
 
 		$minify_groups  = Minify_Group::get_minify_groups();
 		$orphaned_metas = $advanced_module->get_orphaned_ao() - 18 * count( $minify_groups );
@@ -276,11 +274,9 @@ class Advanced extends Page {
 		$this->view(
 			'advanced/site-health-meta-box',
 			array(
-				'data_size'      => $db['data_size'],
-				'index_size'     => $db['index_size'],
 				'minify_groups'  => $minify_groups,
 				'orphaned_metas' => $orphaned_metas,
-				'preloading'     => Settings::get_setting( 'preload', 'page_cache' ) || get_transient( 'wphb-preloading' ),
+				'preloading'     => Settings::get_setting( 'preload', 'page_cache' ) || $preloader->is_process_running(),
 				'queue_size'     => $preloader->get_queue_size(),
 			)
 		);

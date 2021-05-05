@@ -71,8 +71,6 @@ if ( $issues ) {
 							echo 'img';
 							break;
 						case 'css':
-							echo esc_html( $type );
-							break;
 						case 'media':
 							echo esc_html( $type );
 							break;

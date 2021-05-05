@@ -102,6 +102,14 @@ class Installer {
 				if ( version_compare( $version, '2.6.2', '<' ) ) {
 					self::upgrade_2_6_2_multi();
 				}
+
+				if ( version_compare( $version, '2.7.1', '<' ) ) {
+					self::upgrade_2_7_1_multi();
+				}
+
+				if ( version_compare( $version, '2.7.2', '<' ) ) {
+					self::upgrade_2_7_2_multi();
+				}
 			}
 		}
 
@@ -128,6 +136,17 @@ class Installer {
 
 			if ( version_compare( $version, '2.6.2', '<' ) ) {
 				self::upgrade_2_6_2();
+			}
+
+			if ( version_compare( $version, '2.7.1', '<' ) ) {
+				self::upgrade_2_7_1();
+				self::upgrade_2_7_1_multi();
+			}
+
+			if ( version_compare( $version, '2.7.2', '<' ) ) {
+				// Need to refresh the data.
+				delete_option( 'wphb-caching-data' );
+				self::upgrade_2_7_2_multi();
 			}
 
 			update_site_option( 'wphb_version', WPHB_VERSION );
@@ -321,6 +340,60 @@ class Installer {
 				Utils::get_module( 'page_cache' )->save_settings( $settings );
 			}
 		}
+	}
+
+	/**
+	 * Upgrade to 2.7.1
+	 *
+	 * @since 2.7.1
+	 */
+	private static function upgrade_2_7_1() {
+		if ( Settings::get_setting( 'enabled', 'page_cache' ) ) {
+			unlink( WP_CONTENT_DIR . '/advanced-cache.php' );
+		}
+	}
+
+	/**
+	 * Upgrade to 2.7.1
+	 *
+	 * @since 2.7.1
+	 */
+	private static function upgrade_2_7_1_multi() {
+		wp_cache_delete( 'wphb_process_queue', 'options' );
+	}
+
+	/**
+	 * Upgrade to 2.7.1 (single and subsites).
+	 *
+	 * @since 2.7.2
+	 */
+	private static function upgrade_2_7_2_multi() {
+		$minify  = Utils::get_module( 'minify' );
+		$options = $minify->get_options();
+
+		// Asset optimization not enabled - skip.
+		if ( ! $options['enabled'] ) {
+			return;
+		}
+
+		// If not enabled on subsites - skip.
+		if ( is_multisite() && ! is_network_admin() && ! $options['minify_blog'] ) {
+			return;
+		}
+
+		// Not Auto Basic mode - exit.
+		if ( ! isset( $options['type'] ) || 'basic' !== $options['type'] ) {
+			return;
+		}
+
+		$collections = \Hummingbird\Core\Modules\Minify\Sources_Collector::get_collection();
+
+		// Fix styles and scripts from combining on basic mode.
+		$options['dont_combine']['styles']  = array_keys( $collections['styles'] );
+		$options['dont_combine']['scripts'] = array_keys( $collections['scripts'] );
+
+		$minify->update_options( $options );
+		$minify->clear_cache( false );
 	}
 
 }

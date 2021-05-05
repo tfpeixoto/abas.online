@@ -1,8 +1,7 @@
 /* global WPHB_Admin */
-/* global wphbCachingStrings */
-/* global SUI */
 
 import Fetcher from '../utils/fetcher';
+import { getString } from '../utils/helpers';
 
 ( function ( $ ) {
 	WPHB_Admin.DashboardCloudFlare = {
@@ -47,7 +46,7 @@ import Fetcher from '../utils/fetcher';
 			Fetcher.common.call( 'wphb_cloudflare_purge_cache' )
 				.then( ( response ) => {
 					WPHB_Admin.notices.show(
-						wphbCachingStrings.successCloudflarePurge
+						getString( 'successCloudflarePurge' )
 					);
 				} )
 				.catch( ( reject ) => {
@@ -78,6 +77,11 @@ import Fetcher from '../utils/fetcher';
 						self.submitStep.call( self, $( this ) );
 					} );
 
+				// Trigger SUI select styles.
+				if ( 'zone' === this.currentStep ) {
+					$( '#cloudflare-zone' ).SUIselect2();
+				}
+
 				this.$spinner = this.$stepsContainer.find(
 					'.cloudflare-spinner'
 				);
@@ -91,13 +95,9 @@ import Fetcher from '../utils/fetcher';
 
 			$howToInstructions.hide();
 
-			$( 'a.cloudflare-how-to-title' ).click( function ( e ) {
+			$( 'a.cloudflare-how-to-title' ).on( 'click', function ( e ) {
 				e.preventDefault();
 				$howToInstructions.toggle();
-			} );
-
-			this.$stepsContainer.find( 'select' ).each( function () {
-				SUI.suiSelect( this );
 			} );
 
 			if ( 'final' === this.currentStep ) {

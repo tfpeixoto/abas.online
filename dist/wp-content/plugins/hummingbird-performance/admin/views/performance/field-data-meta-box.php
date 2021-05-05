@@ -48,14 +48,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php
 				switch ( $field_data->FIRST_CONTENTFUL_PAINT_MS->category ) {
 					case 'FAST':
-						echo '<i class="sui-icon-check-tick sui-success sui-md" aria-hidden="true"></i>';
+						echo '<span class="sui-icon-check-tick sui-success sui-md" aria-hidden="true"></span>';
 						break;
 					case 'AVERAGE':
-						echo '<i class="sui-icon-warning-alert sui-warning sui-md" aria-hidden="true"></i>';
+						echo '<span class="sui-icon-warning-alert sui-warning sui-md" aria-hidden="true"></span>';
 						break;
 					case 'SLOW':
 					default:
-						echo '<i class="sui-icon-warning-alert sui-error sui-md" aria-hidden="true"></i>';
+						echo '<span class="sui-icon-warning-alert sui-error sui-md" aria-hidden="true"></span>';
 						break;
 				}
 				?>
@@ -118,14 +118,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php
 				switch ( $field_data->FIRST_INPUT_DELAY_MS->category ) {
 					case 'FAST':
-						echo '<i class="sui-icon-check-tick sui-success sui-md" aria-hidden="true"></i>';
+						echo '<span class="sui-icon-check-tick sui-success sui-md" aria-hidden="true"></span>';
 						break;
 					case 'AVERAGE':
-						echo '<i class="sui-icon-warning-alert sui-warning sui-md" aria-hidden="true"></i>';
+						echo '<span class="sui-icon-warning-alert sui-warning sui-md" aria-hidden="true"></span>';
 						break;
 					case 'SLOW':
 					default:
-						echo '<i class="sui-icon-warning-alert sui-error sui-md" aria-hidden="true"></i>';
+						echo '<span class="sui-icon-warning-alert sui-error sui-md" aria-hidden="true"></span>';
 						break;
 				}
 				?>

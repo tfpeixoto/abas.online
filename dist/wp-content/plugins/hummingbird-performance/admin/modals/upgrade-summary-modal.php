@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 				<button class="sui-button-icon sui-button-float--right" data-modal-close=""
 						onclick="window.WPHB_Admin.dashboard.hideUpgradeSummary()">
-					<i class="sui-icon-close sui-md" aria-hidden="true"></i>
+					<span class="sui-icon-close sui-md" aria-hidden="true"></span>
 					<span class="sui-screen-reader-text"><?php esc_attr_e( 'Close this modal', 'wphb' ); ?></span>
 				</button>
 

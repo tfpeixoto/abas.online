@@ -5,7 +5,6 @@
  * @package Hummingbird
  *
  * @var array  $results            Current report.
- * @var array  $labels             List of labels for titles.
  * @var array  $human_results      Current report in readable format.
  * @var array  $expires            Current expiration value settings.
  * @var bool   $cf_active          CloudFlare status.
@@ -25,6 +24,7 @@
  * @var bool   $different_expiry   Are different expiry values used?
  */
 
+use Hummingbird\Core\Module_Server;
 use Hummingbird\Core\Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -47,10 +47,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 		<?php
 		if ( ! $cf_active && ! $show_cf_notice ) {
+			$servers = Module_Server::get_servers();
+
+			$servers['apache']    = 'Apache';
+			$servers['litespeed'] = 'Open LiteSpeed';
+
 			$this->admin_notices->show_inline(
 				sprintf( /* translators: %1$s: server type, %2$s: opening a tag, %3$s: closing a tag */
 					esc_html__( "We've automatically detected your server type is %1\$s. If this is incorrect, manually select your server type to generate the relevant rules and instructions. If you are using Cloudflare %2\$sconnect your account%3\$s to control your cache settings from here.", 'wphb' ),
-					ucfirst( esc_html( $server_type ) ),
+					esc_html( $servers[ $server_type ] ),
 					'<a href="#" class="connect-cloudflare-link">',
 					'</a>'
 				),
@@ -66,7 +71,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 </div>
 
-<div class="sui-box-settings-row">
+<div class="sui-box-settings-row" id="wphb-expiry-time-row">
 	<div class="sui-box-settings-col-1">
 		<span class="sui-settings-label"><?php esc_html_e( 'Expiry Time', 'wphb' ); ?></span>
 		<span class="sui-description">
@@ -76,6 +81,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="sui-box-settings-col-2">
 		<form method="post" id="expiry-settings">
 			<input type="hidden" class="hb-server-type" name="hb_server_type" value="<?php echo esc_attr( $server_type ); ?>">
+			<input type="hidden" id="hb_all_expiry" <?php checked( $all_expiry ); ?>>
 			<?php wp_nonce_field( 'wphb-caching' ); ?>
 			<div class="sui-side-tabs sui-tabs">
 				<?php if ( ! $cf_active && ! $cf_server ) : ?>
@@ -97,8 +103,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 								Utils::get_caching_frequencies_dropdown(
 									array(
 										'name'      => 'set-expiry-all',
-										'class'     => 'wphb-expiry-select',
-										'selected'  => $expires['css'],
+										'class'     => 'sui-select wphb-expiry-select',
+										'selected'  => $expires['CSS'],
 										'data-type' => 'all',
 									)
 								);
@@ -107,17 +113,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 						</div>
 						<div class="sui-tab-boxed <?php echo $different_expiry ? '' : 'active'; ?>">
 							<?php foreach ( $human_results as $cache_type => $result ) : ?>
+								<?php $label = strtolower( $cache_type ); ?>
 								<div class="sui-form-field sui-input-md">
 									<label class="sui-label">
-										<?php echo esc_html( $labels[ $cache_type ] ); ?>
+										<?php echo esc_html( $cache_type ); ?>
 									</label>
 									<?php
 									Utils::get_caching_frequencies_dropdown(
 										array(
-											'name'      => "set-expiry-{$cache_type}",
-											'class'     => 'wphb-expiry-select',
+											'name'      => "set-expiry-{$label}",
+											'class'     => 'sui-select wphb-expiry-select',
 											'selected'  => $expires[ $cache_type ],
-											'data-type' => $cache_type,
+											'data-type' => $label,
 										)
 									);
 									?>
@@ -128,7 +135,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<div class="wphb-expiry-changes sui-notice sui-notice-warning sui-margin-top" style="display: none" id="wphb-expiry-change-notice">
 							<div class="sui-notice-content">
 								<div class="sui-notice-message">
-									<i class="sui-notice-icon sui-icon-info sui-md" aria-hidden="true"></i>
+									<span class="sui-notice-icon sui-icon-info sui-md" aria-hidden="true"></span>
 									<p>
 										<?php if ( $htaccess_writable && $already_enabled ) : ?>
 											<?php esc_html_e( 'You’ve made changes to your browser cache settings. You need to update your .htaccess or nginx.conf file with the newly generated code below.', 'wphb' ); ?>
@@ -159,7 +166,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							Utils::get_caching_frequencies_dropdown(
 								array(
 									'name'      => 'set-expiry-all',
-									'class'     => 'wphb-expiry-select',
+									'class'     => 'sui-select wphb-expiry-select',
 									'selected'  => $cf_current,
 									'data-type' => 'all',
 								),
@@ -211,7 +218,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<div data-panes>
 					<div class="active">
 						<p>
-							<?php esc_html_e( 'Hummingbird can automatically apply browser caching for Apache servers by writing your .htaccess file. Alternately, switch to Manual to apply these rules yourself.', 'wphb' ); ?>
+							<?php esc_html_e( 'Hummingbird can automatically apply browser caching for Apache/LiteSpeed servers by writing your .htaccess file. Alternately, switch to Manual to apply these rules yourself.', 'wphb' ); ?>
 						</p>
 
 						<?php
@@ -234,7 +241,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<?php elseif ( ! $already_enabled ) : ?>
 									<a href="<?php echo esc_url( $enable_link ); ?>" class="sui-button sui-button-blue activate-button">
 										<span class="sui-loading-text"><?php esc_html_e( 'Activate', 'wphb' ); ?></span>
-										<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
+										<span class="sui-icon-loader sui-loading" aria-hidden="true"></span>
 									</a>
 								<?php endif; ?>
 							</div>
@@ -256,7 +263,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 							<p><strong>Troubleshooting</strong></p>
 							<p><?php esc_html_e( 'If adding the rules to your .htaccess doesn’t work and you have access to vhosts.conf or httpd.conf try to find the line that starts with <Directory> - add the code above into that section and save the file.', 'wphb' ); ?></p>
-							<p><?php esc_html_e( "If you don't know where those files are, or you aren't able to reload Apache, you would need to consult with your hosting provider or a system administrator who has access to change the configuration of your server", 'wphb' ); ?></p>
+							<p><?php esc_html_e( "If you don't know where those files are, or you aren't able to reload Apache/LiteSpeed, you would need to consult with your hosting provider or a system administrator who has access to change the configuration of your server", 'wphb' ); ?></p>
 							<p><?php Utils::still_having_trouble_link(); ?></p>
 						</div>
 					</div>
@@ -310,6 +317,45 @@ if ( ! defined( 'ABSPATH' ) ) {
 					);
 					?>
 				</p>
+			<?php endif; ?>
+		</div>
+
+		<div id="wphb-server-instructions-litespeed" class="wphb-server-instructions sui-hidden" data-server="litespeed">
+			<?php if ( $already_enabled ) : ?>
+				<?php $this->admin_notices->show_inline( esc_html__( 'Your browser caching is already enabled and working well', 'wphb' ) ); ?>
+			<?php elseif ( $htaccess_writable && $htaccess_written ) : ?>
+				<?php
+				$this->admin_notices->show_inline(
+					esc_html__( 'Automatic browser caching is active.', 'wphb' ),
+					'info'
+				);
+				?>
+			<?php else : ?>
+				<p>
+					<?php esc_html_e( 'Follow the steps below to add browser caching to your Open LiteSpeed server.', 'wphb' ); ?>
+				</p>
+
+				<ol class="wphb-listing wphb-listing-ordered">
+					<li>
+						<?php
+						printf( /* translators: %1$s - opening strong tag, %2$s - closing strong tag, %3$s: Link to TechNet */
+							__( 'Manually configure the %1$sCache-Control%2$s header for browser caching in your WebAdmin Console following the Open LiteSpeed guide <a href="%3$s" target="_blank">here</a>.', 'wphb' ),
+							'<strong>',
+							'</strong>',
+							'https://openlitespeed.org/kb/how-to-set-up-custom-headers/'
+						);
+						?>
+					</li>
+					<li>
+						<?php
+						printf( /* translators: %1$s - opening strong tag, %2$s - closing strong tag */
+							esc_html__( 'Set Expires by Type to %1$s31536000 (1 year)%2$s to meet Google’s recommended benchmark.', 'wphb' ),
+							'<strong>',
+							'</strong>'
+						);
+						?>
+					</li>
+				</ol>
 			<?php endif; ?>
 		</div>
 
@@ -375,11 +421,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			<script type="text/template" id="cloudflare-step-zone">
 				<div class="cloudflare-step">
-					<form action="" method="post" id="cloudflare-zone">
+					<form action="" method="post" id="cloudflare-zone-form">
 						<# if ( ! data.zones.length ) { #>
 							<p><?php esc_html_e( 'It appears you have no active zones available. Double check your domain has been added to Cloudflare and try again.', 'wphb' ); ?></p>
 							<p class="cloudflare-submit">
-								<a href="<?php echo esc_url( Utils::get_admin_menu_url( 'caching' ) ); ?>&reload=<?php echo time(); ?>#wphb-box-dashboard-cloudflare" class="sui-button sui-button-blue">
+								<a href="<?php echo esc_url( Utils::get_admin_menu_url( 'caching' ) ); ?>&view=caching&reload=<?php echo time(); ?>#connect-cloudflare" class="sui-button sui-button-blue">
 									<?php esc_html_e( 'Re-Check', 'wphb' ); ?>
 								</a>
 							</p>
@@ -397,7 +443,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									<label for="cloudflare-zone" class="sui-label">
 										<?php esc_html_e( 'Select the zone that matches your domain name', 'wphb' ); ?>
 									</label>
-									<select name="cloudflare-zone" id="cloudflare-zone">
+									<select class="sui-select" name="cloudflare-zone" id="cloudflare-zone" data-width="250">
 										<option value=""><?php esc_html_e( 'Select zone', 'wphb' ); ?></option>
 										<# for ( i in data.zones ) { #>
 											<option value="{{ data.zones[i].value }}">{{{ data.zones[i].label }}}</option>
@@ -414,8 +460,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 									'warning sui-margin-top',
 									sprintf( /* translators: %1$s - opening a tag, %2$s - </a> */
 										esc_html__( '%1$sRe-check%2$s', 'wphb' ),
-										'<button class="sui-button sui-button-icon-left" id="cf-recheck-zones"><span class="sui-loading-text"><i class="sui-icon-update" aria-hidden="true"></i>',
-										'</span><i class="sui-icon-loader sui-loading" aria-hidden="true"></i></button>'
+										'<button class="sui-button sui-button-icon-left" id="cf-recheck-zones"><span class="sui-loading-text"><span class="sui-icon-update" aria-hidden="true"></span>',
+										'</span><span class="sui-icon-loader sui-loading" aria-hidden="true"></span></button>'
 									)
 								);
 								?>
@@ -424,7 +470,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</form>
 
 					<a href="<?php echo esc_url( $cf_disable_url ); ?>" class="sui-button sui-button-ghost sui-margin-top">
-						<i class="sui-icon-power-on-off" aria-hidden="true"></i>
+						<span class="sui-icon-power-on-off" aria-hidden="true"></span>
 						<?php esc_attr_e( 'Deactivate', 'wphb' ); ?>
 					</a>
 				</div>
@@ -440,7 +486,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					?>
 					<div class="buttons buttons-on-left">
 						<a href="<?php echo esc_url( $cf_disable_url ); ?>" class="cloudflare-deactivate sui-button sui-button-ghost sui-button-icon-left">
-							<i class="sui-icon-power-on-off" aria-hidden="true"></i>
+							<span class="sui-icon-power-on-off" aria-hidden="true"></span>
 							<?php esc_attr_e( 'Deactivate', 'wphb' ); ?>
 						</a>
 						<span class="alignright sui-tooltip sui-tooltip-top-right" data-tooltip="<?php esc_attr_e( 'Clear all assets cached by CloudFlare', 'wphb' ); ?>">

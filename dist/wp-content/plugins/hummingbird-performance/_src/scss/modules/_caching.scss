@@ -54,7 +54,7 @@
 
 .wpmud .wrap-wphb-caching .box-summary.sui-summary:not(.sui-rebranded):not(.sui-unbranded):not(.sui-summary-sm) {
     @if variable-exists(summary-image) {
-        @include background-2x("#{$image--path}/graphic-caching-top", 'png', 192px, 172px, 30px 100%);
+        @include background-2x("#{$image--path}/summary-graphic-caching", 'png', 192px, 172px, 30px 100%);
     }
 
     @include media(max-width, md) {
@@ -65,7 +65,7 @@
 /**
  * Page caching meta box
  */
-.wpmud .box-caching-page {
+.wpmud .box-caching-page-caching {
     /* Two column layouts: used in page types table */
     .wphb-dash-table.three-columns > .wphb-dash-table-row > div {
         flex-basis: 25%;
@@ -112,9 +112,15 @@
 /**
  * Browser caching meta box
  */
-.sui-wrap .box-caching-status .sui-upsell-notice span {
-    display: block;
-    margin-top: 10px;
+.sui-wrap .box-caching-status {
+    .sui-upsell-notice span:not([class*="sui-icon-"]) {
+        display: block;
+        margin-top: 10px;
+    }
+
+    .wphb-caching-summary-item-expiry .sui-tag.sui-tag-disabled {
+        color: #333333;
+    }
 }
 .sui-wrap:not(.sui-color-accessible) .box-dashboard-browser-caching-module .sui-upsell-notice p,
 .sui-wrap:not(.sui-color-accessible) .box-caching-status .sui-upsell-notice p {
@@ -125,12 +131,6 @@
         &:hover { color: #fff !important }
     }
     a:not(.sui-button) { color: #17a8e3 !important; }
-}
-
-.sui-wrap .box-caching-status {
-    .wphb-caching-summary-item-expiry .sui-tag {
-        color: #333333;
-    }
 }
 
 /**

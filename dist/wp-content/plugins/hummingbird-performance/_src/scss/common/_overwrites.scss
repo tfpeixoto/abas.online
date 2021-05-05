@@ -15,6 +15,11 @@ button.notice-dismiss {
     cursor: pointer !important;
 }
 
+// Fix select overlapping other elements.
+.wpmud .sui-select.sui-select-dropdown-container--open {
+    z-index: 999;
+}
+
 .wpmud .wphb-dismiss {
     float: right;
 }
@@ -57,12 +62,6 @@ button.notice-dismiss {
 
 .wpmud .sui-wrap .sui-summary.sui-rebranded {
     background-image: none !important;
-}
-
-/* Multiselect SUI placeholder width */
-.wpmud .sui-wrap select.sui-select+.select2-container .select2-selection--multiple .select2-selection__rendered .select2-search--inline {
-    min-width: 250px;
-    width: auto;
 }
 
 /* Upgrade page button issue */

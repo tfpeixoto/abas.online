@@ -59,7 +59,7 @@ class Gzip extends Page {
 		wp_enqueue_script(
 			'wphb-react-gzip',
 			WPHB_DIR_URL . 'admin/assets/js/wphb-react-gzip.min.js',
-			array( 'wp-i18n' ),
+			array( 'wp-i18n', 'lodash' ),
 			WPHB_VERSION,
 			true
 		);

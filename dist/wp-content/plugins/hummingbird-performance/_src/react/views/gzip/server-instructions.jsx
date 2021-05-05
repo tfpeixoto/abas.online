@@ -106,7 +106,7 @@ export default class ServerInstructions extends React.Component {
 
 		const enableButton = this.props.htaccessWritten ? (
 			<Button
-				onClick={ this.props.disableGzip }
+				onClick={ this.props.disable }
 				classes={ [
 					'sui-button',
 					'sui-button-ghost',
@@ -116,7 +116,7 @@ export default class ServerInstructions extends React.Component {
 			/>
 		) : (
 			<Button
-				onClick={ this.props.enableGzip }
+				onClick={ this.props.enable }
 				classes={ [
 					'sui-button',
 					'sui-button-blue',
@@ -178,7 +178,7 @@ export default class ServerInstructions extends React.Component {
 						<div className="active">
 							<span className="sui-description">
 								{ __(
-									'Hummingbird can automatically apply GZip compression for Apache servers by writing your .htaccess file. Alternately, switch to Manual to apply these rules yourself.'
+									'Hummingbird can automatically apply GZip compression for Apache/LiteSpeed servers by writing your .htaccess file. Alternately, switch to Manual to apply these rules yourself.'
 								) }
 							</span>
 							{ this.props.htaccessWritable &&
@@ -247,13 +247,15 @@ export default class ServerInstructions extends React.Component {
 								<ol className="wphb-listing wphb-listing-ordered">
 									<li>
 										{ __(
-											'Look for your site in the file and find the line that starts with &lt;Directory> - add the code above into that section and save the file.'
+											'Look for your site in the file and find the line that starts with <Directory> - add the code above into that section and save the file.'
 										) }
 									</li>
-									<li>{ __( 'Reload Apache.' ) }</li>
+									<li>
+										{ __( 'Reload Apache/LiteSpeed.' ) }
+									</li>
 									<li>
 										{ __(
-											"If you don't know where those files are, or you aren't able to reload Apache, you would need to consult with your hosting provider or a system administrator who has access to change the configuration of your server"
+											"If you don't know where those files are, or you aren't able to reload Apache/LiteSpeed, you would need to consult with your hosting provider or a system administrator who has access to change the configuration of your server"
 										) }
 									</li>
 								</ol>
@@ -336,9 +338,32 @@ export default class ServerInstructions extends React.Component {
 	}
 
 	/**
+	 * Render Cloudflare tab.
+	 *
+	 * @since 2.7.2
+	 *
+	 * @return {*}  Tab content.
+	 */
+	renderCloudflareTabs() {
+		return (
+			<div
+				id="wphb-server-instructions-cloudflare"
+				className="wphb-server-instructions"
+				data-server="cloudflare"
+			>
+				<p className="sui-description">
+					{ __(
+						'Hummingbird can control your CloudFlare GZip compression settings from here. Simply add your CloudFlare API details and configure away'
+					) }
+				</p>
+			</div>
+		);
+	}
+
+	/**
 	 * Render component.
 	 *
-	 * @return {React.Component}  ServerInstructions component.
+	 * @return {JSX.Element}  ServerInstructions component.
 	 */
 	render() {
 		if ( this.props.htaccessWritten && this.props.fullyEnabled ) {
@@ -351,7 +376,7 @@ export default class ServerInstructions extends React.Component {
 						) }
 					/>
 					<Button
-						onClick={ this.props.disableGzip }
+						onClick={ this.props.disable }
 						classes={ [ 'sui-button', 'sui-button-ghost' ] }
 						text={ __( 'Deactivate' ) }
 					/>
@@ -363,11 +388,11 @@ export default class ServerInstructions extends React.Component {
 			<React.Fragment>
 				{ 'apache' === this.props.currentServer &&
 					this.renderApacheTabs() }
-
 				{ 'nginx' === this.props.currentServer &&
 					this.renderNginxTabs() }
-
 				{ 'iis' === this.props.currentServer && this.renderIisTabs() }
+				{ 'cloudflare' === this.props.currentServer &&
+					this.renderCloudflareTabs() }
 			</React.Fragment>
 		);
 	}

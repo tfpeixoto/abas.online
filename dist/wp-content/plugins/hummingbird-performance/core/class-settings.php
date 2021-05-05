@@ -87,7 +87,7 @@ class Settings {
 				'file_path'    => '',
 				// Only for multisites. Toggles minification in a subsite
 				// By default is true as if 'minify'-'enabled' is set to false, this option has no meaning.
-				'minify_blog'  => true,
+				'minify_blog'  => false,
 				'view'         => 'basic', // Accepts: 'basic' or 'advanced'.
 				'type'         => 'speedy', // Accepts: 'speedy' or 'basic'.
 				'do_assets'    => array( // Assets to optimize.

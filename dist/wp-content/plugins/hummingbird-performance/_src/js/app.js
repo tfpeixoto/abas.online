@@ -1,3 +1,5 @@
+import '../scss/app.scss';
+
 /**
  * Various scripts for modules.
  */

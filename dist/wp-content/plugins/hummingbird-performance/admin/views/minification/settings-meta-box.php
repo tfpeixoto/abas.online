@@ -201,11 +201,11 @@ $is_site_cdn_enabled = $cdn_status && $is_member;
 
 				<div class="wphb-logging-buttons">
 					<a href="<?php echo esc_url( $download_url ); ?>" class="sui-button sui-button-ghost" <?php disabled( ! $logs_link, true ); ?>>
-						<i class="sui-icon-download" aria-hidden="true"></i>
+						<span class="sui-icon-download" aria-hidden="true"></span>
 						<?php esc_html_e( 'Download Logs', 'wphb' ); ?>
 					</a>
 					<a href="#" class="sui-button sui-button-ghost sui-button-red wphb-logs-clear" data-module="minify" <?php disabled( ! $logs_link, true ); ?>>
-						<i class="sui-icon-trash" aria-hidden="true"></i>
+						<span class="sui-icon-trash" aria-hidden="true"></span>
 						<?php esc_html_e( 'Clear', 'wphb' ); ?>
 					</a>
 				</div>

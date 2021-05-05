@@ -71,7 +71,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="sui-accordion-item sui-<?php echo esc_attr( $impact_score_class ); ?>" id="<?php echo esc_attr( $rule ); ?>">
 			<div class="sui-accordion-item-header">
 				<div class="sui-accordion-item-title">
-					<i aria-hidden="true" class="sui-icon-<?php echo esc_attr( $impact_icon_class ); ?> sui-<?php echo esc_attr( $impact_score_class ); ?>"></i> <?php echo esc_html( $rule_result->title ); ?>
+					<span aria-hidden="true" class="sui-icon-<?php echo esc_attr( $impact_icon_class ); ?> sui-<?php echo esc_attr( $impact_score_class ); ?>"></span> <?php echo esc_html( $rule_result->title ); ?>
 				</div>
 				<div>
 					<?php $gray_class = isset( $score ) && 0 === $score ? 'wphb-gray-color' : ''; ?>
@@ -82,7 +82,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<?php if ( ! empty( $rule_result->description ) || ! empty( $rule_result->tip ) ) : ?>
 							<?php echo isset( $rule_result->displayValue ) ? esc_html( $rule_result->displayValue ) : esc_html__( 'N/A', 'wphb' ); ?>
 							<button class="sui-button-icon sui-accordion-open-indicator" aria-label="<?php esc_attr_e( 'Open item', 'wphb' ); ?>">
-								<i class="sui-icon-chevron-down" aria-hidden="true"></i>
+								<span class="sui-icon-chevron-down" aria-hidden="true"></span>
 							</button>
 						<?php endif; ?>
 					<?php endif; ?>

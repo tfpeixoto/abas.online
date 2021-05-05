@@ -14,7 +14,6 @@ namespace Hummingbird\Core\Modules;
 use Hummingbird\Core\Module;
 use Hummingbird\Core\Settings;
 use Hummingbird\Core\Traits\Module as ModuleContract;
-use Hummingbird\Core\Utils;
 use stdClass;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -675,9 +674,9 @@ class Advanced extends Module {
 
 		$dump_server[ __( 'Software Name', 'wphb' ) ]     = $server[0];
 		$dump_server[ __( 'Software Version', 'wphb' ) ]  = $server_version;
-		$dump_server[ __( 'Server IP', 'wphb' ) ]         = @$_SERVER['SERVER_ADDR'];
-		$dump_server[ __( 'Server Hostname', 'wphb' ) ]   = @$_SERVER['SERVER_NAME'];
-		$dump_server[ __( 'Server Admin', 'wphb' ) ]      = @$_SERVER['SERVER_ADMIN'];
+		$dump_server[ __( 'Server IP', 'wphb' ) ]         = isset( $_SERVER['SERVER_ADDR'] ) ? wp_unslash( $_SERVER['SERVER_ADDR'] ) : __( 'undefined', 'wphb' );
+		$dump_server[ __( 'Server Hostname', 'wphb' ) ]   = isset( $_SERVER['SERVER_NAME'] ) ? wp_unslash( $_SERVER['SERVER_NAME'] ) : __( 'undefined', 'wphb' );
+		$dump_server[ __( 'Server Admin', 'wphb' ) ]      = isset( $_SERVER['SERVER_ADMIN'] ) ? wp_unslash( $_SERVER['SERVER_ADMIN'] ) : __( 'undefined', 'wphb' );
 		$dump_server[ __( 'Server local time', 'wphb' ) ] = date( 'Y-m-d H:i:s (\U\T\C P)' );
 		$dump_server[ __( 'Operating System', 'wphb' ) ]  = @php_uname( 's' );
 		$dump_server[ __( 'OS Hostname', 'wphb' ) ]       = @php_uname( 'n' );
@@ -708,39 +707,6 @@ class Advanced extends Module {
 		} else {
 			return __( 'TRUE', 'wphb' );
 		}
-	}
-
-	/**
-	 * Get database data and index sizes.
-	 *
-	 * @since 2.7.0
-	 *
-	 * @return array
-	 */
-	public function get_db_size() {
-		global $wpdb;
-
-		if ( ! defined( 'DB_NAME' ) ) {
-			return array(
-				'data_size'  => 0,
-				'index_size' => 0,
-			);
-		}
-
-		$table_info = $wpdb->get_row(
-			$wpdb->prepare(
-				"SELECT SUM( DATA_LENGTH ) as data, SUM( INDEX_LENGTH ) as 'index'
-					   FROM information_schema.TABLES
-					   WHERE TABLE_SCHEMA = %s AND TABLE_NAME LIKE %s;",
-				DB_NAME,
-				$wpdb->get_blog_prefix( get_current_blog_id() ) . '%'
-			)
-		); // DB call ok; no-cache ok.
-
-		return array(
-			'data_size'  => Utils::format_bytes( $table_info->data ),
-			'index_size' => Utils::format_bytes( $table_info->index ),
-		);
 	}
 
 	/**

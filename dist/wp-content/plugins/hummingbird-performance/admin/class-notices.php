@@ -278,7 +278,7 @@ class Notices {
 		<div class="sui-notice sui-notice-<?php echo esc_attr( $class ); ?>">
 			<div class="sui-notice-content">
 				<div class="sui-notice-message">
-					<i class="sui-notice-icon sui-icon-info sui-md" aria-hidden="true"></i>
+					<span class="sui-notice-icon sui-icon-info sui-md" aria-hidden="true"></span>
 					<p><?php echo wp_kses_post( $message ); ?></p>
 					<?php foreach ( $data as $p ) : ?>
 						<?php if ( ! empty( $p ) ) : ?>
@@ -367,7 +367,7 @@ class Notices {
 		<div class="sui-notice <?php echo esc_attr( $class ); ?>" id="<?php echo esc_attr( $id ); ?>" role="alert" style="display: block">
 			<div class="sui-notice-content">
 				<div class="sui-notice-message">
-					<i class="sui-notice-icon sui-icon-info sui-md" aria-hidden="true"></i>
+					<span class="sui-notice-icon sui-icon-info sui-md" aria-hidden="true"></span>
 					<p><?php echo wp_kses_post( $message ); ?></p>
 					<p>
 						<a role="button" href="#" style="color: #888;text-transform: uppercase" onclick="WPHB_Admin.notices.dismiss( this )">
@@ -463,7 +463,7 @@ class Notices {
 
 		// Show only if at least 7 days have past after installation of the free version.
 		$free_installation = get_site_option( 'wphb-free-install-date' );
-		if ( ( current_time( 'timestamp' ) - (int) $free_installation ) < 604800 ) {
+		if ( ( time() - (int) $free_installation ) < 604800 ) {
 			return;
 		}
 

@@ -1,4 +1,8 @@
+/* global wphb */
+/* global WPHB_Admin */
+
 import Fetcher from '../utils/fetcher';
+import { getString } from '../utils/helpers';
 
 ( function ( $ ) {
 	WPHB_Admin.cloudflare = {
@@ -35,11 +39,13 @@ import Fetcher from '../utils/fetcher';
 					spinner.removeClass( 'visible' );
 					button.removeClass( 'disabled' );
 
+					window.wphbBrowserCachingReactRefresh();
+
 					if ( 'undefined' !== typeof response && response.success ) {
 						WPHB_Admin.notices.show();
 					} else {
 						WPHB_Admin.notices.show(
-							wphb.strings.errorSettingsUpdate,
+							getString( 'errorSettingsUpdate' ),
 							'error'
 						);
 					}

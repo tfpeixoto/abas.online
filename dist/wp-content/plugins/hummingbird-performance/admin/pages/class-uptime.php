@@ -257,7 +257,7 @@ class Uptime extends Page {
 		<label for="wphb-uptime-data-range" class="inline-label header-label sui-hidden-xs sui-hidden-sm">
 			<?php esc_html_e( 'Reporting period', 'wphb' ); ?>
 		</label>
-		<select name="wphb-uptime-data-range" class="uptime-data-range sui-select-sm" id="wphb-uptime-data-range">
+		<select name="wphb-uptime-data-range" class="uptime-data-range sui-select sui-select-sm" id="wphb-uptime-data-range" data-width="120px">
 			<?php
 			foreach ( $data_ranges as $range => $label ) :
 				$data_url = add_query_arg(
@@ -289,7 +289,7 @@ class Uptime extends Page {
 
 			$class = empty( $options['recipients'] ) || ! $options['enabled'] ? 'sui-icon-check-tick sui-success sui-hidden' : 'sui-icon-check-tick sui-success';
 			// Nothing to display if not enabled.
-			echo '<i class="' . esc_attr( $class ) . '" aria-hidden="true"></i>';
+			echo '<span class="' . esc_attr( $class ) . '" aria-hidden="true"></span>';
 		}
 	}
 

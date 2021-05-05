@@ -45,7 +45,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<?php
 		foreach ( $human_results as $type => $result ) :
-			if ( $result && $recommended[ $type ]['value'] <= $results[ $type ] ) {
+			$index = strtolower( $type );
+			if ( $result && $recommended[ $index ]['value'] <= $results[ $type ] ) {
 				$result_status       = $result;
 				$result_status_color = 'success';
 				$tooltip_text        = __( 'Caching is enabled', 'wphb' );
@@ -61,30 +62,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 			?>
 			<li>
 				<span class="sui-list-label">
-					<span class="wphb-filename-extension wphb-filename-extension-<?php echo esc_attr( $type ); ?> sui-tooltip sui-tooltip-top-left sui-tooltip-constrained" data-tooltip="<?php echo esc_attr( $caching_type_tooltips[ $type ] ); ?>">
+					<span class="wphb-filename-extension wphb-filename-extension-<?php echo esc_attr( $index ); ?> sui-tooltip sui-tooltip-top-left sui-tooltip-constrained" data-tooltip="<?php echo esc_attr( $caching_type_tooltips[ $index ] ); ?>">
 						<?php
-						switch ( $type ) {
+						switch ( $index ) {
 							case 'javascript':
 							default:
-								$label = 'JavaScript';
 								echo 'js';
 								break;
 							case 'images':
-								$label = 'Images';
 								echo 'img';
 								break;
 							case 'css':
-								$label = 'CSS';
-								echo esc_html( $type );
-								break;
 							case 'media':
-								$label = 'Media';
-								echo esc_html( $type );
+								echo esc_html( $index );
 								break;
 						}
 						?>
 					</span>
-					<span class="wphb-filename-extension-label"><?php echo esc_html( $label ); ?></span>
+					<span class="wphb-filename-extension-label"><?php echo esc_html( $type ); ?></span>
 				</span>
 				<span class="sui-list-detail">
 					<span class="sui-tag sui-tag-<?php echo esc_attr( $result_status_color ); ?> sui-tooltip sui-tooltip-top-left sui-tooltip-constrained" data-tooltip="<?php echo esc_attr( $tooltip_text ); ?>">

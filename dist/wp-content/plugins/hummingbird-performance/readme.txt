@@ -1,14 +1,14 @@
 === Hummingbird – Optimize Speed, Enable Cache, Minify CSS & Defer Critical JS ===
 Plugin Name: Hummingbird – Optimize Speed, Enable Cache, Minify CSS & Defer Critical JS
-Version: 2.7.0
+Version: 2.7.4
 Author: WPMU DEV
-Author URI: https://premium.wpmudev.org/
+Author URI: https://wpmudev.com/
 Contributors: WPMUDEV
 Tags: defer css javascript, cache, minify css, minify javascript, speed up wordpress, page cache, wordpress speed optimization, page speed, wordpress cache plugin, wordpress performance optimization, lazy load, performance optimization, seo, pagespeed, wp cache
-Requires at least: 4.6
-Tested up to: 5.5
+Requires at least: 5.2
+Tested up to: 5.7
 Requires PHP: 5.6
-Stable tag: 2.7.0
+Stable tag: 2.7.4
 License: GPLv2
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -47,6 +47,12 @@ You’ll get faster loading pages, higher search rankings (SERP) and PageSpeed s
 - Better Rankings – Improve scores on Google PageSpeed Insights (SEO ranking factor), YSlow, Pingdom, and GTmetrix.
 - Increase Your Conversion Rate - Don’t keep visitors waiting: faster sites convert better.
 - GZIP Compression – Blazing-fast HTML, JavaScript, and stylesheet (CSS) transfer.
+
+### Learn The Ropes With These Hands-On Hummingbird Tutorials
+
+- [How To Optimize WordPress For Speed With Hummingbird](https://wpmudev.com/blog/optimize-wordpress-speed-hummingbird/)
+- [How To Optimize Elementor for Free Using Smush and Hummingbird](https://wpmudev.com/blog/optimize-elementor-wordpress-smush-hummingbird/)
+- [How To Optimize WPBakery Sites Using Smush And Hummingbird](https://wpmudev.com/blog/optimize-wordpress-wpbakery-free-plugins/)
 
 = Hummingbird Features to Speed Up WordPress =
 
@@ -96,24 +102,24 @@ You get our WordPress performance optimization suite, which includes minificatio
 
 Hummingbird is built with ease-of-use in mind; it makes your WordPress site faster, but it’s also fast to set up. You can scan your site and implement recommended changes in one-click, getting a fast site in mere minutes.
 
-All the above is free and will speed up WordPress for you. **If you need the very fastest WordPress site, [you should get a WPMU DEV Membership](https://premium.wpmudev.org/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=hummingbird-readme&utm_content=you_should_get_wpmudev_membership#trial).**
+All the above is free and will speed up WordPress for you. **If you need the very fastest WordPress site, [you should get a WPMU DEV Membership](https://wpmudev.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=hummingbird-readme&utm_content=you_should_get_wpmudev_membership#trial).**
 
 Our Membership gives you access to Hummingbird Pro – which features automated scanning, uptime monitoring, enhanced minify compression (with 2x the regular optimization), CDN hosted minification – alongside Smush Pro image optimization, all our premium WordPress plugins, and 24/7 WordPress support.
 
-[It’s an incredible deal, and you can find out more here.](https://premium.wpmudev.org/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=hummingbird-readme&utm_content=and_you_can_find_out_more_here#trial)
+[It’s an incredible deal, and you can find out more here.](https://wpmudev.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=hummingbird-readme&utm_content=and_you_can_find_out_more_here#trial)
 
-If you’d like automated scanning, uptime monitoring, enhanced minify compression with up to 2x the regular optimization, CDN hosted modification, and Smush Pro image optimization, you can always take the next step with a [WPMU DEV Membership.](https://premium.wpmudev.org/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=hummingbird-readme&utm_content=wpmudev_membership#trial)
+If you’d like automated scanning, uptime monitoring, enhanced minify compression with up to 2x the regular optimization, CDN hosted modification, and Smush Pro image optimization, you can always take the next step with a [WPMU DEV Membership.](https://wpmudev.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=hummingbird-readme&utm_content=wpmudev_membership#trial)
 
 = What do People say About Hummingbird? =
 
 ★★★★★
-> “**Hummingbird is so easy to use**. I thought it wouldn't change my speed much because I already made improvements. I ran the scan, it gave me recommendations, I pushed a button to apply them and it made my site even faster!” - [Camilo](https://premium.wpmudev.org/profile/juancamilobuitrago)
+> “**Hummingbird is so easy to use**. I thought it wouldn't change my speed much because I already made improvements. I ran the scan, it gave me recommendations, I pushed a button to apply them and it made my site even faster!” - [Camilo](https://wpmudev.com/profile/juancamilobuitrago)
 
 ★★★★★
 > “Hummingbird is getting smarter with each update. Today it's become so good that it forced me to remove giant cache and optimization plugins like WP Super Cache and WP Sweep because now Hummingbird includes all those features – but in a more impressive way.” - [swagatam1975](https://wordpress.org/support/users/swagatam1975/)
 
 ★★★★★
-> “**Hummingbird took me from 32 to 84 on Google page speed** plus made my site 50% faster on GTmetrix!” - [Nicolas](https://premium.wpmudev.org/profile/nicolastergiopoulos)
+> “**Hummingbird took me from 32 to 84 on Google page speed** plus made my site 50% faster on GTmetrix!” - [Nicolas](https://wpmudev.com/profile/nicolastergiopoulos)
 
 ★★★★★
 > “I just built a real bloated sack of crap of a WP site, and after configuring Hummingbird and letting it do its thing, the site is actually *fast* — much faster than it has any right to be...I’m impressed.” - [Cacarr](https://wordpress.org/support/topic/better-than-i-deserve-2/)
@@ -125,7 +131,7 @@ Hey! This is Hummingbird, your trusted solution to speed up WordPress. I’m par
 - [Forminator](https://wordpress.org/plugins/forminator/) - Form, Quiz, Poll and Survey Builder
 - [Hustle](https://wordpress.org/plugins/wordpress-popup/) - Pop-ups, Slide-ins and Email Opt-ins
 
-And if you need ALL our Pro plugins AND 24/7 WordPress support, get WPMU DEV membership! You can try it for free: [premium.wpmudev.org](https://premium.wpmudev.org/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=hummingbird-readme&utm_content=link_wpmudev#trial)
+And if you need ALL our Pro plugins AND 24/7 WordPress support, get WPMU DEV membership! You can try it for free: [wpmudev.com](https://wpmudev.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=hummingbird-readme&utm_content=link_wpmudev#trial)
 
 My superhero friends run the WPMU DEV Blog, your source for the very best WordPress tutorials. If you need to be in the know about WordPress, check it out.
 
@@ -157,7 +163,7 @@ The free Hummingbird plugin is a powerful suite of WordPress speed optimization 
 
 Hummingbird Pro is available as part of the WPMU DEV Membership, and adds automated scanning, uptime monitoring, enhanced minify compression (with 2x the regular optimization), and CDN hosted minification. This will make your site even faster.
 
-Membership also gets you all our premium WordPress plugins, including Smush Pro, for the very best image optimization with image resizing, lazy load, and next-gen WebP convert, and 24/7 WordPress support. Hummingbird is a great free plugin, and Hummingbird Pro is even better. [You can find out more here.](https://premium.wpmudev.org/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=hummingbird-readme&utm_content=you_can_find_out_more#trial)
+Membership also gets you all our premium WordPress plugins, including Smush Pro, for the very best image optimization with image resizing, lazy load, and next-gen WebP convert, and 24/7 WordPress support. Hummingbird is a great free plugin, and Hummingbird Pro is even better. [You can find out more here.](https://wpmudev.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=hummingbird-readme&utm_content=you_can_find_out_more#trial)
 
 = Somebody help! I turned on Asset Optimization and it broke my site!? =
 
@@ -171,6 +177,80 @@ Asset Optimization is a great way to speed up your site but moving, combining, u
 4. Use suggestions to make improvements and speed up your site.
 
 == Changelog ==
+
+= 2.7.4 ( 2021-04-28) =
+
+- Fix broken package on wp.org
+
+= 2.7.3 ( 2021-03-12 ) =
+
+- New: Tutorials module
+- New: LiteSpeed instructions for Browser Caching module
+- Enhance: Update the Plugin Health module UI/UX
+- Enhance: REST API endpoints now require at least edit_posts capability
+- Enhance: Uptime reporting description
+- Enhance: Improve export/import description
+- Enhance: CSS above the fold description
+- Enhance: Privacy mode detection in GZIP compression module
+- Enhance: Asset Optimization UI/UX
+- Enhance: Asset Optimization processing of compressed assets
+- Enhance: Asset Optimization switching between modes
+- Enhance: Support for RGBA when optimizing CSS files
+- Enhance: Fallback to siteurl if HTTP_HOST is not defined when clearing cache
+- Fix: Recursive loops in Page Caching preloader
+- Fix: Asset Optimization not rewriting relative paths for inlined assets
+- Fix: Remove unused expiry time option for IIS servers in browser caching module
+- Fix: Page caching not properly detecting Asset Optimization CDN status
+- Fix: Page caching clearing all cache when static page is set as home page
+- Fix: Selects overlapping other DOM elements
+- Fix: PHP notice when re-checking browser caching status
+- Fix: PHP notice for undefined index db_frequency
+- Fix: Performance test notices on mobile
+
+= 2.7.2 ( 2021-02-25 ) =
+
+- New: Redis support for unix sockets
+- New: Select database for Redis integration
+- New: Add support for WOFF2 fonts in Browser Caching module
+- New: Support for LiteSpeed server in Browser Caching module
+- New: Clear Cloudflare cache from admin bar
+- Enhance: Asset Optimization notifications
+- Enhance: Asset Optimization support for RTL assets
+- Enhance: Integration with Varnish cache
+- Fix: Asset Optimization combining assets on Basic mode
+- Fix: Asset Optimization not being able to inline remote assets in rare cases
+- Fix: Asset Optimization duplicating inline scripts during processing
+- Fix: Asset Optimization improve handling of core WordPress scripts
+- Fix: Asset Optimization compatibility with Oxygen builder
+- Fix: Asset Optimization compatibility with Bimber theme
+- Fix: Browser Caching module overwriting individual expiry values
+- Fix: High contrast icons in Asset Optimization module
+- Fix: 500 server error when clearing Varnish cache from the dashboard
+- Fix: Tabs navigation on mobile devices
+
+= 2.7.1 ( 2021-01-18 ) =
+
+- New: Integration with ACF - page cache will be auto purged on changes in ACF options
+- New: Select what cache to clear from the dashboard page
+- Enhance: PHP 8.0 compatibility
+- Enhance: Asset Optimization handling expired assets
+- Enhance: Allow hiding Asset Optimization modals
+- Enhance: Remove unused assets from plugin package
+- Enhance: Plugin health module descriptions
+- Enhance: Performance in wp-admin
+- Enhance: jQuery 3 compatibility
+- Enhance: Compatibility with object cache
+- Fix: Cloudflare integration breaking Gzip server value on the Hub
+- Fix: Compatibility issues with Themeco Pro theme page builder
+- Fix: Asset Optimization not respecting order for some inlined assets
+- Fix: Do not auto enable Asset Optimization on new subsites in a network
+- Fix: Disable Asset Optimization on login pages
+- Fix: Cloudflare integration wizard UI
+- Fix: Cloudflare re-check status returning incorrect values
+- Fix: Browser cache returning false status
+- Fix: Page caching status on subsites
+- Fix: Notices on image optimization meta box on the dashboard page
+- Fix: Toggling page caching module from Hub
 
 = 2.7.0 ( 2020-11-12 ) =
 
@@ -236,48 +316,13 @@ Asset Optimization is a great way to speed up your site but moving, combining, u
 - Fix: Performance modal closing on initial scan
 - Fix: Preserve image ratios when branding
 
-= 2.5.3 ( 2020-08-11 ) =
-
-- Fix: Remove background color from critical.css file
-
-= 2.5.2 ( 2020-08-11 ) =
-
-- Enhance: Change default value for file change detection
-- Fix: register_rest_route was called incorrectly warning in WordPress 5.5
-- Fix: Asset Optimization not enabling in network admin in WordPress 5.5
-- Fix: Performance modal closing on initial scan
-
-= 2.5.1 ( 2020-07-21 ) =
-
-- Enhance: WordPress 5.5 compatibility
-- Fix: Performance scans getting stuck on a loop
-- Fix: Settings reset functionality
-
-= 2.5.0 ( 2020-07-20 ) =
-
-- New: Redis object cache
-- New: Comment lazy loading
-- Enhance: Performance report functionality
-- Enhance: Try to fetch latest performance report, if present on the Hub
-- Enhance: Compatibility with Oxygen builder
-- Enhance: Asset Optimization UI
-- Enhance: Performance reporting UI
-- Enhance: Uptime reporting UI
-- Enhance: Page cache handling of advanced-cache.php file
-- Fix: Asset Optimization not returning some assets back to WordPress queue
-- Fix: Asset Optimization not updating assets on version change
-- Fix: Cache clear from Hub
-- Fix: Deactivate button in Gzip module
-- Fix: Smush links in dashboard meta box
-- Fix: class-oembed.php is deprecated error
-
-[Changelog for previous versions](https://premium.wpmudev.org/project/wp-hummingbird/#view-changelog).
+[Changelog for previous versions](https://wpmudev.com/project/wp-hummingbird/#view-changelog).
 
 == About Us ==
 WPMU DEV is a premium supplier of quality WordPress plugins, services and support. Join us here:
-[https://premium.wpmudev.org/](https://premium.wpmudev.org/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=hummingbird-readme&utm_content=wpmu_dev_link)
+[https://wpmudev.com/](https://wpmudev.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=hummingbird-readme&utm_content=wpmu_dev_link)
 
 Don't forget to stay up to date on everything WordPress from the Internet's number one resource:
-[WPMU DEV Blog](https://premium.wpmudev.org/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=hummingbird-readme&utm_content=wpmu_dev_blog_link)
+[WPMU DEV Blog](https://wpmudev.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=hummingbird-readme&utm_content=wpmu_dev_blog_link)
 
 Hey, one more thing... we hope you enjoy our [free offerings](http://profiles.wordpress.org/WPMUDEV/) as much as we've loved making them for you!

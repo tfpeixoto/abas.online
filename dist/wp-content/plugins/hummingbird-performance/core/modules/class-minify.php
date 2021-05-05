@@ -10,7 +10,6 @@ namespace Hummingbird\Core\Modules;
 use Hummingbird\Core\Filesystem;
 use Hummingbird\Core\Module;
 use Hummingbird\Core\Settings;
-use Hummingbird\Core\Utils;
 use WP_Customize_Manager;
 use WP_Scripts;
 use WP_Styles;
@@ -87,6 +86,17 @@ class Minify extends Module {
 	);
 
 	/**
+	 * Exclusion list.
+	 *
+	 * @since 2.7.2  Added 'lodash' script. It has an inlined script 'window.lodash = _.noConflict();' that prevents
+	 *               errors in browser console. Without that line, many core WordPress scripts will error out.
+	 * @see https://incsub.atlassian.net/browse/HUM-404
+	 *
+	 * @var array $exclude_combine
+	 */
+	private $exclude_combine = array( 'lodash' );
+
+	/**
 	 * Initializes the module. Always executed even if the module is deactivated.
 	 *
 	 * We need the scanner module to be always active, because HB uses is_scanning to detect
@@ -96,15 +106,20 @@ class Minify extends Module {
 		$this->scanner = new Minify\Scanner();
 
 		add_filter( 'wp_hummingbird_is_active_module_minify', array( $this, 'minify_module_status' ) );
+
 		add_filter( 'wphb_block_resource', array( $this, 'filter_resource_block' ), 10, 5 );
-		add_filter( 'wphb_minify_resource', array( $this, 'filter_resource_minify' ), 10, 3 );
-		// Do not minify files that already are named with .min.
-		add_filter( 'wphb_minify_resource', array( $this, 'filter_minified_files' ), 15, 4 );
+		add_filter( 'wphb_minify_resource', array( $this, 'filter_resource_minify' ), 10, 4 );
 		add_filter( 'wphb_combine_resource', array( $this, 'filter_resource_combine' ), 10, 3 );
 		add_filter( 'wphb_defer_resource', array( $this, 'filter_resource_defer' ), 10, 3 );
 		add_filter( 'wphb_inline_resource', array( $this, 'filter_resource_inline' ), 10, 3 );
 		add_filter( 'wphb_send_resource_to_footer', array( $this, 'filter_resource_to_footer' ), 10, 3 );
 		add_filter( 'wphb_cdn_resource', array( $this, 'filter_resource_cdn' ), 10, 3 );
+
+		// Remove files from AO UI.
+		add_filter( 'wphb_minification_display_enqueued_file', array( $this, 'exclude_from_ao_ui' ), 10, 3 );
+
+		// Remove -rtl from CDN links.
+		add_filter( 'style_loader_tag', array( $this, 'remove_rtl_prefix_on_cdn' ) );
 	}
 
 	/**
@@ -149,9 +164,12 @@ class Minify extends Module {
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_critical_css' ), 5 );
 
+		// Disable module on login pages.
+		add_action( 'login_init', array( $this, 'disable_minify_on_page' ) );
+
 		$avoid_minify = filter_input( INPUT_GET, 'avoid-minify', FILTER_VALIDATE_BOOLEAN );
 		if ( $avoid_minify || 'wp-login.php' === $pagenow ) {
-			add_filter( 'wp_hummingbird_is_active_module_' . $this->get_slug(), '__return_false' );
+			$this->disable_minify_on_page();
 		}
 
 		if ( is_admin() || is_customize_preview() || ( $wp_customize instanceof WP_Customize_Manager ) ) {
@@ -162,6 +180,15 @@ class Minify extends Module {
 		add_filter( 'print_styles_array', array( $this, 'filter_styles' ), 5 );
 		add_filter( 'print_scripts_array', array( $this, 'filter_scripts' ), 5 );
 		add_action( 'wp_footer', array( $this, 'trigger_process_queue_cron' ), 10000 );
+	}
+
+	/**
+	 * Disable module on login pages. Fixes conflicts with Defender masked login and LoginPress.
+	 *
+	 * @since 2.7.1
+	 */
+	public function disable_minify_on_page() {
+		add_filter( 'wp_hummingbird_is_active_module_' . $this->get_slug(), '__return_false' );
 	}
 
 	/**
@@ -263,21 +290,27 @@ class Minify extends Module {
 
 		// Collect the handles information to use in admin later.
 		foreach ( $handles as $key => $handle ) {
-			// If this handle has an error, we will return it to WP without processing.
-			if ( $this->errors_controller->get_handle_error( $handle, $type ) ) {
+			/**
+			 * Not registered for some reason - return to WP.
+			 *
+			 * This has been added and removed from time to time. Not sure if this is the best way to do it, so I
+			 * will try to history of commits.
+			 *
+			 * @since 2.7.1  Reverted the previous fix.
+			 * @see https://incsub.atlassian.net/browse/HUM-294
+			 *
+			 * @since 2.7.2  Brought this back in a new updated way.
+			 * @see https://incsub.atlassian.net/browse/HUM-482
+			 */
+			if ( ! isset( $wp_dependencies->registered[ $handle ] ) ) {
 				$return_to_wp = array_merge( $return_to_wp, array( $handle ) );
 				unset( $handles[ $key ] );
 				continue;
 			}
 
 			// Only show items that have a handle and a source.
-			if ( isset( $wp_dependencies->registered[ $handle ] ) && ! empty( $wp_dependencies->registered[ $handle ]->src ) ) {
+			if ( ! empty( $wp_dependencies->registered[ $handle ]->src ) ) {
 				$this->sources_collector->add_to_collection( $wp_dependencies->registered[ $handle ], $type );
-			} else {
-				// Not registered for some reason - return to WP.
-				$return_to_wp = array_merge( $return_to_wp, array( $handle ) );
-				unset( $handles[ $key ] );
-				continue;
 			}
 
 			// If we aren't in footer, remove handles that need to go to footer.
@@ -370,16 +403,15 @@ class Minify extends Module {
 			$group_status = $groups_list->get_group_status( $group->hash );
 			$deps         = $groups_list->get_group_dependencies( $group->hash );
 
+			// The group has its file and is ready to be enqueued.
 			if ( 'ready' === $group_status ) {
-				// The group has its file and is ready to be enqueued.
 				$group->enqueue( self::is_in_footer(), $deps );
 				$return_to_wp = array_merge( $return_to_wp, array( $group->group_id ) );
 			} else {
-				// The group has not yet a file attached or it cannot be processed
-				// for some reason.
+				// The group has not yet a file attached or it cannot be processed for some reason.
 				foreach ( $group->get_handles() as $handle ) {
-					$new_id       = $group->enqueue_one_handle( $handle, self::is_in_footer(), $deps );
-					$return_to_wp = array_merge( $return_to_wp, array( $new_id ) );
+					$group->enqueue_one_handle( $handle, self::is_in_footer(), $deps );
+					$return_to_wp = array_merge( $return_to_wp, array( $handle ) );
 				}
 
 				if ( 'process' === $group_status ) {
@@ -885,6 +917,7 @@ class Minify extends Module {
 	 */
 	public function delete_pending_persistent_queue() {
 		delete_option( 'wphb_process_queue' );
+		wp_cache_delete( 'wphb_process_queue', 'options' );
 	}
 
 	/**
@@ -912,13 +945,13 @@ class Minify extends Module {
 
 			// Reset the minification settings.
 			if ( $reset_minify ) {
-				$options['dont_minify'] = $default_options['minify']['dont_minify'];
+				$options['dont_minify']  = $default_options['minify']['dont_minify'];
+				$options['dont_combine'] = $default_options['minify']['dont_combine'];
 			}
-			$options['block']        = $default_options['minify']['block'];
-			$options['dont_combine'] = $default_options['minify']['dont_combine'];
-			$options['position']     = $default_options['minify']['position'];
-			$options['defer']        = $default_options['minify']['defer'];
-			$options['inline']       = $default_options['minify']['inline'];
+			$options['block']    = $default_options['minify']['block'];
+			$options['position'] = $default_options['minify']['position'];
+			$options['defer']    = $default_options['minify']['defer'];
+			$options['inline']   = $default_options['minify']['inline'];
 			$this->update_options( $options );
 		}
 
@@ -937,6 +970,7 @@ class Minify extends Module {
 	 */
 	public static function clear_pending_process_queue() {
 		delete_option( 'wphb_process_queue' );
+		wp_cache_delete( 'wphb_process_queue', 'options' );
 		delete_transient( 'wphb-processing' );
 	}
 
@@ -1039,35 +1073,23 @@ class Minify extends Module {
 	 * @param bool   $value   Current value.
 	 * @param string $handle  Resource handle.
 	 * @param string $type    Script or style.
+	 * @param string $url     Script URL.
 	 *
 	 * @return bool
 	 */
-	public function filter_resource_minify( $value, $handle, $type ) {
+	public function filter_resource_minify( $value, $handle, $type, $url ) {
 		$options = $this->get_options();
 		$minify  = $options['dont_minify'][ $type ];
 		if ( is_array( $minify ) && in_array( $handle, $minify, true ) ) {
 			return false;
 		}
 
-		return $value;
-	}
-
-	/**
-	 * Filter already minified resources.
-	 *
-	 * @param bool   $minify  Current value.
-	 * @param string $handle  Resource handle.
-	 * @param string $type    Script or style.
-	 * @param string $url     Script URL.
-	 *
-	 * @return bool
-	 */
-	public function filter_minified_files( $minify, $handle, $type, $url ) {
+		// Filter already minified resources.
 		if ( preg_match( '/\.min\.(css|js)/', basename( $url ) ) ) {
 			return false;
 		}
 
-		return $minify;
+		return $value;
 	}
 
 	/**
@@ -1083,6 +1105,10 @@ class Minify extends Module {
 		$options = $this->get_options();
 		$combine = $options['dont_combine'][ $type ];
 		if ( in_array( $handle, $combine, true ) ) {
+			return false;
+		}
+
+		if ( in_array( $handle, $this->exclude_combine, true ) ) {
 			return false;
 		}
 
@@ -1166,6 +1192,29 @@ class Minify extends Module {
 		}
 
 		return $value;
+	}
+
+	/**
+	 * Exclude files from the AO list.
+	 *
+	 * @since 2.7.2
+	 *
+	 * @param bool         $action  Exclude or not.
+	 * @param array|string $handle  Handle.
+	 * @param string       $type    Asset type: styles or scripts.
+	 *
+	 * @return bool
+	 */
+	public function exclude_from_ao_ui( $action, $handle, $type ) {
+		if ( is_array( $handle ) && isset( $handle['handle'] ) ) {
+			$handle = $handle['handle'];
+		}
+
+		if ( 'scripts' === $type && in_array( $handle, $this->exclude_combine, true ) ) {
+			return false;
+		}
+
+		return $action;
 	}
 
 	/**
@@ -1388,21 +1437,6 @@ class Minify extends Module {
 	}
 
 	/**
-	 * Improved HTTP2 check method.
-	 *
-	 * @since 2.4.0  Refactored from Utils::get_http2_status()
-	 *
-	 * @return bool
-	 */
-	public function is_http2() {
-		if ( 'HTTP/2.0' === wp_get_server_protocol() ) {
-			return true;
-		}
-
-		return Utils::get_api()->minify->is_http2();
-	}
-
-	/**
 	 * Return a list of fields used on the wp_postmeta table.
 	 *
 	 * @since 2.7.0
@@ -1430,6 +1464,31 @@ class Minify extends Module {
 			'_url',
 			'_expires',
 		);
+	}
+
+	/**
+	 * CDN does not support -rtl suffixes, so we remove those from style links
+	 *
+	 * @since 2.7.2
+	 *
+	 * @param string $rtl_tag  Style tag.
+	 *
+	 * @return string
+	 */
+	public function remove_rtl_prefix_on_cdn( $rtl_tag ) {
+		// If not from Hummingbird CDN - skip.
+		if ( false === strpos( $rtl_tag, 'hb.wpmucdn.com' ) ) {
+			return $rtl_tag;
+		}
+
+		// If does not contain -rtl prefix - skip.
+		if ( false === strpos( $rtl_tag, '-rtl.' ) ) {
+			return $rtl_tag;
+		}
+
+		$rtl_tag = str_replace( '-rtl.', '.', $rtl_tag );
+
+		return $rtl_tag;
 	}
 
 }

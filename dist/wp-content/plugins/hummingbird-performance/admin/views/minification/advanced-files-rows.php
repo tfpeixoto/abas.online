@@ -13,6 +13,7 @@
  * @var string      $filter             Filter string for filtering.
  * @var string      $full_src           File URL.
  * @var array       $item               File info.
+ * @var bool        $is_local           Asset is local or external.
  * @var bool|string $original_size      False if no original size. Or size.
  * @var bool        $minified_file      True if site is file is already minified (extension *.min.*).
  * @var bool        $processed          True file has been processed (compressed).
@@ -33,19 +34,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="wphb-border-row<?php echo ( $disabled ) ? ' disabled' : ''; ?>"
 	id="wphb-file-<?php echo esc_attr( $ext . '-' . $item['handle'] ); ?>"
 	data-filter="<?php echo esc_attr( $item['handle'] . ' ' . $ext ); ?>"
-	data-filter-secondary="<?php echo esc_attr( $filter ); echo 'OTHER' === $ext ? 'other' : ''; ?>">
+	data-filter-secondary="<?php echo esc_attr( $filter ); echo 'OTHER' === $ext ? 'other' : ''; ?>"
+	data-filter-type="<?php echo $is_local ? 'local' : 'external'; ?>">
 	<?php if ( $processed && ! $compressed && ! preg_match( '/\.min\.(css|js)/', $full_src ) && ! in_array( $item['handle'], $options['dont_minify'][ $type ], true ) ) : ?>
 		<span class="wphb-row-status wphb-row-status-already-compressed sui-tooltip sui-tooltip-top-left sui-tooltip-constrained"
-			data-tooltip="<?php esc_attr_e( 'This file has already been compressed – we recommend you turn off compression for this file to avoid issues', 'wphb' ); ?>"><i
-			class="sui-icon-warning-alert" aria-hidden="true"></i></span>
+			data-tooltip="<?php esc_attr_e( 'This file has already been compressed – we recommend you turn off compression for this file to avoid issues', 'wphb' ); ?>"><span
+			class="sui-icon-warning-alert" aria-hidden="true"></span></span>
 	<?php elseif ( 'OTHER' === $ext ) : ?>
 		<span class="wphb-row-status wphb-row-status-other sui-tooltip sui-tooltip-top-left sui-tooltip-constrained"
-			data-tooltip="<?php esc_attr_e( 'This file has no linked URL, it will not be combined/minified', 'wphb' ); ?>"><i
-			class="sui-icon-info" aria-hidden="true"></i></span>
+			data-tooltip="<?php esc_attr_e( 'This file has no linked URL, it will not be combined/minified', 'wphb' ); ?>"><span
+			class="sui-icon-info" aria-hidden="true"></span></span>
 	<?php endif; ?>
 	<span class="wphb-row-status wphb-row-status-changed sui-tooltip sui-tooltip-top-left sui-hidden"
-		data-tooltip="<?php esc_attr_e( 'You need to publish your changes for your new settings to take effect', 'wphb' ); ?>"><i
-		class="sui-icon-update" aria-hidden="true"></i></span>
+		data-tooltip="<?php esc_attr_e( 'You need to publish your changes for your new settings to take effect', 'wphb' ); ?>"><span
+		class="sui-icon-update" aria-hidden="true"></span></span>
 
 	<div class="fileinfo-group  <?php echo $compressed ? 'wphb-compressed' : ''; ?>">
 		<div class="wphb-minification-file-select">
@@ -77,7 +79,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php $size_diff = (float) $original_size - (float) $compressed_size; ?>
 				<span class="sui-tooltip sui-tooltip-constrained" data-tooltip="<?php echo esc_html( 'This assets file size has been reduced by ' ) . esc_attr( $size_diff ); ?>KB">
 					<span class="original-size crossed-out"><?php echo esc_html( $original_size ); ?>KB</span>
-					<i class="sui-icon-chevron-down" aria-hidden="true"></i>
+					<span class="sui-icon-chevron-down" aria-hidden="true"></span>
 					<span class="compressed-size"><?php echo esc_html( $compressed_size ); ?>KB</span>
 				</span>
 				<span> <?php echo esc_attr( $delimiter ); ?> </span>
@@ -88,7 +90,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php else : ?>
 				<span class="wphb-row-status wphb-row-status-queued sui-tooltip sui-tooltip-top-left sui-tooltip-constrained"
 					data-tooltip="<?php esc_attr_e( 'This file is queued for compression. It will get optimized when someone visits a page that requires it.', 'wphb' ); ?>">
-					<i class="sui-icon-loader sui-loading" aria-hidden="true"></i></span>
+					<span class="sui-icon-loader sui-loading" aria-hidden="true"></span></span>
 				<span class="original-size"><?php echo esc_html( $original_size ) . 'KB' . esc_attr( $delimiter ); ?></span>
 				<?php
 			endif;
@@ -178,7 +180,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			}
 			?>
 			<label for="wphb-minification-include-<?php echo esc_attr( $ext . '-' . $item['handle'] ); ?>" class="toggle-label sui-tooltip <?php echo esc_attr( $exclude_class ); ?>" data-tooltip="<?php echo esc_attr( $tooltip ); ?>" aria-hidden="true">
-				<i class="<?php echo $disabled ? 'sui-icon-eye' : 'sui-icon-eye-hide'; ?>" aria-hidden="true"></i>
+				<span class="<?php echo $disabled ? 'sui-icon-eye' : 'sui-icon-eye-hide'; ?>" aria-hidden="true"></span>
 			</label>
 		</div><!-- end wphb-minification-exclude -->
 	</div><!-- end wphb-minification-row-details -->

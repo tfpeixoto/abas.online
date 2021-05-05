@@ -50,7 +50,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</td>
 					<td>
 						<span><?php echo isset( $rule_result->displayValue ) ? esc_html( $rule_result->displayValue ) : esc_html__( 'N/A', 'wphb' ); ?></span>
-						<i aria-hidden="true" class="sui-icon-<?php echo esc_attr( Performance::get_impact_class( absint( $score * 100 ), 'icon' ) ); ?> sui-<?php echo esc_attr( Performance::get_impact_class( absint( $score * 100 ) ) ); ?> sui-md"></i>
+						<span aria-hidden="true" class="sui-icon-<?php echo esc_attr( Performance::get_impact_class( absint( $score * 100 ), 'icon' ) ); ?> sui-<?php echo esc_attr( Performance::get_impact_class( absint( $score * 100 ) ) ); ?> sui-md"></span>
 					</td>
 				</tr>
 			<?php endforeach; ?>
@@ -78,7 +78,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</span>
 				<span class="sui-list-detail">
 					<?php if ( is_null( $report->audits->opportunities ) ) : ?>
-						<i aria-hidden="true" class="sui-icon-check-tick sui-lg sui-success"></i>
+						<span aria-hidden="true" class="sui-icon-check-tick sui-lg sui-success"></span>
 					<?php else : ?>
 						<span class="sui-tag sui-tag-<?php echo esc_attr( Performance::get_audits_class( $report->audits->opportunities ) ); ?>">
 							<?php echo isset( $report->audits->opportunities ) ? count( get_object_vars( $report->audits->opportunities ) ) : '-'; ?>
@@ -92,7 +92,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</span>
 				<span class="sui-list-detail">
 					<?php if ( is_null( $report->audits->diagnostics ) ) : ?>
-						<i aria-hidden="true" class="sui-icon-check-tick sui-lg sui-success"></i>
+						<span aria-hidden="true" class="sui-icon-check-tick sui-lg sui-success"></span>
 					<?php else : ?>
 						<span class="sui-tag sui-tag-<?php echo esc_attr( Performance::get_audits_class( $report->audits->diagnostics ) ); ?>">
 							<?php echo isset( $report->audits->diagnostics ) ? count( get_object_vars( $report->audits->diagnostics ) ) : '-'; ?>
@@ -154,14 +154,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 						switch ( $report->field_data->FIRST_CONTENTFUL_PAINT_MS->category ) {
 							case 'FAST':
-								echo '<i class="sui-icon-check-tick sui-success sui-md" aria-hidden="true"></i>';
+								echo '<span class="sui-icon-check-tick sui-success sui-md" aria-hidden="true"></span>';
 								break;
 							case 'AVERAGE':
-								echo '<i class="sui-icon-warning-alert sui-warning sui-md" aria-hidden="true"></i>';
+								echo '<span class="sui-icon-warning-alert sui-warning sui-md" aria-hidden="true"></span>';
 								break;
 							case 'SLOW':
 							default:
-								echo '<i class="sui-icon-warning-alert sui-error sui-md" aria-hidden="true"></i>';
+								echo '<span class="sui-icon-warning-alert sui-error sui-md" aria-hidden="true"></span>';
 								break;
 						}
 						?>
@@ -181,14 +181,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 						switch ( $report->field_data->FIRST_INPUT_DELAY_MS->category ) {
 							case 'FAST':
-								echo '<i class="sui-icon-check-tick sui-success sui-md" aria-hidden="true"></i>';
+								echo '<span class="sui-icon-check-tick sui-success sui-md" aria-hidden="true"></span>';
 								break;
 							case 'AVERAGE':
-								echo '<i class="sui-icon-warning-alert sui-warning sui-md" aria-hidden="true"></i>';
+								echo '<span class="sui-icon-warning-alert sui-warning sui-md" aria-hidden="true"></span>';
 								break;
 							case 'SLOW':
 							default:
-								echo '<i class="sui-icon-warning-alert sui-error sui-md" aria-hidden="true"></i>';
+								echo '<span class="sui-icon-warning-alert sui-error sui-md" aria-hidden="true"></span>';
 								break;
 						}
 						?>
