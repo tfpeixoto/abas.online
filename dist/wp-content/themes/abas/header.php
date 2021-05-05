@@ -6,20 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="<?= get_template_directory_uri() . '/images/favicon.png' ?>" type="image/x-icon">
 
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@800&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-
   <?php
-    header("Link: </wp-content/themes/site-2020/css/critical.css>; rel=preload; as=style; crossorigin=anonymous", false);
+  header("Link: </wp-content/themes/site-2020/css/critical.css>; rel=preload; as=style; crossorigin=anonymous", false);
   ?>
 
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link rel="preload" href="<?= get_template_directory_uri() . '/webfonts/fa-solid-900.woff' ?>" as="font" type="font/woff2" crossorigin="anonymous">
   <link rel="preload" href="<?= get_template_directory_uri() . '/webfonts/fa-brands-400.woff' ?>" as="font" type="font/woff2" crossorigin="anonymous">
   <link rel="preload" href="<?= get_template_directory_uri() . '/webfonts/fa-regular-400.woff' ?>" as="font" type="font/woff2" crossorigin="anonymous">
-  
-  <?php wp_head(); ?>
 
-  <link rel="stylesheet" href="<?= get_template_directory_uri() . '/css/critical.css' ?>" as="style" media="print" onload="this.media='all'; this.onload=null;" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@800&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <?php wp_head(); ?>
   <link rel="stylesheet" href="<?= get_template_directory_uri() . '/css/' . $estiloPagina ?>" as="style" media="print" onload="this.media='all'; this.onload=null;" crossorigin>
 
 </head>

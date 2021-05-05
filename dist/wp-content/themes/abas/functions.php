@@ -30,6 +30,7 @@ register_nav_menus(array(
 // Adiciona estilos e scrits
 function abas_scripts()
 {
+  wp_enqueue_style('critital', get_template_directory_uri() . '/css/critical.css', array(), '1.0', 'all');
   // wp_enqueue_style('scroll', get_template_directory_uri() . '/css/components/scroll.css', array(), '1.0.0', 'all');
 
   wp_deregister_script('jquery');
