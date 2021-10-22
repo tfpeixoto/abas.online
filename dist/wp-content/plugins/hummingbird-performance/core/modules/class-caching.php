@@ -359,7 +359,7 @@ ExpiresDefault %%IMAGES%%
 	}
 
 	/**
-	 * Get default caching types for HB or CloudFlare.
+	 * Get default caching types for HB or Cloudflare.
 	 *
 	 * @since 1.7.1
 	 * @return array

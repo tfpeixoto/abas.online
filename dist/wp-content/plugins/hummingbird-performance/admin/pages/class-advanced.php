@@ -142,6 +142,11 @@ class Advanced extends Page {
 			$prefetch .= $url . "\r\n";
 		}
 
+		$preconnect = '';
+		foreach ( $options['preconnect'] as $url ) {
+			$preconnect .= $url . "\r\n";
+		}
+
 		$query_string = $options['query_string'];
 		$remove_emoji = $options['emoji'];
 
@@ -172,6 +177,7 @@ class Advanced extends Page {
 				'emoji'                => $remove_emoji,
 				'emoji_global'         => $options['emoji_global'],
 				'prefetch'             => trim( $prefetch ),
+				'preconnect'           => trim( $preconnect ),
 			)
 		);
 	}

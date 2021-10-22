@@ -100,6 +100,7 @@ if ( is_object( $wp_object_cache ) && method_exists( $wp_object_cache, 'redis_st
 								id="redis-password"
 								name="redis-password"
 								class="sui-form-control"
+								autocomplete="off"
 								aria-labelledby="label-redis-password">
 							<button class="sui-button-icon" type="button">
 								<span aria-hidden="true" class="sui-icon-eye"></span>
@@ -147,12 +148,22 @@ if ( is_object( $wp_object_cache ) && method_exists( $wp_object_cache, 'redis_st
 							<?php esc_html_e( 'Disconnect', 'wphb' ); ?>
 						</button>
 					<?php endif; ?>
-					<button role="button" type="submit" class="sui-button sui-button-blue" id="redis-connect-save">
-						<?php
-						$redis_connected ?
-							esc_html_e( 'Save changes', 'wphb' ) :
-							esc_html_e( 'Connect', 'wphb' );
-						?>
+					<button type="submit" class="sui-button sui-button-blue" id="redis-connect-save" role="button" aria-live="polite">
+						<span class="sui-button-text-default">
+							<?php
+							$redis_connected ?
+								esc_html_e( 'Save changes', 'wphb' ) :
+								esc_html_e( 'Connect', 'wphb' );
+							?>
+						</span>
+						<span class="sui-button-text-onload">
+							<span class="sui-icon-loader sui-loading" aria-hidden="true"></span>
+							<?php
+							$redis_connected ?
+								esc_html_e( 'Saving...', 'wphb' ) :
+								esc_html_e( 'Connecting...', 'wphb' );
+							?>
+						</span>
 					</button>
 				</div>
 			</form>

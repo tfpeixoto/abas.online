@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
  * WordPress dependencies
  */
 import domReady from '@wordpress/dom-ready';
-import { __ } from '@wordpress/i18n';
+const { __ } = wp.i18n;
 
 /**
  * Internal dependencies
@@ -87,7 +87,7 @@ class AutoMinifyPage extends React.Component {
 		this.state.api.post( 'minify_clear_cache' ).then( () => {
 			WPHB_Admin.notices.show(
 				__(
-					'Your cache has been successfully cleared. Your assets will regenerate the next time someone visits your website.'
+					'Your cache has been successfully cleared. Your assets will regenerate the next time someone visits your website.', 'wphb'
 				)
 			);
 
@@ -115,12 +115,10 @@ class AutoMinifyPage extends React.Component {
 		this.setState( { loading: true } );
 
 		this.state.api.post( 'minify_reset_settings' ).then( () => {
-			WPHB_Admin.notices.show( __( 'Settings restored to defaults' ) );
+			WPHB_Admin.notices.show(
+				__( 'Settings restored to defaults', 'wphb' )
+			);
 			this.setState( {
-				assets: {
-					styles: {},
-					scripts: {},
-				},
 				enabled: {
 					styles: true,
 					scripts: true,

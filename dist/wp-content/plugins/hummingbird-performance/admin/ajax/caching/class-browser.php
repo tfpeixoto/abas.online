@@ -49,7 +49,7 @@ class Browser {
 		$cloudflare = Utils::get_module( 'cloudflare' )->is_connected() && Utils::get_module( 'cloudflare' )->is_zone_selected();
 		if ( $cloudflare ) {
 			// Fill the report with values from Cloudflare.
-			$status = array_fill_keys( array_keys( $status ), Utils::get_module( 'cloudflare' )->get_caching_expiration() );
+			$status = array_fill_keys( array_keys( $status ), Utils::get_module( 'cloudflare' )->get_caching_expiration( true ) );
 		}
 
 		wp_send_json_success(
@@ -57,6 +57,7 @@ class Browser {
 				'status'           => $status,
 				'human'            => array_map( array( 'Hummingbird\\Core\\Utils', 'human_read_time_diff' ), $status ),
 				'usingCloudflare'  => Utils::get_module( 'cloudflare' )->has_cloudflare(),
+				'cloudflareAuthed' => Utils::get_module( 'cloudflare' )->is_connected(),
 				'cloudflareSetUp'  => $cloudflare,
 				'cloudflareNotice' => get_site_option( 'wphb-cloudflare-dash-notice' ),
 			)

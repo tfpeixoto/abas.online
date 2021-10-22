@@ -97,6 +97,12 @@ class Gzip extends Page {
 				),
 			)
 		);
+
+		wp_add_inline_script(
+			'wphb-react-gzip',
+			'wp.i18n.setLocaleData( ' . wp_json_encode( Utils::get_locale_data() ) . ', "wphb" );',
+			'before'
+		);
 	}
 
 }

@@ -1,14 +1,14 @@
 === Hummingbird – Optimize Speed, Enable Cache, Minify CSS & Defer Critical JS ===
 Plugin Name: Hummingbird – Optimize Speed, Enable Cache, Minify CSS & Defer Critical JS
-Version: 2.7.4
+Version: 3.1.1
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV
 Tags: defer css javascript, cache, minify css, minify javascript, speed up wordpress, page cache, wordpress speed optimization, page speed, wordpress cache plugin, wordpress performance optimization, lazy load, performance optimization, seo, pagespeed, wp cache
 Requires at least: 5.2
-Tested up to: 5.7
+Tested up to: 5.8
 Requires PHP: 5.6
-Stable tag: 2.7.4
+Stable tag: 3.1.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -43,16 +43,19 @@ You’ll get faster loading pages, higher search rankings (SERP) and PageSpeed s
 - Scan and Fix – Get a scan of your site, find out what’s slowing it down, and use one-click performance improvements to make critical speed improvements.
 - World-class caching – A full caching suite to load pages faster with full-page, Gravatar, and browser cache tool.
 - Performance Reports – Pro tips for running your site at super speed.
-- Asset Optimization – Position, minify and combine Javascript and CSS files for top performance.
+- Asset Optimization – Position, minify and combine Javascript, CSS, and Google Font files for top performance.
 - Better Rankings – Improve scores on Google PageSpeed Insights (SEO ranking factor), YSlow, Pingdom, and GTmetrix.
 - Increase Your Conversion Rate - Don’t keep visitors waiting: faster sites convert better.
 - GZIP Compression – Blazing-fast HTML, JavaScript, and stylesheet (CSS) transfer.
+- Configs – Set your preferred performance settings, save them as config, and instantly upload to any other site.
 
 ### Learn The Ropes With These Hands-On Hummingbird Tutorials
 
 - [How To Optimize WordPress For Speed With Hummingbird](https://wpmudev.com/blog/optimize-wordpress-speed-hummingbird/)
 - [How To Optimize Elementor for Free Using Smush and Hummingbird](https://wpmudev.com/blog/optimize-elementor-wordpress-smush-hummingbird/)
 - [How To Optimize WPBakery Sites Using Smush And Hummingbird](https://wpmudev.com/blog/optimize-wordpress-wpbakery-free-plugins/)
+- [Speed Up and Optimize Avada for Free Using Smush and Hummingbird](https://wpmudev.com/blog/speed-up-optimize-avada-theme-smush-hummingbird-plugins/)
+- [Optimize Divi for Free Using Smush and Hummingbird](https://wpmudev.com/blog/optimize-divi-wordpress-smush-hummingbird/)
 
 = Hummingbird Features to Speed Up WordPress =
 
@@ -70,7 +73,7 @@ Make your site load even faster with Hummingbird’s complete set of cache tools
 
 ### Asset Optimization
 
-Did you know that the more files you add to your site’s header, the slower it will load? With Hummingbird, you can easily customize the load position of your CSS, JavaScript (defer CSS and Javascript) and other files to increase your page speed.
+Did you know that the more files you add to your site’s header, the slower it will load? With Hummingbird, you can easily customize the load position of your CSS, JavaScript (defer CSS and Javascript), Google Fonts, and other files to increase your page speed.
 
 Quickly reorder, compress, and reposition files with Hummingbird’s minification feature. But play carefully – minification is a powerful tool (though if you need it, you can reset any changes you make in one click).
 
@@ -82,13 +85,17 @@ Sending zipped files is faster and can save you money on hosting. And don’t wo
 
 ### Built-in Cloudflare Integration
 
-Hummingbird can be used to control your [Cloudflare](https://www.cloudflare.com/) browser cache settings as well! Simply add your Cloudflare API key and configure away.
+Hummingbird can be used to control your [Cloudflare](https://www.cloudflare.com/) browser cache and Automatic Platform Optimizations (APO) settings as well! Simply add your Cloudflare API key and configure away.
 
 ### Fully Compatible With Smush Image Optimization
 
 You can complement Hummingbird’s WordPress speed optimization features with our award-winning sister-plugin [Smush image optimization](https://wordpress.org/plugins/wp-smushit/). Smush compresses your images, giving your site less to load – and thus a faster load time. Hummingbird + Smush integrate perfectly together, and are the perfect match to speed up WordPress.
 
 Compress, optimize (optimise), and fix PageSpeed performance with properly sized images, lazy load, next-gen WebP convert, image formatting, and more.
+
+### Save time with Hummingbird Configs
+
+Configs allow you to save your prefered Hummingbird configuration settings and apply them to your other sites in a few clicks. You can create unlimited configs.
 
 = Faster Websites Rank Higher, Convert Better =
 
@@ -98,7 +105,7 @@ If you’re running a business website or eCommerce store, that means **if your 
 
 Hummingbird is here to help you; it’s a one of a kind WordPress performance optimization plugin that can make your site run at superspeed, for free!
 
-You get our WordPress performance optimization suite, which includes minification and GZIP for small page sizes, full caching for faster loading, and integration with Cloudflare’s browser cache, and our sister-plugin [Smush image optimization](https://wordpress.org/plugins/wp-smushit/).
+You get our WordPress performance optimization suite, which includes minification and GZIP for small page sizes, full caching for faster loading, and integration with Cloudflare’s APO / browser cache, and our sister-plugin [Smush image optimization](https://wordpress.org/plugins/wp-smushit/).
 
 Hummingbird is built with ease-of-use in mind; it makes your WordPress site faster, but it’s also fast to set up. You can scan your site and implement recommended changes in one-click, getting a fast site in mere minutes.
 
@@ -107,8 +114,6 @@ All the above is free and will speed up WordPress for you. **If you need the ver
 Our Membership gives you access to Hummingbird Pro – which features automated scanning, uptime monitoring, enhanced minify compression (with 2x the regular optimization), CDN hosted minification – alongside Smush Pro image optimization, all our premium WordPress plugins, and 24/7 WordPress support.
 
 [It’s an incredible deal, and you can find out more here.](https://wpmudev.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=hummingbird-readme&utm_content=and_you_can_find_out_more_here#trial)
-
-If you’d like automated scanning, uptime monitoring, enhanced minify compression with up to 2x the regular optimization, CDN hosted modification, and Smush Pro image optimization, you can always take the next step with a [WPMU DEV Membership.](https://wpmudev.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=hummingbird-readme&utm_content=wpmudev_membership#trial)
 
 = What do People say About Hummingbird? =
 
@@ -178,11 +183,78 @@ Asset Optimization is a great way to speed up your site but moving, combining, u
 
 == Changelog ==
 
-= 2.7.4 ( 2021-04-28) =
+= 3.1.1 ( 2021-09-07 ) =
 
-- Fix broken package on wp.org
+- New: Import/export of asset optimization settings on network subsites
+- Enhance: Page caching warnings and errors
+- Enhance: Compatibility with PHP 8.1
+- Fix: PHP warning in Asset Optimization module
+- Fix: Error with [object Object] in Gzip module
+- Fix: Page cache status when disabling the plugin on the network
+- Fix: Preload key requests audit in performance test
+- Fix: Performance scans not always starting in Firefox
+- Fix: Cloudflare integration not detecting mapped domains on subsites
+- Fix: Cloudflare modal not properly closing
+- Fix: Overlapping tooltips on Asset optimization page
 
-= 2.7.3 ( 2021-03-12 ) =
+= 3.1.0 ( 2021-07-20 ) =
+
+- New: Asset optimization preload option
+- New: Asset optimization async option for external assets
+- New: Add prefix to Redis cache via the WP_REDIS_SALT define (possible to store cache for multiple sites in a single database)
+- New: DNS prefetch for asset optimization CDN
+- New: Filter relevant audits in the performance test
+- New: Connect to Cloudflare via API token
+- Enhance: Allow setting crossorigin attribute for preconnect resources
+- Enhance: Performance test score metrics weights (inline with latest Lighthouse changes)
+- Enhance: Performance test tooltips
+- Enhance: Make sure logging is active only when both WP_DEBUG and WP_DEBUG_LOG are set
+- Enhance: Set the cache by device type option in Cloudflare APO for new installs
+- Enhance: White labeling support
+- Enhance: Processing of configs from other plugins
+- Fix: Do not preconnect to Google fonts servers if no fonts are being optimized
+- Fix: Broken purchase link in Cloudflare APO integration
+- Fix: Page cache module not always showing on subsites
+- Fix: Redis not connecting to external servers via hostname
+- Fix: PHP warnings for undefined index original_size
+- Fix: PHP warnings when doing performance scans from Dashboard
+- Fix: PHP warnings array_filter() expects parameter 1 to be array
+- Fix: Saving/applying settings via configs for Page Caching module on network installs
+
+= 3.0.1 ( 2021-06-17 ) =
+
+- New: Configs
+- New: Define for controlling Redis exclusion groups
+- New: Allow adding admin bar shortcuts for purging various caches
+- Enhance: Move admin bar cache controls settings to the Settings - General page
+- Enhance: Performance test informative audits UI
+- Fix: Dashboard and Gzip compression module layout issues on mobile devices
+- Fix: White pages when page cache is removed without header files
+- Fix: Asset optimization empty debug link on subsites
+- Fix: Documentation links
+- Fix: Skip performance test button styles
+- Fix: Skipping performance tests on subsites
+
+= 3.0.0 ( 2021-05-19 ) =
+
+- New: Performance reports (synced with latest Lighthouse API)
+- New: Cloudflare automatic platform optimization (APO) integration
+- New: Cloudflare integration for subsites
+- New: Asset optimization font preloading
+- New: Allow customizing page cache file names with a wphb_cache_* cookie
+- New: Preconnect option
+- Enhance: Asset optimization asset action tooltips
+- Enhance: UX in Redis integration
+- Enhance: Asset optimization and page cache compatibility
+- Fix: Asset optimization settings reset
+- Fix: Asset optimization UI inconsistencies
+- Fix: Clear cache notice on network subsites
+- Fix: Select element styles on reporting screens
+- Fix: Overwriting network admin settings in advanced tools
+- Fix: Page cache clearing taking too long during post edit
+- Fix: Cloudflare browser caching settings not syncing with Hub
+
+= 2.7.3 ( 2021-04-12 ) =
 
 - New: Tutorials module
 - New: LiteSpeed instructions for Browser Caching module
@@ -266,55 +338,6 @@ Asset Optimization is a great way to speed up your site but moving, combining, u
 - Fix: Cloudflare configuration wizard
 - Fix: Upgrade page buttons hover state
 - Fix: Elements with non-unique IDs in Asset Optimization module
-
-= 2.6.2 ( 2020-10-01 ) =
-
-- New: Integration with WPMU DEV hosting FastCGI cache
-- New: Allow removing query strings from assets network wide
-- New: Allow removing Emoji scripts and styles network wide
-- Enhance: Show OpCache notice on WPMU DEV hosting
-- Enhance: Page cache preloader description text
-- Enhance: Page cache sitemap detection
-- Enhance: Asset Optimization "How does it work?" section
-- Enhance: Automatic Asset Optimization UI/UX
-- Enhance: Upgrade scripts on network installs
-- Enhance: White labeling support
-- Enhance: Integration with Cornerstone builder
-- Fix: File change detection notice on multisite
-- Fix: Asset Optimization logs on network subsites
-- Fix: Missing downtime in Uptime reports
-- Fix: Minor accessibility issues with toggles and icons
-- Fix: Include/exclude icons in Asset Optimization
-- Fix: Clearing mobile cache on page/post edit
-- Fix: Error when clearing Cloudflare cache
-- Fix: Log cleanup
-- Fix: Redis connect modal
-
-= 2.6.1 ( 2020-09-08 ) =
-
-- Fix: Errors on multisite upgrade
-- Fix: Asset Optimization network debug logs UI
-- Fix: Asset Optimization exclusions select styles
-- Fix: Typos in Advanced Tools module
-
-= 2.6.0 ( 2020-09-07 ) =
-
-- New: Asset Optimization automatic mode
-- New: Asset Optimization presets
-- New: Support for caching page headers
-- Enhance: Compatibility with tagDiv Composer
-- Enhance: Page Cache sitemaps support
-- Enhance: Handling of critical.css file
-- Enhance: Notices and forms accessibility
-- Fix: register_rest_route was called incorrectly warning in WordPress 5.5
-- Fix: Asset Optimization reset to defaults action
-- Fix: Asset Optimization file size reductions calculation
-- Fix: Asset Optimization PHP silenced notices
-- Fix: Asset Optimization activate page
-- Fix: Opcache integration
-- Fix: Styles conflict with SupportCandy Reports plugin
-- Fix: Performance modal closing on initial scan
-- Fix: Preserve image ratios when branding
 
 [Changelog for previous versions](https://wpmudev.com/project/wp-hummingbird/#view-changelog).
 

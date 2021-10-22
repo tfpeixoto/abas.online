@@ -8,10 +8,10 @@
 namespace Hummingbird\Admin\Pages;
 
 use Hummingbird\Admin\Page;
+use Hummingbird\Core\Configs;
 use Hummingbird\Core\Modules\Advanced;
 use Hummingbird\Core\Modules\Performance;
 use Hummingbird\Core\Modules\Uptime;
-use Hummingbird\Core\Settings;
 use Hummingbird\Core\Utils;
 use stdClass;
 use WP_Error;
@@ -98,14 +98,16 @@ class Dashboard extends Page {
 		$this->performance->report_dismissed = Performance::report_dismissed();
 		$this->performance->is_doing_report  = Performance::is_doing_report();
 
-		$widget_settings         = Settings::get_setting( 'widget', 'performance' );
-		$this->performance->type = $widget_settings['desktop'] ? 'desktop' : 'mobile';
+		$selected_type = filter_input( INPUT_GET, 'type', FILTER_SANITIZE_STRING );
+		$this->performance->type = 'mobile' === $selected_type ? 'mobile' : 'desktop';
 	}
 
 	/**
 	 * Function triggered when the page is loaded before render any content.
 	 */
 	public function on_load() {
+		add_action( 'admin_enqueue_scripts', array( new Configs(), 'enqueue_react_scripts' ) );
+
 		if ( is_multisite() && ! is_network_admin() ) {
 			$minify_module = Utils::get_module( 'minify' );
 
@@ -269,7 +271,7 @@ class Dashboard extends Page {
 			null,
 			'main',
 			array(
-				'box_class'         => 'sui-box sui-summary',
+				'box_class'         => 'sui-box sui-summary ' . Utils::get_whitelabel_class(),
 				'box_content_class' => false,
 			)
 		);
@@ -685,7 +687,7 @@ class Dashboard extends Page {
 		} elseif ( ! get_site_option( 'wphb-cloudflare-dash-notice' ) && 'dismissed' !== get_site_option( 'wphb-cloudflare-dash-notice' ) ) {
 			$show_cf_notice = true;
 		}
-		$cf_notice = $cf_server ? __( 'Ahoi, we’ve detected you’re using CloudFlare!', 'wphb' ) : __( 'Using CloudFlare?', 'wphb' );
+		$cf_notice = $cf_server ? __( 'We’ve detected you’re using Cloudflare!', 'wphb' ) : __( 'Using Cloudflare?', 'wphb' );
 
 		// Get number of issues for notification box.
 		$issues = 0;
@@ -693,7 +695,7 @@ class Dashboard extends Page {
 			$issues = Utils::get_number_of_issues( 'caching', $caching_status );
 		} elseif ( YEAR_IN_SECONDS > $expiration ) {
 			$issues = count( $caching_status );
-			// Add an issue for the CloudFlare type.
+			// Add an issue for the Cloudflare type.
 			$issues++;
 		}
 		$human_results = array_map( array( 'Hummingbird\\Core\\Utils', 'human_read_time_diff' ), $caching_status );
@@ -1093,9 +1095,7 @@ class Dashboard extends Page {
 			'dashboard/performance/module-meta-box',
 			array(
 				'report'          => $this->performance->last_report->data->{$this->performance->type},
-				'type'            => $this->performance->type,
-				'viewreport_link' => Utils::get_admin_menu_url( 'performance' ),
-				'widgets'         => Settings::get_setting( 'widget', 'performance' ),
+				'performance_url' => Utils::get_admin_menu_url( 'performance' ) . '&type=' . $this->performance->type,
 			)
 		);
 	}

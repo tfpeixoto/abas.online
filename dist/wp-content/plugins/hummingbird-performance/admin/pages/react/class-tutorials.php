@@ -77,6 +77,12 @@ class Tutorials extends Page {
 			WPHB_VERSION,
 			true
 		);
+
+		wp_add_inline_script(
+			'wphb-react-tutorials',
+			'wp.i18n.setLocaleData( ' . wp_json_encode( Utils::get_locale_data() ) . ', "wphb" );',
+			'before'
+		);
 	}
 
 }

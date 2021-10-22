@@ -12,13 +12,12 @@ import './style.scss';
 /**
  * Functional BorderFrame component.
  *
- * @param elements.elements
  * @param {Object} elements
  * @param {Object} header
- * @param {Array} Extra classes.
- * @param elements.header
- * @param elements.extraClasses
+ * @param {Array} extraClasses Extra classes.
+ *
  * @return {*} List component.
+ *
  * @class
  */
 export default function BorderFrame( { elements, header, extraClasses } ) {

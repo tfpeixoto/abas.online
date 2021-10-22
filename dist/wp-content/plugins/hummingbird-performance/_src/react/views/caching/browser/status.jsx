@@ -7,7 +7,7 @@ import classNames from 'classnames';
 /**
  * WordPress dependencies
  */
-import { __, sprintf } from '@wordpress/i18n';
+const { __, sprintf } = wp.i18n;
 
 /**
  * Internal dependencies
@@ -98,14 +98,20 @@ class Status extends React.Component {
 		if ( 4 !== Object.keys( this.props.status ).length || 0 < failed ) {
 			const message = (
 				<React.Fragment>
-					<p>{ __( 'Browser Caching is not working properly:' ) }</p>
 					<p>
 						{ __(
-							'Your server may not have the "expires" module enabled (mod_expires for Apache, ngx_http_headers_module for NGINX). Another plugin may be interfering with the configuration. If re-checking and restarting does not resolve, please check with your host or'
+							'Browser Caching is not working properly:',
+							'wphb'
+						) }
+					</p>
+					<p>
+						{ __(
+							'Your server may not have the "expires" module enabled (mod_expires for Apache, ngx_http_headers_module for NGINX). Another plugin may be interfering with the configuration. If re-checking and restarting does not resolve, please check with your host or',
+							'wphb'
 						) }
 						&nbsp;
 						<Button
-							text={ __( 'open a support ticket.' ) }
+							text={ __( 'open a support ticket.', 'wphb' ) }
 							url={ this.props.link.support.forum }
 							target="blank"
 						/>
@@ -113,7 +119,7 @@ class Status extends React.Component {
 				</React.Fragment>
 			);
 
-			return <Notice message={ message } classes="sui-notice-error" />;
+			return <Notice content={ message } classes="sui-notice-error" />;
 		}
 	}
 
@@ -133,34 +139,20 @@ class Status extends React.Component {
 			return;
 		}
 
-		let notice = __( 'Using CloudFlare?' );
-		if ( this.props.cloudflare.isConnected ) {
-			notice = __( 'Ahoi, we’ve detected you’re using CloudFlare!' );
-		}
-		notice =
-			notice +
-			' ' +
-			__(
-				'Connect your account to control your settings via Hummingbird.'
-			);
-		if ( ! this.props.cloudflare.isConnected ) {
-			notice =
-				notice +
-				' ' +
-				__(
-					'CloudFlare is a Content Delivery Network (CDN) that sends traffic through its global network to automatically optimize the delivery of your site so your visitors can browse your site at top speeds. There is a free plan and we recommend using it.'
-				);
-		}
+		const notice = this.props.cloudflare.isConnected
+			? __(
+					'We’ve detected you’re using Cloudflare! Connect your account to control your settings via Hummingbird.',
+					'wphb'
+			  )
+			: __(
+					'Using CloudFlare? Connect your account to control your settings via Hummingbird. CloudFlare is a Content Delivery Network (CDN) that sends traffic through its global network to automatically optimize the delivery of your site so your visitors can browse your site at top speeds. There is a free plan and we recommend using it.',
+					'wphb'
+			  );
 
 		const connectButton = (
 			<Button
-				text={ __( 'Connect' ) }
-				icon="sui-icon-plus-circle"
-				classes={ [
-					'sui-button',
-					'sui-button-ghost',
-					'connect-cloudflare-link',
-				] }
+				text={ __( 'Enable integration', 'wphb' ) }
+				classes={ [ 'sui-button', 'sui-button-blue' ] }
 				onClick={ this.props.onCloudflareClick }
 			/>
 		);
@@ -170,7 +162,10 @@ class Status extends React.Component {
 				{ ! this.props.data.isWhiteLabeled && (
 					<img
 						className="sui-image sui-upsell-image"
-						alt={ __( 'Connect your account to Cloudflare' ) }
+						alt={ __(
+							'Connect your account to Cloudflare',
+							'wphb'
+						) }
 						src={
 							this.props.link.wphbDirUrl +
 							'admin/assets/image/graphic-hb-cf-sell.png'
@@ -196,8 +191,8 @@ class Status extends React.Component {
 							<span>
 								{ connectButton }
 								<Button
-									text={ __( 'Learn More' ) }
-									url="https://wpmudev.com/blog/cloudflare-review/"
+									text={ __( 'Learn More', 'wphb' ) }
+									url="https://wpmudev.com/docs/wpmu-dev-plugins/hummingbird/#browser-cache"
 									target="_blank"
 								/>
 							</span>
@@ -222,7 +217,8 @@ class Status extends React.Component {
 		let text = sprintf(
 			/* translators: %d - number of failed items */
 			__(
-				'%d of your cache types don’t meet the recommended expiry period of 1 year. Configure browser caching below.'
+				'%d of your cache types don’t meet the recommended expiry period of 1 year. Configure browser caching below.',
+				'wphb'
 			),
 			failedItems
 		);
@@ -230,13 +226,15 @@ class Status extends React.Component {
 		if ( 0 === failedItems ) {
 			classes = 'sui-notice-success';
 			text = __(
-				'All of your cache types meet the recommended expiry period of 1 year. Great work!'
+				'All of your cache types meet the recommended expiry period of 1 year. Great work!',
+				'wphb'
 			);
 
 			// Browser caching enabled on host site.
 			if ( false === this.props.data.htaccessWritten ) {
 				text = __(
-					'All of your cache types meet the recommended expiry period of 1 year. Your hosting has automatically pre-configured browser caching for you and no further actions are required.'
+					'All of your cache types meet the recommended expiry period of 1 year. Your hosting has automatically pre-configured browser caching for you and no further actions are required.',
+					'wphb'
 				);
 			}
 		}
@@ -254,7 +252,8 @@ class Status extends React.Component {
 			const recommendedTooltipText = sprintf(
 				/* translators: %s - recommended value label */
 				__(
-					'The recommended value for this file type is at least %s.'
+					'The recommended value for this file type is at least %s.',
+					'wphb'
 				),
 				this.props.data.recommended[ type ].label
 			);
@@ -342,7 +341,8 @@ class Status extends React.Component {
 
 					<p>
 						{ __(
-							'Store temporary data on your visitors devices so that they don’t have to download assets twice if they don’t have to. This results in a much faster second time round page load speed.'
+							'Store temporary data on your visitors devices so that they don’t have to download assets twice if they don’t have to. This results in a much faster second time round page load speed.',
+							'wphb'
 						) }
 					</p>
 
@@ -350,15 +350,16 @@ class Status extends React.Component {
 
 					<BorderFrame
 						header={ [
-							__( 'File type' ),
-							__( 'Current expiry' ),
-							__( 'Recommended expiry' ),
+							__( 'File type', 'wphb' ),
+							__( 'Current expiry', 'wphb' ),
+							__( 'Recommended expiry', 'wphb' ),
 						] }
 						elements={ items }
 					/>
 				</div>
 
-				{ this.showCloudflareNotice() }
+				{ ! this.props.cloudflare.isAuthed &&
+					this.showCloudflareNotice() }
 			</React.Fragment>
 		);
 	}
@@ -374,10 +375,10 @@ class Status extends React.Component {
 		const rightAction = (
 			<React.Fragment>
 				<span className="label-notice-inline sui-hidden-xs sui-hidden-sm">
-					{ __( 'Made changes?' ) }
+					{ __( 'Made changes?', 'wphb' ) }
 				</span>
 				<Button
-					text={ __( 'Re-check status' ) }
+					text={ __( 'Re-check status', 'wphb' ) }
 					onClick={ this.props.onUpdate }
 					classes={ [ 'sui-button', 'sui-button-ghost' ] }
 					icon="sui-icon-update"
@@ -404,7 +405,7 @@ class Status extends React.Component {
 			<Box
 				boxBodyClass={ [ boxBodyClass ] }
 				loading={ this.props.loading }
-				title={ __( 'Status' ) }
+				title={ __( 'Status', 'wphb' ) }
 				headerActions={ headerActions }
 				content={ this.getContent() }
 			/>

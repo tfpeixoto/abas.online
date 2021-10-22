@@ -8,7 +8,6 @@
 namespace Hummingbird\Admin\Pages;
 
 use Hummingbird\Admin\Page;
-use Hummingbird\Core\Integration\Divi;
 use Hummingbird\Core\Modules\Minify;
 use Hummingbird\Core\Modules\Minify\Minify_Group;
 use Hummingbird\Core\Settings;
@@ -135,11 +134,16 @@ class Minification extends Page {
 					'HBFetchNonce' => wp_create_nonce( 'wphb-fetch' ),
 				),
 				'module'   => array(
-					'isDivi'         => Divi::is_divi_theme_active(),
 					'isWhiteLabeled' => apply_filters( 'wpmudev_branding_hide_branding', false ),
 					'showModal'      => (bool) get_option( 'wphb-minification-show-advanced_modal' ),
 				),
 			)
+		);
+
+		wp_add_inline_script(
+			'wphb-react-minify',
+			'wp.i18n.setLocaleData( ' . wp_json_encode( Utils::get_locale_data() ) . ', "wphb" );',
+			'before'
 		);
 	}
 
@@ -158,6 +162,11 @@ class Minification extends Page {
 			'tools'    => __( 'Tools', 'wphb' ),
 			'settings' => __( 'Settings', 'wphb' ),
 		);
+
+		$minify = Settings::get_setting( 'enabled', 'minify' );
+		if ( is_multisite() && ( ( 'super-admins' === $minify && is_super_admin() ) || ( true === $minify ) ) ) {
+			$this->tabs['import'] = __( 'Import / Export', 'wphb' );
+		}
 
 		add_filter( 'wphb_admin_after_tab_' . $this->get_slug(), array( $this, 'after_tab' ) );
 	}
@@ -182,6 +191,9 @@ class Minification extends Page {
 
 			// Remove notice.
 			delete_site_option( 'wphb-notice-minification-optimized-show' );
+
+			// Clear all the page cache.
+			do_action( 'wphb_clear_page_cache' );
 
 			$this->admin_notices->show_floating( __( '<strong>Your changes have been published.</strong> Note: Files queued for compression will generate once someone visits your homepage.', 'wphb' ) );
 		}
@@ -311,10 +323,7 @@ class Minification extends Page {
 			$this->add_meta_box(
 				'minification/network-settings',
 				__( 'Settings', 'wphb' ),
-				array( $this, 'network_settings_meta_box' ),
-				null,
-				null,
-				'main'
+				array( $this, 'network_settings_meta_box' )
 			);
 
 			return;
@@ -354,7 +363,7 @@ class Minification extends Page {
 			null,
 			'summary',
 			array(
-				'box_content_class' => 'sui-box sui-summary',
+				'box_content_class' => 'sui-box sui-summary ' . Utils::get_whitelabel_class(),
 			)
 		);
 
@@ -401,6 +410,20 @@ class Minification extends Page {
 			array(
 				'box_content_class' => Utils::is_member() ? 'sui-box-body' : 'sui-box-body sui-upsell-items',
 			)
+		);
+
+		/**
+		 * Import/export meta box.
+		 *
+		 * @since 3.1.1
+		 */
+		$this->add_meta_box(
+			'minification/import',
+			__( 'Import / Export', 'wphb' ),
+			array( $this, 'import_meta_box' ),
+			null,
+			null,
+			'import'
 		);
 	}
 
@@ -513,6 +536,7 @@ class Minification extends Page {
 			array(
 				'styles_rows'     => $styles_rows['content'],
 				'scripts_rows'    => $scripts_rows['content'],
+				'fonts_rows'      => $styles_rows['font'],
 				'others_rows'     => $others_rows,
 				'selector_filter' => $selector_filter,
 				'is_server_error' => $module->errors_controller->is_server_error(),
@@ -593,7 +617,7 @@ class Minification extends Page {
 	 * @param string $type     Asset type. Accepts: 'scripts' and 'styles'.
 	 * @param array  $options  Current settings.
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	private function sanitize_type( $type, $options ) {
 		$set_asset_options = array(
@@ -602,7 +626,7 @@ class Minification extends Page {
 			'dont_combine' => 'combine',
 		);
 
-		$unset_asset_options = array( 'defer', 'inline' );
+		$unset_asset_options = array( 'defer', 'inline', 'preload', 'async' );
 
 		$changed_assets = array();
 
@@ -633,7 +657,6 @@ class Minification extends Page {
 				if ( ! isset( $item[ $option ] ) && false !== $key ) {
 					unset( $options[ $option ][ $type ][ $key ] );
 					array_push( $changed_assets, $handle );
-					continue;
 				} elseif ( isset( $item[ $option ] ) && false === $key ) {
 					$options[ $option ][ $type ][] = $handle;
 					array_push( $changed_assets, $handle );
@@ -653,6 +676,21 @@ class Minification extends Page {
 			} elseif ( ! isset( $item['position'] ) && $key_exists ) {
 				unset( $options['position'][ $type ][ $handle ] );
 				array_push( $changed_assets, $handle );
+			}
+
+			// This is a font.
+			if ( 'styles' === $type && isset( $item['font-optimize'] ) ) {
+				$key = array_search( $handle, $options['fonts'], true );
+
+				// Add new font to optimization array.
+				if ( $item['font-optimize'] && false === $key ) {
+					array_push( $options['fonts'], $handle );
+				}
+
+				// Remove the font from optimization array.
+				if ( ! $item['font-optimize'] && false !== $key ) {
+					unset( $options['fonts'][ $key ] );
+				}
 			}
 		}
 
@@ -697,6 +735,7 @@ class Minification extends Page {
 		$content = array(
 			'content' => '',
 			'other'   => '',
+			'font'    => '',
 		);
 
 		foreach ( $collection as $item ) {
@@ -744,8 +783,13 @@ class Minification extends Page {
 
 			$info = pathinfo( $full_src );
 
+			$optimized = false; // This is only relevant for fonts.
+
 			$ext = 'OTHER';
-			if ( isset( $info['extension'] ) && preg_match( '/(css)\??[a-zA-Z=0-9]*/', $info['extension'] ) ) {
+			if ( isset( $info['dirname'] ) && false !== strpos( $info['dirname'], 'fonts.googleapis.com' ) ) {
+				$ext       = 'FONT';
+				$optimized = in_array( $item['handle'], $options['fonts'], true );
+			} elseif ( isset( $info['extension'] ) && preg_match( '/(css)\??[a-zA-Z=0-9]*/', $info['extension'] ) ) {
 				$ext = 'CSS';
 			} elseif ( isset( $info['extension'] ) && preg_match( '/(js)\??[a-zA-Z=0-9]*/', $info['extension'] ) ) {
 				$ext = 'JS';
@@ -795,6 +839,8 @@ class Minification extends Page {
 				|| 'footer' === $position
 				|| in_array( $item['handle'], $options['defer'][ $type ], true )
 				|| in_array( $item['handle'], $options['inline'][ $type ], true )
+				|| in_array( $item['handle'], $options['preload'][ $type ], true )
+				|| in_array( $item['handle'], $options['async'][ $type ], true )
 			) {
 				$file_changed = true;
 			}
@@ -821,10 +867,14 @@ class Minification extends Page {
 				'compressed',
 				'file_changed',
 				'component',
-				'is_local'
+				'is_local',
+				'optimized'
 			);
-			if ( 'OTHER' !== $ext ) {
+
+			if ( 'OTHER' !== $ext && 'FONT' !== $ext ) {
 				$content['content'] .= $this->view( 'minification/advanced-files-rows', $args, false );
+			} elseif ( 'FONT' === $ext ) {
+				$content['font'] .= $this->view( 'minification/advanced-fonts-rows', $args, false );
 			} else {
 				$content['other'] .= $this->view( 'minification/advanced-files-rows', $args, false );
 			}
@@ -866,6 +916,15 @@ class Minification extends Page {
 				'use_cdn_disabled' => ! $is_member || ! $options['enabled'],
 			)
 		);
+	}
+
+	/**
+	 * Import/export meta box. Shown on subsites.
+	 *
+	 * @since 3.1.1
+	 */
+	public function import_meta_box() {
+		$this->view( 'settings/import-export-meta-box' );
 	}
 
 }

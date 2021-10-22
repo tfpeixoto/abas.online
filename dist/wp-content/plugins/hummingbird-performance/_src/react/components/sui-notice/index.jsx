@@ -5,6 +5,11 @@ import React from 'react';
 import classNames from 'classnames';
 
 /**
+ * Internal dependencies
+ */
+import Icon from '../sui-icon';
+
+/**
  * Notice functional component.
  *
  * @param {string} message  Notice message.
@@ -20,12 +25,10 @@ export default function Notice( { message, classes, content } ) {
 		<div className={ combinedClasses }>
 			<div className="sui-notice-content">
 				<div className="sui-notice-message">
-					<span
-						className="sui-notice-icon sui-icon-info sui-md"
-						aria-hidden="true"
-					></span>
-					<p>{ message }</p>
-
+					<Icon classes="sui-notice-icon sui-icon-info sui-md" />
+					{ message && (
+						<p dangerouslySetInnerHTML={ { __html: message } } />
+					) }
 					{ content && <p>{ content }</p> }
 				</div>
 			</div>

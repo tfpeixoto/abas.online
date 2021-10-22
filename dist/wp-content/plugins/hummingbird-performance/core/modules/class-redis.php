@@ -206,7 +206,7 @@ class Redis extends Module {
 			$client = defined( 'HHVM_VERSION' ) ? 'hhvm' : 'pecl';
 		}
 
-		$scheme = filter_var( $host, FILTER_VALIDATE_IP ) ? 'tcp' : 'unix';
+		$scheme = '/' === substr( $host, 0, 1 ) ? 'unix' : 'tcp';
 
 		try {
 			if ( 'unix' === $scheme && ( 'hhvm' === $client || 'pecl' === $client ) ) {
@@ -378,7 +378,7 @@ class Redis extends Module {
 
 		$object_cache = file_exists( WP_CONTENT_DIR . '/object-cache.php' );
 
-		$vars = array(
+		return array(
 			'options'               => $options,
 			'redis_connected'       => $redis_connected,
 			'redis_enabled'         => $options['enabled'],
@@ -386,8 +386,6 @@ class Redis extends Module {
 			'disable_redis'         => isset( $_SERVER['WPMUDEV_HOSTED'] ) && $_SERVER['WPMUDEV_HOSTED'],
 			'connection_error'      => $connection_error,
 		);
-
-		return $vars;
 	}
 
 	/**

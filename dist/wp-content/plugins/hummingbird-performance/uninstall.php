@@ -34,6 +34,7 @@ if ( $settings['remove_settings'] ) {
 
 	delete_option( 'wphb_process_queue' );
 	delete_transient( 'wphb-minification-errors' );
+	delete_transient( 'wphb_infinite_loop_warning' );
 	delete_option( 'wphb-minify-server-errors' );
 	delete_option( 'wphb-minification-files-scanned' );
 	delete_option( 'wphb-minification-show-config_modal' );
@@ -72,6 +73,9 @@ if ( $settings['remove_settings'] ) {
 	if ( wp_next_scheduled( 'wphb_minify_clear_files' ) ) {
 		wp_clear_scheduled_hook( 'wphb_minify_clear_files' );
 	}
+
+	// Remove configs.
+	delete_site_option( 'wphb-preset_configs' );
 }
 
 if ( $settings['remove_data'] ) {

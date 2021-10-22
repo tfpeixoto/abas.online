@@ -9,7 +9,7 @@ import classNames from 'classnames';
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+const { __ } = wp.i18n;
 
 /**
  * Internal dependencies
@@ -51,11 +51,12 @@ export default class Assets extends React.Component {
 				<Tooltip
 					classes="sui-tooltip-constrained"
 					text={ __(
-						'Added/removed plugins or themes? Update your file list to include new files, and remove old ones'
+						'Added/removed plugins or themes? Update your file list to include new files, and remove old ones',
+						'wphb'
 					) }
 					data={
 						<Button
-							text={ __( 'Re-Check Files' ) }
+							text={ __( 'Re-Check Files', 'wphb' ) }
 							classes={ [ 'sui-button', 'sui-button-ghost' ] }
 							icon="sui-icon-update"
 							onClick={ this.props.reCheckFiles }
@@ -68,11 +69,12 @@ export default class Assets extends React.Component {
 						'sui-tooltip-top-right',
 					] }
 					text={ __(
-						'Clears all local or hosted assets and recompresses files that need it'
+						'Clears all local or hosted assets and recompresses files that need it',
+						'wphb'
 					) }
 					data={
 						<Button
-							text={ __( 'Clear cache' ) }
+							text={ __( 'Clear cache', 'wphb' ) }
 							classes="sui-button"
 							onClick={ this.props.clearCache }
 						/>
@@ -135,13 +137,17 @@ export default class Assets extends React.Component {
 						</span>
 
 						<div className="wphb-ao-type-title">
-							<strong>{ __( 'Speedy' ) }</strong>
-							<Tag value={ __( 'Recommended' ) } type="sm" />
+							<strong>{ __( 'Speedy', 'wphb' ) }</strong>
+							<Tag
+								value={ __( 'Recommended', 'wphb' ) }
+								type="sm"
+							/>
 						</div>
 
 						<small>
 							{ __(
-								'Speedy Optimization goes beyond just compressing your files by also auto-combining smaller files together. This can help to decrease the number of requests made when a page is loaded.'
+								'Speedy Optimization goes beyond just compressing your files by also auto-combining smaller files together. This can help to decrease the number of requests made when a page is loaded.',
+								'wphb'
 							) }
 						</small>
 
@@ -180,12 +186,13 @@ export default class Assets extends React.Component {
 						</span>
 
 						<div className="wphb-ao-type-title">
-							<strong>{ __( 'Basic' ) }</strong>
+							<strong>{ __( 'Basic', 'wphb' ) }</strong>
 						</div>
 
 						<small>
 							{ __(
-								'Basic Optimization will optimize your files by compressing them. This helps to improve site speed by de-cluttering CSS and JavaScript files, and by generating a faster version of each file.'
+								'Basic Optimization will optimize your files by compressing them. This helps to improve site speed by de-cluttering CSS and JavaScript files, and by generating a faster version of each file.',
+								'wphb'
 							) }
 						</small>
 
@@ -214,14 +221,14 @@ export default class Assets extends React.Component {
 	getContent() {
 		const sideTabs = [
 			{
-				title: __( 'Automatic' ),
+				title: __( 'Automatic', 'wphb' ),
 				id: 'wphb-ao-auto',
 				name: 'asset_optimization_mode',
 				value: 'auto',
 				checked: true,
 			},
 			{
-				title: __( 'Manual' ),
+				title: __( 'Manual', 'wphb' ),
 				id: 'wphb-ao-manual',
 				name: 'asset_optimization_mode',
 				value: 'manual',
@@ -233,14 +240,15 @@ export default class Assets extends React.Component {
 			<React.Fragment>
 				<p>
 					{ __(
-						'Optimizing your assets will compress and organize them in a way that improves page load times. You can choose to use our automated options, or manually configure each file yourself.'
+						'Optimizing your assets will compress and organize them in a way that improves page load times. You can choose to use our automated options, or manually configure each file yourself.',
+						'wphb'
 					) }
 				</p>
 
 				<div className="sui-actions" style={ { float: 'right' } }>
 					<small>
 						<Button
-							text={ __( 'How Does it Work?' ) }
+							text={ __( 'How Does it Work?', 'wphb' ) }
 							id="wphb-basic-hdiw-link"
 							url="#"
 							onClick={ this.showHowDoesItWork }
@@ -268,7 +276,7 @@ export default class Assets extends React.Component {
 			<Box
 				boxClass="box-minification-assets-auto"
 				loading={ this.props.loading }
-				title={ __( 'Assets' ) }
+				title={ __( 'Assets', 'wphb' ) }
 				headerActions={ this.getHeaderActions() }
 				content={ this.getContent() }
 			/>

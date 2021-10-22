@@ -45,14 +45,7 @@ import PerfScanner from '../scanners/PerfScanner';
 			// Run performance test from empty report meta box.
 			$( '#run-performance-test' ).on( 'click', function ( e ) {
 				e.preventDefault();
-
-				window.SUI.openModal(
-					'run-performance-test-modal',
-					'wpbody-content'
-				);
-
-				$( this ).attr( 'disabled', true );
-				self.scanner.start();
+				self.startPerformanceScan();
 			} );
 
 			// If a hash is present in URL, let's open the rule extra content
@@ -124,22 +117,6 @@ import PerfScanner from '../scanners/PerfScanner';
 			}
 
 			/**
-			 * Parse dashboard widget device setting change.
-			 *
-			 * @since 2.0.0
-			 */
-			$( 'input[name=desktop-report]' ).on( 'change', function ( e ) {
-				const otherClass =
-					'desktop_report-true' === e.target.id
-						? 'desktop_report-false'
-						: 'desktop_report-true';
-				e.target.parentNode.classList.add( 'active' );
-				document
-					.getElementById( otherClass )
-					.parentNode.classList.remove( 'active' );
-			} );
-
-			/**
 			 * Parse subsite settings change.
 			 *
 			 * @since 2.0.0
@@ -171,20 +148,72 @@ import PerfScanner from '../scanners/PerfScanner';
 			} );
 
 			/**
-			 * Refresh page, when selecting a report type.
+			 * Performance doughnut chart hover states.
 			 *
-			 * @since 2.0.0
+			 * @since 3.0.0
 			 */
-			$( 'select[name=wphb-performance-report-type]' ).on(
-				'change',
-				function ( e ) {
-					const url = new URL( window.location );
-					url.searchParams.set( 'type', e.target.value );
-					window.location = url;
+			$( 'g.metric' ).on( {
+				mouseenter() {
+					$( '.wphb-gauge__wrapper' ).addClass( 'state--highlight' );
+					$( this ).addClass( 'metric--highlight' );
+				},
+				mouseleave() {
+					$( '.wphb-gauge__wrapper' ).removeClass(
+						'state--highlight'
+					);
+					$( this ).removeClass( 'metric--highlight' );
+				},
+			} );
+
+			/**
+			 * Filter action button on audits page
+			 *
+			 * @since 3.1.0
+			 */
+			$( '#wphb-audits-filter-button' ).on( 'click', function ( e ) {
+				e.preventDefault();
+				$( '.wphb-audits-filter' ).toggle( 'slow' );
+				$( this ).toggleClass( 'active' ).blur();
+			} );
+
+			/**
+			 * Process filter selection.
+			 *
+			 * @since 3.1.0
+			 */
+			$( 'input[name="audits_filter"]' ).on( 'change', function () {
+				const audits = $( '.sui-accordion-item' );
+
+				for ( const [ id, audit ] of Object.entries( audits ) ) {
+					if ( 'object' !== typeof audit || 'prevObject' === id ) {
+						continue;
+					}
+
+					audit.classList.remove( 'sui-hidden' ); // Reset visibility.
+
+					if (
+						'all' !== this.value &&
+						! audit.dataset.metrics.includes( this.value )
+					) {
+						audit.classList.add( 'sui-hidden' );
+					}
 				}
-			);
+			} );
 
 			return this;
+		},
+
+		/**
+		 * Start performance scan.
+		 */
+		startPerformanceScan() {
+			window.SUI.openModal(
+				'run-performance-test-modal',
+				'wpbody-content'
+			);
+
+			$( this ).attr( 'disabled', true );
+			this.scanner.start();
 		},
 
 		wphbSetInterval() {

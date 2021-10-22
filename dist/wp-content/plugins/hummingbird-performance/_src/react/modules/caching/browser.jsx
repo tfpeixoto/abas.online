@@ -1,5 +1,3 @@
-/* global WPHB_Admin */
-
 /**
  * External dependencies
  */
@@ -39,6 +37,7 @@ class BrowserCachingPage extends React.Component {
 			links: this.props.wphbData.links,
 			loading: true,
 			cloudflare: {
+				isAuthed: false,
 				isConnected: false,
 				isSetup: false,
 				notice: false,
@@ -67,6 +66,7 @@ class BrowserCachingPage extends React.Component {
 				this.setState( {
 					loading: false,
 					cloudflare: {
+						isAuthed: response.cloudflareAuthed,
 						isConnected: response.usingCloudflare,
 						isSetup: response.cloudflareSetUp,
 						notice: response.cloudflareNotice,
@@ -96,8 +96,13 @@ class BrowserCachingPage extends React.Component {
 	 * Scroll to Cloudflare settings, when clicking on the upsell "Connect" button.
 	 */
 	handleCloudflareClick() {
-		window.location.hash = 'connect-cloudflare';
-		WPHB_Admin.caching.setCloudflare();
+		window.SUI.openModal(
+			'cloudflare-connect',
+			'wrap-wphb-browser-caching',
+			'cloudflare-email',
+			false,
+			false
+		);
 	}
 
 	/**

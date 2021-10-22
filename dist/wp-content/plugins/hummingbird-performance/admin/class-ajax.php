@@ -7,6 +7,7 @@
 
 namespace Hummingbird\Admin;
 
+use Hummingbird\Core\Configs;
 use Hummingbird\Core\Filesystem;
 use Hummingbird\Core\Integration\Opcache;
 use Hummingbird\Core\Module_Server;
@@ -98,6 +99,8 @@ class AJAX {
 		add_action( 'wp_ajax_wphb_gutenberg_clear_post_cache', array( $this, 'gutenberg_clear_post_cache' ) );
 		// Cancel cache preload.
 		add_action( 'wp_ajax_wphb_preload_cancel', array( $this, 'cancel_cache_preload' ) );
+		// Remove advanced-cache.php file.
+		add_action( 'wp_ajax_wphb_remove_advanced_cache', array( $this, 'remove_advanced_cache' ) );
 
 		/* BROWSER CACHING */
 
@@ -113,8 +116,6 @@ class AJAX {
 		add_action( 'wp_ajax_wphb_caching_reload_snippet', array( $this, 'caching_reload_snippet' ) );
 		// Updat htaccess file.
 		add_action( 'wp_ajax_wphb_caching_update_htaccess', array( $this, 'caching_update_htaccess' ) );
-		// Cloudflare connect.
-		add_action( 'wp_ajax_wphb_cloudflare_connect', array( $this, 'cloudflare_connect' ) );
 		// Cloudflare expirtion cache.
 		add_action( 'wp_ajax_wphb_cloudflare_set_expiry', array( $this, 'cloudflare_set_expiry' ) );
 		// Cloudflare purge cache.
@@ -137,6 +138,9 @@ class AJAX {
 		add_action( 'wp_ajax_wphb_redis_toggle_object_cache', array( $this, 'redis_toggle_object_cache' ) );
 		add_action( 'wp_ajax_wphb_redis_cache_purge', array( $this, 'redis_cache_purge' ) );
 		add_action( 'wp_ajax_wphb_redis_disconnect', array( $this, 'redis_disconnect' ) );
+
+		// Cloudflare connect.
+		add_action( 'wp_ajax_wphb_cloudflare_connect', array( $this, 'cloudflare_connect' ) );
 
 		/* CACHE SETTINGS */
 
@@ -211,6 +215,11 @@ class AJAX {
 		add_action( 'wp_ajax_wphb_admin_settings_export_settings', array( $this, 'admin_settings_export_settings' ) );
 		// Import settings.
 		add_action( 'wp_ajax_wphb_admin_settings_import_settings', array( $this, 'admin_settings_import_settings' ) );
+
+		// Configs.
+		add_action( 'wp_ajax_wphb_create_config', array( $this, 'save_config' ) );
+		add_action( 'wp_ajax_wphb_upload_config', array( $this, 'upload_config' ) );
+		add_action( 'wp_ajax_wphb_apply_config', array( $this, 'apply_config' ) );
 	}
 
 	/**
@@ -460,7 +469,7 @@ class AJAX {
 	}
 
 	/**
-	 * Dismiss CloudFlare dash notice.
+	 * Dismiss Cloudflare dash notice.
 	 *
 	 * @since 1.7.0
 	 */
@@ -577,18 +586,7 @@ class AJAX {
 		if ( ! is_multisite() || ( is_multisite() && isset( $data['network_admin'] ) && $data['network_admin'] ) ) {
 			// I don't like the way this is duplicated in three different modules. This needs to be extracted.
 			$options['subsite_tests'] = isset( $data['subsite-tests'] ) && 'super-admins' !== $data['subsite-tests'] ? (bool) $data['subsite-tests'] : 'super-admins';
-
-			if ( Utils::is_member() ) {
-				$options['hub']['show_metrics']  = isset( $data['hub-metrics'] ) ? (bool) $data['hub-metrics'] : false;
-				$options['hub']['show_audits']   = isset( $data['hub-audits'] ) ? (bool) $data['hub-audits'] : false;
-				$options['hub']['show_historic'] = isset( $data['hub-field-data'] ) ? (bool) $data['hub-field-data'] : false;
-			}
 		}
-		$options['widget']['desktop']       = isset( $data['desktop-report'] ) ? (bool) $data['desktop-report'] : false;
-		$options['widget']['show_metrics']  = isset( $data['metrics'] ) ? (bool) $data['metrics'] : false;
-		$options['widget']['show_audits']   = isset( $data['audits'] ) ? (bool) $data['audits'] : false;
-		$options['widget']['show_historic'] = isset( $data['field-data'] ) ? (bool) $data['field-data'] : false;
-
 
 		$performance->update_options( $options );
 
@@ -768,7 +766,7 @@ class AJAX {
 	}
 
 	/**
-	 * Cacnel cache preloading.
+	 * Cancel cache preloading.
 	 *
 	 * @since 2.1.0
 	 */
@@ -781,6 +779,26 @@ class AJAX {
 
 		$preloader = new Preload();
 		$preloader->cancel_process();
+		wp_send_json_success();
+	}
+
+	/**
+	 * Remove the advanced-cache.php file.
+	 *
+	 * @since 3.1.1
+	 */
+	public function remove_advanced_cache() {
+		check_ajax_referer( 'wphb-fetch', 'nonce' );
+
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			die();
+		}
+
+		$adv_cache_file = dirname( get_theme_root() ) . '/advanced-cache.php';
+		if ( file_exists( $adv_cache_file ) ) {
+			unlink( $adv_cache_file );
+		}
+
 		wp_send_json_success();
 	}
 
@@ -828,7 +846,7 @@ class AJAX {
 		$cf_module = Utils::get_module( 'cloudflare' );
 		// See if we have Cloudflare connected.
 		if ( $cf_module->is_connected() && $cf_module->is_zone_selected() ) {
-			$expiration = $cf_module->get_caching_expiration();
+			$expiration = $cf_module->get_caching_expiration( true );
 			// Fill the report with values from Cloudflare.
 			$values = array_fill_keys( array_keys( $module->get_types() ), $expiration );
 		} else {
@@ -994,6 +1012,8 @@ class AJAX {
 
 	/**
 	 * Connect to Cloudflare.
+	 *
+	 * @since 3.0.0
 	 */
 	public function cloudflare_connect() {
 		check_ajax_referer( 'wphb-fetch', 'nonce' );
@@ -1002,139 +1022,61 @@ class AJAX {
 			die();
 		}
 
-		if ( ! isset( $_POST['formData'] ) || ! isset( $_POST['step'] ) ) { // Input var okay.
-			die();
+		$email = filter_input( INPUT_POST, 'email', FILTER_SANITIZE_EMAIL );
+		$key   = filter_input( INPUT_POST, 'key', FILTER_SANITIZE_STRING );
+		$token = filter_input( INPUT_POST, 'token', FILTER_SANITIZE_STRING );
+		$zone  = filter_input( INPUT_POST, 'zone', FILTER_SANITIZE_STRING );
+
+		if ( ! ( $email && $key ) && ! $token && ! $zone ) {
+			$message = esc_html__( 'Cannot process the form. Please define either the Email/API key or the API token.', 'wphb' );
+			wp_send_json_error( array( 'message' => $message ) );
 		}
 
-		$form_data = wp_unslash( $_POST['formData'] ); // Input var okay.
-		$form_data = wp_parse_args(
-			$form_data,
-			array(
-				'cloudflare-email'   => '',
-				'cloudflare-api-key' => '',
-				'cloudflare-zone'    => '',
-			)
-		);
+		$options = Utils::get_module( 'cloudflare' )->get_options();
 
-		$step    = sanitize_text_field( wp_unslash( $_POST['step'] ) ); // Input var okay.
-		$cf_data = wp_unslash( $_POST['cfData'] ); // Input var okay.
-
-		$cloudflare = Utils::get_module( 'cloudflare' );
-
-		$options = $cloudflare->get_options();
-
-		switch ( $step ) {
-			case 'credentials':
-			default:
-				$options['email']     = sanitize_email( $form_data['cloudflare-email'] );
-				$options['api_key']   = sanitize_text_field( $form_data['cloudflare-api-key'] );
-				$options['zone']      = sanitize_text_field( $form_data['cloudflare-zone'] );
-				$options['zone_name'] = isset( $form_data['cloudflare-zone-name'] ) ? sanitize_text_field( $form_data['cloudflare-zone-name'] ) : '';
-
-				$cloudflare->update_options( $options );
-
-				$zones = $cloudflare->get_zones_list();
-
-				if ( is_wp_error( $zones ) ) {
-					wp_send_json_error(
-						array(
-							'message' => sprintf( '<strong>%s</strong> [%s]', $zones->get_error_message(), $zones->get_error_code() ),
-						)
-					);
-				}
-
-				$cf_data['email']  = $options['email'];
-				$cf_data['apiKey'] = $options['api_key'];
-				$cf_data['zones']  = $zones;
-
-				$options['enabled'] = true;
-				$cloudflare->update_options( $options );
-
-				// Try to auto select domain.
-				$site_url      = network_site_url();
-				$site_url      = rtrim( preg_replace( '/^https?:\/\//', '', $site_url ), '/' );
-				$plucked_zones = wp_list_pluck( $zones, 'label' );
-				$found         = preg_grep( '/.*' . $site_url . '.*/', $plucked_zones );
-				if ( is_array( $found ) && count( $found ) === 1 && isset( $zones[ key( $found ) ]['value'] ) ) {
-					// Select the domain and cheat this function.
-					$zone_found        = $zones[ key( $found ) ]['value'];
-					$_POST['formData'] = array(
-						'cloudflare-zone' => $zone_found,
-					);
-					$_POST['step']     = 'zone';
-					$_POST['cfData']   = $cf_data;
-					$this->cloudflare_connect();
-				}
-
-				wp_send_json_success(
-					array(
-						'nextStep' => 'zone',
-						'newData'  => $cf_data,
-					)
-				);
-				break;
-			case 'zone':
-				$options['zone'] = sanitize_text_field( $form_data['cloudflare-zone'] );
-
-				if ( empty( $options['zone'] ) ) {
-					wp_send_json_error(
-						array(
-							'message' => __( 'Please, select a Cloudflare zone. Normally, this is your website', 'wphb' ),
-						)
-					);
-				}
-
-				// Check that the zone exists.
-				$zones = $cloudflare->get_zones_list();
-				if ( is_wp_error( $zones ) ) {
-					wp_send_json_error(
-						array(
-							'message' => sprintf( '<strong>%s</strong> [%s]', $zones->get_error_message(), $zones->get_error_code() ),
-						)
-					);
-				} else {
-					$filtered = array_values(
-						wp_list_filter(
-							$zones,
-							array(
-								'value' => $options['zone'],
-							)
-						)
-					);
-					if ( ! $filtered ) {
-						wp_send_json_error(
-							array(
-								'message' => __( 'The selected zone is not valid', 'wphb' ),
-							)
-						);
-					}
-					$options['zone_name'] = $filtered[0]['label'];
-					$options['plan']      = $filtered[0]['plan'];
-				}
-
-				$options['enabled']   = true;
-				$options['connected'] = true;
-
-				$cloudflare->update_options( $options );
-				$cf_data['zone']     = $options['zone'];
-				$cf_data['zoneName'] = $options['zone_name'];
-				$cf_data['plan']     = $options['plan'];
-
-				// And set the new CF setting.
-				$cloudflare->set_caching_expiration( YEAR_IN_SECONDS );
-
-				$redirect = Utils::get_admin_menu_url( 'caching' );
-				wp_send_json_success(
-					array(
-						'nextStep' => 'final',
-						'newData'  => $cf_data,
-						'redirect' => $redirect,
-					)
-				);
-				break;
+		$options_updated = false;
+		if ( ! empty( $email ) && $email !== $options['email'] ) {
+			$options_updated  = true;
+			$options['email'] = $email;
 		}
 
-		wp_send_json_error();
+		if ( ! empty( $key ) && $key !== $options['api_key'] ) {
+			$options_updated    = true;
+			$options['api_key'] = $key;
+		}
+
+		// Only try to set token if API key is not defined.
+		if ( empty( $key ) && ! empty( $token ) && $token !== $options['api_key'] ) {
+			$options_updated    = true;
+			$options['email']   = ''; // Email is not used with API token.
+			$options['api_key'] = $token;
+		}
+
+		// Save the current credentials, so we can try and connect with them when we check the zones below.
+		if ( $options_updated ) {
+			Utils::get_module( 'cloudflare' )->update_options( $options );
+			Utils::get_api()->cloudflare->refresh_auth();
+		}
+
+		$zones = Utils::get_module( 'cloudflare' )->get_zones_list();
+
+		// This will end processing if zones are an issue.
+		Utils::get_module( 'cloudflare' )->validate_zones( $zones );
+
+		// Set the module as enabled.
+		if ( ! $options['enabled'] ) {
+			$options['enabled'] = true;
+			Utils::get_module( 'cloudflare' )->update_options( $options );
+		}
+
+		$status = Utils::get_module( 'cloudflare' )->process_zones( $zones, $zone );
+
+		// Could not match a zone.
+		if ( ! $status ) {
+			wp_send_json_success( array( 'zones' => $zones ) );
+		}
+
+		wp_send_json_success();
 	}
 
 	/**
@@ -1187,22 +1129,19 @@ class AJAX {
 			die();
 		}
 
-		$cf    = Utils::get_module( 'cloudflare' );
-		$zones = $cf->get_zones_list();
-		foreach ( $zones as $zone ) {
-			if ( strpos( get_site_url(), $zone['label'] ) ) {
-				wp_send_json_success(
-					array(
-						'zones' => $zones,
-					)
-				);
-			}
+		$zones = Utils::get_module( 'cloudflare' )->get_zones_list();
+
+		// This will end processing if zones are an issue.
+		Utils::get_module( 'cloudflare' )->validate_zones( $zones );
+
+		$status = Utils::get_module( 'cloudflare' )->process_zones( $zones );
+
+		// Could not match a zone.
+		if ( ! $status ) {
+			wp_send_json_success( array( 'zones' => $zones ) );
 		}
-		wp_send_json_error(
-			array(
-				'message' => __( 'Zone not found matching this domain. Please check your CloudFlare account.', 'wphb' ),
-			)
-		);
+
+		wp_send_json_success();
 	}
 
 	/**
@@ -1249,7 +1188,6 @@ class AJAX {
 		$pc_module = Utils::get_module( 'page_cache' );
 		$options   = $pc_module->get_options();
 
-		$options['control']   = isset( $data['cc_button'] ) && 'on' === $data['cc_button'];
 		$options['detection'] = isset( $data['detection'] ) ? sanitize_text_field( $data['detection'] ) : 'manual';
 
 		// Remove notice if File Change Detection is set to 'auto' or 'none'.
@@ -1765,7 +1703,7 @@ class AJAX {
 		check_ajax_referer( 'wphb-fetch', 'nonce' );
 
 		if ( ! current_user_can( Utils::get_admin_capability() ) || ! isset( $_POST['form'] ) ) { // Input var okay.
-			die();
+			wp_die();
 		}
 
 		$form = sanitize_text_field( wp_unslash( $_POST['form'] ) ); // Input var ok.
@@ -1776,8 +1714,11 @@ class AJAX {
 
 		// General settings tab.
 		if ( 'advanced-general-settings' === $form ) {
-			$options['query_string']         = isset( $data['query_strings'] ) && 'on' === $data['query_strings'];
-			$options['query_strings_global'] = isset( $data['query_strings_global'] ) && 'on' === $data['query_strings_global'];
+			$skip = isset( $options['query_strings_global'] ) && $options['query_strings_global'] && ! Utils::is_ajax_network_admin();
+			if ( ! $skip ) {
+				$options['query_string']         = isset( $data['query_strings'] ) && 'on' === $data['query_strings'];
+				$options['query_strings_global'] = isset( $data['query_strings_global'] ) && 'on' === $data['query_strings_global'];
+			}
 
 			if ( isset( $data['cart_fragments'] ) && 'on' === $data['cart_fragments'] ) {
 				$options['cart_fragments'] = isset( $data['cart_fragments_value'] ) && '1' === $data['cart_fragments_value'] ? true : 'all';
@@ -1785,12 +1726,20 @@ class AJAX {
 				$options['cart_fragments'] = false;
 			}
 
-			$options['emoji']        = isset( $data['emojis'] ) && 'on' === $data['emojis'];
-			$options['emoji_global'] = isset( $data['emojis_global'] ) && 'on' === $data['emojis_global'];
+			$skip = isset( $options['emoji_global'] ) && $options['emoji_global'] && ! Utils::is_ajax_network_admin();
+			if ( ! $skip ) {
+				$options['emoji']        = isset( $data['emojis'] ) && 'on' === $data['emojis'];
+				$options['emoji_global'] = isset( $data['emojis_global'] ) && 'on' === $data['emojis_global'];
+			}
 
 			$options['prefetch'] = array();
 			if ( isset( $data['url_strings'] ) && ! empty( $data['url_strings'] ) ) {
 				$options['prefetch'] = preg_split( '/[\r\n\t ]+/', $data['url_strings'] );
+			}
+
+			$options['preconnect'] = array();
+			if ( isset( $data['preconnect_strings'] ) && ! empty( $data['preconnect_strings'] ) ) {
+				$options['preconnect'] = preg_split( '/[\r\n\t]+/', $data['preconnect_strings'] );
 			}
 		}
 
@@ -1962,12 +1911,46 @@ class AJAX {
 				continue;
 			}
 
-			$settings[ $setting ] = (bool) $value;
+			if ( 'control' === $setting ) {
+				$settings[ $setting ] = $this->process_cache_control_settings( $data );
+			} else {
+				$settings[ $setting ] = (bool) $value;
+			}
 		}
 
 		Settings::update_settings( $settings, 'settings' );
 
 		wp_send_json_success();
+	}
+
+	/**
+	 * Process cache control settings.
+	 *
+	 * @since 3.0.1
+	 *
+	 * @param array $data  Form data.
+	 */
+	private function process_cache_control_settings( $data ) {
+		if ( false === (bool) $data['control'] ) {
+			return false;
+		}
+
+		if ( isset( $data['type'] ) && 'all' === $data['type'] ) {
+			return true;
+		}
+
+		$available_cache_types = Utils::get_active_cache_modules();
+
+		$types = array();
+		foreach ( $available_cache_types as $type => $name ) {
+			if ( ! isset( $data[ $type ] ) ) {
+				continue;
+			}
+
+			$types[] = $type;
+		}
+
+		return $types;
 	}
 
 	/**
@@ -2119,5 +2102,81 @@ class AJAX {
 		);
 	}
 
+	/**
+	 * Save current settings as a config.
+	 *
+	 * @since 3.0.1
+	 */
+	public function save_config() {
+		check_ajax_referer( 'wphb-fetch' );
 
+		$capability = is_multisite() ? 'manage_network' : 'manage_options';
+		if ( ! current_user_can( $capability ) ) {
+			wp_send_json_error( null, 403 );
+		}
+
+		$configs = new Configs();
+		wp_send_json_success( $configs->get_config_from_current() );
+	}
+
+	/**
+	 * Upload config from file.
+	 *
+	 * @since 3.0.1
+	 */
+	public function upload_config() {
+		check_ajax_referer( 'wphb-fetch' );
+
+		$capability = is_multisite() ? 'manage_network' : 'manage_options';
+		if ( ! current_user_can( $capability ) ) {
+			wp_send_json_error( null, 403 );
+		}
+
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$file = isset( $_FILES['file'] ) ? wp_unslash( $_FILES['file'] ) : false;
+
+		$configs    = new Configs();
+		$new_config = $configs->save_uploaded_config( $file );
+
+		if ( ! is_wp_error( $new_config ) ) {
+			wp_send_json_success( $new_config );
+		}
+
+		wp_send_json_error(
+			array( 'error_msg' => $new_config->get_error_message() )
+		);
+	}
+
+	/**
+	 * Apply selected config.
+	 *
+	 * @since 3.0.1
+	 */
+	public function apply_config() {
+		check_ajax_referer( 'wphb-fetch' );
+
+		$capability = is_multisite() ? 'manage_network' : 'manage_options';
+		if ( ! current_user_can( $capability ) ) {
+			wp_send_json_error( null, 403 );
+		}
+
+		$id = filter_input( INPUT_POST, 'id', FILTER_VALIDATE_INT );
+		if ( ! $id ) {
+			// Abort if no config ID was given.
+			wp_send_json_error(
+				array( 'error_msg' => esc_html__( 'Missing config ID', 'wphb' ) )
+			);
+		}
+
+		$configs  = new Configs();
+		$response = $configs->apply_config_by_id( $id );
+
+		if ( ! is_wp_error( $response ) ) {
+			wp_send_json_success();
+		}
+
+		wp_send_json_error(
+			array( 'error_msg' => esc_html( $response->get_error_message() ) )
+		);
+	}
 }

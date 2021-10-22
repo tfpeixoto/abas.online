@@ -229,7 +229,13 @@ class Page_Cache extends Module {
 		if ( file_exists( $adv_cache_file ) && false === strpos( file_get_contents( $adv_cache_file ), 'WPHB_ADVANCED_CACHE' ) ) {
 			$this->error = new WP_Error(
 				'advanced-cache-detected',
-				__( 'Hummingbird detected an advanced-cache.php file in wp-content directory. Please disable any other caching plugins in order to use Page Caching.', 'wphb' )
+				sprintf( /* translators: %1$s - opening a tag, %2$s - closing a tag, %3$s - button tag, %4$s - closing button tag */
+					__( 'Hummingbird has detected an advanced-cache.php file in your site’s wp-content directory. %1$sManage your plugins%2$s and disable any other active caching plugins to ensure Hummingbird’s page caching works properly.<br>If no other caching plugins are active, the advanced-cache.php may have been left by a previously used caching plugin. You can remove the file from the wp-content directory, or remove it via your file manager or FTP.%3$sRemove file%4$s', 'wphb' ),
+					'<a href="' . esc_url( network_admin_url( 'plugins.php' ) ) . '">',
+					'</a>',
+					'<br><button id="wphb-remove-advanced-cache" style="margin-top: 10px" class="sui-button sui-button-blue" role="button">',
+					'</button>'
+				)
 			);
 		}
 	}
@@ -249,7 +255,7 @@ class Page_Cache extends Module {
 		if ( get_transient( 'wphb-processing' ) ) {
 			$this->error = new WP_Error(
 				'min-queue-present',
-				__( 'Page caching halted while minification queue is being processed. This can take a few minutes..', 'wphb' )
+				__( 'Hummingbird has halted page caching to prevent any issues while asset optimization is in progress. Page caching will resume automatically when asset optimization is complete.', 'wphb' )
 			);
 		}
 	}
@@ -281,6 +287,7 @@ class Page_Cache extends Module {
 
 		if ( is_wp_error( $wphb_fs->status ) ) {
 			$this->error = $wphb_fs->status;
+			return;
 		}
 
 		// See if there's already an advanced-cache.php file in place.
@@ -430,9 +437,9 @@ class Page_Cache extends Module {
 		// Cache Headers.
 		$wphb_cache_config->cache_headers = isset( $settings['settings']['cache_headers'] ) ? (bool) $settings['settings']['cache_headers'] : false;
 
-		$wphb_cache_config->exclude_url     = $settings['exclude']['url_strings'];
-		$wphb_cache_config->exclude_agents  = $settings['exclude']['user_agents'];
-		$wphb_cache_config->exclude_cookies = isset( $settings['exclude']['cookies'] ) ? $settings['exclude']['cookies'] : array();
+		$wphb_cache_config->exclude_url     = isset( $settings['exclude']['url_strings'] ) && is_array( $settings['exclude']['url_strings'] ) ? $settings['exclude']['url_strings'] : array();
+		$wphb_cache_config->exclude_agents  = isset( $settings['exclude']['user_agents'] ) && is_array( $settings['exclude']['user_agents'] ) ? $settings['exclude']['user_agents'] : array();
+		$wphb_cache_config->exclude_cookies = isset( $settings['exclude']['cookies'] ) && is_array( $settings['exclude']['cookies'] ) ? $settings['exclude']['cookies'] : array();
 	}
 
 	/**
@@ -519,19 +526,19 @@ class Page_Cache extends Module {
 		if ( $activate || ( defined( 'WP_CACHE' ) && WP_CACHE ) ) {
 			$this->error = false;
 			return true;
-		} else {
-			// Only add an error, do not return false, or page caching will not be activated.
-			$this->error = new WP_Error(
-				'no-wp-cache-constant',
-				__( "Hummingbird could not locate the WP_CACHE constant in wp-config.php file for WordPress. Please make sure the following line is added to the file: <br><code>define('WP_CACHE', true);</code>", 'wphb' )
-			);
 		}
 
 		// Could not find the file.
 		if ( ! file_exists( $this->wp_config_file ) ) {
 			$this->error = new WP_Error(
 				'no-wp-config-file',
-				__( "Hummingbird could not locate the wp-config.php file for WordPress. Please make sure the following line is added to the file: <br><code>define('WP_CACHE', true);</code>", 'wphb' )
+				sprintf( /* translators: %1$s - code tag, %2$s - closing code tag, %3$s - button tag, %4$s - closing button tag */
+					__( "Hummingbird could not locate your site’s wp-config.php file. Please ensure the following line has been added to the file:%1\$sdefine('WP_CACHE', true);%2\$sClick Retry to try again.%3\$sRetry%4\$s", 'wphb' ),
+					'<br><code>',
+					'</code><br><br>',
+					'<br><a href="' . esc_url( network_admin_url( 'admin.php?page=wphb-caching' ) ) . '" style="margin-top: 10px" class="sui-button sui-button-blue">',
+					'</a>'
+				)
 			);
 
 			return false;
@@ -541,13 +548,17 @@ class Page_Cache extends Module {
 		if ( ! is_writable( $this->wp_config_file ) || ! is_writable( dirname( $this->wp_config_file ) ) ) {
 			$this->error = new WP_Error(
 				'wp-config-not-writable',
-				__( "Hummingbird could not write to the wp-config.php file. Please add the following line to the file manually: <br><code>define('WP_CACHE', true);</code>", 'wphb' )
+				sprintf( /* translators: %1$s - code tag, %2$s - closing code tag, button tag, %3$s - closing button tag */
+					__( "Hummingbird could not write to your site’s wp-config.php file. Click Retry to try again, or manually add the following line to the file:%1\$sdefine('WP_CACHE', true);%2\$sRetry%3\$s", 'wphb' ),
+					'<br><code>',
+					'</code><br><a href="' . esc_url( network_admin_url( 'admin.php?page=wphb-caching' ) ) . '" style="margin-top: 10px" class="sui-button sui-button-blue">',
+					'</a>'
+				)
 			);
 
 			return false;
 		}
 
-		$this->error = false;
 		return true;
 	}
 
@@ -662,7 +673,7 @@ class Page_Cache extends Module {
 
 		foreach ( (array) $_COOKIE as $key => $value ) { // Input var ok.
 			// Check password protected post, comment author, logged in user.
-			if ( preg_match( '/^wp-postpass_|^comment_author_|^wordpress_logged_in_/', $key ) ) {
+			if ( preg_match( '/^wp-postpass_|^comment_author_|^wordpress_logged_in_|^wphb_cache_/', $key ) ) {
 				self::log_msg( 'Found cookie: ' . $key );
 				$cookie_value .= $_COOKIE[ $key ] . ','; // Input var ok.
 			}
@@ -1117,6 +1128,13 @@ class Page_Cache extends Module {
 	public function cache_request( $buffer ) {
 		global $wphb_cache_file, $wphb_cache_config, $wphb_meta_file;
 
+		// We need this to be able to counter generating pages right after clearing AO settings, queue initiated on page load.
+		if ( get_transient( 'wphb-processing' ) ) {
+			// Exit early.
+			self::log_msg( 'Page not cached. Asset optimization processing in progress. Sending buffer to user.' );
+			return $buffer;
+		}
+
 		$cache_page = true;
 		$is_404     = false;
 
@@ -1328,9 +1346,6 @@ class Page_Cache extends Module {
 		// Remove notice for clearing page cache.
 		delete_option( 'wphb-notice-cache-cleaned-show' );
 
-		// Clear integrations cache.
-		do_action( 'wphb_clear_cache_url', $directory );
-
 		/**
 		 * Function is_network_admin() does not work in ajax, so this is a hack.
 		 *
@@ -1364,6 +1379,9 @@ class Page_Cache extends Module {
 			}
 
 			do_action( 'wphb_cache_directory_cleared' );
+
+			// Clear integrations cache.
+			do_action( 'wphb_clear_cache_url' );
 
 			return $status;
 		}
@@ -1416,6 +1434,8 @@ class Page_Cache extends Module {
 		$status = $wphb_fs->purge( 'cache/' . $cache_dir, false, $skip_subdirs );
 		if ( $status ) {
 			Settings::update_setting( 'pages_cached', --$count, 'page_cache' );
+			// Clear integrations cache.
+			do_action( 'wphb_clear_cache_url', $directory_origin );
 		}
 
 		do_action( 'wphb_page_cache_cleared', $directory_origin );
@@ -1446,6 +1466,7 @@ class Page_Cache extends Module {
 		$force_single_clear = '/' === $permalink;
 
 		$this->clear_cache( $permalink, $force_single_clear );
+		do_action( 'wphb_cloudflare_apo_clear_cache', $post_id );
 		self::log_msg( 'Cache has been purged for post id: ' . $post_id );
 		do_action( 'wphb_page_cache_preload_page', $permalink );
 
@@ -1601,6 +1622,9 @@ class Page_Cache extends Module {
 				if ( time() - filemtime( $wphb_cache_file ) >= $wphb_cache_config->clear_interval['interval'] * HOUR_IN_SECONDS ) {
 					self::log_msg( 'Cache file found, but cache interval is defined and cache is expired. Removing file.' );
 					unlink( $wphb_cache_file );
+					if ( file_exists( $wphb_meta_file ) ) {
+						unlink( $wphb_meta_file );
+					}
 					return;
 				}
 			}
@@ -1643,7 +1667,7 @@ class Page_Cache extends Module {
 
 		$is_cached = file_exists( $wphb_cache_file );
 
-		if ( $wphb_cache_config->cache_headers ) {
+		if ( $is_cached && $wphb_cache_config->cache_headers ) {
 			$is_cached = file_exists( $wphb_meta_file );
 		}
 
@@ -1751,11 +1775,11 @@ class Page_Cache extends Module {
 		// Clear all cache files and return.
 		if ( $wphb_cache_config->clear_on_update ) {
 			$this->clear_cache();
+		} else {
+			// Delete category and tag cache.
+			// Delete page cache.
+			$this->purge_post_cache( $post_id );
 		}
-
-		// Delete category and tag cache.
-		// Delete page cache.
-		$this->purge_post_cache( $post_id );
 	}
 
 	/**

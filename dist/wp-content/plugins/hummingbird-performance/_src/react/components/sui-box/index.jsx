@@ -6,15 +6,11 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 /**
- * WordPress dependencies
- */
-import { __ } from '@wordpress/i18n';
-
-/**
  * Internal dependencies
  */
 import './style.scss';
 import Icon from '../sui-icon';
+import Loader from '../loader';
 
 /**
  * Box component.
@@ -57,16 +53,11 @@ export default class Box extends React.Component {
 
 		return (
 			<div className={ classNames( 'sui-box', this.props.boxClass ) }>
-				<div
-					className={ classNames( 'wphb-loading-overlay', {
-						'wphb-loading': this.props.loading,
-					} ) }
-				>
-					<Icon classes="sui-icon-loader sui-loading" />
-					<p>{ __( 'Fetching latest data…' ) }</p>
-				</div>
+				<Loader loading={ this.props.loading } />
 
-				<div className="sui-box-header">{ boxHeader }</div>
+				{ ! this.props.hideHeader && (
+					<div className="sui-box-header">{ boxHeader }</div>
+				) }
 
 				{ this.props.content && (
 					<div
@@ -94,6 +85,7 @@ Box.propTypes = {
 	boxBodyClass: PropTypes.string,
 	title: PropTypes.string,
 	icon: PropTypes.string,
+	hideHeader: PropTypes.bool,
 	headerActions: PropTypes.element,
 	content: PropTypes.element,
 	footerActions: PropTypes.element,

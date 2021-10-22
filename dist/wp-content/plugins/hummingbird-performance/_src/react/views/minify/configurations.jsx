@@ -6,7 +6,7 @@ import React from 'react';
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+const { __ } = wp.i18n;
 
 /**
  * Internal dependencies
@@ -16,10 +16,7 @@ import Action from '../../components/sui-box/action';
 import Box from '../../components/sui-box';
 import Button from '../../components/sui-button';
 import Checkbox from '../../components/sui-checkbox';
-import SettingsRow from '../../components/sui-box-settings/row';
-import Table from '../../components/sui-table';
 import Tabs from '../../components/sui-tabs';
-import Tag from '../../components/sui-tag';
 import Select from '../../components/sui-select';
 
 /**
@@ -36,7 +33,7 @@ export default class Configurations extends React.Component {
 	getHeaderActions() {
 		const buttons = (
 			<Button
-				text={ __( 'Reset settings' ) }
+				text={ __( 'Reset settings', 'wphb' ) }
 				classes={ [ 'sui-button', 'sui-button-ghost' ] }
 				icon="sui-icon-undo"
 				onClick={ this.props.resetSettings }
@@ -54,7 +51,7 @@ export default class Configurations extends React.Component {
 	getFooterActions() {
 		const buttons = (
 			<Button
-				text={ __( 'Publish changes' ) }
+				text={ __( 'Publish changes', 'wphb' ) }
 				classes={ [ 'sui-button', 'sui-button-blue' ] }
 				onClick={ this.props.saveSettings }
 			/>
@@ -73,132 +70,25 @@ export default class Configurations extends React.Component {
 			<React.Fragment>
 				<Checkbox
 					id="auto-css"
-					label={ __( 'CSS files' ) }
+					label={ __( 'CSS files', 'wphb' ) }
 					description={ __(
-						'Hummingbird will minify your CSS files, generating a version that loads faster. It will remove unnecessary characters or lines of code from your file to make it more compact.'
+						'Hummingbird will minify your CSS files, generating a version that loads faster. It will remove unnecessary characters or lines of code from your file to make it more compact.',
+						'wphb'
 					) }
-					size="sm"
 					checked={ this.props.enabled.styles }
 					onChange={ this.props.onEnabledChange }
 				/>
 
 				<Checkbox
 					id="auto-js"
-					label={ __( 'JavaScript files' ) }
+					label={ __( 'JavaScript files', 'wphb' ) }
 					description={ __(
-						'JavaScript minification is the process of removing whitespace and any code that is not necessary to create a smaller but valid code.'
+						'JavaScript minification is the process of removing whitespace and any code that is not necessary to create a smaller but valid code.',
+						'wphb'
 					) }
-					size="sm"
 					checked={ this.props.enabled.scripts }
 					onChange={ this.props.onEnabledChange }
 				/>
-			</React.Fragment>
-		);
-	}
-
-	/**
-	 * Presets tab content.
-	 *
-	 * @return {JSX.Element}  Content
-	 */
-	tabPresets() {
-		const bodyElements = [
-			[
-				{
-					content: (
-						<React.Fragment>
-							<img
-								className="sui-image"
-								alt=""
-								src={
-									this.props.link.wphbDirUrl +
-									'admin/assets/image/divi.png'
-								}
-								srcSet={
-									this.props.link.wphbDirUrl +
-									'admin/assets/image/divi@2x.png 2x'
-								}
-							/>
-							<strong>Divi</strong>
-						</React.Fragment>
-					),
-				},
-				{
-					content: this.props.isMember ? (
-						<Tag
-							value={ __( 'Coming Soon' ) }
-							type="blue sui-tag-sm"
-						/>
-					) : (
-						<Tag value={ __( 'Pro' ) } type="pro" />
-					),
-				},
-				{
-					content: __(
-						'Enable the preset to auto-optimize this theme.'
-					),
-				},
-			],
-		];
-
-		return (
-			<React.Fragment>
-				{ this.props.module.isDivi && (
-					<Table
-						header={ [
-							__( 'Available presets' ),
-							__( 'Status' ),
-							'',
-						] }
-						body={ bodyElements }
-						flushed="true"
-					/>
-				) }
-				{ ! this.props.module.isWhiteLabeled && (
-					<SettingsRow
-						classes="sui-upsell-row"
-						content={
-							<React.Fragment>
-								<img
-									className="sui-image sui-upsell-image"
-									alt=""
-									src={
-										this.props.link.wphbDirUrl +
-										'admin/assets/image/hummingbird-upsell-minify.png'
-									}
-									srcSet={
-										this.props.link.wphbDirUrl +
-										'admin/assets/image/hummingbird-upsell-minify@2x.png 2x'
-									}
-								/>
-								<div className="sui-upsell-notice sui-margin-left sui-margin-bottom">
-									<p>
-										{ this.props.module.isDivi
-											? __(
-													'Preset for Divi coming soon on Hummingbird Pro! Hummingbird Pro will automatically compress and optimize your Divi theme files with just one click. Not using Divi? Vote for the next preset you would like us to add.'
-											  )
-											: __(
-													'Presets coming soon! Hummingbird Pro will automatically compress and optimize your theme and plugin files with just a click. You can vote for the next preset you would like added.'
-											  ) }
-										<br />
-										<Button
-											url="https://forms.gle/7iwfSxTd21kn5pdT6"
-											target="_blank"
-											classes="sui-button"
-											style={ {
-												color: '#fff',
-												marginTop: '10px',
-											} }
-											text={ __(
-												'Vote for the next Preset'
-											) }
-										/>
-									</p>
-								</div>
-							</React.Fragment>
-						}
-					/>
-				) }
 			</React.Fragment>
 		);
 	}
@@ -212,7 +102,7 @@ export default class Configurations extends React.Component {
 		const types = [ 'styles', 'scripts' ];
 
 		const select = jQuery( '#wphb-auto-exclude' );
-		select.val( null ).trigger( 'change' );
+		select.SUIselect2( 'destroy' );
 
 		types.forEach( ( type ) => {
 			if ( 'undefined' === this.props.assets[ type ] ) {
@@ -220,29 +110,45 @@ export default class Configurations extends React.Component {
 			}
 
 			Object.values( this.props.assets[ type ] ).forEach( ( el ) => {
-				const text = el.handle + ' (' + __( 'file: ' ) + el.src + ')';
+				const text =
+					el.handle + ' (' + __( 'file: ', 'wphb' ) + el.src + ')';
 				const excluded = window.lodash.includes(
 					this.props.exclusions[ type ],
 					el.handle
 				);
 
-				const option = new Option( text, el.handle, false, excluded );
-				option.dataset.type = type;
-				select.append( option );
+				if (
+					0 ===
+					select.find( "option[value='" + el.handle + "']" ).length
+				) {
+					// Only add a new zone if it's not already present.
+					const option = new Option(
+						text,
+						el.handle,
+						false,
+						excluded
+					);
+					option.dataset.type = type;
+					select.append( option ).trigger( 'change' );
+				}
 			} );
 		} );
 
-		select.trigger( 'change' );
+		select.SUIselect2();
 
 		return (
 			<Select
 				selectId="wphb-auto-exclude"
 				classes="sui-select-lg"
-				label={ __( 'File exclusions' ) }
+				label={ __( 'File exclusions', 'wphb' ) }
 				description={ __(
-					'Type the filename and click on the filename to add it to the list.'
+					'Type the filename and click on the filename to add it to the list.',
+					'wphb'
 				) }
-				placeholder={ __( 'Start typing the files to exclude…' ) }
+				placeholder={ __(
+					'Start typing the files to exclude...',
+					'wphb'
+				) }
 				multiple="true"
 			/>
 		);
@@ -258,22 +164,17 @@ export default class Configurations extends React.Component {
 			{
 				id: 'auto-files',
 				description: __(
-					'Choose which files you want to automatically optimize.'
+					'Choose which files you want to automatically optimize.',
+					'wphb'
 				),
 				content: this.tabFiles(),
 				active: true,
 			},
 			{
-				id: 'auto-presets',
-				description: __(
-					'Use presets to optimize your theme and plugins automatically. No manual configuration needed.'
-				),
-				content: this.tabPresets(),
-			},
-			{
 				id: 'auto-exclusions',
 				description: __(
-					"By default, we'll optimize all the CSS and JS files we can find. If you have specific files you want to leave as-is, list them here, and we'll exclude them."
+					"By default, we'll optimize all the CSS and JS files we can find. If you have specific files you want to leave as-is, list them here, and we'll exclude them.",
+					'wphb'
 				),
 				content: this.tabExclusions(),
 			},
@@ -288,16 +189,12 @@ export default class Configurations extends React.Component {
 	getContent() {
 		const tabsMenu = [
 			{
-				title: __( 'Files' ),
+				title: __( 'Files', 'wphb' ),
 				id: 'auto-files',
 				checked: true,
 			},
 			{
-				title: __( 'Presets' ),
-				id: 'auto-presets',
-			},
-			{
-				title: __( 'Exclusions' ),
+				title: __( 'Exclusions', 'wphb' ),
 				id: 'auto-exclusions',
 			},
 		];
@@ -306,7 +203,8 @@ export default class Configurations extends React.Component {
 			<React.Fragment>
 				<p>
 					{ __(
-						'The configurations will be applied to the enabled automatic optimization option.'
+						'The configurations will be applied to the enabled automatic optimization option.',
+						'wphb'
 					) }
 				</p>
 				<Tabs
@@ -328,7 +226,7 @@ export default class Configurations extends React.Component {
 			<Box
 				boxClass="box-minification-assets-auto-config"
 				loading={ this.props.loading }
-				title={ __( 'Configurations' ) }
+				title={ __( 'Configurations', 'wphb' ) }
 				headerActions={ this.getHeaderActions() }
 				content={ this.getContent() }
 				footerActions={ this.getFooterActions() }

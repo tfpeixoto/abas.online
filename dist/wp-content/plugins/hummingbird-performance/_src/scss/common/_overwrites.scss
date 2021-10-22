@@ -65,4 +65,20 @@ button.notice-dismiss {
 }
 
 /* Upgrade page button issue */
+.wpmud .sui-wrap .sui-upsell-row .sui-upsell-notice a.sui-button.sui-button-purple,
 .wpmud .sui-wrap .sui-upgrade-page .sui-upgrade-page-cta__inner .sui-button-purple:hover { color: #fff; }
+
+.wpmud .box-dashboard-welcome .sui-summary-segment,
+.wrap-wphb-minification .box-minification-summary-meta-box .sui-summary-segment,
+.wpmud .box-performance-welcome .sui-summary-segment,
+.wpmud #wphb-box-summary .sui-summary-segment {
+    overflow: visible !important;
+}
+
+/* Stacked checkboxes that are hidden */
+.wpmud .sui-checkbox-stacked.sui-hidden { display: none !important; }
+
+/* Async icon in Asset Optimization */
+.wpmud .sui-icon-async:before {
+    content: "\2909";
+}

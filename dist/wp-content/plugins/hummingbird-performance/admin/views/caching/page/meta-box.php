@@ -389,10 +389,10 @@ if ( is_wp_error( $error ) ) {
 				<input type="checkbox" name="settings[cache_headers]" id="cache_headers" value="1" aria-labelledby="cache_headers-label" <?php checked( $settings['settings']['cache_headers'] ); ?>>
 				<span class="sui-toggle-slider" aria-hidden="true"></span>
 				<span id="cache_headers-label" class="sui-toggle-label">
-					<?php esc_html_e( 'Cache headers', 'wphb' ); ?>
+					<?php esc_html_e( 'Cache HTTP headers', 'wphb' ); ?>
 				</span>
 				<span class="sui-description sui-toggle-description">
-					<?php esc_html_e( "By default, Hummingbird won't cache headers. Enable this feature to include them.", 'wphb' ); ?>
+					<?php esc_html_e( "By default, Hummingbird won't cache HTTP headers. Enable this feature to include them.", 'wphb' ); ?>
 				</span>
 			</label>
 		</div>

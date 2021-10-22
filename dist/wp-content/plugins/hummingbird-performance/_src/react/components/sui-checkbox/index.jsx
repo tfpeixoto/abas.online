@@ -7,7 +7,7 @@ import classNames from 'classnames';
 /**
  * Checkbox component.
  */
-export default class Select extends React.Component {
+export default class Checkbox extends React.Component {
 	/**
 	 * Render component.
 	 *
@@ -15,12 +15,12 @@ export default class Select extends React.Component {
 	 */
 	render() {
 		return (
-			<React.Fragment>
+			<div className="sui-form-field">
 				<label
 					htmlFor={ 'wphb-' + this.props.id }
 					className={ classNames( 'sui-checkbox', {
 						'sui-checkbox-sm':
-							'undefined' !== typeof size &&
+							'undefined' !== typeof this.props.size &&
 							'sm' === this.props.size,
 					} ) }
 				>
@@ -29,6 +29,7 @@ export default class Select extends React.Component {
 						id={ 'wphb-' + this.props.id }
 						aria-labelledby={ 'wphb-' + this.props.id + '-label' }
 						checked={ this.props.checked }
+						disabled={ this.props.disabled }
 						onChange={ this.props.onChange }
 					/>
 					<span aria-hidden="true"></span>
@@ -43,7 +44,15 @@ export default class Select extends React.Component {
 						{ this.props.description }
 					</span>
 				) }
-			</React.Fragment>
+			</div>
 		);
 	}
 }
+
+Checkbox.defaultProps = {
+	id: '',
+	description: '',
+	label: '',
+	checked: false,
+	disabled: false,
+};

@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '2ff87834fdd935bad051c5e8b16f85dd9ec294ef',
+    'reference' => 'bfa150be623baf7674381c4901971b6bdb164b77',
     'name' => 'rankmath/seo-by-rank-math',
   ),
   'versions' => 
@@ -55,21 +55,21 @@ private static $installed = array (
     ),
     'donatj/phpuseragentparser' => 
     array (
-      'pretty_version' => 'v1.4.0',
-      'version' => '1.4.0.0',
+      'pretty_version' => 'v1.5.0',
+      'version' => '1.5.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '246c1cf0a44f07168c702203bf30d5f48f17bab0',
+      'reference' => 'cc9d872cddfc180c52d084d0dff1e4aad653d37f',
     ),
     'mythemeshop/wordpress-helpers' => 
     array (
-      'pretty_version' => 'v1.1.11',
-      'version' => '1.1.11.0',
+      'pretty_version' => 'v1.1.16',
+      'version' => '1.1.16.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'cd5f3af7e5bc0810a2544498a460af09af2407b6',
+      'reference' => '2d9bddc0995fe1d2e81c42ac80fd115ff15dd560',
     ),
     'rankmath/seo-by-rank-math' => 
     array (
@@ -78,16 +78,16 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '2ff87834fdd935bad051c5e8b16f85dd9ec294ef',
+      'reference' => 'bfa150be623baf7674381c4901971b6bdb164b77',
     ),
     'woocommerce/action-scheduler' => 
     array (
-      'pretty_version' => '3.1.6',
-      'version' => '3.1.6.0',
+      'pretty_version' => '3.3.0',
+      'version' => '3.3.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '275d0ba54b1c263dfc62688de2fa9a25a373edf8',
+      'reference' => '5588a831cd2453ecf7d4803f3a81063e13cde93d',
     ),
   ),
 );

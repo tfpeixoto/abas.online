@@ -88,6 +88,9 @@ class Advanced extends Module {
 		// DNS prefetch.
 		add_filter( 'wp_resource_hints', array( $this, 'prefetch_dns' ), 10, 2 );
 
+		// Preconnect.
+		add_filter( 'wp_resource_hints', array( $this, 'add_preconnect_urls' ), 10, 2 );
+
 		// Filter comment template if lazy load is enabled.
 		if ( isset( $options['lazy_load'] ) && $options['lazy_load']['enabled'] ) {
 			add_filter( 'comments_template', array( $this, 'filter_comments_template' ), 100 );
@@ -160,6 +163,10 @@ class Advanced extends Module {
 	 * @return array
 	 */
 	public function prefetch_dns( $hints, $relation_type ) {
+		if ( 'dns-prefetch' !== $relation_type ) {
+			return $hints;
+		}
+
 		$urls = Settings::get_setting( 'prefetch', 'advanced' );
 
 		// If not urls set, return default WP hints array.
@@ -169,10 +176,8 @@ class Advanced extends Module {
 
 		$urls = array_map( 'esc_url', $urls );
 
-		if ( 'dns-prefetch' === $relation_type ) {
-			foreach ( $urls as $url ) {
-				$hints[] = $url;
-			}
+		foreach ( $urls as $url ) {
+			$hints[] = $url;
 		}
 
 		return $hints;
@@ -197,6 +202,44 @@ class Advanced extends Module {
 		if ( 'all' === $options['cart_fragments'] || ( ! is_woocommerce() && ! is_cart() && ! is_checkout() ) ) {
 			wp_dequeue_script( 'wc-cart-fragments' );
 		}
+	}
+
+	/**
+	 * Add preconnect resource hints to URLs.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array  $hints          URLs to print for resource hints.
+	 * @param string $relation_type  The relation type the URLs are printed for, e.g. 'preconnect' or 'prerender'.
+	 *
+	 * @return array
+	 */
+	public function add_preconnect_urls( $hints, $relation_type ) {
+		if ( 'preconnect' !== $relation_type ) {
+			return $hints;
+		}
+
+		$urls = Settings::get_setting( 'preconnect', 'advanced' );
+
+		// If not urls set, return default WP hints array.
+		if ( ! is_array( $urls ) || empty( $urls ) ) {
+			return $hints;
+		}
+
+		foreach ( $urls as $url ) {
+			$attr = explode( ' ', $url );
+			$hint = array(
+				'href' => esc_url( $attr[0] ),
+			);
+
+			if ( isset( $attr[1] ) && 'crossorigin' === $attr[1] ) {
+				$hint['crossorigin'] = '';
+			}
+
+			$hints[] = $hint;
+		}
+
+		return $hints;
 	}
 
 	/**

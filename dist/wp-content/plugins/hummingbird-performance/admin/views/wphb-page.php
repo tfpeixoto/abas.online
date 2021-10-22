@@ -18,7 +18,10 @@ $this->do_meta_boxes( 'main' ); ?>
 <?php endif; ?>
 
 <div class="sui-row">
-	<div class="sui-col-lg-6"><?php $this->do_meta_boxes( 'box-dashboard-left' ); ?></div>
+	<div class="sui-col-lg-6">
+		<?php $this->do_meta_boxes( 'box-dashboard-left' ); ?>
+		<div id="wphb-dashboard-configs"></div>
+	</div>
 	<div class="sui-col-lg-6"><?php $this->do_meta_boxes( 'box-dashboard-right' ); ?></div>
 </div>
 

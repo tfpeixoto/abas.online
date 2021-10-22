@@ -25,17 +25,6 @@
         box-shadow: inset 2px 0 0 0 #8D00B1, 0 2px 0 0 #DDDDDD;
     }
 
-    &.wphb-notice-info {
-        height: 60px;
-        box-shadow: inset 2px 0 0 0 #aaa, inset 0 0 0 1px #e6e6e6;
-
-        .sui-icon-info {
-            margin-top: 1px;
-            margin-left: 5px;
-        }
-        .sui-summary-segment { padding-left: 10px; }
-    }
-
     &.sui-unbranded .sui-summary-segment {
         margin-left: 10px;
     }

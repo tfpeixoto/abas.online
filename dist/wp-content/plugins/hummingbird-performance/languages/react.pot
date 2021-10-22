@@ -204,7 +204,206 @@ msgstr ""
 msgid "Open item"
 msgstr ""
 
-#: _src/react/modules/minify.jsx:118
+#: _src/react/modules/configs.jsx:102
+#. %s config name
+msgid ""
+"Are you sure you want to apply the %s config to this site? We recommend you "
+"have a backup available as your existing settings configuration will be "
+"overridden."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:108
+msgid "Apply"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:111
+#. %s. config name
+msgid "%s config has been applied successfully."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:118
+msgid "Delete Configuration File"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:121
+#. %s config name
+msgid ""
+"Are you sure you want to delete %s? You will no longer be able to apply it "
+"to this or other connected sites."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:127
+msgid "Delete"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:132
+msgid "Config name"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:133
+msgid "Description"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:134
+msgid "The config name is required"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:135
+msgid "Save"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:136
+msgid "Rename Config"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:137
+msgid "Change your config name to something recognizable."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:141
+msgid "Save Config"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:142
+msgid ""
+"Save your current settings configuration. You’ll be able to then download "
+"and apply it to your other sites."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:148
+#. %s. config name
+msgid "%s config created successfully."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:153
+msgid "Uptime"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:154
+msgid "Gravatar Caching"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:155
+msgid "Page Caching"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:156
+msgid "Advanced Tools"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:157
+msgid "RSS Caching"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:158
+msgid "Settings"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:159
+msgid "Performance Test"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:22
+msgid "You can easily apply configs to multiple sites at once via "
+msgstr ""
+
+#: _src/react/modules/configs.jsx:31
+msgid "the Hub."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:36
+msgid "Close this dialog window"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:37
+msgid "Cancel"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:40
+msgid "Preset Configs"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:41
+msgid "Upload"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:42
+msgid "Save config"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:43
+msgid "Manage configs"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:44
+msgid "Updating the config list..."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:45
+msgid ""
+"You don’t have any available config. Save preset configurations of "
+"Hummingbird’s settings, then upload and apply them to your other sites in "
+"just a few clicks!"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:49
+msgid ""
+"Use configs to save preset configurations of Hummingbird’s settings, then "
+"upload and apply them to your other sites in just a few clicks!"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:54
+msgid "Use configs to save preset configurations of your settings."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:58
+msgid "Created or updated the configs via the Hub?"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:62
+msgid "Re-check to get the updated list."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:67
+msgid "Download"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:68
+msgid "Name and Description"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:70
+msgid "Dismiss notice"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:71
+msgid "Try The Hub"
+msgstr ""
+
+#: _src/react/modules/configs.jsx:74
+#. %s request status
+msgid "Request failed. Status: %s. Please reload the page and try again."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:82
+#. %s request status
+msgid ""
+"%s config has been uploaded successfully – you can now apply it to this "
+"site."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:90
+#. %s {pluginName}
+msgid ""
+"The uploaded file is not a %s Config. Please make sure the uploaded file is "
+"correct."
+msgstr ""
+
+#: _src/react/modules/configs.jsx:99
+msgid "Apply Config"
+msgstr ""
+
+#: _src/react/modules/minify.jsx:119
 msgid "Settings restored to defaults"
 msgstr ""
 
@@ -622,44 +821,44 @@ msgstr ""
 msgid "file: "
 msgstr ""
 
-#: _src/react/views/minify/configurations.jsx:132
+#: _src/react/views/minify/configurations.jsx:143
 msgid "File exclusions"
 msgstr ""
 
-#: _src/react/views/minify/configurations.jsx:133
+#: _src/react/views/minify/configurations.jsx:144
 msgid "Type the filename and click on the filename to add it to the list."
 msgstr ""
 
-#: _src/react/views/minify/configurations.jsx:137
+#: _src/react/views/minify/configurations.jsx:148
 msgid "Start typing the files to exclude..."
 msgstr ""
 
-#: _src/react/views/minify/configurations.jsx:155
+#: _src/react/views/minify/configurations.jsx:166
 msgid "Choose which files you want to automatically optimize."
 msgstr ""
 
-#: _src/react/views/minify/configurations.jsx:164
+#: _src/react/views/minify/configurations.jsx:175
 msgid ""
 "By default, we'll optimize all the CSS and JS files we can find. If you "
 "have specific files you want to leave as-is, list them here, and we'll "
 "exclude them."
 msgstr ""
 
-#: _src/react/views/minify/configurations.jsx:181
+#: _src/react/views/minify/configurations.jsx:192
 msgid "Files"
 msgstr ""
 
-#: _src/react/views/minify/configurations.jsx:186
+#: _src/react/views/minify/configurations.jsx:197
 msgid "Exclusions"
 msgstr ""
 
-#: _src/react/views/minify/configurations.jsx:194
+#: _src/react/views/minify/configurations.jsx:205
 msgid ""
 "The configurations will be applied to the enabled automatic optimization "
 "option."
 msgstr ""
 
-#: _src/react/views/minify/configurations.jsx:218
+#: _src/react/views/minify/configurations.jsx:229
 msgid "Configurations"
 msgstr ""
 

@@ -7,7 +7,7 @@ import classNames from 'classnames';
 /**
  * WordPress dependencies
  */
-import { __, sprintf } from '@wordpress/i18n';
+const { __, sprintf } = wp.i18n;
 
 /**
  * Internal dependencies
@@ -88,14 +88,15 @@ class GzipSummary extends React.Component {
 		) {
 			const message = (
 				<React.Fragment>
-					<p>{ __( 'Gzip is not working properly:' ) }</p>
+					<p>{ __( 'Gzip is not working properly:', 'wphb' ) }</p>
 					<p>
 						{ __(
-							'Your server may not have the "deflate" module enabled (mod_deflate for Apache, ngx_http_gzip_module for NGINX). Contact your host. If deflate is enabled, ask why all .htaccess or nginx.conf compression rules are not being applied. If re-checking and restarting does not resolve, please check with your host or'
+							'Your server may not have the "deflate" module enabled (mod_deflate for Apache, ngx_http_gzip_module for NGINX). Contact your host. If deflate is enabled, ask why all .htaccess or nginx.conf compression rules are not being applied. If re-checking and restarting does not resolve, please check with your host or',
+							'wphb'
 						) }
 						&nbsp;
 						<Button
-							text={ __( 'open a support ticket.' ) }
+							text={ __( 'open a support ticket.', 'wphb' ) }
 							url={ this.props.link.support.forum }
 							target="blank"
 						/>
@@ -103,7 +104,7 @@ class GzipSummary extends React.Component {
 				</React.Fragment>
 			);
 
-			return <Notice message={ message } classes="sui-notice-error" />;
+			return <Notice classes="sui-notice-error" content={ message } />;
 		}
 	}
 
@@ -121,7 +122,8 @@ class GzipSummary extends React.Component {
 		let text = sprintf(
 			/* translators: %d - number of gzip types */
 			__(
-				'%d of your compression types are inactive. Configure compression for all files types below.'
+				'%d of your compression types are inactive. Configure compression for all files types below.',
+				'wphb'
 			),
 			failedGzip.length
 		);
@@ -134,7 +136,10 @@ class GzipSummary extends React.Component {
 			classes = 'sui-notice-info';
 			text = sprintf(
 				/* translators: %d - number of active types */
-				__( 'GZip compression is currently active for %d/3 types.' ),
+				__(
+					'GZip compression is currently active for %d/3 types.',
+					'wphb'
+				),
 				3 - failedGzip.length
 			);
 
@@ -145,23 +150,26 @@ class GzipSummary extends React.Component {
 				text +=
 					' ' +
 					__(
-						'We’ve detected that you have Privacy Mode active which prevents us from accurately detecting whether HTML compression is active or not. That is to say, an HTTP 401 Unauthorized Client status was detected and your site requires valid HTTP authentication credentials. You can re-check this once you have tended to the HTTP 401 error.'
+						'We’ve detected that you have Privacy Mode active which prevents us from accurately detecting whether HTML compression is active or not. That is to say, an HTTP 401 Unauthorized Client status was detected and your site requires valid HTTP authentication credentials. You can re-check this once you have tended to the HTTP 401 error.',
+						'wphb'
 					);
 			} else {
 				text +=
 					' ' +
 					__(
-						'We’ve detected an HTTP error that prevents us from accurately detecting whether HTML compression is active or not. You can re-check this once you have tended to the HTTP error.'
+						'We’ve detected an HTTP error that prevents us from accurately detecting whether HTML compression is active or not. You can re-check this once you have tended to the HTTP error.',
+						'wphb'
 					);
 			}
 		} else if ( 0 === failedGzip.length ) {
 			classes = 'sui-notice-success';
-			text = __( 'Gzip compression is currently active. Good job!' );
+			text = __( 'Gzip compression is currently active. Good job!', 'wphb' );
 
 			// Gzip enabled on host site.
 			if ( false === this.props.data.htaccess_written ) {
 				text = __(
-					'GZip compression is already running smoothly on your site. Your hosting has automatically pre-configured GZip compression for you and no further actions are required.'
+					'GZip compression is already running smoothly on your site. Your hosting has automatically pre-configured GZip compression for you and no further actions are required.',
+					'wphb'
 				);
 			}
 
@@ -171,18 +179,19 @@ class GzipSummary extends React.Component {
 				true === this.props.data.is_wpmu_hosting
 			) {
 				text = __(
-					'GZip compression is already running smoothly on your site. Since your site is hosted with WPMU DEV, GZip compression has been automatically configured and no further actions are required.'
+					'GZip compression is already running smoothly on your site. Since your site is hosted with WPMU DEV, GZip compression has been automatically configured and no further actions are required.',
+					'wphb'
 				);
 			}
 		}
 
 		// Build the items array.
 		const items = Object.entries( this.props.status ).map( ( item ) => {
-			let label = __( 'Inactive' );
+			let label = __( 'Inactive', 'wphb' );
 			let tag = 'warning';
 
 			if ( true === item[ 1 ] ) {
-				label = __( 'Active' );
+				label = __( 'Active', 'wphb' );
 				tag = 'success';
 			}
 
@@ -207,14 +216,15 @@ class GzipSummary extends React.Component {
 
 			let tooltipText = sprintf(
 				/* translators: %1$s - status label, %2$s - type */
-				__( 'Gzip compression is %1$s for %2$s' ),
+				__( 'Gzip compression is %1$s for %2$s', 'wphb' ),
 				label.toLowerCase(),
 				item[ 0 ]
 			);
 
 			if ( 'privacy' === item[ 1 ] ) {
 				tooltipText = __(
-					'While Privacy Mode is active, we can’t accurately detect if HTML compression is active and working. Re-check this once you’ve disabled Privacy Mode.'
+					'While Privacy Mode is active, we can’t accurately detect if HTML compression is active and working. Re-check this once you’ve disabled Privacy Mode.',
+					'wphb'
 				);
 			}
 
@@ -226,7 +236,7 @@ class GzipSummary extends React.Component {
 					<Tooltip
 						text={ tooltipText }
 						data={ tagComponent }
-						classes={ [ 'sui-tooltip-constrained' ] }
+						classes={ [ 'sui-tooltip-constrained', 'sui-tooltip-top-right-mobile' ] }
 					/>
 				),
 			};
@@ -238,14 +248,18 @@ class GzipSummary extends React.Component {
 
 				<p>
 					{ __(
-						'Gzip compresses your web pages and style sheets before sending them over to the browser. This drastically reduces transfer time since the files are much smaller.'
+						'Gzip compresses your web pages and style sheets before sending them over to the browser. This drastically reduces transfer time since the files are much smaller.',
+						'wphb'
 					) }
 				</p>
 
 				<Notice message={ text } classes={ classes } />
 
 				<BorderFrame
-					header={ [ __( 'File type' ), __( 'Current status' ) ] }
+					header={ [
+						__( 'File type', 'wphb' ),
+						__( 'Current status', 'wphb' ),
+					] }
 					elements={ items }
 					extraClasses={ [ 'two-columns' ] }
 				/>
@@ -264,10 +278,10 @@ class GzipSummary extends React.Component {
 		const rightAction = (
 			<React.Fragment>
 				<span className="label-notice-inline sui-hidden-xs sui-hidden-sm">
-					{ __( 'Made changes?' ) }
+					{ __( 'Made changes?', 'wphb' ) }
 				</span>
 				<Button
-					text={ __( 'Re-check status' ) }
+					text={ __( 'Re-check status', 'wphb' ) }
 					onClick={ this.props.onUpdate }
 					classes={ [ 'sui-button', 'sui-button-ghost' ] }
 					icon="sui-icon-update"
@@ -285,7 +299,7 @@ class GzipSummary extends React.Component {
 		return (
 			<Box
 				loading={ this.props.loading }
-				title={ __( 'Status' ) }
+				title={ __( 'Status', 'wphb' ) }
 				headerActions={ headerActions }
 				content={ this.getContent() }
 			/>

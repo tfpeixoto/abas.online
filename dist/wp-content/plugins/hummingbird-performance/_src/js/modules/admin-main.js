@@ -28,6 +28,20 @@ const MixPanel = require( 'mixpanel-browser' );
 			} );
 
 			/**
+			 * Refresh page, when selecting a report type.
+			 *
+			 * @since 2.0.0
+			 */
+			$( 'select#wphb-performance-report-type' ).on(
+					'change',
+					function ( e ) {
+						const url = new URL( window.location );
+						url.searchParams.set( 'type', e.target.value );
+						window.location = url;
+					}
+			);
+
+			/**
 			 * Clear log button clicked.
 			 *
 			 * @since 1.9.2

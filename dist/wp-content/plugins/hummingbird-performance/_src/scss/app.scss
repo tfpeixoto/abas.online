@@ -64,6 +64,7 @@ $sui-font-path: '~@wpmudev/shared-ui/dist/fonts/';
 @import "~@wpmudev/shared-ui/scss/reviews";
 @import "~@wpmudev/shared-ui/scss/colorpickers";
 @import "~@wpmudev/shared-ui/scss/upload";
+@import "~@wpmudev/shared-ui/scss/dropdowns";
 
 // Common
 @import "common/variables";
@@ -77,6 +78,7 @@ $sui-font-path: '~@wpmudev/shared-ui/dist/fonts/';
 @import "components/pills";
 @import "components/border_frame";
 @import "components/accordions";
+@import "components/performance_summary";
 
 // Modules
 @import "modules/dashboard";

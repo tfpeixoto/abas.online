@@ -43,6 +43,7 @@ class Utils {
 	 * format_bytes()
 	 * format_interval()
 	 * format_interval_hours()
+	 * is_ajax_network_admin()
 	 ***************************/
 
 	/**
@@ -105,6 +106,10 @@ class Utils {
 		// Scheme will not be set on a URL.
 		$url = isset( $path['scheme'] );
 
+		if ( ! isset( $path['path'] ) ) {
+			return '';
+		}
+
 		$path = ltrim( $path['path'], '/' );
 
 		/**
@@ -164,6 +169,7 @@ class Utils {
 				'successRecheckStatus'   => __( 'Browser caching status updated.', 'wphb' ),
 				'successCloudflarePurge' => __( 'Cloudflare cache successfully purged. Please wait 30 seconds for the purge to complete.', 'wphb' ),
 				'successRedisPurge'      => __( 'Your cache has been cleared.', 'wphb' ),
+				'selectZone'             => __( 'Select zone', 'wphb' ),
 				/* Misc */
 				'htaccessUpdated'        => __( 'Your .htaccess file has been updated', 'wphb' ),
 				'htaccessUpdatedFailed'  => __( 'There was an error updating the .htaccess file', 'wphb' ),
@@ -181,9 +187,12 @@ class Utils {
 				'successAdvPurgeCache'   => __( 'Preload cache purged successfully.', 'wphb' ),
 				'successAdvPurgeMinify'  => __( 'All database data and Custom Post Type information related to Asset Optimization has been cleared successfully.', 'wphb' ),
 				'successAoOrphanedPurge' => __( 'Database entries removed successfully.', 'wphb' ),
+				/* Cloudflare */
+				'CloudflareHelpAPItoken' => __( 'Need help getting your API token?', 'wphb' ),
+				'CloudflareHelpAPIkey'   => __( 'Need help getting your Global API key?', 'wphb' ),
 			),
 			'links'      => array(
-				'audits'        => self::get_admin_menu_url( 'performance' ) . '&view=audits',
+				'audits'        => self::get_admin_menu_url( 'performance' ),
 				'tutorials'     => self::get_admin_menu_url( 'tutorials' ),
 				'disableUptime' => add_query_arg(
 					array(
@@ -218,8 +227,24 @@ class Utils {
 					'strings'      => array(
 						'discardAlert'  => __( 'Are you sure? All your changes will be lost', 'wphb' ),
 						'queuedTooltip' => __( 'This file is queued for compression. It will get optimized when someone visits a page that requires it.', 'wphb' ),
-						'excludeFile'   => __( "Don't load file", 'wphb' ),
-						'includeFile'   => __( 'Re-include', 'wphb' ),
+						'excludeFile'   => __( "Don't load this file", 'wphb' ),
+						'includeFile'   => __( 'Click to re-include', 'wphb' ),
+						'falseMinify'   => __( 'Compression is off for this file. Turn it on to reduce its size.', 'wphb' ),
+						'trueMinify'    => __( 'Compression is on for this file, which aims to reduce its size.', 'wphb' ),
+						'falseCombine'  => __( 'Combine is off for this file. Turn it on to combine smaller files together.', 'wphb' ),
+						'trueCombine'   => __( 'Combine is on for this file, which aims to reduce server requests.', 'wphb' ),
+						'falseFooter'   => __( 'Move to footer is off for this file. Turn it on to load it from the footer.', 'wphb' ),
+						'trueFooter'    => __( 'Move to footer is on for this file, which aims to speed up page load.', 'wphb' ),
+						'falseInline'   => __( 'Inline CSS is off for this file. Turn it on to  add the style attributes to an HTML tag.', 'wphb' ),
+						'trueInline'    => __( 'Inline CSS is on for this file, which will add the style attributes to an HTML tag.', 'wphb' ),
+						'falseDefer'    => __( 'Click to turn on the force-loading of this file after the page has rendered.', 'wphb' ),
+						'trueDefer'     => __( 'This file will be loaded only after the page has rendered.', 'wphb' ),
+						'falseFont'     => __( 'Font optimization is off for this file. Turn it on to optimize it.', 'wphb' ),
+						'trueFont'      => __( 'Font is optimized.', 'wphb' ),
+						'truePreload'   => __( 'Preload is on for this file, which will download and cache the file so it is immediately available when the site is loaded.', 'wphb' ),
+						'falsePreload'  => __( 'Preload is off for this file. Turn it on to download and cache the file so it is immediately available when the site is loaded.', 'wphb' ),
+						'trueAsync'     => __( 'Async is enabled for this file, which will download the file asynchronously and execute it as soon as it’s ready. HTML parsing will be paused while the file is executed.', 'wphb' ),
+						'falseAsync'    => __( 'Async is off for this file. Turn it on to download the file asynchronously and execute it as soon as it’s ready. HTML parsing will be paused while the file is executed.', 'wphb' ),
 					),
 					'links'        => array(
 						'minification' => self::get_admin_menu_url( 'minification' ),
@@ -254,6 +279,34 @@ class Utils {
 		);
 
 		wp_localize_script( 'wphb-admin', 'wphb', $i10n );
+	}
+
+	/**
+	 * Returns Jed-formatted localization data
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return array
+	 */
+	public static function get_locale_data() {
+		$translations = get_translations_for_domain( 'wphb' );
+
+		$locale = array(
+			'' => array(
+				'domain' => 'wphb',
+				'lang'   => is_admin() ? get_user_locale() : get_locale(),
+			),
+		);
+
+		if ( ! empty( $translations->headers['Plural-Forms'] ) ) {
+			$locale['']['plural_forms'] = $translations->headers['Plural-Forms'];
+		}
+
+		foreach ( $translations->entries as $msgid => $entry ) {
+			$locale[ $msgid ] = $entry->translations;
+		}
+
+		return $locale;
 	}
 
 	/**
@@ -417,11 +470,29 @@ class Utils {
 		return array( $days, 'days' );
 	}
 
+	/**
+	 *  Check if network admin.
+	 *
+	 * The is_network_admin() check does not work in AJAX calls.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return bool
+	 */
+	public static function is_ajax_network_admin() {
+		if ( ! is_multisite() ) {
+			return false;
+		}
+
+		return defined( 'DOING_AJAX' ) && DOING_AJAX && isset( $_SERVER['HTTP_REFERER'] ) && preg_match( '#^' . network_admin_url() . '#i', wp_unslash( $_SERVER['HTTP_REFERER'] ) ); // Input var ok.
+	}
+
 	/***************************
 	 *
 	 * II. Layout functions
 	 * get_servers_dropdown()
 	 * get_caching_frequencies_dropdown()
+	 * get_whitelabel_class()
 	 ***************************/
 
 	/**
@@ -431,8 +502,9 @@ class Utils {
 	 */
 	public static function get_servers_dropdown( $selected = false ) {
 		$selected = $selected ? $selected : Module_Server::get_server_type();
+		$disabled = is_multisite() && ! is_main_site();
 		?>
-		<select class="sui-select" name="wphb-server-type" id="wphb-server-type" class="server-type">
+		<select class="sui-select" name="wphb-server-type" id="wphb-server-type" class="server-type" <?php disabled( $disabled ); ?>>
 			<?php foreach ( Module_Server::get_servers() as $server => $server_name ) : ?>
 				<option value="<?php echo esc_attr( $server ); ?>" <?php selected( $server, $selected ); ?>>
 					<?php
@@ -484,6 +556,21 @@ class Utils {
 			<?php endforeach; ?>
 		</select>
 		<?php
+	}
+
+	/**
+	 * Return rebranded class.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return string
+	 */
+	public static function get_whitelabel_class() {
+		if ( ! apply_filters( 'wpmudev_branding_hide_branding', false ) ) {
+			return '';
+		}
+
+		return apply_filters( 'wpmudev_branding_hero_image', '' ) ? 'sui-rebranded' : 'sui-unbranded';
 	}
 
 	/***************************
@@ -581,14 +668,14 @@ class Utils {
 	 * @return mixed
 	 */
 	public static function get_days_of_week() {
-		$timestamp = strtotime( 'next Monday' );
+		$timestamp = date_create( 'next Monday' );
 		if ( 7 === get_option( 'start_of_week' ) ) {
-			$timestamp = strtotime( 'next Sunday' );
+			$timestamp = date_create( 'next Sunday' );
 		}
 		$days = array();
 		for ( $i = 0; $i < 7; $i ++ ) {
-			$days[]    = strftime( '%A', $timestamp );
-			$timestamp = strtotime( '+1 day', $timestamp );
+			$days[]    = date_format( $timestamp, 'l' );
+			$timestamp = date_modify( $timestamp, '+1 day' );
 		}
 
 		return apply_filters( 'wphb_scan_get_days_of_week', $days );
@@ -637,6 +724,12 @@ class Utils {
 		$utm_tags = "?utm_source=hummingbird&utm_medium=plugin&utm_campaign={$campaign}";
 
 		switch ( $link_for ) {
+			case 'configs':
+				$link = "{$domain}/hub2/configs/my-configs";
+				break;
+			case 'hub-welcome':
+				$link = "{$domain}/hub-welcome/{$utm_tags}";
+				break;
 			case 'chat':
 				$link = "{$domain}/live-support/{$utm_tags}";
 				break;
@@ -645,7 +738,7 @@ class Utils {
 				break;
 			case 'support':
 				if ( self::is_member() ) {
-					$link = "{$domain}/hub/support/#get-support";
+					$link = "{$domain}/hub2/support/#get-support";
 				} else {
 					$link = "{$wp_org}/support/plugin/hummingbird-performance";
 				}
@@ -697,9 +790,11 @@ class Utils {
 		switch ( $page ) {
 			case 'wphb-performance':
 				if ( 'reports' === $view ) {
-					$anchor = '#reports-pro';
+					$anchor = '#reporting';
+				} elseif ( 'settings' === $view ) {
+					$anchor = '#performance-test-settings';
 				} else {
-					$anchor = '#performance-report';
+					$anchor = '#performance-test';
 				}
 				break;
 			case 'wphb-caching':
@@ -715,7 +810,7 @@ class Utils {
 				$anchor = '#advanced-tools';
 				break;
 			case 'wphb-uptime':
-				$anchor = '#uptime-monitoring-pro';
+				$anchor = '#uptime';
 				break;
 			case 'wphb-settings':
 				$anchor = '#settings';
@@ -837,7 +932,7 @@ class Utils {
 	public static function get_active_cache_modules() {
 		$modules = array(
 			'page_cache' => __( 'Page Cache', 'wphb' ),
-			'cloudflare' => __( 'CloudFlare', 'wphb' ),
+			'cloudflare' => __( 'Cloudflare', 'wphb' ),
 			'gravatar'   => __( 'Gravatar Cache', 'wphb' ),
 			'minify'     => __( 'Asset Optimization Cache', 'wphb' ),
 			'redis'      => __( 'Redis Cache', 'wphb' ),
@@ -851,7 +946,7 @@ class Utils {
 				unset( $modules[ $module ] );
 			}
 
-			// Fix CloudFlare clear cache appearing on dashboard if it had been previously enabled but then uninstalled and reinstalled HB.
+			// Fix Cloudflare clear cache appearing on dashboard if it had been previously enabled but then uninstalled and reinstalled HB.
 			// TODO: do we need this?
 			if ( 'cloudflare' === $module && isset( $hb_modules[ $module ] ) && ! $hb_modules[ $module ]->is_connected() && ! $hb_modules[ $module ]->is_zone_selected() ) {
 				unset( $modules[ $module ] );

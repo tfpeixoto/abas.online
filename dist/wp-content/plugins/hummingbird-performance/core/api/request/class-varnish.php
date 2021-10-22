@@ -41,7 +41,7 @@ class Varnish extends Request {
 	/**
 	 * Add header args.
 	 *
-	 * @sicne 2.1.0
+	 * @since 2.1.0
 	 */
 	protected function sign_request() {
 		$this->add_header_argument( 'X-Purge-Method', $this->purge_method );

@@ -201,14 +201,17 @@ function Fetcher() {
 			/**
 			 * Connect to Cloudflare.
 			 *
-			 * @param {string} step
-			 * @param {string} formData
-			 * @param {Array}  cfData
+			 * @since 3.0.0
+			 *
+			 * @param {string} email
+			 * @param {string} key
+			 * @param {string} token
+			 * @param {string} zone
 			 */
-			connect: ( step, formData, cfData ) => {
+			connect: ( email, key, token, zone ) => {
 				return request(
 					actionPrefix + 'cloudflare_connect',
-					{ step, formData, cfData },
+					{ email, key, token, zone },
 					'POST'
 				).then( ( response ) => {
 					return response;
@@ -450,7 +453,7 @@ function Fetcher() {
 			/**
 			 * Upload settings import file from HB admin settings.
 			 *
-			 * @param {FormData Object} form_data
+			 * @param {Object} form_data
 			 */
 			importSettings: ( form_data ) => {
 				const action = actionPrefix + 'admin_settings_import_settings';
@@ -464,12 +467,11 @@ function Fetcher() {
 			/**
 			 * Export settings from HB admin settings.
 			 */
-			exprotSettings: () => {
+			exportSettings: () => {
 				const action = actionPrefix + 'admin_settings_export_settings';
-				const url = fetchUrl + '?action=' + action + '&nonce=' + fetchNonce;
-			 	window.location = url;
-			}
-
+				window.location =
+					fetchUrl + '?action=' + action + '&nonce=' + fetchNonce;
+			},
 		},
 
 		/**

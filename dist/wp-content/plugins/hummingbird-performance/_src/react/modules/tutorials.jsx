@@ -10,7 +10,7 @@ import ReactDOM from 'react-dom';
  * WordPress dependencies
  */
 import domReady from '@wordpress/dom-ready';
-import { __, sprintf } from '@wordpress/i18n';
+const { __, sprintf } = wp.i18n;
 
 /**
  * Internal dependencies
@@ -27,7 +27,7 @@ function hideTutorials() {
 		sprintf(
 			/* translators: %1$s - opening a tag, %2$s - closing a tag */
 			__(
-				'The widget has been removed. Hummingbird tutorials can still be found in the %1$sTutorials tab%2$s any time.'
+				'The widget has been removed. Hummingbird tutorials can still be found in the %1$sTutorials tab%2$s any time.', 'wphb'
 			),
 			'<a href=' + getLink( 'tutorials' ) + '>',
 			'</a>'
@@ -44,7 +44,7 @@ domReady( function () {
 		ReactDOM.render(
 			<TutorialsSlider
 				category="11234"
-				title={ __( 'Tutorials' ) }
+				title={ __( 'Tutorials', 'wphb' ) }
 				viewAll="https://wpmudev.com/blog/tutorials/tutorial-category/hummingbird-pro/"
 				onCloseClick={ hideTutorials }
 			/>,
@@ -58,7 +58,7 @@ domReady( function () {
 		ReactDOM.render(
 			<TutorialsList
 				category="11234"
-				title={ __( 'Hummingbird Tutorials' ) }
+				title={ __( 'Hummingbird Tutorials', 'wphb' ) }
 			/>,
 			tutorialsListDiv
 		);

@@ -5,18 +5,43 @@
 
 	const WPHBGlobal = {
 		init() {
-			this.registerClearPageCache();
+			this.registerClearAllCache();
 			this.registerClearNetworkCache();
 			this.registerClearCacheFromNotice();
 			this.registerClearCloudflare();
 		},
 
 		/**
-		 * Clear page cache.
+		 * Clear selected module from admin bar.
+		 *
+		 * @since 3.0.1
+		 *
+		 * @param {string} module  Module ID.
 		 */
-		registerClearPageCache() {
-			const btn = document.querySelector(
-				'#wp-admin-bar-wphb-clear-cache > a'
+		clearCache( module ) {
+			jQuery
+				.ajax( {
+					url: wphbGlobal.ajaxurl,
+					method: 'POST',
+					data: {
+						nonce: wphbGlobal.nonce,
+						action: 'wphb_clear_caches',
+						modules: [ module ],
+					},
+				} )
+				.done( function () {
+					location.reload();
+				} );
+		},
+
+		/**
+		 * Clear all cache from admin bar.
+		 *
+		 * @since 3.0.1
+		 */
+		registerClearAllCache() {
+			const btn = document.getElementById(
+				'wp-admin-bar-wphb-clear-all-cache'
 			);
 
 			if ( ! btn ) {
@@ -24,7 +49,7 @@
 			}
 
 			btn.addEventListener( 'click', () =>
-				this.post( 'wphb_front_clear_cache' )
+				this.post( 'wphb_global_clear_cache' )
 			);
 		},
 
@@ -99,6 +124,7 @@
 					location.reload();
 				}
 			};
+
 			xhr.send();
 		},
 	};
@@ -106,4 +132,6 @@
 	document.addEventListener( 'DOMContentLoaded', function () {
 		WPHBGlobal.init();
 	} );
+
+	window.WPHBGlobal = WPHBGlobal;
 } )();

@@ -97,6 +97,14 @@ class Minify extends Module {
 	private $exclude_combine = array( 'lodash' );
 
 	/**
+	 * Google fonts collection.
+	 *
+	 * @since 3.0.0
+	 * @var array $fonts
+	 */
+	private $fonts = array();
+
+	/**
 	 * Initializes the module. Always executed even if the module is deactivated.
 	 *
 	 * We need the scanner module to be always active, because HB uses is_scanning to detect
@@ -112,6 +120,8 @@ class Minify extends Module {
 		add_filter( 'wphb_combine_resource', array( $this, 'filter_resource_combine' ), 10, 3 );
 		add_filter( 'wphb_defer_resource', array( $this, 'filter_resource_defer' ), 10, 3 );
 		add_filter( 'wphb_inline_resource', array( $this, 'filter_resource_inline' ), 10, 3 );
+		add_filter( 'wphb_preload_resource', array( $this, 'filter_resource_preload' ), 10, 3 );
+		add_filter( 'wphb_async_resource', array( $this, 'filter_resource_async' ), 10, 3 );
 		add_filter( 'wphb_send_resource_to_footer', array( $this, 'filter_resource_to_footer' ), 10, 3 );
 		add_filter( 'wphb_cdn_resource', array( $this, 'filter_resource_cdn' ), 10, 3 );
 
@@ -180,6 +190,15 @@ class Minify extends Module {
 		add_filter( 'print_styles_array', array( $this, 'filter_styles' ), 5 );
 		add_filter( 'print_scripts_array', array( $this, 'filter_scripts' ), 5 );
 		add_action( 'wp_footer', array( $this, 'trigger_process_queue_cron' ), 10000 );
+
+		add_filter( 'wp_resource_hints', array( $this, 'prefetch_cdn_dns' ), 99, 2 );
+
+		// Google fonts optimization.
+		$this->fonts = Settings::get_setting( 'fonts', 'minify' );
+		if ( $this->fonts ) {
+			add_filter( 'wp_resource_hints', array( $this, 'prefetch_fonts' ), 10, 2 );
+			add_filter( 'style_loader_tag', array( $this, 'preload_fonts' ), 10, 3 );
+		}
 	}
 
 	/**
@@ -338,43 +357,22 @@ class Minify extends Module {
 
 		unset( $_groups );
 
-		// Time to split the groups if we're not combining some of them.
-		foreach ( $groups_list->get_groups() as $group ) {
-			/**
-			 * Minify group.
-			 *
-			 * @var Minify\Minify_Group $group
-			 */
-			$dont_enqueue_list = $group->get_dont_enqueue_list();
-			if ( $dont_enqueue_list ) {
-				// There are one or more handles that should not be enqueued.
-				$group->remove_handles( $dont_enqueue_list );
-				if ( 'styles' === $type ) {
-					wp_dequeue_style( $dont_enqueue_list );
-				} else {
-					wp_dequeue_script( $dont_enqueue_list );
-				}
-			}
+		/**
+		 * WARNING: This is dangerous, it can fall into an infinite loop if not treated with love and care.
+		 * I've added a safety mechanism to try and counter infinite loops.
+		 */
+		$loop_counter = 0;
+		$loop_limit   = apply_filters( 'wphb_group_split_loop_limit', 300 );
+		do {
+			$loop_counter++;
+			$needs_additional_splitting = $this->maybe_split_groups( $groups_list, $type );
 
-			$dont_combine_list = $group->get_dont_combine_list();
-			if ( $dont_combine_list ) {
-				$split_group = $this->get_splitted_group_structure_by( 'combine', $group );
-				// Split the group!
-				$groups_list->split_group( $group->hash, $split_group );
+			if ( $loop_limit === $loop_counter ) {
+				set_transient( 'wphb_infinite_loop_warning', true, 3600 );
+				error_log( '[Hummingbird] Minify group infinite loop detected. Safety mechanism invoked, breaking out of loop.' );
+				break;
 			}
-
-			if ( 'scripts' === $type && $group->get_defer_list() ) {
-				$split_group = $this->get_splitted_group_structure_by( 'defer', $group, false );
-				// Split the group!
-				$groups_list->split_group( $group->hash, $split_group );
-			}
-
-			if ( 'styles' === $type && $group->get_inline_list() ) {
-				$split_group = $this->get_splitted_group_structure_by( 'inline', $group, false );
-				// Split the group!
-				$groups_list->split_group( $group->hash, $split_group );
-			}
-		}
+		} while ( $needs_additional_splitting );
 
 		// Set the groups handles, as we need all of them before processing.
 		foreach ( $groups_list->get_groups() as $group ) {
@@ -399,6 +397,11 @@ class Minify extends Module {
 		// Watch out! Groups must not be changed after this point!
 		$groups_list->preprocess_groups();
 
+		/**
+		 * Minify group.
+		 *
+		 * @var Minify\Minify_Group $group
+		 */
 		foreach ( $groups_list->get_groups() as $group ) {
 			$group_status = $groups_list->get_group_status( $group->hash );
 			$deps         = $groups_list->get_group_dependencies( $group->hash );
@@ -424,6 +427,89 @@ class Minify extends Module {
 		}
 
 		return $return_to_wp;
+	}
+
+	/**
+	 * Try to split the groups. Recursive function.
+	 *
+	 * The idea behind this is that when groups are split, we need to check those new groups if they need to be
+	 * split even further.
+	 *
+	 * This might be a minor performance hog on larger installs with a lot of settings in asset optimization.
+	 * I have tested on a relatively small site (29 assets) with three assets set to be split up, and did not notice
+	 * a significant difference in performance. This whole part took 1.59ms (xdebug enabled, worst score out of several
+	 * runs) compared to 1.47ms without recursive functionality (best score out of several runs). Which is, worst
+	 * case scenario, about 0.12ms per extra split run.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param Minify\Minify_Groups_List $groups_list  Group list.
+	 * @param string                    $type         Scripts|styles.
+	 *
+	 * @return bool  True when we need to do another pass, false when nothing else to split.
+	 */
+	private function maybe_split_groups( &$groups_list, $type ) {
+		// Time to split the groups if we're not combining some of them.
+		foreach ( $groups_list->get_groups() as $group ) {
+			/**
+			 * Minify group.
+			 *
+			 * @var Minify\Minify_Group $group
+			 */
+			$dont_enqueue_list = $group->get_dont_enqueue_list();
+			if ( $dont_enqueue_list ) {
+				// There are one or more handles that should not be enqueued.
+				$group->remove_handles( $dont_enqueue_list );
+				if ( 'styles' === $type ) {
+					wp_dequeue_style( $dont_enqueue_list );
+				} else {
+					wp_dequeue_script( $dont_enqueue_list );
+				}
+			}
+
+			// No need to split a single group.
+			$handles = $group->get_handles();
+			if ( 1 === count( $handles ) ) {
+				continue;
+			}
+
+			$dont_combine_list = $group->get_dont_combine_list();
+			if ( $dont_combine_list ) {
+				$split_group = $this->get_splitted_group_structure_by( 'combine', $group );
+				$groups_list->split_group( $group->hash, $split_group );
+				return true;
+			}
+
+			$defer = $group->get_defer_list();
+			if ( 'scripts' === $type && $defer && $handles !== $defer ) {
+				$split_group = $this->get_splitted_group_structure_by( 'defer', $group );
+				$groups_list->split_group( $group->hash, $split_group );
+				return true;
+			}
+
+			$async = $group->get_async_list();
+			if ( 'scripts' === $type && $async && $handles !== $async ) {
+				$split_group = $this->get_splitted_group_structure_by( 'async', $group );
+				$groups_list->split_group( $group->hash, $split_group );
+				return true;
+			}
+
+			$inline = $group->get_inline_list();
+			if ( 'styles' === $type && $inline && $handles !== $inline ) {
+				$split_group = $this->get_splitted_group_structure_by( 'inline', $group );
+				$groups_list->split_group( $group->hash, $split_group );
+				return true;
+			}
+
+			$preload = $group->get_preload_list();
+			if ( $preload && $handles !== $preload ) {
+				$split_group = $this->get_splitted_group_structure_by( 'preload', $group );
+				$groups_list->split_group( $group->hash, $split_group );
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -822,14 +908,31 @@ class Minify extends Module {
 		}
 
 		if ( ! ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) ) {
-			$new_queue = array_values( $new_queue );
 			if ( ! empty( $new_queue ) ) {
 				// Still needs processing.
 				self::schedule_process_queue_cron();
 			}
 		}
 
-		delete_transient( 'wphb-processing' );
+		if ( empty( $new_queue ) ) {
+			// Finish processing.
+			delete_transient( 'wphb-processing' );
+			if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+				/**
+				 * Unfortunately, during cron we are not able to detect the first page load, so it will get cached.
+				 * Page load -> page caching and cron are triggered at the same time, but this is the limitation,
+				 * that page cache will not have the wphb-processing transient at this stage. To counter this,
+				 * we will purge all cache when Asset Optimization is done.
+				 *
+				 * @since 3.0.0
+				 * @see Page_Cache::cache_request() for transient check without cron.
+				 */
+				do_action( 'wphb_clear_page_cache' );
+			}
+		} else {
+			// Refresh transient.
+			set_transient( 'wphb-processing', true, 60 );
+		}
 	}
 
 	/**
@@ -952,6 +1055,9 @@ class Minify extends Module {
 			$options['position'] = $default_options['minify']['position'];
 			$options['defer']    = $default_options['minify']['defer'];
 			$options['inline']   = $default_options['minify']['inline'];
+			$options['fonts']    = $default_options['minify']['fonts'];
+			$options['preload']  = $default_options['minify']['preload'];
+			$options['async']    = $default_options['minify']['async'];
 			$this->update_options( $options );
 		}
 
@@ -969,6 +1075,7 @@ class Minify extends Module {
 	 * Clear pending queue.
 	 */
 	public static function clear_pending_process_queue() {
+		delete_transient( 'wphb_infinite_loop_warning' );
 		delete_option( 'wphb_process_queue' );
 		wp_cache_delete( 'wphb_process_queue', 'options' );
 		delete_transient( 'wphb-processing' );
@@ -1001,12 +1108,12 @@ class Minify extends Module {
 		$minify_default = $default[ $this->get_slug() ];
 
 		// Settings that need to be reset.
-		$ao_settings = array(
-			'use_cdn',
-			'nocdn',
-			'file_path',
-			'log',
-		);
+		$ao_settings = array( 'do_assets', 'view', 'type', 'use_cdn', 'nocdn' );
+
+		// These settings are only valid for single sites or network admin.
+		if ( ! is_multisite() || is_network_admin() ) {
+			$ao_settings = array_merge( $ao_settings, array( 'file_path', 'log' ) );
+		}
 
 		$ao_settings_default = array_intersect_key( $minify_default, array_flip( $ao_settings ) );
 
@@ -1218,6 +1325,46 @@ class Minify extends Module {
 	}
 
 	/**
+	 * Filter preload resources.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param bool   $value   Current value.
+	 * @param string $handle  Resource handle.
+	 * @param string $type    Script or style.
+	 *
+	 * @return bool
+	 */
+	public function filter_resource_preload( $value, $handle, $type ) {
+		$options = $this->get_options();
+		if ( ! in_array( $handle, $options['preload'][ $type ], true ) ) {
+			return $value;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Filter async resources.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param bool   $value   Current value.
+	 * @param string $handle  Resource handle.
+	 * @param string $type    Script or style.
+	 *
+	 * @return bool
+	 */
+	public function filter_resource_async( $value, $handle, $type ) {
+		$options = $this->get_options();
+		if ( ! in_array( $handle, $options['async'][ $type ], true ) ) {
+			return $value;
+		}
+
+		return true;
+	}
+
+	/**
 	 * *************************
 	 * HELPER FUNCTIONS
 	 ***************************/
@@ -1250,6 +1397,9 @@ class Minify extends Module {
 		}
 
 		wp_cache_delete( 'wphb_minify_groups' );
+
+		// Clear all the page cache.
+		do_action( 'wphb_clear_page_cache' );
 	}
 
 	/**
@@ -1456,6 +1606,8 @@ class Minify extends Module {
 			'_dont_enqueue',
 			'_defer',
 			'_inline',
+			'_preload',
+			'_async',
 			'_handle_dependencies',
 			'_handle_original_sizes',
 			'_handle_compressed_sizes',
@@ -1486,9 +1638,76 @@ class Minify extends Module {
 			return $rtl_tag;
 		}
 
-		$rtl_tag = str_replace( '-rtl.', '.', $rtl_tag );
+		return str_replace( '-rtl.', '.', $rtl_tag );
+	}
 
-		return $rtl_tag;
+	/**
+	 * Replace Google fonts with a preloaded version.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $tag     The link tag for the enqueued style.
+	 * @param string $handle  The style's registered handle.
+	 * @param string $href    The stylesheet's source URL.
+	 *
+	 * @return string
+	 */
+	public function preload_fonts( $tag, $handle, $href ) {
+		if ( ! in_array( $handle, $this->fonts, true ) ) {
+			return $tag;
+		}
+
+		$fonts  = '<link rel="preload" as="style" href="' . $href . '" />';
+		$fonts .= str_replace( "media='all'", "media='print' onload='this.media=\"all\"'", $tag );
+
+		return $fonts;
+	}
+
+	/**
+	 * Prefetch Google fonts.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array  $hints          URLs to print for resource hints.
+	 * @param string $relation_type  The relation type the URLs are printed for, e.g. 'preconnect' or 'prerender'.
+	 *
+	 * @return array
+	 */
+	public function prefetch_fonts( $hints, $relation_type ) {
+		if ( 'preconnect' !== $relation_type ) {
+			return $hints;
+		}
+
+		// TODO: we need a way to add crossorigin attribute.
+
+		if ( ! in_array( 'https://fonts.gstatic.com', $hints, true ) ) {
+			$hints[] = 'https://fonts.gstatic.com';
+		}
+
+		if ( ! in_array( 'https://fonts.googleapis.com', $hints, true ) ) {
+			$hints[] = 'https://fonts.googleapis.com';
+		}
+
+		return $hints;
+	}
+
+	/**
+	 * Add CDN URL to header for better speed.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param array  $hints          URLs to print for resource hints.
+	 * @param string $relation_type  The relation type the URLs are printed.
+	 *
+	 * @return array
+	 */
+	public function prefetch_cdn_dns( $hints, $relation_type ) {
+		// Add only if CDN active.
+		if ( 'dns-prefetch' === $relation_type && $this->get_cdn_status() ) {
+			$hints[] = '//hb.wpmucdn.com';
+		}
+
+		return $hints;
 	}
 
 }

@@ -129,7 +129,146 @@ $generated_i18n_strings = array(
 	// Reference: _src/react/modules/caching/integrations.jsx:669
 	__( 'Open item', 'wphb' ),
 
-	// Reference: _src/react/modules/minify.jsx:118
+	// Reference: _src/react/modules/configs.jsx:102
+	/* translators: %s config name */
+	__( 'Are you sure you want to apply the %s config to this site? We recommend you have a backup available as your existing settings configuration will be overridden.', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:108
+	__( 'Apply', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:111
+	/* translators: %s. config name */
+	__( '%s config has been applied successfully.', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:118
+	__( 'Delete Configuration File', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:121
+	/* translators: %s config name */
+	__( 'Are you sure you want to delete %s? You will no longer be able to apply it to this or other connected sites.', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:127
+	__( 'Delete', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:132
+	__( 'Config name', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:133
+	__( 'Description', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:134
+	__( 'The config name is required', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:135
+	__( 'Save', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:136
+	__( 'Rename Config', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:137
+	__( 'Change your config name to something recognizable.', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:141
+	__( 'Save Config', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:142
+	__( 'Save your current settings configuration. You’ll be able to then download and apply it to your other sites.', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:148
+	/* translators: %s. config name */
+	__( '%s config created successfully.', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:153
+	__( 'Uptime', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:154
+	__( 'Gravatar Caching', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:155
+	__( 'Page Caching', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:156
+	__( 'Advanced Tools', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:157
+	__( 'RSS Caching', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:158
+	__( 'Settings', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:159
+	__( 'Performance Test', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:22
+	__( 'You can easily apply configs to multiple sites at once via ', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:31
+	__( 'the Hub.', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:36
+	__( 'Close this dialog window', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:37
+	__( 'Cancel', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:40
+	__( 'Preset Configs', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:41
+	__( 'Upload', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:42
+	__( 'Save config', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:43
+	__( 'Manage configs', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:44
+	__( 'Updating the config list...', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:45
+	__( 'You don’t have any available config. Save preset configurations of Hummingbird’s settings, then upload and apply them to your other sites in just a few clicks!', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:49
+	__( 'Use configs to save preset configurations of Hummingbird’s settings, then upload and apply them to your other sites in just a few clicks!', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:54
+	__( 'Use configs to save preset configurations of your settings.', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:58
+	__( 'Created or updated the configs via the Hub?', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:62
+	__( 'Re-check to get the updated list.', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:67
+	__( 'Download', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:68
+	__( 'Name and Description', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:70
+	__( 'Dismiss notice', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:71
+	__( 'Try The Hub', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:74
+	/* translators: %s request status */
+	__( 'Request failed. Status: %s. Please reload the page and try again.', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:82
+	/* translators: %s request status */
+	__( '%s config has been uploaded successfully – you can now apply it to this site.', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:90
+	/* translators: %s {pluginName} */
+	__( 'The uploaded file is not a %s Config. Please make sure the uploaded file is correct.', 'wphb' ),
+
+	// Reference: _src/react/modules/configs.jsx:99
+	__( 'Apply Config', 'wphb' ),
+
+	// Reference: _src/react/modules/minify.jsx:119
 	__( 'Settings restored to defaults', 'wphb' ),
 
 	// Reference: _src/react/modules/minify.jsx:89
@@ -383,31 +522,31 @@ $generated_i18n_strings = array(
 	// Reference: _src/react/views/minify/configurations.jsx:114
 	__( 'file: ', 'wphb' ),
 
-	// Reference: _src/react/views/minify/configurations.jsx:132
+	// Reference: _src/react/views/minify/configurations.jsx:143
 	__( 'File exclusions', 'wphb' ),
 
-	// Reference: _src/react/views/minify/configurations.jsx:133
+	// Reference: _src/react/views/minify/configurations.jsx:144
 	__( 'Type the filename and click on the filename to add it to the list.', 'wphb' ),
 
-	// Reference: _src/react/views/minify/configurations.jsx:137
+	// Reference: _src/react/views/minify/configurations.jsx:148
 	__( 'Start typing the files to exclude...', 'wphb' ),
 
-	// Reference: _src/react/views/minify/configurations.jsx:155
+	// Reference: _src/react/views/minify/configurations.jsx:166
 	__( 'Choose which files you want to automatically optimize.', 'wphb' ),
 
-	// Reference: _src/react/views/minify/configurations.jsx:164
+	// Reference: _src/react/views/minify/configurations.jsx:175
 	__( 'By default, we\'ll optimize all the CSS and JS files we can find. If you have specific files you want to leave as-is, list them here, and we\'ll exclude them.', 'wphb' ),
 
-	// Reference: _src/react/views/minify/configurations.jsx:181
+	// Reference: _src/react/views/minify/configurations.jsx:192
 	__( 'Files', 'wphb' ),
 
-	// Reference: _src/react/views/minify/configurations.jsx:186
+	// Reference: _src/react/views/minify/configurations.jsx:197
 	__( 'Exclusions', 'wphb' ),
 
-	// Reference: _src/react/views/minify/configurations.jsx:194
+	// Reference: _src/react/views/minify/configurations.jsx:205
 	__( 'The configurations will be applied to the enabled automatic optimization option.', 'wphb' ),
 
-	// Reference: _src/react/views/minify/configurations.jsx:218
+	// Reference: _src/react/views/minify/configurations.jsx:229
 	__( 'Configurations', 'wphb' ),
 
 	// Reference: _src/react/views/minify/configurations.jsx:36

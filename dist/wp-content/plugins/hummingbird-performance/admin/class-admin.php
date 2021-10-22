@@ -92,6 +92,7 @@ class Admin {
 			new Ajax\Gzip();
 			new Ajax\Minify();
 			new Ajax\Caching\Browser();
+			new Ajax\Caching\Integrations();
 		}
 
 		add_action( 'admin_init', array( $this, 'maybe_clear_all_cache' ) );
@@ -123,7 +124,7 @@ class Admin {
 	 *
 	 * @param array $actions  Current actions.
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	public function add_plugin_action_links( $actions ) {
 		// Upgrade link.
@@ -216,10 +217,7 @@ class Admin {
 			exit;
 		}
 
-		$caching = Settings::get_setting( 'enabled', 'page_cache' );
-		if ( ! is_multisite() || ( is_super_admin() && $caching ) || 'blog-admins' === $caching ) {
-			$this->pages['wphb-caching'] = new Pages\Caching( 'wphb-caching', __( 'Caching', 'wphb' ), __( 'Caching', 'wphb' ), 'wphb' );
-		}
+		$this->pages['wphb-caching'] = new Pages\Caching( 'wphb-caching', __( 'Caching', 'wphb' ), __( 'Caching', 'wphb' ), 'wphb' );
 
 		if ( ! is_multisite() ) {
 			$this->pages['wphb-gzip'] = new Pages\React\Gzip( 'wphb-gzip', __( 'Gzip Compression', 'wphb' ), __( 'Gzip Compression', 'wphb' ), 'wphb' );
@@ -382,8 +380,14 @@ class Admin {
 		WP_Hummingbird::flush_cache();
 		Utils::get_module( 'page_cache' )->toggle_service( false );
 
+		Utils::get_module( 'cloudflare' )->toggle_apo( false );
+
 		if ( 'all' === $wphb_clear ) {
 			Settings::reset_to_defaults();
+
+			// Remove configs.
+			delete_site_option( 'wphb-preset_configs' );
+
 			update_option( 'wphb_run_onboarding', true );
 			update_option( 'wphb-minification-show-config_modal', true );
 			update_option( 'wphb-minification-show-advanced_modal', true );

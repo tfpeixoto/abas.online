@@ -229,8 +229,6 @@ abstract class Page {
 	 * @param string $hook  Hook from where the call is made.
 	 */
 	public function enqueue_scripts( $hook ) {
-		global $wp_version;
-
 		// Styles.
 		wp_enqueue_style( 'wphb-admin', WPHB_DIR_URL . 'admin/assets/css/wphb-app.min.css', array(), WPHB_VERSION );
 
@@ -246,7 +244,7 @@ abstract class Page {
 
 		// Google visualization library for Uptime and Historic Field Data Page.
 		// @see https://core.trac.wordpress.org/ticket/18857 for explanation on why.
-		if ( sanitize_title( __( 'Hummingbird Pro', 'wphb' ) ) . '_page_wphb-uptime' === $hook || 'historic' === $this->get_current_tab() ) {
+		if ( sanitize_title( __( 'Hummingbird Pro', 'wphb' ) ) . '_page_wphb-uptime' === $hook || 'main' === $this->get_current_tab() ) {
 			wp_enqueue_script( 'wphb-google-chart', 'https://www.gstatic.com/charts/loader.js', array(), WPHB_VERSION, true );
 		}
 
@@ -436,7 +434,7 @@ abstract class Page {
 					<li><a href="https://wpmudev.com/hub2/" target="_blank"><?php esc_html_e( 'The Hub', 'wphb' ); ?></a></li>
 					<li><a href="https://wpmudev.com/projects/category/plugins/" target="_blank"><?php esc_html_e( 'Plugins', 'wphb' ); ?></a></li>
 					<li><a href="https://wpmudev.com/roadmap/" target="_blank"><?php esc_html_e( 'Roadmap', 'wphb' ); ?></a></li>
-					<li><a href="https://wpmudev.com/hub/support/" target="_blank"><?php esc_html_e( 'Support', 'wphb' ); ?></a></li>
+					<li><a href="https://wpmudev.com/hub2/support/" target="_blank"><?php esc_html_e( 'Support', 'wphb' ); ?></a></li>
 					<li><a href="https://wpmudev.com/docs/" target="_blank"><?php esc_html_e( 'Docs', 'wphb' ); ?></a></li>
 					<li><a href="https://wpmudev.com/hub2/community/" target="_blank"><?php esc_html_e( 'Community', 'wphb' ); ?></a></li>
 					<li><a href="https://wpmudev.com/academy/" target="_blank"><?php esc_html_e( 'Academy', 'wphb' ); ?></a></li>
@@ -537,12 +535,10 @@ abstract class Page {
 				$url = '';
 			}
 
-			$url = esc_url( $url );
-
-			return $url;
-		} else {
-			return menu_page_url( $this->slug, false );
+			return esc_url( $url );
 		}
+
+		return menu_page_url( $this->slug, false );
 	}
 
 	/**
@@ -581,6 +577,20 @@ abstract class Page {
 	public function show_tabs() {
 		$this->view(
 			'tabs',
+			array(
+				'tabs' => $this->get_tabs(),
+			)
+		);
+	}
+
+	/**
+	 * Show flat (horizontal) layout tabs.
+	 *
+	 * @since 3.0.0
+	 */
+	public function show_tabs_flat() {
+		$this->view(
+			'tabs-flat',
 			array(
 				'tabs' => $this->get_tabs(),
 			)

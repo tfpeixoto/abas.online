@@ -8,6 +8,7 @@
  *
  * @var \Hummingbird\Admin\Page $this
  *
+ * @var string $fonts_rows       Table rows for Google fonts.
  * @var int    $error_time_left  Time left before next scan is possible.
  * @var bool   $is_server_error  Server error status.
  * @var string $scripts_rows     Table rows for minified scripts.
@@ -51,10 +52,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>
 		</div>
 
-		<p><?php esc_html_e( 'Compress, inline, combine, defer or move your files and then publish your changes.', 'wphb' ); ?></p>
+		<p class="sui-description">
+			<?php esc_html_e( 'Manually configure your optimization settings (compress, combine, move, inline, defer, async, and preload) and then publish your changes.', 'wphb' ); ?>
+		</p>
 	</div>
 
 	<?php
+	if ( get_transient( 'wphb_infinite_loop_warning' ) ) {
+		ob_start();
+		esc_html_e( 'Issues processing queue. Hummingbird performance can be degraded.', 'wphb' );
+		echo esc_html( '&nbsp;' );
+		\Hummingbird\Core\Utils::still_having_trouble_link();
+		$text = ob_get_clean();
+		$this->admin_notices->show_inline( $text, 'error' );
+	}
+
 	if ( $is_server_error ) {
 		$message = sprintf( /* translators: %d: Time left before another retry. */
 			__( 'It seems that we are having problems in our servers. Asset optimization will be turned off for %d minutes', 'wphb' ),
@@ -68,7 +80,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<div class="sui-box sui-box-sticky">
 		<div class="sui-actions-left">
-			<a class="sui-button button-notice disabled" data-modal-open="bulk-update-modal" data-modal-open-focus="dialog-close-div" data-modal-mask="true" id="bulk-update" >
+			<a class="sui-button button-notice disabled" id="bulk-update" >
 				<?php esc_html_e( 'Bulk Update', 'wphb' ); ?>
 			</a>
 			<input type="submit" id="wphb-publish-changes" class="sui-button sui-button-blue disabled" name="submit" value="<?php esc_attr_e( 'Publish Changes', 'wphb' ); ?>"/>
@@ -173,6 +185,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<div class="wphb-minification-files-table wphb-minification-files-advanced">
 			<?php echo $others_rows; ?>
+		</div>
+	<?php endif; ?>
+
+	<?php if ( '' !== $fonts_rows ) : ?>
+		<div class="wphb-minification-files-select">
+			<label for="minification-bulk-file-font" class="screen-reader-text"><?php esc_html_e( 'Select all Google fonts', 'wphb' ); ?></label>
+			<label class="sui-checkbox">
+				<input type="checkbox" id="minification-bulk-file-font" name="minification-bulk-files" class="wphb-minification-bulk-file-selector" data-type="FONT">
+				<span aria-hidden="true"></span>
+			</label>
+			<h3><?php esc_html_e( 'Google Fonts', 'wphb' ); ?></h3>
+		</div>
+
+		<div class="wphb-minification-files-table wphb-minification-files-advanced">
+			<?php echo $fonts_rows; ?>
 		</div>
 	<?php endif; ?>
 </div><!-- end wphb-minification-files -->

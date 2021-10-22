@@ -36,6 +36,19 @@ class Minify extends Service {
 	}
 
 	/**
+	 * Get request object.
+	 *
+	 * Only used to get the API key via the global minify API object.
+	 *
+	 * @since 3.0.1
+	 *
+	 * @return \Hummingbird\Core\Api\Request\Minify
+	 */
+	public function get_request() {
+		return $this->request;
+	}
+
+	/**
 	 * Check if performance test has finished on server
 	 *
 	 * @param array $files  List of files.

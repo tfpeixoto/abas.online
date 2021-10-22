@@ -20,12 +20,12 @@ import CacheScanner from '../scanners/CacheScanner';
 		init() {
 			const self = this,
 				hash = window.location.hash,
-				pageCachingForm = $( 'form[id="page-caching-form"]' ),
-				rssForm = $( 'form[id="rss-caching-settings"]' ),
+				pageCachingForm = $( 'form[id="page_cache-form"]' ),
+				rssForm = $( 'form[id="rss-form"]' ),
 				gravatarDiv = $( 'div[id="wphb-box-caching-gravatar"]' ),
 				cachingHeader = $( '.box-caching-status .sui-box-header' ),
 				expiryForm = $( 'form[id="expiry-settings"]' ),
-				settingsForm = $( 'form[id="other-caching-settings"]' );
+				settingsForm = $( 'form[id="settings-form"]' );
 
 			// We assume there's at least one site, but this.scanner.init() will properly set the total sites.
 			this.scanner = new CacheScanner( 1, 0 );
@@ -110,6 +110,18 @@ import CacheScanner from '../scanners/CacheScanner';
 			}
 
 			/**
+			 * Remove advanced-cache.php file.
+			 *
+			 * @since 3.1.1
+			 */
+			$( '#wphb-remove-advanced-cache' ).on( 'click', ( e ) => {
+				e.preventDefault();
+				Fetcher.common
+					.call( 'wphb_remove_advanced_cache' )
+					.then( () => location.reload() );
+			} );
+
+			/**
 			 * BROWSER CACHING
 			 */
 
@@ -147,7 +159,8 @@ import CacheScanner from '../scanners/CacheScanner';
 				const expiryRow = document.getElementById(
 					'wphb-expiry-time-row'
 				);
-				expiryRow.style.display = 'iis' === value || 'litespeed' === value ? 'none' : 'flex';
+				expiryRow.style.display =
+					'iis' === value || 'litespeed' === value ? 'none' : 'flex';
 			} );
 
 			// Expiry time change between all types and individual type.
@@ -324,11 +337,17 @@ import CacheScanner from '../scanners/CacheScanner';
 				redisForm.addEventListener( 'submit', ( e ) => {
 					e.preventDefault();
 
-					const host 		= document.getElementById( 'redis-host' ).value;
-					let port 		= document.getElementById( 'redis-port' ).value;
-					const pass 		= document.getElementById( 'redis-password' ).value;
-					const db 		= document.getElementById( 'redis-db' ).value;
-					const connected = document.getElementById( 'redis-connected' ).value;
+					const btn = document.getElementById( 'redis-connect-save' );
+					btn.classList.add( 'sui-button-onload-text' );
+
+					const host = document.getElementById( 'redis-host' ).value;
+					let port = document.getElementById( 'redis-port' ).value;
+					const pass = document.getElementById( 'redis-password' )
+						.value;
+					const db = document.getElementById( 'redis-db' ).value;
+					const connected = document.getElementById(
+						'redis-connected'
+					).value;
 
 					if ( ! port ) {
 						port = 6379;
@@ -342,7 +361,10 @@ import CacheScanner from '../scanners/CacheScanner';
 								'undefined' !== typeof response &&
 								response.success
 							) {
-								window.location.search += connected === '1' ? '&updated=redis-auth-2' : '&updated=redis-auth';
+								window.location.search +=
+									connected === '1'
+										? '&updated=redis-auth-2'
+										: '&updated=redis-auth';
 							} else {
 								const notice = document.getElementById(
 									'redis-connect-notice-on-modal'
@@ -353,6 +375,10 @@ import CacheScanner from '../scanners/CacheScanner';
 								);
 								notice.parentNode.parentNode.classList.add(
 									'sui-spacing-top--10'
+								);
+
+								btn.classList.remove(
+									'sui-button-onload-text'
 								);
 							}
 						} );

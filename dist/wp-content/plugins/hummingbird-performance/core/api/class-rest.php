@@ -7,6 +7,7 @@
 
 namespace Hummingbird\Core\Api;
 
+use Hummingbird\Core\Configs;
 use Hummingbird\Core\Utils;
 use WP_Error;
 use WP_REST_Request;
@@ -99,6 +100,36 @@ class Rest {
 				'permission_callback' => '__return_true',
 			)
 		);
+
+		// Configs routes.
+		register_rest_route(
+			$this->get_namespace(),
+			'/preset_configs',
+			array(
+				array(
+					'methods'             => 'GET',
+					'callback'            => array( $this, 'get_configs' ),
+					'permission_callback' => array( $this, 'check_configs_permissions' ),
+				),
+				array(
+					'methods'             => 'POST',
+					'callback'            => array( $this, 'set_configs' ),
+					'permission_callback' => array( $this, 'check_configs_permissions' ),
+				),
+			)
+		);
+	}
+
+	/**
+	 * Check if user has proper permissions (minimum manage_options capability) to use the endpoints.
+	 *
+	 * @since 3.0.1
+	 *
+	 * @return bool
+	 */
+	public function check_configs_permissions() {
+		$capability = is_multisite() ? 'manage_network' : 'manage_options';
+		return current_user_can( $capability );
 	}
 
 	/**
@@ -208,6 +239,49 @@ class Rest {
 		}
 
 		return rest_ensure_response( $response );
+	}
+
+	/**
+	 * Gets the local list of configs.
+	 *
+	 * @since 3.0.1
+	 *
+	 * @return array
+	 */
+	public function get_configs() {
+		$stored_configs = get_site_option( 'wphb-preset_configs', false );
+
+		if ( false === $stored_configs ) {
+			$configs = new Configs();
+
+			$stored_configs = array( $configs->get_basic_config() );
+
+			update_site_option( 'wphb-preset_configs', $stored_configs );
+		}
+
+		return $stored_configs;
+	}
+
+	/**
+	 * Updates the local list of configs.
+	 *
+	 * @since 3.0.1
+	 *
+	 * @param WP_REST_Request $request Class containing the request data.
+	 *
+	 * @return WP_Error
+	 */
+	public function set_configs( $request ) {
+		$data = json_decode( $request->get_body(), true );
+
+		if ( ! is_array( $data ) ) {
+			return new WP_Error( '400', esc_html__( 'Missing configs data', 'wphb' ), array( 'status' => 400 ) );
+		}
+
+		// We might want to sanitize before this.
+		update_site_option( 'wphb-preset_configs', $data );
+
+		return $data;
 	}
 
 }
