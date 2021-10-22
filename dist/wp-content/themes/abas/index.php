@@ -53,6 +53,13 @@ require_once("header.php");
         <?php dynamic_sidebar('Barra lateral'); ?>
       </aside>
     </div>
+
+    <div class="row">
+      <div class="col-12 paginador">
+        <?php next_posts_link('Mais antigos'); ?>
+        <?php previous_posts_link('Mais novos'); ?>
+      </div>
+    </div>
   </div>
 </section>
 

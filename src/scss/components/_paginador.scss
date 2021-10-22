@@ -1,0 +1,18 @@
+.paginador {
+  display: flex;
+  justify-content: center;
+
+  .btn {
+    background: $roxo;
+    border: 2px solid $roxo;
+    color: $white;
+    margin: 0 .5rem;
+    padding: .5rem 1rem;
+
+    &:hover{
+      background: $white;
+      border: 2px solid $roxo;
+      color: $roxo;
+    }
+  }
+}

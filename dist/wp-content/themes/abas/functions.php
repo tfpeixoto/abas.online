@@ -186,3 +186,12 @@ register_sidebar(
     "after_title" => "</h5>",
   )
 );
+
+// PAGINADOR
+add_filter('next_posts_link_attributes', 'post_link_atributes');
+add_filter('previous_posts_link_attributes', 'post_link_atributes');
+
+function post_link_atributes()
+{
+  return 'class="btn"';
+}
