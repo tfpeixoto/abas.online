@@ -360,7 +360,7 @@ class Logger {
 		}
 
 		// Only allow these actions.
-		if ( ! in_array( $action, array( 'download' ), true ) ) {
+		if ( 'download' !== $action ) {
 			return;
 		}
 
@@ -500,7 +500,6 @@ class Logger {
 
 					$delete = true;
 					unset( $content[ $i ] );
-
 				}
 			}
 

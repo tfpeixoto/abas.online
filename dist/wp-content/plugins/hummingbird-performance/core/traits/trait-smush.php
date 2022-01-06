@@ -106,11 +106,11 @@ trait Smush {
 		$access = get_site_option( 'wp-smush-networkwide' );
 
 		if ( ! $access ) {
-			return is_network_admin() ? true : false;
+			return is_network_admin();
 		}
 
 		if ( '1' === $access ) {
-			return is_network_admin() ? false : true;
+			return ! is_network_admin();
 		}
 
 		if ( is_array( $access ) ) {

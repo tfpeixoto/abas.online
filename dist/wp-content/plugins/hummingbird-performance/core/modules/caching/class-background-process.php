@@ -75,10 +75,10 @@ abstract class Background_Process extends Async_Request {
 	 * Dispatch
 	 *
 	 * @access public
-	 * @return void|WP_Error
+	 * @return array|WP_Error
 	 */
 	public function dispatch() {
-		// Schedule the cron healthcheck.
+		// Schedule the cron health check.
 		$this->schedule_event();
 
 		// Perform remote post.
@@ -193,8 +193,7 @@ abstract class Background_Process extends Async_Request {
 	 */
 	protected function is_queue_empty() {
 		$count = $this->get_queue_size();
-
-		return ( $count > 0 ) ? false : true;
+		return ! ( $count > 0 );
 	}
 
 	/**
@@ -202,7 +201,7 @@ abstract class Background_Process extends Async_Request {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @return int
+	 * @return string|null
 	 */
 	public function get_queue_size() {
 		global $wpdb;
@@ -217,7 +216,7 @@ abstract class Background_Process extends Async_Request {
 
 		$key = $wpdb->esc_like( $this->identifier . '_batch_' ) . '%';
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$table} WHERE {$column} LIKE %s", $key ) );
+		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $table WHERE $column LIKE %s", $key ) );
 	}
 
 	/**
@@ -287,7 +286,7 @@ abstract class Background_Process extends Async_Request {
 
 		$key = $wpdb->esc_like( $this->identifier . '_batch_' ) . '%';
 
-		$query = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE {$column} LIKE %s ORDER BY {$key_column} ASC LIMIT 1", $key ) );
+		$query = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $table WHERE $column LIKE %s ORDER BY $key_column ASC LIMIT 1", $key ) );
 
 		$batch       = new stdClass();
 		$batch->key  = $query->$column;
@@ -377,7 +376,7 @@ abstract class Background_Process extends Async_Request {
 		}
 
 		if ( ! $memory_limit || -1 === (int) $memory_limit ) {
-			// Unlimited, set to 32GB.
+			// Unlimited, set to 32 GB.
 			$memory_limit = '32000M';
 		}
 
@@ -410,12 +409,12 @@ abstract class Background_Process extends Async_Request {
 	 * performed, or, call parent::complete().
 	 */
 	protected function complete() {
-		// Unschedule the cron healthcheck.
+		// Unschedule the cron health check.
 		$this->clear_scheduled_event();
 	}
 
 	/**
-	 * Schedule cron healthcheck
+	 * Schedule cron health check
 	 *
 	 * @access public
 	 * @param mixed $schedules Schedules.
@@ -439,7 +438,7 @@ abstract class Background_Process extends Async_Request {
 	}
 
 	/**
-	 * Handle cron healthcheck
+	 * Handle cron health check
 	 *
 	 * Restart the background process if not already running
 	 * and data exists in the queue.
@@ -516,7 +515,7 @@ abstract class Background_Process extends Async_Request {
 
 		$wpdb->get_var(
 			$wpdb->prepare(
-				"DELETE FROM {$table} WHERE {$column} LIKE %s",
+				"DELETE FROM $table WHERE $column LIKE %s",
 				$key
 			)
 		); // Db call ok; no cache ok.

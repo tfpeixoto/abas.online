@@ -30,8 +30,8 @@ class Status extends React.Component {
 	 * Generate the status tag for browser caching, based on the number of active
 	 * elements (JavaScript, CSS, Media, Images).
 	 *
-	 * @param {Object}  status      Browser caching status object.
-	 * @param {boolean} successTag  On success show a tick tag.
+	 * @param {Object}  status     Browser caching status object.
+	 * @param {boolean} successTag On success show a tick tag.
 	 * @return {*} Browser caching status.
 	 */
 	getStatus( status, successTag = false ) {
@@ -53,7 +53,7 @@ class Status extends React.Component {
 	/**
 	 * Get an array of failed items.
 	 *
-	 * @param {Object} items  Browser caching statues.
+	 * @param {Object} items Browser caching statues.
 	 * @return {number} Number of failed items.
 	 */
 	getFailedItems( items ) {
@@ -141,13 +141,13 @@ class Status extends React.Component {
 
 		const notice = this.props.cloudflare.isConnected
 			? __(
-					'We’ve detected you’re using Cloudflare! Connect your account to control your settings via Hummingbird.',
-					'wphb'
-			  )
+				'We’ve detected you’re using Cloudflare! Connect your account to control your settings via Hummingbird.',
+				'wphb'
+			)
 			: __(
-					'Using CloudFlare? Connect your account to control your settings via Hummingbird. CloudFlare is a Content Delivery Network (CDN) that sends traffic through its global network to automatically optimize the delivery of your site so your visitors can browse your site at top speeds. There is a free plan and we recommend using it.',
-					'wphb'
-			  );
+				'Using CloudFlare? Connect your account to control your settings via Hummingbird. CloudFlare is a Content Delivery Network (CDN) that sends traffic through its global network to automatically optimize the delivery of your site so your visitors can browse your site at top speeds. There is a free plan and we recommend using it.',
+				'wphb'
+			);
 
 		const connectButton = (
 			<Button
@@ -365,6 +365,39 @@ class Status extends React.Component {
 	}
 
 	/**
+	 * Footer actions for Cloudflare connected sites.
+	 *
+	 * @since 3.2.0
+	 *
+	 * @return {JSX.Element}  Action buttons.
+	 */
+	getFooter() {
+		if ( ! this.props.cloudflare.isAuthed && ! this.props.cloudflare.isSetup ) {
+			return null;
+		}
+
+		return (
+			<React.Fragment>
+				<Button
+					type="button"
+					classes={ [ 'sui-button' ] }
+					text={ __( 'Clear Cache', 'wphb' ) }
+					onClick={ this.props.clearCache }
+				/>
+
+				<div className="sui-actions-right">
+					<Button
+						classes={ [ 'sui-button', 'sui-button-ghost' ] }
+						icon="sui-icon-power-on-off"
+						text={ __( 'Disconnect', 'wphb' ) }
+						onClick={ this.props.disconnectCloudflare }
+					/>
+				</div>
+			</React.Fragment>
+		);
+	}
+
+	/**
 	 * Render component.
 	 *
 	 * @return {*} Status component.
@@ -374,14 +407,20 @@ class Status extends React.Component {
 
 		const rightAction = (
 			<React.Fragment>
-				<span className="label-notice-inline sui-hidden-xs sui-hidden-sm">
-					{ __( 'Made changes?', 'wphb' ) }
-				</span>
 				<Button
 					text={ __( 'Re-check status', 'wphb' ) }
 					onClick={ this.props.onUpdate }
 					classes={ [ 'sui-button', 'sui-button-ghost' ] }
 					icon="sui-icon-update"
+				/>
+				<Button
+					text={ __( 'Configure', 'wphb' ) }
+					onClick={ this.props.onShowWizard }
+					classes={ [ 'sui-button', 'sui-tooltip', 'sui-tooltip-constrained', 'sui-tooltip-top-right' ] }
+					data-tooltip={ __(
+						'Adjust your server type again and select the relevant rules.',
+						'wphb'
+					) }
 				/>
 			</React.Fragment>
 		);
@@ -408,6 +447,7 @@ class Status extends React.Component {
 				title={ __( 'Status', 'wphb' ) }
 				headerActions={ headerActions }
 				content={ this.getContent() }
+				footerActions={ this.getFooter() }
 			/>
 		);
 	}

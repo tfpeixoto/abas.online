@@ -13,6 +13,8 @@ require_once("header.php");
   </div>
 </section>
 
+<?php get_template_part( 'template_parts/search-form' ); ?>
+
 <section class="blog__post">
   <div class="container">
     <div class="row d-flex justify-content-center">
@@ -40,6 +42,9 @@ require_once("header.php");
     </div>
   </div>
 </section>
+
+<?php get_template_part('template_parts/posts-sugeridos'); ?>
+<?php get_template_part( 'template_parts/blog-form' ); ?>
 
 <?php require_once("template_parts/depoimentos.php"); ?>
 

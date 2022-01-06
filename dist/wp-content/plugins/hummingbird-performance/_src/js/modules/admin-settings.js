@@ -3,7 +3,7 @@
 import Fetcher from '../utils/fetcher';
 import { getLink } from '../utils/helpers';
 
-( function ( $ ) {
+( function( $ ) {
 	'use strict';
 
 	WPHB_Admin.settings = {
@@ -47,7 +47,7 @@ import { getLink } from '../utils/helpers';
 			/**
 			 * Parse remove settings change.
 			 */
-			$( 'input[name=remove_settings]' ).on( 'change', function ( e ) {
+			$( 'input[name=remove_settings]' ).on( 'change', function( e ) {
 				const otherClass =
 					'remove_settings-false' === e.target.id
 						? 'remove_settings-true'
@@ -61,7 +61,7 @@ import { getLink } from '../utils/helpers';
 			/**
 			 * Parse remove data change.
 			 */
-			$( 'input[name=remove_data]' ).on( 'change', function ( e ) {
+			$( 'input[name=remove_data]' ).on( 'change', function( e ) {
 				const otherClass =
 					'remove_data-false' === e.target.id
 						? 'remove_data-true'
@@ -77,7 +77,7 @@ import { getLink } from '../utils/helpers';
 			 *
 			 * @since 2.6.0
 			 */
-			$( '#wphb-import-file-input' ).on( 'change', function () {
+			$( '#wphb-import-file-input' ).on( 'change', function() {
 				const elm = $( this )[ 0 ];
 				if ( elm.files.length ) {
 					const file = elm.files[ 0 ];
@@ -98,7 +98,7 @@ import { getLink } from '../utils/helpers';
 			 *
 			 * @since 2.6.0
 			 */
-			$( '#wphb-import-remove-file' ).on( 'click', function () {
+			$( '#wphb-import-remove-file' ).on( 'click', function() {
 				$( '#wphb-import-file-input' ).val( '' ).trigger( 'change' );
 			} );
 
@@ -107,7 +107,7 @@ import { getLink } from '../utils/helpers';
 			 *
 			 * @since 2.6.0
 			 */
-			$( '#wphb-begin-import-btn' ).on( 'click', function ( e ) {
+			$( '#wphb-begin-import-btn' ).on( 'click', function( e ) {
 				e.preventDefault();
 				$( this )
 					.attr( 'disabled', 'disabled' )
@@ -152,7 +152,7 @@ import { getLink } from '../utils/helpers';
 			 *
 			 * @since 2.6.0
 			 */
-			$( '#wphb-export-btn' ).on( 'click', function ( e ) {
+			$( '#wphb-export-btn' ).on( 'click', function( e ) {
 				e.preventDefault();
 				Fetcher.settings.exportSettings();
 			} );
@@ -162,7 +162,7 @@ import { getLink } from '../utils/helpers';
 			 *
 			 * @since 3.0.1
 			 */
-			$( 'input[id="control"]' ).on( 'change', function () {
+			$( 'input[id="control"]' ).on( 'change', function() {
 				$( '.cache-control-options' ).toggle();
 			} );
 

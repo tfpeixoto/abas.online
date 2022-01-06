@@ -15,6 +15,10 @@ const { __ } = wp.i18n;
 import Button from '../../components/sui-button';
 import Notice from '../../components/sui-notice';
 import { UserContext } from '../../context';
+import SupportLink from '../../components/support-link';
+import CodeSnippet from '../../components/sui-code-snippet';
+import OrderedList from '../../components/ordered-list';
+import Tabs from '../../components/sui-tabs';
 
 /**
  * Server instructions component.
@@ -33,11 +37,6 @@ export default class ServerInstructions extends React.Component {
 	}
 
 	static initSUIcomponents() {
-		const codeSnippet = document.querySelector( 'pre.sui-code-snippet' );
-		if ( codeSnippet ) {
-			SUI.suiCodeSnippet( codeSnippet );
-		}
-
 		const el = document.getElementById( 'wphb-server-instructions-apache' );
 		if ( el ) {
 			SUI.suiTabs( el.querySelector( '.sui-tabs' ) );
@@ -58,39 +57,6 @@ export default class ServerInstructions extends React.Component {
 				);
 			} );
 		}
-	}
-
-	/**
-	 * Return support link based on user status.
-	 *
-	 * @return {*}  Support link.
-	 */
-	getSupportLink() {
-		let button = '';
-
-		if ( this.context.isMember ) {
-			button = (
-				<Button
-					url={ this.context.links.support.chat }
-					target="blank"
-					text={ __( 'Start a live chat.', 'wphb' ) }
-				/>
-			);
-		} else {
-			button = (
-				<Button
-					url={ this.context.links.support.forum }
-					target="blank"
-					text={ __( 'Open a support ticket.', 'wphb' ) }
-				/>
-			);
-		}
-
-		return (
-			<p className="sui-description">
-				{ __( 'Still having trouble?', 'wphb' ) } { button }
-			</p>
-		);
 	}
 
 	/**
@@ -164,120 +130,87 @@ export default class ServerInstructions extends React.Component {
 			this.props.fullyEnabled &&
 			( ! this.props.htaccessWritten || 'nginx' === this.props.server );
 
+		const itemsBefore = [
+			__( 'Copy & paste the generated code below into your .htaccess file', 'wphb' ),
+			<React.Fragment key="2">
+				{ __( 'Next', 'wphb' ) },{ ' ' }
+				<Button text={ __( 're-check your GZip status', 'wphb' ) } />
+				{ ' ' }{ __( 'to see if it worked', 'wphb' ) }.{ ' ' }
+				<Button id="troubleshooting-link" text={ __( 'Still having issues?', 'wphb' ) } />
+			</React.Fragment>
+		];
+
+		const itemsAfter = [
+			__( 'Look for your site in the file and find the line that starts with <Directory> - add the code above into that section and save the file.', 'wphb' ),
+			__( 'Reload Apache/LiteSpeed.', 'wphb' ),
+			__( "If you don't know where those files are, or you aren't able to reload Apache/LiteSpeed, you would need to consult with your hosting provider or a system administrator who has access to change the configuration of your server", 'wphb' ),
+		];
+
+		const tabs = [
+			{
+				title: __( 'Automatic', 'wphb' ),
+				id: 'automatic',
+				checked: true,
+			},
+			{
+				title: __( 'Manual', 'wphb' ),
+				id: 'manual',
+			},
+		];
+
+		const content = [
+			{
+				id: 'automatic',
+				content: (
+					<React.Fragment>
+						<span className="sui-description">
+							{ __(
+								'Hummingbird can automatically apply GZip compression for Apache/LiteSpeed servers by writing your .htaccess file. Alternately, switch to Manual to apply these rules yourself.',
+								'wphb'
+							) }
+						</span>
+						{ this.props.htaccessWritable && ! hideEnableButton && this.cacheWrap() }
+					</React.Fragment>
+				),
+				active: true,
+			},
+			{
+				id: 'manual',
+				content: (
+					<div className="apache-instructions">
+						<p className="sui-description">
+							{ __(
+								'If you are unable to get the automated method working you can copy the generated code below into your .htaccess file to activate GZip compression.',
+								'wphb'
+							) }
+						</p>
+
+						<OrderedList list={ itemsBefore } />
+
+						<CodeSnippet code={ this.props.serverSnippets.apache } />
+
+						<p
+							className="sui-description sui-margin-top"
+							id="troubleshooting-apache"
+						>
+							<strong>{ __( 'Troubleshooting', 'wphb' ) }</strong>
+						</p>
+						<p className="sui-description">
+							{ __(
+								'If .htaccess does not work, and you have access to vhosts.conf or httpd.conf try this:',
+								'wphb'
+							) }
+						</p>
+						<OrderedList list={ itemsAfter } />
+						<SupportLink isMember={ this.context.isMember } forumLink={ this.context.links.support.forum } chatLink={ this.context.links.support.chat } />
+					</div>
+				),
+			},
+		];
+
 		return (
-			<div
-				id="wphb-server-instructions-apache"
-				className="wphb-server-instructions"
-				data-server="apache"
-			>
-				<div className="sui-tabs">
-					<div data-tabs>
-						<div className="active">
-							{ __( 'Automatic', 'wphb' ) }
-						</div>
-						<div>{ __( 'Manual', 'wphb' ) }</div>
-					</div>
-					<div data-panes>
-						<div className="active">
-							<span className="sui-description">
-								{ __(
-									'Hummingbird can automatically apply GZip compression for Apache/LiteSpeed servers by writing your .htaccess file. Alternately, switch to Manual to apply these rules yourself.',
-									'wphb'
-								) }
-							</span>
-							{ this.props.htaccessWritable &&
-								! hideEnableButton &&
-								this.cacheWrap() }
-						</div>
-						<div>
-							<div className="apache-instructions">
-								<p className="sui-description">
-									{ __(
-										'If you are unable to get the automated method working you can copy the generated code below into your .htaccess file to activate GZip compression.',
-										'wphb'
-									) }
-								</p>
-
-								<ol className="wphb-listing wphb-listing-ordered">
-									<li>
-										{ __(
-											'Copy & paste the generated code below into your .htaccess file',
-											'wphb'
-										) }
-									</li>
-									<li>
-										{ __( 'Next', 'wphb' ) },{ ' ' }
-										<Button
-											url="#"
-											text={ __(
-												're-check your GZip status',
-												'wphb'
-											) }
-										/>{ ' ' }
-										{ __( 'to see if it worked', 'wphb' ) }.{ ' ' }
-										<Button
-											url="#"
-											id="troubleshooting-link"
-											text={ __(
-												'Still having issues?',
-												'wphb'
-											) }
-										/>
-									</li>
-								</ol>
-
-								<div id="wphb-code-snippet">
-									<div
-										id="wphb-code-snippet-apache"
-										className="wphb-code-snippet"
-									>
-										<div className="wphb-block-content">
-											<pre className="sui-code-snippet">
-												{
-													this.props.serverSnippets
-														.apache
-												}
-											</pre>
-										</div>
-									</div>
-								</div>
-								<p
-									className="sui-description sui-margin-top"
-									id="troubleshooting-apache"
-								>
-									<strong>{ __( 'Troubleshooting', 'wphb' ) }</strong>
-								</p>
-								<p className="sui-description">
-									{ __(
-										'If .htaccess does not work, and you have access to vhosts.conf or httpd.conf try this:',
-										'wphb'
-									) }
-								</p>
-								<ol className="wphb-listing wphb-listing-ordered">
-									<li>
-										{ __(
-											'Look for your site in the file and find the line that starts with <Directory> - add the code above into that section and save the file.',
-											'wphb'
-										) }
-									</li>
-									<li>
-										{ __(
-											'Reload Apache/LiteSpeed.',
-											'wphb'
-										) }
-									</li>
-									<li>
-										{ __(
-											"If you don't know where those files are, or you aren't able to reload Apache/LiteSpeed, you would need to consult with your hosting provider or a system administrator who has access to change the configuration of your server",
-											'wphb'
-										) }
-									</li>
-								</ol>
-								{ this.getSupportLink() }
-							</div>
-						</div>
-					</div>
-				</div>
+			<div className="wphb-server-instructions" id="wphb-server-instructions-apache">
+				<Tabs menu={ tabs } tabs={ content } />
 			</div>
 		);
 	}
@@ -288,31 +221,19 @@ export default class ServerInstructions extends React.Component {
 	 * @return {*}  Tab content.
 	 */
 	renderNginxTabs() {
+		const items = [
+			__( "Edit your nginx.conf. Usually it's located at /etc/nginx/nginx.conf or /usr/local/nginx/nginx.conf", 'wphb' ),
+			__( 'Copy the generated code found below and paste it inside your http or server block.', 'wphb' ),
+			__( 'Reload/restart NGINX.', 'wphb' ),
+		];
+
 		return (
-			<div
-				id="wphb-server-instructions-nginx"
-				className="wphb-server-instructions"
-				data-server="nginx"
-			>
+			<div className="wphb-server-instructions">
 				<p className="sui-description">
 					{ __( 'For NGINX servers:', 'wphb' ) }
 				</p>
 
-				<ol className="wphb-listing wphb-listing-ordered">
-					<li>
-						{ __(
-							"Edit your nginx.conf. Usually it's located at /etc/nginx/nginx.conf or /usr/local/nginx/nginx.conf",
-							'wphb'
-						) }
-					</li>
-					<li>
-						{ __(
-							'Copy the generated code found below and paste it inside your http or server block.',
-							'wphb'
-						) }
-					</li>
-					<li>{ __( 'Reload/restart NGINX.', 'wphb' ) }</li>
-				</ol>
+				<OrderedList list={ items } />
 
 				<p className="sui-description">
 					{ __(
@@ -321,11 +242,8 @@ export default class ServerInstructions extends React.Component {
 					) }
 				</p>
 
-				{ this.getSupportLink() }
-
-				<pre className="sui-code-snippet">
-					{ this.props.serverSnippets.nginx }
-				</pre>
+				<SupportLink isMember={ this.context.isMember } forumLink={ this.context.links.support.forum } chatLink={ this.context.links.support.chat } />
+				<CodeSnippet code={ this.props.serverSnippets.nginx } />
 			</div>
 		);
 	}
@@ -337,11 +255,7 @@ export default class ServerInstructions extends React.Component {
 	 */
 	renderIisTabs() {
 		return (
-			<div
-				id="wphb-server-instructions-iis"
-				className="wphb-server-instructions"
-				data-server="iis"
-			>
+			<div className="wphb-server-instructions">
 				<p className="sui-description">
 					{ __( 'For IIS 7 servers and above,', 'wphb' ) }{ ' ' }
 					<Button
@@ -363,11 +277,7 @@ export default class ServerInstructions extends React.Component {
 	 */
 	renderCloudflareTabs() {
 		return (
-			<div
-				id="wphb-server-instructions-cloudflare"
-				className="wphb-server-instructions"
-				data-server="cloudflare"
-			>
+			<div className="wphb-server-instructions">
 				<p className="sui-description">
 					{ __(
 						'Hummingbird can control your Cloudflare GZip compression settings from here. Simply add your Cloudflare API details and configure away',

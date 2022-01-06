@@ -176,7 +176,7 @@ ConfigsPage.propTypes = {
 	wphbData: PropTypes.object,
 };
 
-domReady( function () {
+domReady( function() {
 	// Configs section on Dashboard page.
 	const configsDashDiv = document.getElementById( 'wphb-dashboard-configs' );
 	if ( configsDashDiv ) {

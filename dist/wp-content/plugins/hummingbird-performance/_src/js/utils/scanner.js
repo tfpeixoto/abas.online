@@ -58,8 +58,8 @@ class Scanner {
 	/**
 	 * Update progress bar.
 	 *
-	 * @param {number}  progress  Progress percentage.
-	 * @param {boolean} cancel    Cancel the scan.
+	 * @param {number}  progress Progress percentage.
+	 * @param {boolean} cancel   Cancel the scan.
 	 */
 	updateProgressBar( progress, cancel = false ) {
 		if ( progress > 100 ) {

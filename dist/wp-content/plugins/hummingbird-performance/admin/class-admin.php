@@ -65,17 +65,20 @@ class Admin {
 		'hummingbird_page_wphb-minification',
 		'hummingbird_page_wphb-advanced',
 		'hummingbird_page_wphb-uptime',
+		'hummingbird_page_wphb-notifications',
 		'hummingbird-pro_page_wphb-performance',
 		'hummingbird-pro_page_wphb-caching',
 		'hummingbird-pro_page_wphb-gzip',
 		'hummingbird-pro_page_wphb-minification',
 		'hummingbird-pro_page_wphb-advanced',
 		'hummingbird-pro_page_wphb-uptime',
+		'hummingbird-pro_page_wphb-notifications',
 		'hummingbird_page_wphb-performance-network',
 		'hummingbird_page_wphb-minification-network',
 		'hummingbird_page_wphb-caching-network',
 		'hummingbird_page_wphb-gzip-network',
 		'hummingbird_page_wphb-uptime-network',
+		'hummingbird_page_wphb-notifications-network',
 	);
 
 	/**
@@ -237,7 +240,12 @@ class Admin {
 		$this->pages['wphb-advanced'] = new Pages\Advanced( 'wphb-advanced', __( 'Advanced Tools', 'wphb' ), __( 'Advanced Tools', 'wphb' ), 'wphb' );
 
 		if ( ! is_multisite() ) {
-			$this->pages['wphb-uptime']   = new Pages\Uptime( 'wphb-uptime', __( 'Uptime', 'wphb' ), __( 'Uptime', 'wphb' ), 'wphb' );
+			$this->pages['wphb-uptime'] = new Pages\Uptime( 'wphb-uptime', __( 'Uptime', 'wphb' ), __( 'Uptime', 'wphb' ), 'wphb' );
+		}
+
+		$this->pages['wphb-notifications'] = new Pages\Notifications( 'wphb-notifications', __( 'Notifications', 'wphb' ), __( 'Notifications', 'wphb' ), 'wphb' );
+
+		if ( ! is_multisite() ) {
 			$this->pages['wphb-settings'] = new Pages\Settings( 'wphb-settings', __( 'Settings', 'wphb' ), __( 'Settings', 'wphb' ), 'wphb' );
 		}
 
@@ -256,15 +264,16 @@ class Admin {
 	public function add_network_menu_pages() {
 		$hb_title = defined( 'WPHB_WPORG' ) && WPHB_WPORG ? __( 'Hummingbird', 'wphb' ) : __( 'Hummingbird Pro', 'wphb' );
 
-		$this->pages['wphb']              = new Pages\Dashboard( 'wphb', $hb_title, $hb_title, false, false );
-		$this->pages['wphb-dashboard']    = new Pages\Dashboard( 'wphb', __( 'Dashboard', 'wphb' ), __( 'Dashboard', 'wphb' ), 'wphb' );
-		$this->pages['wphb-performance']  = new Pages\Performance( 'wphb-performance', __( 'Performance Test', 'wphb' ), __( 'Performance Test', 'wphb' ), 'wphb' );
-		$this->pages['wphb-caching']      = new Pages\Caching( 'wphb-caching', __( 'Caching', 'wphb' ), __( 'Caching', 'wphb' ), 'wphb' );
-		$this->pages['wphb-gzip']         = new Pages\React\Gzip( 'wphb-gzip', __( 'Gzip Compression', 'wphb' ), __( 'Gzip Compression', 'wphb' ), 'wphb' );
-		$this->pages['wphb-minification'] = new Pages\Minification( 'wphb-minification', __( 'Asset Optimization', 'wphb' ), __( 'Asset Optimization', 'wphb' ), 'wphb' );
-		$this->pages['wphb-advanced']     = new Pages\Advanced( 'wphb-advanced', __( 'Advanced Tools', 'wphb' ), __( 'Advanced Tools', 'wphb' ), 'wphb' );
-		$this->pages['wphb-uptime']       = new Pages\Uptime( 'wphb-uptime', __( 'Uptime', 'wphb' ), __( 'Uptime', 'wphb' ), 'wphb' );
-		$this->pages['wphb-settings']     = new Pages\Settings( 'wphb-settings', __( 'Settings', 'wphb' ), __( 'Settings', 'wphb' ), 'wphb' );
+		$this->pages['wphb']               = new Pages\Dashboard( 'wphb', $hb_title, $hb_title, false, false );
+		$this->pages['wphb-dashboard']     = new Pages\Dashboard( 'wphb', __( 'Dashboard', 'wphb' ), __( 'Dashboard', 'wphb' ), 'wphb' );
+		$this->pages['wphb-performance']   = new Pages\Performance( 'wphb-performance', __( 'Performance Test', 'wphb' ), __( 'Performance Test', 'wphb' ), 'wphb' );
+		$this->pages['wphb-caching']       = new Pages\Caching( 'wphb-caching', __( 'Caching', 'wphb' ), __( 'Caching', 'wphb' ), 'wphb' );
+		$this->pages['wphb-gzip']          = new Pages\React\Gzip( 'wphb-gzip', __( 'Gzip Compression', 'wphb' ), __( 'Gzip Compression', 'wphb' ), 'wphb' );
+		$this->pages['wphb-minification']  = new Pages\Minification( 'wphb-minification', __( 'Asset Optimization', 'wphb' ), __( 'Asset Optimization', 'wphb' ), 'wphb' );
+		$this->pages['wphb-advanced']      = new Pages\Advanced( 'wphb-advanced', __( 'Advanced Tools', 'wphb' ), __( 'Advanced Tools', 'wphb' ), 'wphb' );
+		$this->pages['wphb-uptime']        = new Pages\Uptime( 'wphb-uptime', __( 'Uptime', 'wphb' ), __( 'Uptime', 'wphb' ), 'wphb' );
+		$this->pages['wphb-notifications'] = new Pages\Notifications( 'wphb-notifications', __( 'Notifications', 'wphb' ), __( 'Notifications', 'wphb' ), 'wphb' );
+		$this->pages['wphb-settings']      = new Pages\Settings( 'wphb-settings', __( 'Settings', 'wphb' ), __( 'Settings', 'wphb' ), 'wphb' );
 
 		if ( ! apply_filters( 'wpmudev_branding_hide_doc_link', false ) ) {
 			$this->pages['wphb-tutorials'] = new Pages\React\Tutorials( 'wphb-tutorials', __( 'Tutorials', 'wphb' ), __( 'Tutorials', 'wphb' ), 'wphb' );
@@ -396,6 +405,7 @@ class Admin {
 			// Clean all cron.
 			wp_clear_scheduled_hook( 'wphb_performance_report' );
 			wp_clear_scheduled_hook( 'wphb_uptime_report' );
+			wp_clear_scheduled_hook( 'wphb_database_report' );
 			wp_clear_scheduled_hook( 'wphb_minify_clear_files' );
 
 			if ( is_multisite() ) {

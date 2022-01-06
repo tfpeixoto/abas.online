@@ -51,7 +51,7 @@ class Cloudflare extends Request {
 	 *
 	 * @param string $path  API path.
 	 *
-	 * @return mixed|string|string[]
+	 * @return string
 	 */
 	public function get_api_url( $path = '' ) {
 		$url = 'https://api.cloudflare.com/client/v4/' . $path;

@@ -11,7 +11,7 @@ import { getString } from '../utils/helpers';
  */
 const MixPanel = require( 'mixpanel-browser' );
 
-( function ( $ ) {
+( function( $ ) {
 	'use strict';
 
 	const WPHB_Admin = {
@@ -33,12 +33,12 @@ const MixPanel = require( 'mixpanel-browser' );
 			 * @since 2.0.0
 			 */
 			$( 'select#wphb-performance-report-type' ).on(
-					'change',
-					function ( e ) {
-						const url = new URL( window.location );
-						url.searchParams.set( 'type', e.target.value );
-						window.location = url;
-					}
+				'change',
+				function( e ) {
+					const url = new URL( window.location );
+					url.searchParams.set( 'type', e.target.value );
+					window.location = url;
+				}
 			);
 
 			/**
@@ -49,7 +49,7 @@ const MixPanel = require( 'mixpanel-browser' );
 			$( '.wphb-logging-buttons' ).on(
 				'click',
 				'.wphb-logs-clear',
-				function ( e ) {
+				function( e ) {
 					e.preventDefault();
 
 					Fetcher.common
@@ -70,292 +70,6 @@ const MixPanel = require( 'mixpanel-browser' );
 						} );
 				}
 			);
-
-			/**
-			 * Add recipient button clicked.
-			 *
-			 * On Performance and Uptime recipient modals.
-			 *
-			 * @since 1.9.3  Unified two handle both modules.
-			 */
-			$( '#add-recipient' ).on( 'click', function () {
-				const self = $( this );
-				self.attr( 'disabled', 'disabled' );
-
-				let module = '';
-				let setting = 'reports';
-
-				// Get the module name from URL.
-				if ( window.location.search.includes( 'wphb-performance' ) ) {
-					module = 'performance';
-				} else if ( window.location.search.includes( 'wphb-uptime' ) ) {
-					module = 'uptime';
-					if ( window.location.search.includes( 'notifications' ) ) {
-						setting = 'notifications';
-					}
-				}
-
-				const reportingEmail = $( '#reporting-email' );
-				const emailField = reportingEmail.closest( '.sui-form-field' );
-				const email = reportingEmail.val();
-				const name = $( '#reporting-first-name' ).val();
-
-				// Remove errors.
-				emailField.removeClass( 'sui-form-field-error' );
-				emailField.find( '.sui-error-message' ).remove();
-
-				Fetcher.common
-					.addRecipient( module, setting, email, name )
-					.then( ( response ) => {
-						const userRow = $( '<div class="sui-recipient"/>' );
-
-						if ( 'notifications' === setting ) {
-							userRow.append(
-								'<span class="sui-recipient-status sui-tooltip" data-tooltip="' +
-									getString( 'awaitingConfirmation' ) +
-									'"><span class="sui-icon-clock" aria-hidden="true"></span></span>'
-							);
-						}
-
-						userRow.append( '<span class="sui-recipient-name"/>' );
-						userRow
-							.find( '.sui-recipient-name' )
-							.append( response.name );
-
-						userRow.append(
-							$( '<span class="sui-recipient-email"/>' ).html(
-								email
-							)
-						);
-
-						if ( 'notifications' === setting ) {
-							userRow.append(
-								$( '<button/>' )
-									.attr( {
-										class:
-											'sui-button-icon wphb-resend-recipient sui-tooltip',
-										type: 'button',
-										'data-tooltip': getString(
-											'resendEmail'
-										),
-									} )
-									.html(
-										'<span class="sui-icon-send" aria-hidden="true"></span>'
-									)
-							);
-						}
-
-						userRow.append(
-							$( '<button/>' )
-								.attr( {
-									class:
-										'sui-button-icon wphb-remove-recipient',
-									type: 'button',
-								} )
-								.html(
-									'<span class="sui-icon-trash" aria-hidden="true"></span>'
-								)
-						);
-
-						$( '<input>' )
-							.attr( {
-								type: 'hidden',
-								id: 'report-recipient',
-								name: 'report-recipients[]',
-								value: JSON.stringify( {
-									email: response.email,
-									name: response.name,
-								} ),
-							} )
-							.appendTo( userRow );
-
-						$( '.sui-recipients' ).append( userRow );
-						$( '#reporting-email' ).val( '' );
-						$( '#reporting-first-name' ).val( '' );
-
-						// Hide no recipients notification.
-						$( '.wphb-no-recipients' ).slideUp();
-						window.SUI.closeModal();
-
-						// Hide top notice.
-						$( '.sui-notice-top.sui-notice-success' ).hide();
-
-						// Hide the last notice.
-						$( '.wphb-pending-sub-notice' ).hide();
-						// Show confirm recipients notice.
-						$( '.wphb-confirm-sub-notice' ).show();
-
-						// Show notice to save settings.
-						WPHB_Admin.notices.show(
-							name + getString( 'successRecipientAdded' ),
-							'info'
-						);
-						self.removeAttr( 'disabled' );
-					} )
-					.catch( ( error ) => {
-						emailField.addClass( 'sui-form-field-error' );
-						emailField.append(
-							'<span class="sui-error-message"/>'
-						);
-						emailField
-							.find( '.sui-error-message' )
-							.append( error.message );
-						self.removeAttr( 'disabled' );
-					} );
-			} );
-
-			const body = $( 'body' );
-
-			/**
-			 * Save report settings clicked (performance reports, uptime
-			 * reports and uptime notifications).
-			 */
-			body.on( 'submit', '.wphb-report-settings', function ( e ) {
-				e.preventDefault();
-
-				$( '.wphb-confirm-sub-notice' ).slideUp();
-
-				$( this ).find( '.button' ).attr( 'disabled', 'disabled' );
-
-				Fetcher.common
-					.saveReportsSettings(
-						this.dataset.module,
-						$( this ).serialize()
-					)
-					.then( ( response ) => {
-						if (
-							'undefined' !== typeof response &&
-							response.success
-						) {
-							if ( response.moduleStatus ) {
-								WPHB_Admin.Tracking.enableFeature(
-									this.dataset.name
-								);
-							} else {
-								WPHB_Admin.Tracking.disableFeature(
-									this.dataset.name
-								);
-							}
-
-							if ( response.enabled || '' !== response.notice ) {
-								$( '.sui-notice-top' ).hide();
-
-								if ( response.moduleStatus ) {
-									$(
-										'.sui-box-body > .sui-notice-default:first-of-type'
-									)
-										.addClass( 'sui-notice-success' )
-										.removeClass( 'sui-notice-default' );
-									$(
-										'.sui-box-body > .sui-notice-success:first-of-type > p'
-									).text( response.recipientNotice );
-									$(
-										'.sui-vertical-tab.current span[class^="sui-icon"]'
-									).removeClass( 'sui-hidden' );
-								} else {
-									$(
-										'.sui-box-body > .sui-notice-success:first-of-type'
-									)
-										.addClass( 'sui-notice-default' )
-										.removeClass( 'sui-notice-success' );
-									$(
-										'.sui-box-body > .sui-notice-default:first-of-type > p'
-									).text( response.recipientNotice );
-									$(
-										'.sui-vertical-tab.current span[class^="sui-icon"]'
-									).addClass( 'sui-hidden' );
-								}
-
-								WPHB_Admin.notices.show(
-									response.enabled
-										? getString( 'confirmRecipient' )
-										: response.notice
-								);
-							} else {
-								window.location.search += '&updated=true';
-							}
-
-							$( '.wphb-pending-sub-notice' ).toggle(
-								response.recipientPending
-							);
-						} else {
-							WPHB_Admin.notices.show(
-								getString( 'errorSettingsUpdate' ),
-								'error'
-							);
-						}
-					} );
-			} );
-
-			/**
-			 * Remove recipient button clicked.
-			 */
-			body.on( 'click', '.wphb-remove-recipient', function () {
-				$( this ).closest( '.sui-recipient' ).remove();
-
-				const id = $( this ).attr( 'data-id' );
-				const row = 'input[id="report-recipient"][value=' + id + ']';
-
-				$( '.wphb-report-settings' ).find( row ).remove();
-
-				if ( 0 === $( '.sui-recipient' ).length ) {
-					$( '.wphb-pending-sub-notice' ).slideUp();
-					$( '.wphb-no-recipients' ).slideDown();
-				}
-			} );
-
-			/**
-			 * Handle the show/hiding of the report schedule.
-			 */
-			$( '#chk1' ).on( 'click', function () {
-				$( '.schedule-box' ).toggleClass( 'sui-hidden' );
-
-				$(
-					'#wphb-performance-reporting .sui-box-settings-row:first-child'
-				).toggleClass( 'wphb-first-of-type' );
-				$( '#performance-customizations' ).toggleClass( 'sui-hidden' );
-			} );
-
-			/**
-			 * Schedule show/hide day of week.
-			 */
-			$( 'select[name="report-frequency"]' )
-				.on( 'change', function () {
-					const freq = $( this ).val();
-
-					if ( '1' === freq ) {
-						$( this )
-							.closest( '.schedule-box' )
-							.find( 'div.days-container' )
-							.hide();
-					} else {
-						$( this )
-							.closest( '.schedule-box' )
-							.find( 'div.days-container' )
-							.show();
-
-						if ( '7' === freq ) {
-							$( this )
-								.closest( '.schedule-box' )
-								.find( '[data-type="week"]' )
-								.show();
-							$( this )
-								.closest( '.schedule-box' )
-								.find( '[data-type="month"]' )
-								.hide();
-						} else {
-							$( this )
-								.closest( '.schedule-box' )
-								.find( '[data-type="week"]' )
-								.hide();
-							$( this )
-								.closest( '.schedule-box' )
-								.find( '[data-type="month"]' )
-								.show();
-						}
-					}
-				} )
-				.trigger( 'change' );
 
 			/**
 			 * Track performance report scan init.
@@ -421,9 +135,9 @@ const MixPanel = require( 'mixpanel-browser' );
 		 *
 		 * @since 1.8
 		 *
-		 * @param {string}  message  Message to display.
-		 * @param {string}  type     Error or success.
-		 * @param {boolean} dismiss  Auto dismiss message.
+		 * @param {string}  message Message to display.
+		 * @param {string}  type    Error or success.
+		 * @param {boolean} dismiss Auto dismiss message.
 		 */
 		show( message = '', type = 'success', dismiss = true ) {
 			if ( '' === message ) {
@@ -549,8 +263,8 @@ const MixPanel = require( 'mixpanel-browser' );
 		/**
 		 * Deactivate feedback.
 		 *
-		 * @param {string} reason    Deactivation reason.
-		 * @param {string} feedback  Deactivation feedback.
+		 * @param {string} reason   Deactivation reason.
+		 * @param {string} feedback Deactivation feedback.
 		 */
 		deactivate( reason, feedback = '' ) {
 			this.track( 'plugin_deactivate', {
@@ -562,7 +276,7 @@ const MixPanel = require( 'mixpanel-browser' );
 		/**
 		 * Track feature enable.
 		 *
-		 * @param {string} feature  Feature name.
+		 * @param {string} feature Feature name.
 		 */
 		enableFeature( feature ) {
 			this.track( 'plugin_feature_activate', { feature } );
@@ -571,7 +285,7 @@ const MixPanel = require( 'mixpanel-browser' );
 		/**
 		 * Track feature disable.
 		 *
-		 * @param {string} feature  Feature name.
+		 * @param {string} feature Feature name.
 		 */
 		disableFeature( feature ) {
 			this.track( 'plugin_feature_deactivate', { feature } );
@@ -580,8 +294,8 @@ const MixPanel = require( 'mixpanel-browser' );
 		/**
 		 * Track an event.
 		 *
-		 * @param {string} event  Event ID.
-		 * @param {Object} data   Event data.
+		 * @param {string} event Event ID.
+		 * @param {Object} data  Event data.
 		 */
 		track( event, data = {} ) {
 			if (

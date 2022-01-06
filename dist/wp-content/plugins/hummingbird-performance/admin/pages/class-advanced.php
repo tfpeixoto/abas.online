@@ -107,23 +107,6 @@ class Advanced extends Page {
 			null,
 			'health'
 		);
-
-		if ( is_multisite() && ! is_network_admin() ) {
-			return;
-		}
-
-		$this->add_meta_box(
-			'advanced/db-settings',
-			__( 'Schedule', 'wphb' ),
-			null,
-			null,
-			null,
-			'db',
-			array(
-				'box_content_class' => 'sui-box-body sui-upsell-items',
-				'box_footer_class'  => 'sui-box-footer wphb-db-cleanup-no-membership',
-			)
-		);
 	}
 
 	/**
@@ -270,18 +253,12 @@ class Advanced extends Page {
 	 * @since 2.7.0
 	 */
 	public function site_health_metabox() {
-		$advanced_module = Utils::get_module( 'advanced' );
-
-		$minify_groups  = Minify_Group::get_minify_groups();
-		$orphaned_metas = $advanced_module->get_orphaned_ao() - 18 * count( $minify_groups );
-
 		$preloader = new Preload();
-
 		$this->view(
 			'advanced/site-health-meta-box',
 			array(
-				'minify_groups'  => $minify_groups,
-				'orphaned_metas' => $orphaned_metas,
+				'minify_groups'  => Minify_Group::get_minify_groups(),
+				'orphaned_metas' => Utils::get_module( 'advanced' )->get_orphaned_ao_complex(),
 				'preloading'     => Settings::get_setting( 'preload', 'page_cache' ) || $preloader->is_process_running(),
 				'queue_size'     => $preloader->get_queue_size(),
 			)

@@ -37,7 +37,7 @@ function hideTutorials() {
 	);
 }
 
-domReady( function () {
+domReady( function() {
 	// Tutorials section on Dashboard page.
 	const tutorialsDiv = document.getElementById( 'wphb-dashboard-tutorials' );
 	if ( tutorialsDiv ) {

@@ -20,7 +20,7 @@ $forms = array( 'page_cache', 'rss', 'settings' );
 	<?php $this->show_tabs(); ?>
 
 	<?php if ( 'caching' === $this->get_current_tab() ) : ?>
-		<div class="box-caching-status" id="wrap-wphb-browser-caching"></div><br>
+		<div class="box-caching-status" id="wrap-wphb-browser-caching"></div>
 	<?php endif; ?>
 
 	<?php if ( in_array( $this->get_current_tab(), $forms, true ) ) : ?>
@@ -42,6 +42,7 @@ if ( 'caching' === $this->get_current_tab() || 'integrations' === $this->get_cur
 	jQuery(document).ready( function() {
 		if ( window.WPHB_Admin ) {
 			window.WPHB_Admin.getModule( 'caching' );
+			window.WPHB_Admin.getModule( 'cloudflare' );
 		}
 	});
 </script>

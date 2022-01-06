@@ -1,6 +1,6 @@
 /* global wphbGlobal */
 
-( function () {
+( function() {
 	'use strict';
 
 	const WPHBGlobal = {
@@ -16,7 +16,7 @@
 		 *
 		 * @since 3.0.1
 		 *
-		 * @param {string} module  Module ID.
+		 * @param {string} module Module ID.
 		 */
 		clearCache( module ) {
 			jQuery
@@ -29,7 +29,7 @@
 						modules: [ module ],
 					},
 				} )
-				.done( function () {
+				.done( function() {
 					location.reload();
 				} );
 		},
@@ -119,7 +119,7 @@
 		post: ( action ) => {
 			const xhr = new XMLHttpRequest();
 			xhr.open( 'POST', wphbGlobal.ajaxurl + '?action=' + action );
-			xhr.onload = function () {
+			xhr.onload = function() {
 				if ( xhr.status === 200 ) {
 					location.reload();
 				}
@@ -129,9 +129,9 @@
 		},
 	};
 
-	document.addEventListener( 'DOMContentLoaded', function () {
+	document.addEventListener( 'DOMContentLoaded', function() {
 		WPHBGlobal.init();
 	} );
 
 	window.WPHBGlobal = WPHBGlobal;
-} )();
+}() );

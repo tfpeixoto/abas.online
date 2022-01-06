@@ -66,7 +66,7 @@ class Uptime extends Module {
 	}
 
 	/**
-	 * Get latest report from server
+	 * Get the latest report from server
 	 *
 	 * @since 1.7.1 Removed static property.
 	 * @since 1.8.1 Access changed to private. Added $current_reports param.
@@ -76,7 +76,7 @@ class Uptime extends Module {
 	 * @param string     $time             Report period.
 	 * @param bool|array $current_reports  Current reports.
 	 *
-	 * @return array|mixed
+	 * @return array|bool
 	 */
 	private function refresh_report( $time = 'day', $current_reports = false ) {
 		$results = Utils::get_api()->uptime->check( $time );

@@ -157,7 +157,7 @@ class Core {
 	}
 
 	/**
-	 * Add a HB menu to the admin bar
+	 * Add HB menu to the admin bar
 	 *
 	 * @param WP_Admin_Bar $admin_bar  Admin bar.
 	 */
@@ -186,7 +186,7 @@ class Core {
 					$menu[ 'wphb-clear-cache-' . $module ] = array(
 						'title' => __( 'Clear', 'wphb' ) . ' ' . strtolower( $name ),
 						'meta'  => array(
-							'onclick' => "WPHBGlobal.clearCache(\"{$module}\");",
+							'onclick' => "WPHBGlobal.clearCache(\"$module\");",
 						),
 					);
 				}
@@ -270,7 +270,7 @@ class Core {
 	 * @param string $tag     HTML element tag.
 	 * @param string $handle  Script handle.
 	 *
-	 * @return mixed
+	 * @return string
 	 */
 	public function add_defer_attribute( $tag, $handle ) {
 		if ( 'wphb-global' !== $handle ) {
@@ -333,7 +333,7 @@ class Core {
 
 		// Register the current plugin.
 		do_action(
-			'wdev-register-plugin',
+			'wdev_register_plugin',
 			/* 1             Plugin ID */ WPHB_BASENAME,
 			/* 2          Plugin Title */ 'Hummingbird',
 			/* 3 https://wordpress.org */ '/plugins/hummingbird-performance/',
@@ -343,7 +343,7 @@ class Core {
 
 		// The email message contains 1 variable: plugin-name.
 		add_filter(
-			'wdev-email-message-' . WPHB_BASENAME,
+			'wdev_email_message_' . WPHB_BASENAME,
 			function () {
 				return "You're awesome for installing %s! Make sure you get the most out of it, boost your Google PageSpeed score with these tips and tricks - just for users of Hummingbird!";
 			}

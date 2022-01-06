@@ -48,17 +48,18 @@ export default class Tabs extends React.Component {
 
 		const items = Object.values( this.props.tabs ).map( ( el, id ) => {
 			const active = 'undefined' !== typeof el.active && el.active;
+			const classes = classNames( { 'sui-tab-content': ! this.props.sideTabs }, { 'sui-tab-boxed': this.props.sideTabs }, { active } );
 			return (
 				<div
 					role="tabpanel"
 					tabIndex="0"
 					id={ el.id + '-tab-content' }
-					className={ classNames( 'sui-tab-content', { active } ) }
+					className={ classes }
 					aria-labelledby={ el.id + '-tab' }
 					hidden={ ! active }
 					key={ id }
 				>
-					<div className="sui-description">{ el.description }</div>
+					{ el.description && <div className="sui-description">{ el.description }</div> }
 					{ el.content }
 				</div>
 			);
@@ -68,6 +69,8 @@ export default class Tabs extends React.Component {
 			<div
 				className={ classNames( 'sui-tabs', {
 					'sui-tabs-flushed': this.props.flushed,
+				}, {
+					'sui-side-tabs': this.props.sideTabs,
 				} ) }
 			>
 				<div role="tablist" className="sui-tabs-menu">

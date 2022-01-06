@@ -12,10 +12,10 @@ import Icon from '../sui-icon';
 /**
  * Notice functional component.
  *
- * @param {string} message  Notice message.
- * @param {Array}  classes  Array of extra classes to use.
- * @param {Object} content  CTA content.
- * @return {*} Notice component.
+ * @param {string} message Notice message.
+ * @param {Array}  classes Array of extra classes to use.
+ * @param {Object} content CTA content.
+ * @return {JSX.Element} Notice component.
  * @class
  */
 export default function Notice( { message, classes, content } ) {

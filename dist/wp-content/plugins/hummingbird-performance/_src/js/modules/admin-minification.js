@@ -13,7 +13,7 @@ import Row from '../minification/Row';
 import RowsCollection from '../minification/RowsCollection';
 import MinifyScanner from '../scanners/MinifyScanner';
 
-( function ( $ ) {
+( function( $ ) {
 	'use strict';
 
 	WPHB_Admin.minification = {
@@ -32,12 +32,12 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			);
 
 			// Check files button.
-			$( '#check-files' ).on( 'click', function ( e ) {
+			$( '#check-files' ).on( 'click', function( e ) {
 				e.preventDefault();
 				$( document ).trigger( 'check-files' );
 			} );
 
-			$( document ).on( 'check-files', function () {
+			$( document ).on( 'check-files', function() {
 				window.SUI.openModal( 'check-files-modal', 'wpbody-content' );
 				$( this ).attr( 'disabled', true );
 				self.scanner.start();
@@ -46,7 +46,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			// Track changes done to minification files.
 			$(
 				':input.toggle-checkbox, :input[id*="wphb-minification-include"]'
-			).on( 'change', function () {
+			).on( 'change', function() {
 				const row = $( this ).closest( '.wphb-border-row' );
 				const rowStatus = row.find( 'span.wphb-row-status-changed' );
 				$( this ).toggleClass( 'changed' );
@@ -68,7 +68,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			// Enable/disable bulk update button.
 			$(
 				':input.wphb-minification-file-selector, :input.wphb-minification-bulk-file-selector'
-			).on( 'change', function () {
+			).on( 'change', function() {
 				$( this ).toggleClass( 'changed' );
 				const changed = $( '.wphb-minification-files' ).find(
 					'input.changed'
@@ -84,7 +84,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			 * Open up bulk update modal. Make sure we hide elements not applicable to
 			 * the selection.
 			 */
-			$( '#bulk-update' ).on( 'click', function ( e ) {
+			$( '#bulk-update' ).on( 'click', function( e ) {
 				e.preventDefault();
 
 				const css = $(
@@ -117,13 +117,13 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			} );
 
 			// Filter action button on Asset Optimization page
-			$( '#wphb-minification-filter-button' ).on( 'click', function () {
+			$( '#wphb-minification-filter-button' ).on( 'click', function() {
 				$( '.wphb-minification-filter' ).toggle( 'slow' );
 				$( '#wphb-minification-filter-button' ).toggleClass( 'active' );
 			} );
 
 			// Discard changes button click
-			$( '.wphb-discard' ).on( 'click', function ( e ) {
+			$( '.wphb-discard' ).on( 'click', function( e ) {
 				e.preventDefault();
 
 				if ( confirm( getString( 'discardAlert' ) ) ) {
@@ -133,18 +133,18 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			} );
 
 			// Enable discard button on any change
-			$( '.wphb-enqueued-files input' ).on( 'change', function () {
+			$( '.wphb-enqueued-files input' ).on( 'change', function() {
 				$( '.wphb-discard' ).attr( 'disabled', false );
 			} );
 
 			// CDN checkbox update status
 			const checkboxes = $( 'input[type=checkbox][name=use_cdn]' );
-			checkboxes.on( 'change', function () {
+			checkboxes.on( 'change', function() {
 				$( '#cdn_file_exclude' ).toggleClass( 'sui-hidden' );
 				const cdnValue = $( this ).is( ':checked' );
 
 				// Handle two CDN checkboxes on Asset Optimization page
-				checkboxes.each( function () {
+				checkboxes.each( function() {
 					this.checked = cdnValue;
 				} );
 
@@ -162,7 +162,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			const aoButtons = $(
 				'.wphb-minification-advanced-group > :input.toggle-checkbox'
 			);
-			aoButtons.on( 'change', function () {
+			aoButtons.on( 'change', function() {
 				const label = $(
 					"label[for='" + $( this ).attr( 'id' ) + "']"
 				);
@@ -215,7 +215,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			const excludeButtons = $(
 				'.wphb-minification-exclude > :input.toggle-checkbox'
 			);
-			excludeButtons.on( 'change', function () {
+			excludeButtons.on( 'change', function() {
 				const row = $( this ).closest( '.wphb-border-row' );
 				row.toggleClass( 'disabled' );
 				const label = $(
@@ -245,7 +245,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			 */
 			$( '.wphb-compressed .wphb-filename-extension' ).on(
 				'click',
-				function () {
+				function() {
 					const row = $( this ).closest( '.wphb-border-row' );
 
 					row.find( '.fileinfo-group' ).removeClass(
@@ -269,7 +269,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 
 			$( 'input[type=checkbox][name=debug_log]' ).on(
 				'change',
-				function () {
+				function() {
 					const enabled = $( this ).is( ':checked' );
 					Fetcher.minification.toggleLog( enabled ).then( () => {
 						WPHB_Admin.notices.show();
@@ -285,7 +285,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			/**
 			 * Save critical css file
 			 */
-			$( '#wphb-minification-tools-form' ).on( 'submit', function ( e ) {
+			$( '#wphb-minification-tools-form' ).on( 'submit', function( e ) {
 				e.preventDefault();
 
 				const spinner = $( this ).find( '.spinner' );
@@ -316,7 +316,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			 */
 			const textField = document.getElementById( 'file_path' );
 			if ( null !== textField ) {
-				textField.onchange = function ( e ) {
+				textField.onchange = function( e ) {
 					e.preventDefault();
 					Fetcher.minification
 						.updateAssetPath( $( this ).val() )
@@ -340,7 +340,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			 */
 
 			// Show/hide settings, based on checkbox value.
-			$( '#wphb-network-ao' ).on( 'click', function () {
+			$( '#wphb-network-ao' ).on( 'click', function() {
 				$( '#wphb-network-border-frame' ).toggleClass( 'sui-hidden' );
 			} );
 
@@ -348,7 +348,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			$( '#wphb-box-minification-network-settings' ).on(
 				'change',
 				'input[type=radio]',
-				function ( e ) {
+				function( e ) {
 					const divs = document.querySelectorAll(
 						'input[name=' + e.target.name + ']'
 					);
@@ -367,7 +367,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			);
 
 			// Submit settings.
-			$( '#wphb-ao-network-settings' ).on( 'click', function ( e ) {
+			$( '#wphb-ao-network-settings' ).on( 'click', function( e ) {
 				e.preventDefault();
 
 				const spinner = $( '.sui-box-footer' ).find( '.spinner' );
@@ -392,7 +392,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 					} );
 			} );
 
-			$( '#wphb-ao-settings-update' ).on( 'click', function ( e ) {
+			$( '#wphb-ao-settings-update' ).on( 'click', function( e ) {
 				e.preventDefault();
 
 				const spinner = $( '.sui-box-footer' ).find( '.spinner' );
@@ -431,7 +431,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 					current = modeToggles[ i ].value;
 				}
 
-				modeToggles[ i ].addEventListener( 'click', function () {
+				modeToggles[ i ].addEventListener( 'click', function() {
 					// Ignore clicking on the selected value.
 					if ( current === this.value ) {
 						return;
@@ -463,7 +463,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 				'manual-ao-hdiw-modal-expand'
 			);
 			if ( expandButtonManual ) {
-				expandButtonManual.onclick = function () {
+				expandButtonManual.onclick = function() {
 					document
 						.getElementById( 'manual-ao-hdiw-modal' )
 						.classList.remove( 'sui-modal-sm' );
@@ -480,7 +480,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 				'manual-ao-hdiw-modal-collapse'
 			);
 			if ( collapseButtonManual ) {
-				collapseButtonManual.onclick = function () {
+				collapseButtonManual.onclick = function() {
 					document
 						.getElementById( 'manual-ao-hdiw-modal' )
 						.classList.add( 'sui-modal-sm' );
@@ -501,7 +501,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 				'automatic-ao-hdiw-modal-expand'
 			);
 			if ( expandButtonAuto ) {
-				expandButtonAuto.onclick = function () {
+				expandButtonAuto.onclick = function() {
 					document
 						.getElementById( 'automatic-ao-hdiw-modal' )
 						.classList.remove( 'sui-modal-sm' );
@@ -515,7 +515,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 				'automatic-ao-hdiw-modal-collapse'
 			);
 			if ( collapseButtonAuto ) {
-				collapseButtonAuto.onclick = function () {
+				collapseButtonAuto.onclick = function() {
 					document
 						.getElementById( 'automatic-ao-hdiw-modal' )
 						.classList.add( 'sui-modal-sm' );
@@ -558,7 +558,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 
 			const rows = $( '.wphb-border-row' );
 
-			rows.each( function ( index, row ) {
+			rows.each( function( index, row ) {
 				let _row;
 				if ( $( row ).data( 'filter-secondary' ) ) {
 					_row = new WPHB_Admin.minification.Row(
@@ -581,19 +581,19 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			// Filter search box
 			const filterInput = $( '#wphb-s' );
 			// Prevent enter submitting form to rescan files.
-			filterInput.on( 'keydown', function ( e ) {
+			filterInput.on( 'keydown', function( e ) {
 				if ( 13 === e.keyCode ) {
 					event.preventDefault();
 					return false;
 				}
 			} );
-			filterInput.on( 'keyup', function () {
+			filterInput.on( 'keyup', function() {
 				self.rowsCollection.addFilter( $( this ).val(), 'primary' );
 				self.rowsCollection.applyFilters();
 			} );
 
 			// Filter dropdown
-			$( '#wphb-secondary-filter' ).on( 'change', function () {
+			$( '#wphb-secondary-filter' ).on( 'change', function() {
 				self.rowsCollection.addFilter( $( this ).val(), 'secondary' );
 				self.rowsCollection.applyFilters();
 			} );
@@ -601,7 +601,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			// Files filter.
 			$( '[name="asset_optimization_filter"]' ).on(
 				'change',
-				function () {
+				function() {
 					self.rowsCollection.addFilter( $( this ).val(), 'type' );
 					self.rowsCollection.applyFilters();
 				}
@@ -610,7 +610,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			// Clear filters button.
 			const clFilters = document.getElementById( 'wphb-clear-filters' );
 			if ( clFilters ) {
-				clFilters.addEventListener( 'click', function ( e ) {
+				clFilters.addEventListener( 'click', function( e ) {
 					e.preventDefault();
 
 					// There is probably an easier way to do via SUI.
@@ -634,7 +634,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 
 			// Files selectors
 			const filesList = $( 'input.wphb-minification-file-selector' );
-			filesList.on( 'click', function () {
+			filesList.on( 'click', function() {
 				const $this = $( this );
 				const element = self.rowsCollection.getItemById(
 					$this.data( 'type' ),
@@ -658,7 +658,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			 * @type {*|jQuery|HTMLElement}
 			 */
 			const selectAll = $( '.wphb-minification-bulk-file-selector' );
-			selectAll.on( 'click', function () {
+			selectAll.on( 'click', function() {
 				const $this = $( this );
 				const items = self.rowsCollection.getItemsByDataType(
 					$this.attr( 'data-type' )
@@ -675,7 +675,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			} );
 
 			/* Show details of minification row on mobile devices */
-			$( 'body' ).on( 'click', '.wphb-border-row', function () {
+			$( 'body' ).on( 'click', '.wphb-border-row', function() {
 				if ( window.innerWidth < 783 ) {
 					$( this ).find( '.wphb-minification-row-details' ).toggle();
 					$( this ).find( '.fileinfo-group' ).toggleClass( 'opened' );
@@ -687,7 +687,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 			 * 1/4 of a second should be enough to trigger during device
 			 * rotations (from portrait to landscape mode)
 			 */
-			const minificationResizeRows = _.debounce( function () {
+			const minificationResizeRows = _.debounce( function() {
 				if ( window.innerWidth >= 783 ) {
 					$( '.wphb-minification-row-details' ).css(
 						'display',
@@ -710,7 +710,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 		 * Switch from advanced to basic view.
 		 * Called from switch view modal.
 		 *
-		 * @param {string}  mode
+		 * @param {string} mode
 		 */
 		switchView( mode ) {
 			let hide = false;
@@ -749,7 +749,7 @@ import MinifyScanner from '../scanners/MinifyScanner';
 		 *
 		 * @since 2.6.0
 		 *
-		 * @param {string} id  Select ID.
+		 * @param {string} id Select ID.
 		 * @return {{styles: *[], scripts: *[]}}  Styles & scripts array.
 		 */
 		getMultiSelectValues( id ) {
@@ -817,6 +817,20 @@ import MinifyScanner from '../scanners/MinifyScanner';
 
 			// Enable the Publish Changes button.
 			$( 'input[type=submit]' ).removeClass( 'disabled' );
+		},
+
+		/**
+		 * Purge asset optimization orphaned data.
+		 *
+		 * @since 3.1.2
+		 */
+		purgeOrphanedData() {
+			const count = document.getElementById( 'count-ao-orphaned' )
+				.innerHTML;
+
+			Fetcher.advanced.clearOrphanedBatch( count ).then( () => {
+				window.location.reload();
+			} );
 		},
 	}; // End WPHB_Admin.minification
 

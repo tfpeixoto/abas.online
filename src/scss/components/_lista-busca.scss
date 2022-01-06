@@ -1,0 +1,38 @@
+.busca {
+  padding-top: 20px;
+
+  &__titulo {
+    :visited {
+      color: blueviolet;
+    }
+  }
+  aside {
+    .widget {
+      h5 {
+        border-bottom: 2px solid $roxo;
+        color: $roxo;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+      }
+      ul {
+        padding-inline-start: 0.5rem;
+
+        li {
+          list-style: none;
+
+          a {
+            color: $black;
+            text-decoration: none;
+            transition: all ease-in-out 0.25s;
+
+            &:hover {
+              color: $roxo;
+              font-weight: bold;
+            }
+          }
+        }
+      }
+    }
+  }
+}

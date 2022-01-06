@@ -1,0 +1,19 @@
+// PLUGINS
+@import "components/variaveis";
+@import "../../node_modules/bootstrap/scss/bootstrap";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/solid";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/brands";
+
+// HOME
+@import "components/wordpress";
+@import "components/search-form";
+// @import "components/lista-posts";
+@import "components/lista-busca";
+
+@import "components/paginador";
+@import "components/depoimentos";
+
+// FOOTER
+@import "components/modal";
+@import "components/footer";

@@ -19,9 +19,9 @@ export default class Box extends React.Component {
 	/**
 	 * Generate header.
 	 *
-	 * @param {string} title          Box title.
-	 * @param {string} icon           Icon name to use, false for no icon.
-	 * @param {Action} headerActions  Action component.
+	 * @param {string}      title         Box title.
+	 * @param {string}      icon          Icon name to use, false for no icon.
+	 * @param {JSX.Element} headerActions Action component.
 	 * @return {*} Box header.
 	 */
 	static boxHeader( title = '', icon = '', headerActions = null ) {

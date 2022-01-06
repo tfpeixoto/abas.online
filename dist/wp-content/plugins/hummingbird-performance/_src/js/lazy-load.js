@@ -1,16 +1,16 @@
 /* global wphbGlobal */
 /* global ajaxurl */
 
-( function () {
+( function() {
 	'use strict';
 
 	const WPHBLazyComment = {
-		commentsFormLoading : false,
+		commentsFormLoading: false,
 		commentsLoading: false,
 		commentsLoadComplete: false,
 		commentsLoaded: 0,
 		loadOnScroll: false,
-		loadCommentFormOnScroll : false,
+		loadCommentFormOnScroll: false,
 		commentLoadingMethod: 'click', //or scroll
 		pageCommentsOption: 0,
 		totalCommentsPages: 1,
@@ -33,7 +33,7 @@
 				this.ajaxurl = ajaxurl;
 			}
 
-			// Run comment lazy loader if we are in site fron-end and in a single page.
+			// Run comment lazy loader if we are in site front-end and in a single page.
 			if ( document.getElementById( 'wphb-comments-wrap' ) ) {
 				this.initCommentLazyLoader();
 			}
@@ -89,16 +89,16 @@
 				);
 			}
 
-			//If we've the load on click enabled
+			// If we've the load on click enabled
 			if ( this.commentLoadingMethod === 'click' ) {
 				this.loadCommentsButton.addEventListener( 'click', () =>
 					WPHBLazyComment.loadComments()
 				);
-				//At the very beginning load the comment form and basic wrappers
+				// At the very beginning load the comment form and basic wrappers
 				this.loadCommentFormOnScroll = true;
 				window.addEventListener( 'scroll', WPHBLazyComment.handleScrollingForLoadForm );
-				//For some small posts comment area might be in view port on page load. 
-				//So try to run loadComments on page load. 
+				// For some small posts comment area might be in view port on page load.
+				// So try to run loadComments on page load.
 				WPHBLazyComment.handleScrollingForLoadForm();
 			}
 
@@ -108,8 +108,8 @@
 				window.addEventListener( 'scroll', () =>
 					WPHBLazyComment.handleScrolling()
 				);
-				//For some small posts comment area might be in view port on page load. 
-				//So try to run loadCommentsForm on page load. 
+				// For some small posts comment area might be in view port on page load.
+				// So try to run loadCommentsForm on page load.
 				WPHBLazyComment.handleScrolling();
 			}
 		},
@@ -176,7 +176,7 @@
 		},
 
 		handleScrolling() {
-			/** Check if in viewport and loadOnScroll is enabled **/
+			// Check if in viewport and loadOnScroll is enabled
 			if (
 				! this.loadOnScroll ||
 				! this.isInViewport( this.commentsEndIndicator )
@@ -188,7 +188,7 @@
 		},
 
 		handleScrollingForLoadForm() {
-			/** Check if in viewport and loadCommentFormOnScroll is enabled **/
+			// Check if in viewport and loadCommentFormOnScroll is enabled
 			if (
 				! WPHBLazyComment.loadCommentFormOnScroll ||
 				! WPHBLazyComment.isInViewport( WPHBLazyComment.commentsEndIndicator )
@@ -196,7 +196,7 @@
 				return null;
 			}
 			window.removeEventListener( 'scroll', WPHBLazyComment.handleScrollingForLoadForm );
-			
+
 			WPHBLazyComment.loadCommentsForm();
 		},
 
@@ -230,17 +230,15 @@
 					WPHBLazyComment.commentNonce
 			);
 
-			cxhr.onload = function () {
-				/** Append the comment template **/
+			cxhr.onload = function() {
+				// Append the comment template
 				if ( 200 === cxhr.status ) {
 					const response = JSON.parse( cxhr.responseText );
 					if ( 'undefined' !== typeof response.data ) {
-						/** Append the comment template/ Error message returned in Ajax response **/
-						if( WPHBLazyComment.commentsFormLoading === true ) {
+						// Append the comment template/ Error message returned in Ajax response
+						if ( WPHBLazyComment.commentsFormLoading === true ) {
 							WPHBLazyComment.enableCommentLoad();
-
 						} else {
-
 							WPHBLazyComment.commentsLoaded++;
 							WPHBLazyComment.cpageNum =
 							WPHBLazyComment.commentsPageOrder === 'newest'
@@ -260,16 +258,15 @@
 						WPHBLazyComment.putCommentContent(
 							response.data.content
 						);
-						
-						if( WPHBLazyComment.commentsFormLoading === true ) {
+
+						if ( WPHBLazyComment.commentsFormLoading === true ) {
 							WPHBLazyComment.commentsFormLoading = false;
 						}
-						
 					} else {
 						WPHBLazyComment.enableCommentLoad();
 					}
 				} else {
-					/** Show the error, if failed; Enable the button, scroll loading **/
+					// Show the error, if failed; Enable the button, scroll loading
 					WPHBLazyComment.enableCommentLoad();
 				}
 				WPHBLazyComment.commentsLoading = false;
@@ -289,7 +286,7 @@
 
 			const commentList = comment.parentNode;
 
-			if( WPHBLazyComment.commentsFormLoading === true ) {
+			if ( WPHBLazyComment.commentsFormLoading === true ) {
 				commentList.innerHTML = '';
 			}
 
@@ -309,8 +306,10 @@
 
 		stringToHTML( str ) {
 			str = '<div>' + str + '</div>';
-			const support = ( function () {
-				if ( ! window.DOMParser ) return false;
+			const support = ( function() {
+				if ( ! window.DOMParser ) {
+					return false;
+				}
 				const parser = new DOMParser();
 				try {
 					parser.parseFromString( 'x', 'text/html' );
@@ -359,7 +358,7 @@
 		},
 	};
 
-	document.addEventListener( 'DOMContentLoaded', function () {
+	document.addEventListener( 'DOMContentLoaded', function() {
 		WPHBLazyComment.init();
 	} );
-} )();
+}() );

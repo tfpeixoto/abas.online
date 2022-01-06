@@ -16,10 +16,13 @@ require_once("header.php");
   </div>
 </section>
 
+<?php get_template_part( 'template_parts/search-form' ); ?>
+
 <section class="blog__list">
   <div class="container">
     <div class="row lista-posts">
       <div class="col-12 col-md-9">
+
         <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
             <article class="row d-flex justify-content-start py-3 my-5">

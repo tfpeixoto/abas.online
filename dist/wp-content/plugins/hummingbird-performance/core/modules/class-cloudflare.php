@@ -12,6 +12,7 @@ use Hummingbird\Core\Settings;
 use Hummingbird\Core\Traits\Module as ModuleContract;
 use Hummingbird\Core\Utils;
 use WP_Error;
+use WP_Post;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -80,7 +81,7 @@ class Cloudflare extends Module {
 	 */
 	public function has_cloudflare( $force = false ) {
 		if ( filter_input( INPUT_GET, 'wphb-check-cf', FILTER_VALIDATE_BOOLEAN ) ) {
-			// If we're checking do not try to check again or it will return a timeout.
+			// If we're checking do not try to check again, or it will return a timeout.
 			return (bool) Settings::get_setting( 'connected', $this->slug );
 		}
 
@@ -365,7 +366,7 @@ class Cloudflare extends Module {
 	}
 
 	/**
-	 * Register a rule added to CF so they can be listed them later
+	 * Register a rule added to CF, so they can be listed them later
 	 *
 	 * @param int    $id        Id.
 	 * @param string $filetype  File type.
@@ -379,7 +380,7 @@ class Cloudflare extends Module {
 	}
 
 	/**
-	 * Register a rule added to CF so they can be listed them later
+	 * Register a rule added to CF, so they can be listed them later
 	 *
 	 * @param string $filetype  File type.
 	 */
@@ -691,40 +692,6 @@ class Cloudflare extends Module {
 	}
 
 	/**
-	 * Convert Cloudflare frequency to normal. Used when updating the custom code in browser caching.
-	 *
-	 * @param  int $frequency  Cloudflare frequency to convert.
-	 *
-	 * @return string  Caching frequency.
-	 */
-	public function convert_frequency( $frequency ) {
-		$frequencies = array(
-			7200     => '2h/A7200',
-			10800    => '3h/A10800',
-			14400    => '4h/A14400',
-			18000    => '5h/A18000',
-			28800    => '8h/A28800',
-			43200    => '12h/A43200',
-			57600    => '16h/A57600',
-			72000    => '20h/A72000',
-			86400    => '1d/A86400',
-			172800   => '2d/A172800',
-			259200   => '3d/A259200',
-			345600   => '4d/A345600',
-			432000   => '5d/A432000',
-			691200   => '8d/A691200',
-			1382400  => '16d/A1382400',
-			2073600  => '24d/A2073600',
-			2678400  => '1M/A2678400',
-			5356800  => '2M/A5356800',
-			16070400 => '6M/A16070400',
-			31536000 => '1y/A31536000',
-		);
-
-		return $frequencies[ $frequency ];
-	}
-
-	/**
 	 * Query APO settings.
 	 *
 	 * @since 3.0.0
@@ -892,9 +859,9 @@ class Cloudflare extends Module {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string   $new_status  New post status.
-	 * @param string   $old_status  Old post status.
-	 * @param \WP_Post $post        Post object.
+	 * @param string  $new_status  New post status.
+	 * @param string  $old_status  Old post status.
+	 * @param WP_Post $post        Post object.
 	 */
 	public function post_status_change( $new_status, $old_status, $post ) {
 		if ( 'publish' === $new_status || 'publish' === $old_status ) {
@@ -907,9 +874,9 @@ class Cloudflare extends Module {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string   $new_status  New comment status.
-	 * @param string   $old_status  Old comment status.
-	 * @param \WP_Post $comment     Comment object.
+	 * @param string  $new_status  New comment status.
+	 * @param string  $old_status  Old comment status.
+	 * @param WP_Post $comment     Comment object.
 	 */
 	public function comment_status_change( $new_status, $old_status, $comment ) {
 		if ( ! isset( $comment->comment_post_ID ) || empty( $comment->comment_post_ID ) ) {

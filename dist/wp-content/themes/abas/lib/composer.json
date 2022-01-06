@@ -1,0 +1,17 @@
+{
+    "name": "carlos.mendes/abas",
+    "require": {
+        "phpmailer/phpmailer": "^6.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "CarlosMendes\\Abas\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Carlos Eduardo Mayrinck Mendes",
+            "email": "carlos.mendes@groupsoftware.com.br"
+        }
+    ]
+}

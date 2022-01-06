@@ -71,7 +71,6 @@ export default class GzipConfig extends React.Component {
 
 		const serverSelect = (
 			<Select
-				selectId="wphb-server-type"
 				label={ __( 'Server type', 'wphb' ) }
 				items={ serverList }
 				selected={ this.state.currentServer }

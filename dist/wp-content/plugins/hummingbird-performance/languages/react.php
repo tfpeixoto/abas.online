@@ -4,129 +4,194 @@ $generated_i18n_strings = array(
 	// Reference: _src/react/components/loader/index.jsx:33
 	__( 'Fetching latest data...', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:145
+	// Reference: _src/react/components/steps-bar/index.jsx:27
+	__( 'Server Type', 'wphb' ),
+
+	// Reference: _src/react/components/steps-bar/index.jsx:28
+	__( 'Set Expiry', 'wphb' ),
+
+	// Reference: _src/react/components/steps-bar/index.jsx:29
+	// Reference: _src/react/components/steps-content/index.jsx:66
+	__( 'Add Rules', 'wphb' ),
+
+	// Reference: _src/react/components/steps-bar/index.jsx:32
+	__( 'This stage is already completed.', 'wphb' ),
+
+	// Reference: _src/react/components/steps-bar/index.jsx:49
+	__( 'Setup', 'wphb' ),
+
+	// Reference: _src/react/components/steps-bar/index.jsx:52
+	// Reference: _src/react/modules/caching/integrations.jsx:545
+	__( 'Browser Caching', 'wphb' ),
+
+	// Reference: _src/react/components/steps-content/index.jsx:112
+	/* translators: server type */
+	__( 'We\'ve automatically detected your server type is %s. If this is incorrect, manually select your server type to generate the relevant rules and instructions.', 'wphb' ),
+
+	// Reference: _src/react/components/steps-content/index.jsx:141
+	__( 'All file types', 'wphb' ),
+
+	// Reference: _src/react/components/steps-content/index.jsx:146
+	__( 'Individual file types', 'wphb' ),
+
+	// Reference: _src/react/components/steps-content/index.jsx:161
+	// Reference: _src/react/modules/caching/integrations.jsx:415
+	__( 'JavaScript, CSS, Media, Images', 'wphb' ),
+
+	// Reference: _src/react/components/steps-content/index.jsx:214
+	/* translators: %d - current step */
+	__( 'Step %d/3', 'wphb' ),
+
+	// Reference: _src/react/components/steps-content/index.jsx:232
+	__( 'Applying rules', 'wphb' ),
+
+	// Reference: _src/react/components/steps-content/index.jsx:52
+	__( 'Choose Server Type', 'wphb' ),
+
+	// Reference: _src/react/components/steps-content/index.jsx:53
+	// Reference: _src/react/views/gzip/configure.jsx:105
+	__( 'Choose your server type. If you don’t know this, please contact your hosting provider.', 'wphb' ),
+
+	// Reference: _src/react/components/steps-content/index.jsx:59
+	__( 'Set Expiry Time', 'wphb' ),
+
+	// Reference: _src/react/components/steps-content/index.jsx:60
+	__( 'Please choose your desired expiry time. Google recommends a minimum of 1 year as a good benchmark.', 'wphb' ),
+
+	// Reference: _src/react/components/steps-content/index.jsx:69
+	__( 'Hummingbird can automatically apply browser caching rules for Apache servers by writing to your .htaccess file.', 'wphb' ),
+
+	// Reference: _src/react/components/steps-content/index.jsx:73
+	__( 'Please follow the steps below to apply the rules yourself:', 'wphb' ),
+
+	// Reference: _src/react/components/support-link/index.jsx:25
+	__( 'Still having trouble?', 'wphb' ),
+
+	// Reference: _src/react/components/support-link/index.jsx:29
+	__( 'Start a live chat.', 'wphb' ),
+
+	// Reference: _src/react/components/support-link/index.jsx:29
+	__( 'Open a support ticket.', 'wphb' ),
+
+	// Reference: _src/react/modules/caching/browser.jsx:254
+	// Reference: _src/react/modules/caching/integrations.jsx:156
 	__( 'Cloudflare was disconnected successfully.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:162
+	// Reference: _src/react/modules/caching/integrations.jsx:176
 	__( 'Cloudflare cache successfully purged. Please wait 30 seconds for the purge to complete.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:178
+	// Reference: _src/react/modules/caching/integrations.jsx:193
 	__( 'Automatic Platform Optimization is disabled.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:180
+	// Reference: _src/react/modules/caching/integrations.jsx:195
 	__( 'Automatic Platform Optimization is enabled.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:212
+	// Reference: _src/react/modules/caching/integrations.jsx:228
 	__( 'Settings updated.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:250
+	// Reference: _src/react/modules/caching/integrations.jsx:267
 	__( 'Cloudflare was connected successfully.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:289
+	// Reference: _src/react/modules/caching/integrations.jsx:307
 	__( 'Cloudflare', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:307
+	// Reference: _src/react/modules/caching/integrations.jsx:325
 	__( 'Cloudflare is connected for this domain.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:317
+	// Reference: _src/react/modules/caching/integrations.jsx:335
 	__( 'Cloudflare is connected, but it appears you don’t have any active zones for this domain. Double check your domain has been added to Cloudflare and tap re-check when ready.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:327
+	// Reference: _src/react/modules/caching/integrations.jsx:345
 	// Reference: _src/react/views/caching/browser/status.jsx:143
 	__( 'We’ve detected you’re using Cloudflare! Connect your account to control your settings via Hummingbird.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:337
+	// Reference: _src/react/modules/caching/integrations.jsx:355
 	__( 'Cloudflare is not connected.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:362
+	// Reference: _src/react/modules/caching/integrations.jsx:380
 	__( 'If the zone is not auto detected, try selecting one of the available zones from the list below:', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:369
+	// Reference: _src/react/modules/caching/integrations.jsx:387
 	__( 'Cloudflare zone', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:370
+	// Reference: _src/react/modules/caching/integrations.jsx:388
 	__( 'Select zone', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:389
-	// Reference: _src/react/views/gzip/configure.jsx:100
+	// Reference: _src/react/modules/caching/integrations.jsx:407
+	// Reference: _src/react/views/caching/browser/status.jsx:417
+	// Reference: _src/react/views/gzip/configure.jsx:99
 	__( 'Configure', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:397
-	__( 'JavaScript, CSS, Media, Images', 'wphb' ),
-
-	// Reference: _src/react/modules/caching/integrations.jsx:407
+	// Reference: _src/react/modules/caching/integrations.jsx:425
 	// Reference: _src/react/views/caching/browser/status.jsx:343
 	__( 'Store temporary data on your visitors devices so that they don’t have to download assets twice if they don’t have to. This results in a much faster second time round page load speed.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:415
+	// Reference: _src/react/modules/caching/integrations.jsx:433
 	__( 'File types', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:417
+	// Reference: _src/react/modules/caching/integrations.jsx:435
 	__( 'Expiry time', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:443
+	// Reference: _src/react/modules/caching/integrations.jsx:461
 	__( 'Cloudflare APO will cache dynamic content and third-party scripts so the entire site is served from cache. This eliminates round trips between your server and the user\'s browser, drastically improving TTFB and other site performance metrics.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:455
+	// Reference: _src/react/modules/caching/integrations.jsx:473
 	__( 'Enable APO', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:463
+	// Reference: _src/react/modules/caching/integrations.jsx:481
 	__( 'Cache by device type', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:470
+	// Reference: _src/react/modules/caching/integrations.jsx:488
 	__( 'This enables you to target visitors with cached content appropriate to their device. Once enabled, Cloudflare sends a CF-Device-Type HTTP header to your origin page with a value of either mobile, tablet or desktop for every request to specify the visitor’s device type. If your origin page responds with the appropriate content for that device type, Cloudflare caches the resource only for that specific device type. Note: changing the Cache by device type setting will purge the entire Couldflare cache for your zone.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:481
+	// Reference: _src/react/modules/caching/integrations.jsx:499
 	/* translators: %1$s - opening a tag, %2$s - closing a tag */
 	__( 'Automatic Platform Optimization is a paid service and you need to purchase it to enable it. You can purchase it %1$shere%2$s.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:506
+	// Reference: _src/react/modules/caching/integrations.jsx:524
 	/* translators: %1$s - opening a tag, %2$s - closing a tag */
 	__( 'Cloudflare is a Content Delivery Network (CDN) that sends traffic through its global network to automatically optimize the delivery of your site so your visitors can browse your site at top speeds. With the new Automatic Platform Optimization (APO), Cloudflare can also cache dynamic content and third-party scripts so the entire site is served from cache. Learn more about the integration %1$shere%2$s.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:516
+	// Reference: _src/react/modules/caching/integrations.jsx:534
 	__( 'Overview', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:519
-	// Reference: _src/react/views/caching/browser/status.jsx:408
+	// Reference: _src/react/modules/caching/integrations.jsx:537
+	// Reference: _src/react/views/caching/browser/status.jsx:447
 	// Reference: _src/react/views/gzip/summary.jsx:302
 	__( 'Status', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:527
-	__( 'Browser Caching', 'wphb' ),
-
-	// Reference: _src/react/modules/caching/integrations.jsx:535
+	// Reference: _src/react/modules/caching/integrations.jsx:553
 	__( 'Automatic Platform Optimization', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:563
-	// Reference: _src/react/views/gzip/server-instructions.jsx:400
+	// Reference: _src/react/modules/caching/integrations.jsx:581
+	// Reference: _src/react/views/gzip/server-instructions.jsx:310
 	__( 'Deactivate', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:572
-	// Reference: _src/react/views/caching/browser/status.jsx:381
+	// Reference: _src/react/modules/caching/integrations.jsx:590
+	// Reference: _src/react/views/caching/browser/status.jsx:411
 	// Reference: _src/react/views/gzip/summary.jsx:284
 	__( 'Re-check status', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:585
+	// Reference: _src/react/modules/caching/integrations.jsx:603
 	__( 'Re-check', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:596
+	// Reference: _src/react/modules/caching/integrations.jsx:614
 	__( 'Save zone', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:606
+	// Reference: _src/react/modules/caching/integrations.jsx:624
 	__( 'Connect', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:615
+	// Reference: _src/react/modules/caching/integrations.jsx:633
 	// Reference: _src/react/views/minify/assets.jsx:77
 	__( 'Clear cache', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:635
+	// Reference: _src/react/modules/caching/integrations.jsx:653
 	__( 'Connect your Cloudflare account to control APO and Browser Caching directly from Hummingbird.', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:655
+	// Reference: _src/react/modules/caching/integrations.jsx:673
 	__( 'Connect Cloudflare', 'wphb' ),
 
-	// Reference: _src/react/modules/caching/integrations.jsx:669
+	// Reference: _src/react/modules/caching/integrations.jsx:687
 	__( 'Open item', 'wphb' ),
 
 	// Reference: _src/react/modules/configs.jsx:102
@@ -268,10 +333,10 @@ $generated_i18n_strings = array(
 	// Reference: _src/react/modules/configs.jsx:99
 	__( 'Apply Config', 'wphb' ),
 
-	// Reference: _src/react/modules/minify.jsx:119
+	// Reference: _src/react/modules/minify.jsx:131
 	__( 'Settings restored to defaults', 'wphb' ),
 
-	// Reference: _src/react/modules/minify.jsx:89
+	// Reference: _src/react/modules/minify.jsx:94
 	__( 'Your cache has been successfully cleared. Your assets will regenerate the next time someone visits your website.', 'wphb' ),
 
 	// Reference: _src/react/modules/tutorials.jsx:29
@@ -283,6 +348,59 @@ $generated_i18n_strings = array(
 
 	// Reference: _src/react/modules/tutorials.jsx:61
 	__( 'Hummingbird Tutorials', 'wphb' ),
+
+	// Reference: _src/react/views/caching/browser/server-instructions.jsx:100
+	// Reference: _src/react/views/gzip/server-instructions.jsx:196
+	__( 'Troubleshooting', 'wphb' ),
+
+	// Reference: _src/react/views/caching/browser/server-instructions.jsx:104
+	// Reference: _src/react/views/gzip/server-instructions.jsx:239
+	__( 'If you do not have access to your NGINX config files you will need to contact your hosting provider to make these changes.', 'wphb' ),
+
+	// Reference: _src/react/views/caching/browser/server-instructions.jsx:121
+	// Reference: _src/react/views/gzip/server-instructions.jsx:260
+	__( 'For IIS 7 servers and above,', 'wphb' ),
+
+	// Reference: _src/react/views/caching/browser/server-instructions.jsx:125
+	// Reference: _src/react/views/gzip/server-instructions.jsx:264
+	__( 'visit Microsoft TechNet', 'wphb' ),
+
+	// Reference: _src/react/views/caching/browser/server-instructions.jsx:36
+	__( 'Manually configure the Cache-Control header for browser caching in your WebAdmin Console following the Open LiteSpeed guide', 'wphb' ),
+
+	// Reference: _src/react/views/caching/browser/server-instructions.jsx:37
+	__( 'here', 'wphb' ),
+
+	// Reference: _src/react/views/caching/browser/server-instructions.jsx:39
+	__( 'Set Expires by Type to 31536000 (1 year) to meet Google’s recommended benchmark.', 'wphb' ),
+
+	// Reference: _src/react/views/caching/browser/server-instructions.jsx:44
+	__( 'Copy the generated code into your .htaccess file & save your changes.', 'wphb' ),
+
+	// Reference: _src/react/views/caching/browser/server-instructions.jsx:47
+	__( 'Restart/reload LiteSpeed', 'wphb' ),
+
+	// Reference: _src/react/views/caching/browser/server-instructions.jsx:47
+	__( 'Restart/reload Apache', 'wphb' ),
+
+	// Reference: _src/react/views/caching/browser/server-instructions.jsx:56
+	__( 'Alternatively, browser cache can be configured via an .htaccess file. Follow the steps below to add browser caching to your LiteSpeed server:', 'wphb' ),
+
+	// Reference: _src/react/views/caching/browser/server-instructions.jsx:68
+	__( 'If adding the rules to your .htaccess doesn\'t work and you have access to vhosts.conf or httpd.conf try to find the line that starts with <Directory> - add the code above into that section and save the file.', 'wphb' ),
+
+	// Reference: _src/react/views/caching/browser/server-instructions.jsx:72
+	__( 'If you don\'t know where those files are, or you aren\'t able to reload the web server, you would need to consult with your hosting provider or a system administrator who has access to change the configuration of your server', 'wphb' ),
+
+	// Reference: _src/react/views/caching/browser/server-instructions.jsx:88
+	__( 'Copy the generated code into your nginx.conf usually located at /etc/nginx/nginx.conf or /usr/local/nginx/conf/nginx.conf', 'wphb' ),
+
+	// Reference: _src/react/views/caching/browser/server-instructions.jsx:91
+	__( 'Add the code above to the http or inside server section in the file.', 'wphb' ),
+
+	// Reference: _src/react/views/caching/browser/server-instructions.jsx:92
+	// Reference: _src/react/views/gzip/server-instructions.jsx:227
+	__( 'Reload/restart NGINX.', 'wphb' ),
 
 	// Reference: _src/react/views/caching/browser/status.jsx:102
 	__( 'Browser Caching is not working properly:', 'wphb' ),
@@ -330,113 +448,104 @@ $generated_i18n_strings = array(
 	// Reference: _src/react/views/caching/browser/status.jsx:355
 	__( 'Recommended expiry', 'wphb' ),
 
-	// Reference: _src/react/views/caching/browser/status.jsx:378
-	// Reference: _src/react/views/gzip/summary.jsx:281
-	__( 'Made changes?', 'wphb' ),
+	// Reference: _src/react/views/caching/browser/status.jsx:384
+	__( 'Clear Cache', 'wphb' ),
 
-	// Reference: _src/react/views/gzip/configure.jsx:105
+	// Reference: _src/react/views/caching/browser/status.jsx:392
+	__( 'Disconnect', 'wphb' ),
+
+	// Reference: _src/react/views/caching/browser/status.jsx:420
+	__( 'Adjust your server type again and select the relevant rules.', 'wphb' ),
+
+	// Reference: _src/react/views/caching/browser/wizard.jsx:159
+	__( 'Quit Setup', 'wphb' ),
+
+	// Reference: _src/react/views/caching/browser/wizard.jsx:169
+	__( 'Previous', 'wphb' ),
+
+	// Reference: _src/react/views/caching/browser/wizard.jsx:181
+	// Reference: _src/react/views/gzip/server-instructions.jsx:136
+	__( 'Next', 'wphb' ),
+
+	// Reference: _src/react/views/caching/browser/wizard.jsx:189
+	__( 'Check Status', 'wphb' ),
+
+	// Reference: _src/react/views/caching/browser/wizard.jsx:192
+	__( 'Applying...', 'wphb' ),
+
+	// Reference: _src/react/views/gzip/configure.jsx:104
 	__( 'Server type', 'wphb' ),
 
-	// Reference: _src/react/views/gzip/configure.jsx:106
-	__( 'Choose your server type. If you don’t know this, please contact your hosting provider.', 'wphb' ),
-
-	// Reference: _src/react/views/gzip/configure.jsx:113
+	// Reference: _src/react/views/gzip/configure.jsx:112
 	__( 'Enable compression', 'wphb' ),
 
-	// Reference: _src/react/views/gzip/configure.jsx:114
+	// Reference: _src/react/views/gzip/configure.jsx:113
 	__( 'Follow the instructions to activate GZip compression for this website.', 'wphb' ),
 
-	// Reference: _src/react/views/gzip/server-instructions.jsx:125
-	__( 'Apply Rules', 'wphb' ),
-
-	// Reference: _src/react/views/gzip/server-instructions.jsx:131
-	__( 'We tried applying the .htaccess rules automatically but we weren’t able to. Make sure your file permissions on your .htaccess file are set to 644, or', 'wphb' ),
-
-	// Reference: _src/react/views/gzip/server-instructions.jsx:138
+	// Reference: _src/react/views/gzip/server-instructions.jsx:104
 	__( 'switch to manual mode', 'wphb' ),
 
-	// Reference: _src/react/views/gzip/server-instructions.jsx:140
+	// Reference: _src/react/views/gzip/server-instructions.jsx:106
 	__( 'and apply the rules yourself.', 'wphb' ),
 
-	// Reference: _src/react/views/gzip/server-instructions.jsx:176
+	// Reference: _src/react/views/gzip/server-instructions.jsx:134
+	__( 'Copy & paste the generated code below into your .htaccess file', 'wphb' ),
+
+	// Reference: _src/react/views/gzip/server-instructions.jsx:137
+	__( 're-check your GZip status', 'wphb' ),
+
+	// Reference: _src/react/views/gzip/server-instructions.jsx:138
+	__( 'to see if it worked', 'wphb' ),
+
+	// Reference: _src/react/views/gzip/server-instructions.jsx:139
+	__( 'Still having issues?', 'wphb' ),
+
+	// Reference: _src/react/views/gzip/server-instructions.jsx:144
+	__( 'Look for your site in the file and find the line that starts with <Directory> - add the code above into that section and save the file.', 'wphb' ),
+
+	// Reference: _src/react/views/gzip/server-instructions.jsx:145
+	__( 'Reload Apache/LiteSpeed.', 'wphb' ),
+
+	// Reference: _src/react/views/gzip/server-instructions.jsx:146
+	__( 'If you don\'t know where those files are, or you aren\'t able to reload Apache/LiteSpeed, you would need to consult with your hosting provider or a system administrator who has access to change the configuration of your server', 'wphb' ),
+
+	// Reference: _src/react/views/gzip/server-instructions.jsx:151
 	// Reference: _src/react/views/minify/assets.jsx:224
 	__( 'Automatic', 'wphb' ),
 
-	// Reference: _src/react/views/gzip/server-instructions.jsx:178
-	// Reference: _src/react/views/minify/assets.jsx:231
+	// Reference: _src/react/views/gzip/server-instructions.jsx:156
+	// Reference: _src/react/views/minify/assets.jsx:229
 	__( 'Manual', 'wphb' ),
 
-	// Reference: _src/react/views/gzip/server-instructions.jsx:183
+	// Reference: _src/react/views/gzip/server-instructions.jsx:167
 	__( 'Hummingbird can automatically apply GZip compression for Apache/LiteSpeed servers by writing your .htaccess file. Alternately, switch to Manual to apply these rules yourself.', 'wphb' ),
 
-	// Reference: _src/react/views/gzip/server-instructions.jsx:195
+	// Reference: _src/react/views/gzip/server-instructions.jsx:182
 	__( 'If you are unable to get the automated method working you can copy the generated code below into your .htaccess file to activate GZip compression.', 'wphb' ),
 
-	// Reference: _src/react/views/gzip/server-instructions.jsx:203
-	__( 'Copy & paste the generated code below into your .htaccess file', 'wphb' ),
-
-	// Reference: _src/react/views/gzip/server-instructions.jsx:209
-	__( 'Next', 'wphb' ),
-
-	// Reference: _src/react/views/gzip/server-instructions.jsx:212
-	__( 're-check your GZip status', 'wphb' ),
-
-	// Reference: _src/react/views/gzip/server-instructions.jsx:217
-	__( 'to see if it worked', 'wphb' ),
-
-	// Reference: _src/react/views/gzip/server-instructions.jsx:221
-	__( 'Still having issues?', 'wphb' ),
-
-	// Reference: _src/react/views/gzip/server-instructions.jsx:248
-	__( 'Troubleshooting', 'wphb' ),
-
-	// Reference: _src/react/views/gzip/server-instructions.jsx:251
+	// Reference: _src/react/views/gzip/server-instructions.jsx:199
 	__( 'If .htaccess does not work, and you have access to vhosts.conf or httpd.conf try this:', 'wphb' ),
 
-	// Reference: _src/react/views/gzip/server-instructions.jsx:258
-	__( 'Look for your site in the file and find the line that starts with <Directory> - add the code above into that section and save the file.', 'wphb' ),
-
-	// Reference: _src/react/views/gzip/server-instructions.jsx:264
-	__( 'Reload Apache/LiteSpeed.', 'wphb' ),
-
-	// Reference: _src/react/views/gzip/server-instructions.jsx:270
-	__( 'If you don\'t know where those files are, or you aren\'t able to reload Apache/LiteSpeed, you would need to consult with your hosting provider or a system administrator who has access to change the configuration of your server', 'wphb' ),
-
-	// Reference: _src/react/views/gzip/server-instructions.jsx:298
-	__( 'For NGINX servers:', 'wphb' ),
-
-	// Reference: _src/react/views/gzip/server-instructions.jsx:303
+	// Reference: _src/react/views/gzip/server-instructions.jsx:225
 	__( 'Edit your nginx.conf. Usually it\'s located at /etc/nginx/nginx.conf or /usr/local/nginx/nginx.conf', 'wphb' ),
 
-	// Reference: _src/react/views/gzip/server-instructions.jsx:309
+	// Reference: _src/react/views/gzip/server-instructions.jsx:226
 	__( 'Copy the generated code found below and paste it inside your http or server block.', 'wphb' ),
 
-	// Reference: _src/react/views/gzip/server-instructions.jsx:314
-	__( 'Reload/restart NGINX.', 'wphb' ),
+	// Reference: _src/react/views/gzip/server-instructions.jsx:233
+	__( 'For NGINX servers:', 'wphb' ),
 
-	// Reference: _src/react/views/gzip/server-instructions.jsx:318
-	__( 'If you do not have access to your NGINX config files you will need to contact your hosting provider to make these changes.', 'wphb' ),
-
-	// Reference: _src/react/views/gzip/server-instructions.jsx:346
-	__( 'For IIS 7 servers and above,', 'wphb' ),
-
-	// Reference: _src/react/views/gzip/server-instructions.jsx:350
-	__( 'visit Microsoft TechNet', 'wphb' ),
-
-	// Reference: _src/react/views/gzip/server-instructions.jsx:372
+	// Reference: _src/react/views/gzip/server-instructions.jsx:282
 	__( 'Hummingbird can control your Cloudflare GZip compression settings from here. Simply add your Cloudflare API details and configure away', 'wphb' ),
 
-	// Reference: _src/react/views/gzip/server-instructions.jsx:392
+	// Reference: _src/react/views/gzip/server-instructions.jsx:302
 	__( 'Automatic .htaccess rules have been applied.', 'wphb' ),
 
-	// Reference: _src/react/views/gzip/server-instructions.jsx:76
-	__( 'Start a live chat.', 'wphb' ),
-
-	// Reference: _src/react/views/gzip/server-instructions.jsx:84
-	__( 'Open a support ticket.', 'wphb' ),
-
 	// Reference: _src/react/views/gzip/server-instructions.jsx:91
-	__( 'Still having trouble?', 'wphb' ),
+	__( 'Apply Rules', 'wphb' ),
+
+	// Reference: _src/react/views/gzip/server-instructions.jsx:97
+	__( 'We tried applying the .htaccess rules automatically but we weren’t able to. Make sure your file permissions on your .htaccess file are set to 644, or', 'wphb' ),
 
 	// Reference: _src/react/views/gzip/summary.jsx:124
 	/* translators: %d - number of gzip types */
@@ -480,6 +589,9 @@ $generated_i18n_strings = array(
 	// Reference: _src/react/views/gzip/summary.jsx:261
 	__( 'Current status', 'wphb' ),
 
+	// Reference: _src/react/views/gzip/summary.jsx:281
+	__( 'Made changes?', 'wphb' ),
+
 	// Reference: _src/react/views/gzip/summary.jsx:91
 	__( 'Gzip is not working properly:', 'wphb' ),
 
@@ -501,13 +613,13 @@ $generated_i18n_strings = array(
 	// Reference: _src/react/views/minify/assets.jsx:193
 	__( 'Basic Optimization will optimize your files by compressing them. This helps to improve site speed by de-cluttering CSS and JavaScript files, and by generating a faster version of each file.', 'wphb' ),
 
-	// Reference: _src/react/views/minify/assets.jsx:242
+	// Reference: _src/react/views/minify/assets.jsx:238
 	__( 'Optimizing your assets will compress and organize them in a way that improves page load times. You can choose to use our automated options, or manually configure each file yourself.', 'wphb' ),
 
-	// Reference: _src/react/views/minify/assets.jsx:251
+	// Reference: _src/react/views/minify/assets.jsx:247
 	__( 'How Does it Work?', 'wphb' ),
 
-	// Reference: _src/react/views/minify/assets.jsx:279
+	// Reference: _src/react/views/minify/assets.jsx:275
 	__( 'Assets', 'wphb' ),
 
 	// Reference: _src/react/views/minify/assets.jsx:53

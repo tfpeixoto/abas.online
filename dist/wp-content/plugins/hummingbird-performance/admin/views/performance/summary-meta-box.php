@@ -13,10 +13,14 @@
  * @var int               $opportunities     Number of failed opportunities.
  * @var int               $diagnostics       Number of failed diagnostics.
  * @var int               $passed_audits     Number of passed audits (passed opportunities + passed diagnostics).
+ * @var bool              $reports_enabled   Status of performance reports.
+ * @var string            $reports_next      Next scheduled report label.
+ * @var string            $reports_url       Notifications module link.
  */
 
 use Hummingbird\Admin\Page;
 use Hummingbird\Core\Modules\Performance;
+use Hummingbird\Core\Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -120,7 +124,7 @@ $branded_image = apply_filters( 'wpmudev_branding_hero_image', '' );
 						<?php if ( is_null( $last_report->{$type}->audits->opportunities ) ) : ?>
 							<span aria-hidden="true" class="sui-icon-check-tick sui-lg sui-success"></span>
 						<?php else : ?>
-							<span class="sui-tag sui-tag-<?php echo esc_attr( Performance::get_audits_class( $last_report->{$type}->audits->opportunities ) ); ?>" style="cursor: pointer;">
+							<span class="sui-tag sui-tag-<?php echo esc_attr( Performance::get_audits_class( $last_report->{$type}->audits->opportunities ) ); ?>">
 								<?php echo esc_html( $opportunities ); ?>
 							</span>
 						<?php endif; ?>
@@ -138,7 +142,7 @@ $branded_image = apply_filters( 'wpmudev_branding_hero_image', '' );
 						<?php if ( is_null( $last_report->{$type}->audits->diagnostics ) ) : ?>
 							<span aria-hidden="true" class="sui-icon-check-tick sui-lg sui-success"></span>
 						<?php else : ?>
-						<span class="sui-tag sui-tag-<?php echo esc_attr( Performance::get_audits_class( $last_report->{$type}->audits->diagnostics ) ); ?>" style="cursor: pointer;">
+						<span class="sui-tag sui-tag-<?php echo esc_attr( Performance::get_audits_class( $last_report->{$type}->audits->diagnostics ) ); ?>">
 							<?php echo esc_html( $diagnostics ); ?>
 						</span>
 						<?php endif; ?>
@@ -153,10 +157,27 @@ $branded_image = apply_filters( 'wpmudev_branding_hero_image', '' );
 					-
 				<?php else : ?>
 					<a href="#wphb-passed">
-						<span class="sui-tag sui-tag-success" style="cursor: pointer;"><?php echo esc_html( $passed_audits ); ?></span>
+						<span class="sui-tag sui-tag-success"><?php echo esc_html( $passed_audits ); ?></span>
 					</a>
 				<?php endif; ?>
 			</span>
 		</li>
+		<?php if ( Utils::is_member() ) : ?>
+		<li>
+			<span class="sui-list-label"><?php esc_html_e( 'Scheduled reports', 'wphb' ); ?></span>
+			<span class="sui-list-detail">
+				<?php if ( $reports_enabled ) : ?>
+					<?php echo esc_html( $reports_next ); ?>
+					<a href="<?php echo esc_url( $reports_url ); ?>#performance-reports">
+						<span class="sui-icon-pencil" aria-hidden="true"></span>
+					</a>
+				<?php else : ?>
+					<a href="<?php echo esc_url( $reports_url ); ?>#performance-reports">
+						<span class="sui-tag"><?php esc_html_e( 'Disabled', 'wphb' ); ?></span>
+					</a>
+				<?php endif; ?>
+			</span>
+		</li>
+		<?php endif; ?>
 	</ul>
 </div>

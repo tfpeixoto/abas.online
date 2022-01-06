@@ -7,7 +7,7 @@ import Fetcher from '../utils/fetcher';
 import { getString } from '../utils/helpers';
 import { OrphanedScanner, BATCH_SIZE } from '../scanners/OrphanedScanner';
 
-( function ( $ ) {
+( function( $ ) {
 	'use strict';
 
 	WPHB_Admin.advanced = {
@@ -23,7 +23,7 @@ import { OrphanedScanner, BATCH_SIZE } from '../scanners/OrphanedScanner';
 			 */
 			$( '#wphb-db-delete-all, .wphb-db-row-delete' ).on(
 				'click',
-				function ( e ) {
+				function( e ) {
 					e.preventDefault();
 					self.showModal(
 						e.target.dataset.entries,
@@ -36,8 +36,8 @@ import { OrphanedScanner, BATCH_SIZE } from '../scanners/OrphanedScanner';
 			 * Process form submit for advanced tools forms
 			 */
 			$(
-				'form[id="advanced-db-settings"], form[id="advanced-general-settings"], form[id="advanced-lazy-settings"]'
-			).on( 'submit', function ( e ) {
+				'form[id="advanced-general-settings"], form[id="advanced-lazy-settings"]'
+			).on( 'submit', function( e ) {
 				e.preventDefault();
 
 				const button = $( this ).find( '.sui-button-blue' );
@@ -52,12 +52,6 @@ import { OrphanedScanner, BATCH_SIZE } from '../scanners/OrphanedScanner';
 							'undefined' !== typeof response &&
 							response.success
 						) {
-							// Schedule cleanup.
-							if ( 'advanced-db-settings' === e.target.id ) {
-								Fetcher.common.call(
-									'wphb_pro_advanced_db_schedule'
-								);
-							}
 							WPHB_Admin.notices.show();
 						} else {
 							WPHB_Admin.notices.show(
@@ -66,13 +60,6 @@ import { OrphanedScanner, BATCH_SIZE } from '../scanners/OrphanedScanner';
 							);
 						}
 					} );
-			} );
-
-			/**
-			 * Show/hide schedule for database cleanup.
-			 */
-			$( 'input[id="scheduled_cleanup"]' ).on( 'change', function () {
-				$( '.schedule-box' ).toggle();
 			} );
 
 			/**
@@ -89,7 +76,7 @@ import { OrphanedScanner, BATCH_SIZE } from '../scanners/OrphanedScanner';
 			/**
 			 * Show/hide system information tables on dropdown change.
 			 */
-			systemInfoDropdown.on( 'change', function ( e ) {
+			systemInfoDropdown.on( 'change', function( e ) {
 				e.preventDefault();
 				$( '.wphb-sys-info-table' ).addClass( 'sui-hidden' );
 				$( '#wphb-system-info-' + $( this ).val() ).removeClass(
@@ -103,7 +90,7 @@ import { OrphanedScanner, BATCH_SIZE } from '../scanners/OrphanedScanner';
 			 *
 			 * @since 1.9.0
 			 */
-			$( '#wphb-adv-paste-value' ).on( 'click', function ( e ) {
+			$( '#wphb-adv-paste-value' ).on( 'click', function( e ) {
 				e.preventDefault();
 				const urlStrings = $( 'textarea[name="url_strings"]' );
 				if ( '' === urlStrings.val() ) {
@@ -124,20 +111,20 @@ import { OrphanedScanner, BATCH_SIZE } from '../scanners/OrphanedScanner';
 			 */
 			const fragmentsToggle = document.getElementById( 'cart_fragments' );
 			if ( fragmentsToggle ) {
-				fragmentsToggle.addEventListener( 'change', function ( e ) {
+				fragmentsToggle.addEventListener( 'change', function( e ) {
 					e.preventDefault();
 					$( '#cart_fragments_desc' ).toggle();
 				} );
 			}
 
-			/** If button is center aligned, Disable left and right margin and set them to 0 **/
+			// If button is center aligned, Disable left and right margin and set them to 0.
 			const alignOptions = document.querySelectorAll(
 				'input[name="button[alignment][align]"]'
 			);
 			const marginLeft = document.getElementById( 'button_margin_l' );
 			const marginRight = document.getElementById( 'button_margin_r' );
 			for ( let i = 0; i < alignOptions.length; i++ ) {
-				alignOptions[ i ].addEventListener( 'change', function () {
+				alignOptions[ i ].addEventListener( 'change', function() {
 					if (
 						'center' === alignOptions[ i ].value &&
 						alignOptions[ i ].checked
@@ -157,7 +144,7 @@ import { OrphanedScanner, BATCH_SIZE } from '../scanners/OrphanedScanner';
 			 * Show/Hide Lazy comments load options
 			 *
 			 */
-			$( 'input[id="lazy_load"]' ).on( 'change', function () {
+			$( 'input[id="lazy_load"]' ).on( 'change', function() {
 				$(
 					'#wphb-lazy-load-comments-wrap, #sui-upsell-gravtar-caching'
 				).toggle();
@@ -221,23 +208,36 @@ import { OrphanedScanner, BATCH_SIZE } from '../scanners/OrphanedScanner';
 		 * @param {string} type  Data type to delete from db (See data-type element for each row in the code).
 		 */
 		showModal( items, type ) {
-			const dialog =
-				getString( 'db_delete' ) +
-				' ' +
-				items +
-				' ' +
-				getString( 'db_entries' ) +
-				'? ' +
-				getString( 'db_backup' );
 			const modal = $( '#wphb-database-cleanup-modal' );
 
+			let dialog;
+			let btn = '<span class="sui-icon-trash" aria-hidden="true"></span>';
+
+			if ( 'drafts' === type ) {
+				dialog = getString( 'dbDeleteDrafts' );
+				btn += getString( 'dbDeleteDraftsButton' );
+			} else {
+				dialog =
+					getString( 'db_delete' ) +
+					' ' +
+					items +
+					' ' +
+					getString( 'db_entries' ) +
+					'? ' +
+					getString( 'db_backup' );
+				btn += getString( 'dbDeleteButton' );
+			}
+
 			modal.find( 'p' ).html( dialog );
-			modal.find( '.sui-button-red' ).attr( 'data-type', type );
+			modal
+				.find( '.sui-button-red' )
+				.attr( 'data-type', type )
+				.html( btn );
 
 			window.SUI.openModal(
 				'wphb-database-cleanup-modal',
 				'wpbody-content',
-				undefined,
+				'wphb-clear-database-confirm',
 				false
 			);
 		},
@@ -261,17 +261,17 @@ import { OrphanedScanner, BATCH_SIZE } from '../scanners/OrphanedScanner';
 				);
 			}
 
-			const spinner = row.find( '.sui-icon-loader' );
+			const allBtn = $( '#wphb-db-delete-all' );
 			const button = row.find( '.wphb-db-row-delete' );
 
-			spinner.removeClass( 'sui-hidden' );
-			button.addClass( 'sui-hidden' );
+			allBtn.addClass( 'sui-button-onload-text' );
+			button.addClass( 'sui-button-onload' );
 
 			Fetcher.advanced
 				.deleteSelectedData( type )
 				.then( ( response ) => {
-					spinner.addClass( 'sui-hidden' );
-					button.removeClass( 'sui-hidden' );
+					allBtn.removeClass( 'sui-button-onload-text' );
+					button.removeClass( 'sui-button-onload' );
 
 					for ( const prop in response.left ) {
 						if ( 'total' === prop ) {
@@ -295,7 +295,11 @@ import { OrphanedScanner, BATCH_SIZE } from '../scanners/OrphanedScanner';
 								.html( response.left[ prop ] );
 							itemRow
 								.find( '.wphb-db-row-delete' )
-								.attr( 'data-entries', response.left[ prop ] );
+								.attr( 'data-entries', response.left[ prop ] )
+								.attr(
+									'disabled',
+									'0' === response.left[ prop ]
+								);
 						}
 					}
 
@@ -303,7 +307,8 @@ import { OrphanedScanner, BATCH_SIZE } from '../scanners/OrphanedScanner';
 				} )
 				.catch( ( error ) => {
 					WPHB_Admin.notices.show( error, 'error' );
-					spinner.addClass( 'sui-hidden' );
+					allBtn.removeClass( 'sui-button-onload-text' );
+					button.removeClass( 'sui-button-onload' );
 				} );
 		},
 
@@ -322,7 +327,7 @@ import { OrphanedScanner, BATCH_SIZE } from '../scanners/OrphanedScanner';
 			} );
 
 			if ( $suiPickerInputs.hasClass( 'wp-color-picker' ) ) {
-				$suiPickerInputs.each( function () {
+				$suiPickerInputs.each( function() {
 					const $suiPickerInput = $( this ),
 						$suiPicker = $suiPickerInput.closest(
 							'.sui-colorpicker-wrap'
@@ -338,7 +343,7 @@ import { OrphanedScanner, BATCH_SIZE } from '../scanners/OrphanedScanner';
 						),
 						$wpPickerButton = $wpPicker.find( '.wp-color-result' );
 					// Listen to color change
-					$suiPickerInput.on( 'change', function () {
+					$suiPickerInput.on( 'change', function() {
 						// Change color preview
 						$suiPickerColor.find( 'span' ).css( {
 							'background-color': $wpPickerButton.css(
@@ -355,7 +360,7 @@ import { OrphanedScanner, BATCH_SIZE } from '../scanners/OrphanedScanner';
 					// Open iris picker
 					$suiPicker
 						.find( '.sui-button, span[role=button]' )
-						.on( 'click', function ( e ) {
+						.on( 'click', function( e ) {
 							$wpPickerButton.click();
 
 							e.preventDefault();
@@ -365,7 +370,7 @@ import { OrphanedScanner, BATCH_SIZE } from '../scanners/OrphanedScanner';
 					// Clear color value
 					$suiPickerValue
 						.find( 'button' )
-						.on( 'click', function ( e ) {
+						.on( 'click', function( e ) {
 							$wpPicker.find( '.wp-picker-clear' ).click();
 							$suiPickerValue.find( 'input' ).val( '' );
 							$suiPickerInput.val( '' ).trigger( 'change' );
@@ -385,7 +390,7 @@ import { OrphanedScanner, BATCH_SIZE } from '../scanners/OrphanedScanner';
 		 *
 		 * @since 2.7.0
 		 *
-		 * @param {string} type  What to purge. Accepts: cache, minify.
+		 * @param {string} type What to purge. Accepts: cache, minify.
 		 */
 		purgeDb( type = 'cache' ) {
 			const button = document.getElementById( 'btn-' + type + '-purge' );

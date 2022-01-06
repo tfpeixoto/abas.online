@@ -8,6 +8,7 @@
 
 namespace Hummingbird\Core\Modules;
 
+use Exception;
 use Hummingbird\Core\Module;
 use Hummingbird\Core\Settings;
 use Hummingbird\Core\Traits\Module as ModuleContract;
@@ -246,7 +247,7 @@ class Redis extends Module {
 					if ( file_exists( $predis_autoload_file ) ) {
 						include_once $predis_autoload_file;
 					} else {
-						throw new \Exception( 'Predis library not found. Re-install Hummingbird plugin or delete object-cache.php.' );
+						throw new Exception( 'Predis library not found. Re-install Hummingbird plugin or delete object-cache.php.' );
 					}
 				}
 
@@ -282,7 +283,7 @@ class Redis extends Module {
 			if ( $clear_cache ) {
 				$redis->flushdb();
 			}
-		} catch ( \Exception $exception ) {
+		} catch ( Exception $exception ) {
 			$redis_connected = false;
 
 			$error = $exception->getMessage();

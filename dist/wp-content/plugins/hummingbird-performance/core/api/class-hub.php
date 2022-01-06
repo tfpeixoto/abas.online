@@ -11,6 +11,7 @@ namespace Hummingbird\Core\Api;
 
 use Hummingbird\Core\Configs;
 use Hummingbird\Core\Modules\Performance;
+use Hummingbird\Core\Pro\Modules\Reports;
 use Hummingbird\Core\Settings;
 use Hummingbird\Core\Utils;
 use Hummingbird\WP_Hummingbird;
@@ -66,7 +67,7 @@ class Hub {
 	 */
 	public function add_endpoints( $actions ) {
 		foreach ( $this->endpoints as $endpoint ) {
-			$actions[ "wphb-{$endpoint}" ] = array( $this, 'action_' . $endpoint );
+			$actions[ "wphb-$endpoint" ] = array( $this, 'action_' . $endpoint );
 		}
 
 		return $actions;
@@ -77,8 +78,6 @@ class Hub {
 	 *
 	 * @param array  $params  Parameters.
 	 * @param string $action  Action.
-	 *
-	 * @return void|WP_Error
 	 */
 	public function action_get( $params, $action ) {
 		$result = array();
@@ -166,8 +165,8 @@ class Hub {
 				$percentage = 100 - (int) $compressed_size * 100 / (int) $original_size;
 			}
 
-			$compressed_size_scripts = number_format( $original_size_scripts - $compressed_size_scripts, 0 );
-			$compressed_size_styles  = number_format( $original_size_styles - $compressed_size_styles, 0 );
+			$compressed_size_scripts = number_format( $original_size_scripts - $compressed_size_scripts );
+			$compressed_size_styles  = number_format( $original_size_styles - $compressed_size_styles );
 
 			$result['minify']['status']['files']      = count( $collection['scripts'] ) + count( $collection['styles'] );
 			$result['minify']['status']['original']   = number_format( $original_size, 1 );
@@ -200,17 +199,18 @@ class Hub {
 		 *
 		 * @since 2.5.1
 		 */
-		$module  = Utils::get_module( 'advanced' );
-		$options = $module->get_options();
+		$options = Settings::get_setting( 'notifications', 'database' );
 
-		$result['db-cleanup']['status']    = $options['db_cleanups'];
-		$result['db-cleanup']['frequency'] = isset( $options['db_frequency'] ) ? $options['db_frequency'] : 7;
+		$result['db-cleanup']['status']    = isset( $options['enabled'] ) ? $options['enabled'] : false;
+		$result['db-cleanup']['frequency'] = isset( $options['frequency'] ) ? $options['frequency'] : 7;
 
 		/**
 		 * Advanced tools.
 		 *
 		 * @since 2.5.1
 		 */
+		$options = Settings::get_settings( 'advanced' );
+
 		$result['advanced']['query_string']   = $options['query_string'];
 		$result['advanced']['emoji']          = $options['emoji'];
 		$result['advanced']['cart_fragments'] = $options['cart_fragments'];
@@ -275,8 +275,6 @@ class Hub {
 	 * @since 1.9.1
 	 * @param array|object $params  Parameters.
 	 * @param string       $action  Action.
-	 *
-	 * @return void|WP_Error
 	 */
 	public function action_enable( $params, $action ) {
 		$module = Utils::get_module( $params->module );
@@ -308,8 +306,6 @@ class Hub {
 	 * @since 1.9.1
 	 * @param array|object $params  Parameters.
 	 * @param string       $action  Action.
-	 *
-	 * @return void|WP_Error
 	 */
 	public function action_disable( $params, $action ) {
 		$module = Utils::get_module( $params->module );
@@ -372,11 +368,11 @@ class Hub {
 		$reports = Utils::get_module( $available_modules[ $module ] );
 		$options = $reports->get_options();
 
-		// Randomize the minutes, so we don't spam the API.
-		$email_time    = explode( ':', sanitize_text_field( $params->time ) );
-		$email_time[1] = sprintf( '%02d', wp_rand( 0, 59 ) );
-
 		if ( 'performance' === $module || 'reports' === $module ) {
+			// Randomize the minutes, so we don't spam the API.
+			$email_time    = explode( ':', sanitize_text_field( $params->time ) );
+			$email_time[1] = sprintf( '%02d', wp_rand( 0, 59 ) );
+
 			$options['reports']['enabled']   = true;
 			$options['reports']['frequency'] = (int) $params->frequency;
 			$options['reports']['day']       = sanitize_text_field( $params->day );
@@ -397,7 +393,7 @@ class Hub {
 			wp_clear_scheduled_hook( "wphb_{$module}_report" );
 
 			// Reschedule.
-			$next_scan_time = \Hummingbird\Core\Pro\Modules\Reports::get_scheduled_time( $module, false );
+			$next_scan_time = Reports::get_scheduled_time( $module, false );
 			wp_schedule_single_event( $next_scan_time, "wphb_{$module}_report" );
 		}
 
@@ -460,8 +456,6 @@ class Hub {
 	 * @since 1.9.3
 	 * @param array|object $params  Parameters.
 	 * @param string       $action  Action.
-	 *
-	 * @return void|WP_Error
 	 */
 	public function action_clear_cache( $params, $action ) {
 		$module = $params->module;
@@ -523,8 +517,6 @@ class Hub {
 	 * @since 1.9.3
 	 * @param array  $params  Parameters.
 	 * @param string $action  Action.
-	 *
-	 * @return void|WP_Error
 	 */
 	public function action_get_timezone( $params, $action ) {
 		$result = array(
@@ -587,6 +579,8 @@ class Hub {
 				);
 			}
 
+			$recipients = $this->format_recipients( $recipients, $options, $module );
+
 			if ( 'notifications' === $module || 'reports' === $module ) {
 				$options[ $module ]['recipients'] = $recipients;
 			} else {
@@ -617,13 +611,82 @@ class Hub {
 	}
 
 	/**
+	 * Format recipients array from Hub to Hummingbird format. See below link for format details.
+	 *
+	 * @see https://bitbucket.org/incsub/wpmu-dev/src/production/wp-content/plugins/wpmudev-uptime/uptime.php#lines-989
+	 *
+	 * @since 3.1.1
+	 *
+	 * @param array  $recipients  Array of recipients.
+	 * @param array  $options     Current plugin settings.
+	 * @param string $module      Module ID.
+	 *
+	 * @return array
+	 */
+	private function format_recipients( $recipients, $options, $module ) {
+		if ( 'notifications' === $module || 'reports' === $module ) {
+			$current_recipients = $options[ $module ]['recipients'];
+		} else {
+			$current_recipients = $options['reports']['recipients'];
+		}
+
+		$new_recipients = array();
+		foreach ( $recipients as $recipient ) {
+			$key = array_search( $recipient['email'], array_column( $current_recipients, 'email' ), true );
+			if ( false === $key ) {
+				$new_recipient['name']  = $recipient['name'];
+				$new_recipient['email'] = $recipient['email'];
+
+				$user = get_user_by( 'email', $recipient['email'] );
+
+				$new_recipient['id']   = false === $user ? 0 : $user->ID;
+				$new_recipient['role'] = false === $user || empty( $user->roles ) ? '' : ucfirst( $user->roles[0] );
+
+				if ( 'notifications' === $module ) {
+					if ( isset( $recipient['is_pending'] ) ) {
+						$new_recipient['is_pending'] = filter_var( $recipient['is_pending'], FILTER_VALIDATE_BOOLEAN );
+					}
+
+					if ( isset( $recipient['is_subscribed'] ) ) {
+						$new_recipient['is_subscribed'] = filter_var( $recipient['is_subscribed'], FILTER_VALIDATE_BOOLEAN );
+					}
+
+					if ( isset( $recipient['is_can_resend_confirmation'] ) ) {
+						$new_recipient['is_can_resend_confirmation'] = filter_var( $recipient['is_can_resend_confirmation'], FILTER_VALIDATE_BOOLEAN );
+					}
+				}
+
+				$new_recipients[] = $new_recipient;
+			} else {
+				if ( isset( $current_recipients[ $key ]['is_pending'] ) ) {
+					if ( isset( $recipient['is_pending'] ) ) {
+						$current_recipients[ $key ]['is_pending'] = filter_var( $recipient['is_pending'], FILTER_VALIDATE_BOOLEAN );
+					}
+
+					if ( isset( $recipient['is_subscribed'] ) ) {
+						$current_recipients[ $key ]['is_subscribed'] = filter_var( $recipient['is_subscribed'], FILTER_VALIDATE_BOOLEAN );
+					}
+
+					if ( isset( $recipient['is_can_resend_confirmation'] ) ) {
+						$current_recipients[ $key ]['is_can_resend_confirmation'] = filter_var( $recipient['is_can_resend_confirmation'], FILTER_VALIDATE_BOOLEAN );
+					}
+				}
+
+				$new_recipients[] = $current_recipients[ $key ];
+				unset( $current_recipients[ $key ] );
+				$current_recipients = array_values( $current_recipients ); // We need to reset keys, otherwise array_column() in array_search() messes with the keys.
+			}
+		}
+
+		return $new_recipients;
+	}
+
+	/**
 	 * Purge all caches.
 	 *
 	 * @since 2.1.0
 	 * @param array|object $params  Parameters.
 	 * @param string       $action  Action.
-	 *
-	 * @return void|WP_Error
 	 */
 	public function action_purge_all_cache( $params, $action ) {
 		WP_Hummingbird::flush_cache( false, false );

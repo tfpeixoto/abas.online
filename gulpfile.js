@@ -30,8 +30,9 @@ gulp.task('purgecss', ['sass'], function () {
   ])
     .pipe(purgecss({
       content: ['dist/wp-content/themes/abas/*.php', 'public/wp-content/themes/abas/template_parts/*.php'],
-      whitelist: ['btn', 'fixed'],
-      whitelistPatterns: [/wp-block-columns/, /^has/, /^depoimento/, /^modal/]
+      whitelist: ['btn', 'fixed', 'msg-sucesso'],
+      whitelistPatterns: [/wp-block-columns/, /^has/, /^depoimento/, /^modal/, /fa-search/],
+      whitelistPatternsChildren: [/form$/, /buscador/, /sugeridos/]
     }))
     .pipe(gulp.dest('dist/wp-content/themes/abas/css'))
 });
@@ -52,6 +53,7 @@ gulp.task('imagemin', function () {
 gulp.task('js', function () {
   return gulp.src([
     'src/js/acoes.js',
+    'src/js/blog-form.js'
   ])
     .pipe(concat('scripts.js'))
     .pipe(gulp.dest('src/js'))
@@ -66,4 +68,4 @@ gulp.task('watch', function () {
   gulp.watch('src/images/**/*', ['imagemin']);
 });
 
-gulp.task('default', ['sass', 'imagemin', 'purgecss', 'js', 'watch', 'browser-sync']);
+gulp.task('default', [ 'watch', 'browser-sync']);

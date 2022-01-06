@@ -260,7 +260,7 @@ class Advanced extends Module {
 			),
 			'drafts'             => array(
 				'title'   => __( 'Draft Posts', 'wphb' ),
-				'tooltip' => __( 'Auto-saved versions of your posts and pages. If you don’t use drafts you can safely delete these entries', 'wphb' ),
+				'tooltip' => __( "Draft posts are auto-saved versions of your posts and pages. If you don't use drafts, you can clear those entries here and move them to trash. Trashed posts can be permanently deleted below.", 'wphb' ),
 			),
 			'trash'              => array(
 				'title'   => __( 'Trashed Posts', 'wphb' ),
@@ -296,30 +296,30 @@ class Advanced extends Module {
 	public static function get_db_count( $type = 'all' ) {
 		global $wpdb;
 
-		$count = wp_cache_get( "wphb_db_optimization:{$type}" );
+		$count = wp_cache_get( "wphb_db_optimization:$type" );
 
 		if ( false === $count ) {
 			switch ( $type ) {
 				case 'revisions':
-					$count = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->posts} WHERE post_type = 'revision' AND post_status = 'inherit'" ); // Db call ok.
+					$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = 'revision' AND post_status = 'inherit'" ); // Db call ok.
 					break;
 				case 'drafts':
-					$count = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->posts} WHERE ( post_status = 'draft' OR post_status = 'auto-draft' ) AND ( post_type = 'page' OR post_type = 'post' )" ); // Db call ok.
+					$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE ( post_status = 'draft' OR post_status = 'auto-draft' ) AND ( post_type = 'page' OR post_type = 'post' )" ); // Db call ok.
 					break;
 				case 'trash':
-					$count = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->posts} WHERE post_status = 'trash'" ); // Db call ok.
+					$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_status = 'trash'" ); // Db call ok.
 					break;
 				case 'spam':
-					$count = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->comments} WHERE comment_approved = 'spam'" ); // Db call ok.
+					$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = 'spam'" ); // Db call ok.
 					break;
 				case 'trash_comment':
-					$count = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->comments} WHERE comment_approved = 'trash'" ); // Db call ok.
+					$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = 'trash'" ); // Db call ok.
 					break;
 				case 'expired_transients':
-					$count = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->options} WHERE option_name LIKE '\_transient\_timeout\__%%' AND option_value < UNIX_TIMESTAMP()" ); // Db call ok.
+					$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->options WHERE option_name LIKE '\_transient\_timeout\__%%' AND option_value < UNIX_TIMESTAMP()" ); // Db call ok.
 					break;
 				case 'transients':
-					$count = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->options} WHERE option_name LIKE '%_transient_%'" ); // Db call ok.
+					$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->options WHERE option_name LIKE '%_transient_%'" ); // Db call ok.
 					break;
 				case 'all':
 				default:
@@ -332,21 +332,21 @@ class Advanced extends Module {
 					    COUNT(CASE WHEN post_type = 'revision' AND post_status = 'inherit' THEN 1 ELSE NULL END) AS revisions,
 					    COUNT(CASE WHEN ( post_status = 'draft' OR post_status = 'auto-draft' ) AND ( post_type = 'page' OR post_type = 'post' ) THEN 1 ELSE NULL END) AS drafts,
 					    COUNT(CASE WHEN post_status = 'trash' THEN 1 ELSE NULL END) AS trash
-					  FROM {$wpdb->posts}) as posts,
+					  FROM $wpdb->posts) as posts,
 					  (SELECT
 					    COUNT(CASE WHEN comment_approved = 'spam' THEN 1 ELSE NULL END) AS spam,
 					    COUNT(CASE WHEN comment_approved = 'trash' THEN 1 ELSE NULL END) AS trash_comment
-					  FROM {$wpdb->comments}) as comments,
+					  FROM $wpdb->comments) as comments,
 					  (SELECT
 					    COUNT(CASE WHEN option_name LIKE '\_transient\_timeout\__%%' AND option_value < UNIX_TIMESTAMP() THEN 1 ELSE NULL END ) AS expired_transients,
 					    COUNT(CASE WHEN option_name LIKE '%_transient_%' THEN 1 ELSE NULL END) AS transients
-					  FROM {$wpdb->options}) as options
+					  FROM $wpdb->options) as options
 					)"
 					); // Db call ok.
 					break;
 			}
 
-			wp_cache_set( "wphb_db_optimization:{$type}", $count );
+			wp_cache_set( "wphb_db_optimization:$type", $count );
 		}
 
 		return $count;
@@ -365,13 +365,17 @@ class Advanced extends Module {
 	public function delete_db_data( $type ) {
 		global $wpdb;
 
+		/**
+		 * Make sure that drafts always go after trash, because on first iteration we move drafts to trash and allow
+		 * user to restore.
+		 */
 		$sql = array(
-			'revisions'          => "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'revision' AND post_status = 'inherit'",
-			'drafts'             => "SELECT ID FROM {$wpdb->posts} WHERE ( post_status = 'draft' OR post_status = 'auto-draft' ) AND ( post_type = 'page' OR post_type = 'post' )",
-			'trash'              => "SELECT ID FROM {$wpdb->posts} WHERE post_status = 'trash'",
-			'spam'               => "SELECT comment_ID FROM {$wpdb->comments} WHERE comment_approved = 'spam'",
-			'trash_comment'      => "SELECT comment_ID FROM {$wpdb->comments} WHERE comment_approved = 'trash'",
-			'expired_transients' => "SELECT option_name FROM {$wpdb->options}
+			'revisions'          => "SELECT ID FROM $wpdb->posts WHERE post_type = 'revision' AND post_status = 'inherit'",
+			'trash'              => "SELECT ID FROM $wpdb->posts WHERE post_status = 'trash'",
+			'drafts'             => "SELECT ID FROM $wpdb->posts WHERE ( post_status = 'draft' OR post_status = 'auto-draft' ) AND ( post_type = 'page' OR post_type = 'post' )",
+			'spam'               => "SELECT comment_ID FROM $wpdb->comments WHERE comment_approved = 'spam'",
+			'trash_comment'      => "SELECT comment_ID FROM $wpdb->comments WHERE comment_approved = 'trash'",
+			'expired_transients' => "SELECT option_name FROM $wpdb->options
 											WHERE option_name LIKE '\_transient\_timeout\__%%' AND option_value < UNIX_TIMESTAMP()",
 			'transients'         => "SELECT option_name FROM $wpdb->options WHERE option_name LIKE '%_transient_%'",
 		);
@@ -389,7 +393,7 @@ class Advanced extends Module {
 			$items = $this->delete( $sql[ $type ], $type );
 		}
 
-		wp_cache_delete( "wphb_db_optimization:{$type}" );
+		wp_cache_delete( "wphb_db_optimization:$type" );
 
 		/**
 		 * Fires after the database cleanup task.
@@ -404,7 +408,7 @@ class Advanced extends Module {
 
 		return array(
 			'items' => $items,
-			'left'  => self::get_db_count( 'all' ), // Check for any non-deleted items.
+			'left'  => self::get_db_count(), // Check for any non-deleted items.
 		);
 	}
 
@@ -438,7 +442,7 @@ class Advanced extends Module {
 
 		$items = 0;
 		foreach ( $entries as $entry ) {
-			if ( 'delete_option' === $func ) {
+			if ( 'delete_option' === $func || 'drafts' === $type ) {
 				// No option to force delete in delete_option function.
 				$del = call_user_func( $func, $entry );
 			} else {
@@ -468,7 +472,7 @@ class Advanced extends Module {
 		global $wpdb;
 
 		// Select 100 entries.
-		$entries = $wpdb->get_col( "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'wphb_minify_group' LIMIT 0, 100" ); // db call ok; no-cache ok.
+		$entries = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE post_type = 'wphb_minify_group' LIMIT 0, 100" ); // db call ok; no-cache ok.
 
 		// Delete them properly.
 		foreach ( $entries as $entry ) {
@@ -478,7 +482,7 @@ class Advanced extends Module {
 		}
 
 		// Reschedule another batch if any entries left.
-		$count = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->posts} WHERE post_type = 'wphb_minify_group'" ); // db call ok; no-cache ok.
+		$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = 'wphb_minify_group'" ); // db call ok; no-cache ok.
 
 		if ( 0 < (int) $count ) {
 			wp_schedule_single_event( time(), 'wphb_hummingbird_cleanup' );
@@ -752,35 +756,6 @@ class Advanced extends Module {
 		}
 	}
 
-	/**
-	 * Get orphaned mata rows from `wp_postmeta` that, most likely, belong to Asset Optimization, but
-	 * do not have a registered `wphb_minify_group` in the `wp_postmeta` table.
-	 *
-	 * @since 2.7.0
-	 *
-	 * @return int
-	 */
-	public function get_orphaned_ao() {
-		$count = wp_cache_get( 'wphb_ao_meta_fields' );
-
-		if ( false === $count ) {
-			global $wpdb;
-
-			$table  = $wpdb->get_blog_prefix( get_current_blog_id() ) . 'postmeta';
-			$search = implode( "', '", Minify::get_postmeta_fields() );
-
-			$results = $wpdb->get_row(
-			"SELECT COUNT( post_id ) as posts FROM {$table} WHERE meta_key IN ('{$search}');"
-			); // Db call ok.
-
-			$count = $results->posts;
-			unset( $results );
-		}
-
-		wp_cache_set( 'wphb_ao_meta_fields', $count );
-
-		return $count;
-	}
 
 	/**
 	 * Pluck all orphaned meta fields that belong to Hummingbird.
@@ -804,10 +779,10 @@ class Advanced extends Module {
 			$post_meta_table = $database_prefix . 'postmeta';
 
 			$count = $wpdb->get_var(
-				"SELECT COUNT( post_id ) FROM {$post_meta_table} A
-                LEFT JOIN {$posts_table} B
+				"SELECT COUNT( post_id ) FROM $post_meta_table A
+                LEFT JOIN $posts_table B
 				ON A.post_id = B.ID
-				WHERE A.meta_key IN ('{$search_fields}')
+				WHERE A.meta_key IN ('$search_fields')
 				AND B.ID IS NULL"
 			); // Db call ok.
 		}
@@ -834,20 +809,22 @@ class Advanced extends Module {
 
 		$items = $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT meta_id FROM {$post_meta_table} A
-                LEFT JOIN {$posts_table} B
+				"SELECT meta_id FROM $post_meta_table A
+                LEFT JOIN $posts_table B
 				ON A.post_id = B.ID
-				WHERE A.meta_key IN ('{$search_fields}')
+				WHERE A.meta_key IN ('$search_fields')
 				AND B.ID IS NULL LIMIT %d",
 				$rows
 			)
 		); // Db call ok.
 
-		$ids = implode( ',', array_map( 'intval', $items ) );
-		$wpdb->query( "DELETE FROM {$post_meta_table} WHERE meta_id IN($ids)" );
+		if ( count( $items ) > 0 ) {
+			$ids = implode( ',', array_map( 'intval', $items ) );
+			$wpdb->query( "DELETE FROM $post_meta_table WHERE meta_id IN($ids)" );
+		}
 
 		// Remove count cache.
-		wp_cache_delete( 'wphb_ao_meta_fields' );
+		wp_cache_delete( 'wphb_ao_orphaned_data' );
 
 		/** This might be a better alternative - just try to force purge everything.
 		$sql = "DELETE A FROM {$post_meta_table} AS A
@@ -1036,7 +1013,7 @@ class Advanced extends Module {
 				set_query_var( 'cpage', $cpage_num );
 				/**
 				 * Override page_comments decision set from discussion settings page.
-				 * By default comment pagination is ignored when page_comments is false.
+				 * By default, comment pagination is ignored when page_comments is false.
 				 * See in function comments_template() in wp-includes/comment-template.php
 				 * We need it always true to get comments for specific cpage.
 				 */

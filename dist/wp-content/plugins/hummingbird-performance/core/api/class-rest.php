@@ -11,6 +11,7 @@ use Hummingbird\Core\Configs;
 use Hummingbird\Core\Utils;
 use WP_Error;
 use WP_REST_Request;
+use WP_REST_Response;
 use WP_REST_Server;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -56,7 +57,7 @@ class Rest {
 	 * Register the REST routes.
 	 */
 	public function register_routes() {
-		// Route to return a modules status.
+		// Route to return a module status.
 		register_rest_route(
 			$this->get_namespace(),
 			'/status/(?P<module>[\\w-]+)',
@@ -73,7 +74,7 @@ class Rest {
 			)
 		);
 
-		// Route to clear a modules cache.
+		// Route to clear a module cache.
 		register_rest_route(
 			$this->get_namespace(),
 			'/clear_cache/(?P<module>[\\w-]+)',
@@ -101,18 +102,18 @@ class Rest {
 			)
 		);
 
-		// Configs routes.
+		// Configs route.
 		register_rest_route(
 			$this->get_namespace(),
 			'/preset_configs',
 			array(
 				array(
-					'methods'             => 'GET',
+					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_configs' ),
 					'permission_callback' => array( $this, 'check_configs_permissions' ),
 				),
 				array(
-					'methods'             => 'POST',
+					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'set_configs' ),
 					'permission_callback' => array( $this, 'check_configs_permissions' ),
 				),
@@ -128,7 +129,7 @@ class Rest {
 	 * @return bool
 	 */
 	public function check_configs_permissions() {
-		$capability = is_multisite() ? 'manage_network' : 'manage_options';
+		$capability = is_multisite() && is_network_admin() ? 'manage_network' : 'manage_options';
 		return current_user_can( $capability );
 	}
 
@@ -159,15 +160,13 @@ class Rest {
 	 * Returns the status of a module.
 	 *
 	 * @param WP_REST_Request $request  Request.
-	 * @return mixed
+	 *
+	 * @return WP_Error|WP_REST_Response
 	 */
 	public function get_module_status( $request ) {
 		$module = $request->get_param( 'module' );
 
-		$available_modules = array(
-			'gzip',
-			'caching',
-		);
+		$available_modules = array( 'gzip', 'caching' );
 		if ( ! in_array( $module, $available_modules, true ) ) {
 			return new WP_Error(
 				'invalid_module',
@@ -190,7 +189,7 @@ class Rest {
 	 * Clears the cache of a module.
 	 *
 	 * @param WP_REST_Request $request  Request.
-	 * @return mixed
+	 * @return WP_Error|WP_REST_Response
 	 */
 	public function clear_module_cache( $request ) {
 		$module            = $request->get_param( 'module' );
@@ -269,7 +268,7 @@ class Rest {
 	 *
 	 * @param WP_REST_Request $request Class containing the request data.
 	 *
-	 * @return WP_Error
+	 * @return array|mixed|WP_Error
 	 */
 	public function set_configs( $request ) {
 		$data = json_decode( $request->get_body(), true );

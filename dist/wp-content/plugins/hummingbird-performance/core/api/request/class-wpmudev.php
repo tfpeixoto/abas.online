@@ -50,7 +50,7 @@ class WPMUDEV extends Request {
 	 *
 	 * @param string $path  API path.
 	 *
-	 * @return mixed|string
+	 * @return string
 	 */
 	public function get_api_url( $path = '' ) {
 		/**
@@ -58,17 +58,15 @@ class WPMUDEV extends Request {
 		 *
 		 * @var Performance|Uptime $service
 		 */
+		$service = $this->get_service();
+
 		if ( defined( 'WPHB_TEST_API_URL' ) && WPHB_TEST_API_URL ) {
-			$service = $this->get_service();
-			$url     = WPHB_TEST_API_URL . $service->get_name() . '/' . $service->get_version() . '/';
+			$url = WPHB_TEST_API_URL . $service->get_name() . '/' . $service->get_version() . '/';
 		} else {
-			$service = $this->get_service();
-			$url     = 'https://wpmudev.com/api/' . $service->get_name() . '/' . $service->get_version() . '/';
+			$url = 'https://wpmudev.com/api/' . $service->get_name() . '/' . $service->get_version() . '/';
 		}
 
-		$url = trailingslashit( $url . $path );
-
-		return $url;
+		return trailingslashit( $url . $path );
 	}
 
 	/**
@@ -123,7 +121,7 @@ class WPMUDEV extends Request {
 	 * @throws Exception  Exception.
 	 */
 	public function request( $path, $data = array(), $method = 'post', $extra = array() ) {
-		$response = parent::request( $path, $data, $method, $extra );
+		$response = parent::request( $path, $data, $method );
 
 		if ( is_wp_error( $response ) ) {
 			throw new Exception( $response->get_error_message(), $response->get_error_code() );

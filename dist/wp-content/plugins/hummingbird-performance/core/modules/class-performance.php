@@ -63,7 +63,6 @@ class Performance extends Module {
 			self::dismiss_report( false );
 		}
 
-		// TODO: this creates a duplicate task from cron.
 		do_action( 'wphb_init_performance_scan' );
 	}
 
@@ -123,7 +122,7 @@ class Performance extends Module {
 	}
 
 	/**
-	 * Get latest report from server
+	 * Get the latest report from server
 	 *
 	 * @return array|WP_Error
 	 */

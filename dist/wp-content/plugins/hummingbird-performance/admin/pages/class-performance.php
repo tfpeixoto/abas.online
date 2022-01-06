@@ -143,13 +143,8 @@ class Performance extends Page {
 	public function on_load() {
 		$this->tabs = array(
 			'main'     => __( 'Performance Report', 'wphb' ),
-			'reports'  => __( 'Reporting', 'wphb' ),
 			'settings' => __( 'Settings', 'wphb' ),
 		);
-
-		if ( is_multisite() && ! is_network_admin() ) {
-			unset( $this->tabs['reports'] );
-		}
 
 		if ( isset( $_GET['run'] ) ) { // Input var ok.
 			check_admin_referer( 'wphb-run-performance-test' );
@@ -284,20 +279,6 @@ class Performance extends Page {
 				__( 'Audits', 'wphb' ),
 				array( $this, 'audits_meta_box' )
 			);
-
-			if ( is_multisite() && is_network_admin() || ! is_multisite() ) {
-				$this->add_meta_box(
-					'performance/reporting',
-					__( 'Reporting', 'wphb' ),
-					null,
-					null,
-					null,
-					'reports',
-					array(
-						'box_content_class' => 'sui-box-body sui-upsell-items',
-					)
-				);
-			}
 		}
 
 		$this->add_meta_box(
@@ -455,6 +436,13 @@ class Performance extends Page {
 			}
 		}
 
+		$reports = Settings::get_setting( 'reports', 'performance' );
+
+		$reports_next = '';
+		if ( Utils::is_member() && Utils::pro() ) {
+			$reports_next = Utils::pro()->module( 'notifications' )->get_schedule_label_for( 'performance', 'reports' );
+		}
+
 		$this->view(
 			'performance/summary-meta-box',
 			array(
@@ -465,6 +453,9 @@ class Performance extends Page {
 				'passed_audits'    => $passed_audits,
 				'report_dismissed' => $this->dismissed,
 				'is_doing_report'  => Performance_Report::is_doing_report(),
+				'reports_enabled'  => isset( $reports['enabled'] ) ? $reports['enabled'] : false,
+				'reports_next'     => $reports_next,
+				'reports_url'      => Utils::get_admin_menu_url( 'notifications' ),
 			)
 		);
 	}

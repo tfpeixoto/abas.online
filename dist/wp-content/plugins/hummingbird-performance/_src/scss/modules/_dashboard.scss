@@ -11,10 +11,6 @@
         margin-right: 10px;
         line-height: 30px;
     }
-
-    .sui-upsell-items .sui-box-settings-row:after {
-        background-color: #fff !important; // Overwrite SUI.
-    }
 }
 
 /* Meta boxes on the left */
@@ -52,7 +48,7 @@
     @include icon(before, 'uptime');
 }
 .wpmud div[class^="box-dashboard-reports"] .sui-box-title {
-    @include icon(before, 'graph-bar');
+    @include icon(before, 'graph-line');
 }
 
 .wpmud .wrap-wphb .box-dashboard-welcome.sui-summary:not(.sui-rebranded):not(.sui-unbranded):not(.sui-summary-sm) {
@@ -163,47 +159,21 @@
     font-weight: bold;
 }
 
-/* Gzip compression */
-.wpmud .box-dashboard-gzip-module .sui-list-label,
-.wpmud .box-dashboard-browser-caching-module .sui-list-label {
-    display: flex;
-    align-items: center;
-}
-
 /* Reporting meta box */
-.wpmud .box-dashboard-reports,
-.wpmud .box-dashboard-reports-no-membership {
+.wpmud .box-dashboard-reports {
     p:first-of-type {
         margin-bottom: 10px !important;
     }
 
     table.sui-flushed {
         margin-left: -30px;
-        margin-top: 0;
+        margin-right: -30px;
         width: calc(100% + 60px);
+        border-top: 0;
         border-left: 0;
         border-right: 0;
-        border-top: 1px solid #E6E6E6;
-        border-radius: 0;
 
-        tbody tr td {
-            &:first-of-type {
-                display: flex;
-                align-items: center;
-            }
-
-            [class*="sui-icon-"] {
-                font-size: 20px;
-            }
-
-            &:last-of-type {
-                text-align: right;
-
-                [class*="sui-icon-"] {
-                    font-size: 16px;
-                }
-            }
-        }
+        td:nth-child(3) { text-align: right; }
     }
 }
 
@@ -218,23 +188,6 @@
             font-weight: bold;
             line-height: 30px;
             padding-bottom: 0;
-        }
-    }
-}
-
-/* Upsell meta box */
-.wpmud .box-dashboard-welcome-upsell {
-    ul > li {
-        font-weight: 500;
-        color: #333333;
-    }
-
-    .sui-icon-check {
-        vertical-align: sub;
-
-        &:before {
-            color: #8D00B1;
-            margin-right: 10px;
         }
     }
 }

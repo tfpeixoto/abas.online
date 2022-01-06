@@ -4,37 +4,20 @@
 import Fetcher from '../utils/fetcher';
 import { getString } from '../utils/helpers';
 
-( function ( $ ) {
+( function( $ ) {
 	WPHB_Admin.cloudflare = {
 		module: 'cloudflare',
 
 		init() {
-			const self = this;
-
 			/** @member {Array} wphb */
 			if ( wphb.cloudflare.is.connected ) {
 				$( 'input[type="submit"].cloudflare-clear-cache' ).on(
 					'click',
-					function ( e ) {
+					function( e ) {
 						e.preventDefault();
 						this.purgeCache.apply( $( e.target ), [ this ] );
 					}.bind( this )
 				);
-
-				$( '#set-cf-expiry-button' ).on( 'click', ( e ) => {
-					e.preventDefault();
-					self.setExpiry.call( self, $( '#set-expiry-all' ) );
-				} );
-
-				// Expiry value changed.
-				$( 'select[name^="set-expiry"]' ).on( 'change', function () {
-					WPHB_Admin.caching.reloadSnippets(
-						WPHB_Admin.caching.getExpiryTimes(
-							WPHB_Admin.caching.selectedExpiryType
-						)
-					);
-					$( '#wphb-expiry-change-notice' ).slideDown();
-				} );
 			}
 
 			this.bindActions();
@@ -99,10 +82,10 @@ import { getString } from '../utils/helpers';
 			} );
 
 			// Enable/disable 'Connect' button based on form input.
-			$( 'form#cloudflare-credentials input' ).on( 'keyup', function () {
+			$( 'form#cloudflare-credentials input' ).on( 'keyup', function() {
 				let disabled = true;
 
-				$( 'form#cloudflare-credentials input' ).each( function () {
+				$( 'form#cloudflare-credentials input' ).each( function() {
 					if ( '' !== $( this ).val() ) {
 						disabled = false;
 					}
@@ -110,38 +93,6 @@ import { getString } from '../utils/helpers';
 
 				$( '#cloudflare-connect-save' ).prop( 'disabled', disabled );
 			} );
-		},
-
-		setExpiry( selector ) {
-			const spinner = $( '.wphb-expiry-changes .spinner' );
-			const button = $( '.wphb-expiry-changes input[type="submit"]' );
-
-			spinner.addClass( 'visible' );
-			button.addClass( 'disabled' );
-
-			Fetcher.cloudflare
-				.setExpiration( $( selector ).val() )
-				.then( ( response ) => {
-					$( '#wphb-expiry-change-notice' ).hide();
-					spinner.removeClass( 'visible' );
-					button.removeClass( 'disabled' );
-
-					if (
-						'undefined' !==
-						typeof window.wphbBrowserCachingReactRefresh
-					) {
-						window.wphbBrowserCachingReactRefresh();
-					}
-
-					if ( 'undefined' !== typeof response && response.success ) {
-						WPHB_Admin.notices.show();
-					} else {
-						WPHB_Admin.notices.show(
-							getString( 'errorSettingsUpdate' ),
-							'error'
-						);
-					}
-				} );
 		},
 
 		/**
@@ -170,7 +121,7 @@ import { getString } from '../utils/helpers';
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param {string} id  Button ID for loader animation.
+		 * @param {string} id Button ID for loader animation.
 		 */
 		connect: ( id ) => {
 			const btn = document.getElementById( id );
@@ -217,7 +168,7 @@ import { getString } from '../utils/helpers';
 						window.location.reload();
 					}
 				} )
-				.catch( ( error ) => {;
+				.catch( ( error ) => {
 					if (
 						'undefined' !== typeof error.response &&
 						'undefined' &&
@@ -355,4 +306,4 @@ import { getString } from '../utils/helpers';
 			).innerHTML = wphb.strings[ 'CloudflareHelpAPI' + type ];
 		},
 	};
-} )( jQuery );
+}( jQuery ) );

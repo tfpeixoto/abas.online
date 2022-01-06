@@ -7,6 +7,7 @@
  *
  * @var string      $download_url  Link to download log files.
  * @var bool|string $enabled       Status of Asset Optimization module.
+ * @var string      $file_path     Asset file path.
  * @var bool        $is_member     Is user a PRO user.
  * @var bool        $log_enabled   Logging is enabled.
  * @var bool|string $type          Permissions type: 'super-admins' or true.
@@ -111,6 +112,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 						);
 						?>
 					</div>
+				</div>
+
+				<div>
+					<span class="sui-settings-label"><?php esc_html_e( 'File Location', 'wphb' ); ?></span>
+					<span class="sui-description">
+						<?php esc_html_e( 'Choose where Hummingbird should store your modified assets.', 'wphb' ); ?>
+					</span>
+
+					<?php
+					if ( $use_cdn ) {
+						$this->admin_notices->show_inline(
+							esc_html__( 'This feature is inactive when you’re using the WPMU DEV CDN.', 'wphb' ),
+							'warning'
+						);
+					}
+					?>
+					<label for="file_path">
+						<input type="text" class="sui-form-control" name="file_path" id="file_path" placeholder="/wp-content/uploads/hummingbird-assets/" value="<?php echo esc_attr( $file_path ); ?>" <?php disabled( $use_cdn ); ?>>
+					</label>
+					<span class="sui-description">
+						<?php esc_html_e( 'Leave this blank to use the default folder, or define your own as a relative path. Note: changing the directory will clear out all the generated assets.', 'wphb' ); ?>
+					</span>
 				</div>
 
 				<?php if ( ! $is_member ) : ?>

@@ -323,7 +323,7 @@ class Page_Cache extends Module {
 	}
 
 	/**
-	 * Make sure advanced-cache.php file is always up to date in between updates.
+	 * Make sure advanced-cache.php file is always up-to-date in between updates.
 	 *
 	 * @since 2.7.1
 	 */
@@ -400,7 +400,7 @@ class Page_Cache extends Module {
 		$config_file = WP_CONTENT_DIR . '/wphb-cache/wphb-cache.php';
 		if ( ! file_exists( $config_file ) ) {
 			self::log_msg( 'Config file does not exist. Loading defaults.' );
-			// This is only a fallback so we don't error out. Config file will be written as soon as user logs in.
+			// This is only a fallback, so we don't error out. Config file will be written as soon as user logs in.
 			$settings = self::get_default_settings();
 		} else {
 			$settings = json_decode( file_get_contents( $config_file ), true );
@@ -427,15 +427,15 @@ class Page_Cache extends Module {
 		// Enable debug log.
 		$wphb_cache_config->debug_log = (bool) $settings['settings']['debug_log'];
 		// Show cache identifier.
-		$wphb_cache_config->cache_identifier = isset( $settings['settings']['cache_identifier'] ) ? (bool) $settings['settings']['cache_identifier'] : true;
+		$wphb_cache_config->cache_identifier = ! isset( $settings['settings']['cache_identifier'] ) || $settings['settings']['cache_identifier'];
 		// Gzip compression of cached files.
-		$wphb_cache_config->compress = isset( $settings['settings']['compress'] ) ? (bool) $settings['settings']['compress'] : false;
+		$wphb_cache_config->compress = isset( $settings['settings']['compress'] ) && $settings['settings']['compress'];
 		// Cache on mobile devices.
-		$wphb_cache_config->mobile = isset( $settings['settings']['mobile'] ) ? (bool) $settings['settings']['mobile'] : true;
+		$wphb_cache_config->mobile = ! isset( $settings['settings']['mobile'] ) || $settings['settings']['mobile'];
 		// Clear cache on comment post.
-		$wphb_cache_config->comment_clear = isset( $settings['settings']['comment_clear'] ) ? (bool) $settings['settings']['comment_clear'] : true;
+		$wphb_cache_config->comment_clear = ! isset( $settings['settings']['comment_clear'] ) || $settings['settings']['comment_clear'];
 		// Cache Headers.
-		$wphb_cache_config->cache_headers = isset( $settings['settings']['cache_headers'] ) ? (bool) $settings['settings']['cache_headers'] : false;
+		$wphb_cache_config->cache_headers = isset( $settings['settings']['cache_headers'] ) && $settings['settings']['cache_headers'];
 
 		$wphb_cache_config->exclude_url     = isset( $settings['exclude']['url_strings'] ) && is_array( $settings['exclude']['url_strings'] ) ? $settings['exclude']['url_strings'] : array();
 		$wphb_cache_config->exclude_agents  = isset( $settings['exclude']['user_agents'] ) && is_array( $settings['exclude']['user_agents'] ) ? $settings['exclude']['user_agents'] : array();
@@ -593,7 +593,7 @@ class Page_Cache extends Module {
 	 *
 	 * @since   1.9.0
 	 * @access  private
-	 * @param string $post_type  Post type to check in settings.
+	 * @param string $post_type  `Post` type to check in settings.
 	 *
 	 * @return bool
 	 */
@@ -647,7 +647,7 @@ class Page_Cache extends Module {
 
 		$mobile = self::is_mobile_agent() ? '/mobile/' : '';
 
-		$filename = str_replace( '//', '/', $wphb_cache_config->cache_dir . $http_host . $mobile . $request_uri . $hash );
+		$filename = str_replace( '//', '/', $wphb_cache_config->cache_dir . $mobile . $http_host . $request_uri . $hash );
 
 		$wphb_cache_file = $filename . $ext;
 		$wphb_meta_file  = $filename . '-meta.php';
@@ -672,7 +672,7 @@ class Page_Cache extends Module {
 		}
 
 		foreach ( (array) $_COOKIE as $key => $value ) { // Input var ok.
-			// Check password protected post, comment author, logged in user.
+			// Check password protected post, comment author, logged-in user.
 			if ( preg_match( '/^wp-postpass_|^comment_author_|^wordpress_logged_in_|^wphb_cache_/', $key ) ) {
 				self::log_msg( 'Found cookie: ' . $key );
 				$cookie_value .= $_COOKIE[ $key ] . ','; // Input var ok.
@@ -707,14 +707,14 @@ class Page_Cache extends Module {
 		}
 
 		$uri_pattern = implode( '|', $wphb_cache_config->exclude_url );
-		if ( preg_match( "/{$uri_pattern}/i", $uri ) ) {
+		if ( preg_match( "/$uri_pattern/i", $uri ) ) {
 			return true;
 		}
 
 		// Now do the same, but test the URI as part of the full URL.
 		$http_host = isset( $_SERVER['HTTP_HOST'] ) ? htmlentities( stripslashes( $_SERVER['HTTP_HOST'] ) ) : '';
 		$http_prot = isset( $_SERVER['SERVER_PORT'] ) && 443 === (int) $_SERVER['SERVER_PORT'] ? 'https://' : 'http://';
-		if ( preg_match( "/{$uri_pattern}/i", $http_prot . $http_host . $uri ) ) {
+		if ( preg_match( "/$uri_pattern/i", $http_prot . $http_host . $uri ) ) {
 			return true;
 		}
 
@@ -889,7 +889,7 @@ class Page_Cache extends Module {
 		$uri_pattern = implode( '|', $wphb_cache_config->exclude_cookies );
 
 		foreach ( (array) $_COOKIE as $key => $value ) { // Input var ok.
-			if ( preg_match( "/{$uri_pattern}/i", $key ) ) {
+			if ( preg_match( "/$uri_pattern/i", $key ) ) {
 				return true;
 			}
 		}
@@ -937,11 +937,11 @@ class Page_Cache extends Module {
 	 * @used-by Page_Cache::write_file()
 	 */
 	private function add_index( $dir ) {
-		if ( is_dir( $dir ) && is_file( "{$dir}/index.html" ) ) {
+		if ( is_dir( $dir ) && is_file( "$dir/index.html" ) ) {
 			return;
 		}
 
-		$file = fopen( "{$dir}/index.html", 'w' );
+		$file = fopen( "$dir/index.html", 'w' );
 		if ( $file ) {
 			fclose( $file );
 		}
@@ -959,7 +959,7 @@ class Page_Cache extends Module {
 			return;
 		}
 
-		// If non member enable cache_identifier.
+		// If non-member enable cache_identifier.
 		if ( ! Utils::is_member() ) {
 			$settings['settings']['cache_identifier'] = 1;
 		}
@@ -1048,7 +1048,7 @@ class Page_Cache extends Module {
 	 ***************************/
 
 	/**
-	 * Should we cache the request or not.
+	 * Should we cache the request or not?
 	 *
 	 * @since   1.7.0
 	 * @access  private
@@ -1123,7 +1123,7 @@ class Page_Cache extends Module {
 	 * @used-by Page_Cache::init_caching()
 	 * @param   string $buffer  Page buffer.
 	 *
-	 * @return mixed
+	 * @return string
 	 */
 	public function cache_request( $buffer ) {
 		global $wphb_cache_file, $wphb_cache_config, $wphb_meta_file;
@@ -1196,7 +1196,7 @@ class Page_Cache extends Module {
 		$content = apply_filters( 'wphb_cache_content', $content );
 
 		if ( $wphb_cache_file ) {
-			// If this is php file and caching for logged-in users - add die() on top (except for when it's compressed, just to avoid that extra decode step).
+			// If this is php file and caching for logged-in users - add die() on top (except for when it's compressed, just to avoid that extra decoding step).
 			if ( preg_match( '/\.php/', basename( $wphb_cache_file ) ) && ! $is_404 && ( ! isset( $wphb_cache_config->compress ) || ! $wphb_cache_config->compress ) ) {
 				$content = '<?php die(); ?>' . $content;
 			}
@@ -1267,7 +1267,7 @@ class Page_Cache extends Module {
 			$meta['headers']['Content-Length']   = 'Content-Length: ' . filesize( $wphb_cache_file );
 		}
 
-		foreach ( $meta['headers'] as $t => $header ) {
+		foreach ( $meta['headers'] as $header ) {
 			/*
 			 * Godaddy fix, via http://blog.gneu.org/2008/05/wp-supercache-on-godaddy/ and
 			 * http://www.littleredrails.com/blog/2007/09/08/using-wp-cache-on-godaddy-500-error/.
@@ -1290,7 +1290,7 @@ class Page_Cache extends Module {
 	 * @param   string $wphb_cache_file  File to cache.
 	 */
 	private static function send_file( $wphb_cache_file ) {
-		// If this is php file (caching for logged-in users - remove die().
+		// If this is php file (caching for logged-in users) - remove die().
 		if ( preg_match( '/\.php/', basename( $wphb_cache_file ) ) ) {
 			$content = file_get_contents( $wphb_cache_file );
 			/* Remove <?php die(); ?> from file */
@@ -1403,7 +1403,6 @@ class Page_Cache extends Module {
 		 */
 		$http_host = apply_filters( 'wphb_page_cache_http_host', $http_host );
 
-
 		$cache_dir = $http_host . $directory;
 		$full_path = $wphb_fs->cache_dir . $cache_dir;
 
@@ -1416,17 +1415,39 @@ class Page_Cache extends Module {
 				$cache_dir = $mapped_domain;
 				$full_path = $wphb_fs->cache_dir . $cache_dir;
 			}
+		} elseif ( class_exists( '\Mercator\Mapping' ) ) {
+			$mapped_domain = false;
+			if ( isset( $GLOBALS['mercator_current_mapping'] ) ) {
+				$mapped_domain = $GLOBALS['mercator_current_mapping']->get_domain();
+			} else {
+				$mappings = \Mercator\Mapping::get_by_site( get_current_blog_id() );
+				if ( $mappings ) {
+					foreach ( $mappings as $mapping ) {
+						if ( $mapping->is_active() ) {
+							$mapped_domain = $mapping->get_domain();
+						}
+					}
+				}
+			}
+
+			if ( $mapped_domain ) {
+				$cache_dir = str_replace( $http_host, $mapped_domain, $cache_dir );
+				$full_path = $wphb_fs->cache_dir . $cache_dir;
+			}
 		}
 
 		// If dir does not exist - return.
 		if ( empty( $full_path ) || ! is_dir( $full_path ) ) {
+			do_action( 'wphb_page_cache_cleared', $directory_origin );
+			// Clear integrations cache.
+			do_action( 'wphb_clear_cache_url', $directory_origin );
 			return true;
 		}
 
 		// Decrease cached pages count by 1.
 		$count = Settings::get_setting( 'pages_cached', 'page_cache' );
 
-		if ( $wphb_fs->purge( 'cache/' . $http_host . '/mobile' . $directory, false, $skip_subdirs ) ) {
+		if ( $wphb_fs->purge( 'cache/mobile/' . $http_host . $directory, false, $skip_subdirs ) ) {
 			self::log_msg( 'Mobile cache has been cleared.' );
 			Settings::update_setting( 'pages_cached', --$count, 'page_cache' );
 		}
@@ -1434,11 +1455,11 @@ class Page_Cache extends Module {
 		$status = $wphb_fs->purge( 'cache/' . $cache_dir, false, $skip_subdirs );
 		if ( $status ) {
 			Settings::update_setting( 'pages_cached', --$count, 'page_cache' );
-			// Clear integrations cache.
-			do_action( 'wphb_clear_cache_url', $directory_origin );
 		}
 
 		do_action( 'wphb_page_cache_cleared', $directory_origin );
+		// Clear integrations cache.
+		do_action( 'wphb_clear_cache_url', $directory_origin );
 
 		return $status;
 	}
@@ -1454,8 +1475,8 @@ class Page_Cache extends Module {
 	private function purge_post_cache( $post_id ) {
 		global $post_trashed, $wphb_cache_config;
 
-		$replacement = preg_replace( '|https?://[^/]+|i', '', get_option( 'home' ) );
-		$permalink   = trailingslashit( str_replace( get_option( 'home' ), $replacement, get_permalink( $post_id ) ) );
+		$replacement = preg_replace( '|https?://[^/]+|i', '', home_url() );
+		$permalink   = trailingslashit( str_replace( home_url(), $replacement, get_permalink( $post_id ) ) );
 
 		// If post is being trashed.
 		if ( $post_trashed ) {
@@ -1495,7 +1516,7 @@ class Page_Cache extends Module {
 			foreach ( $metas as $meta ) {
 				$meta_link = trailingslashit( str_replace( get_option( 'home' ), $replacement, get_category_link( $meta->term_id ) ) );
 				$this->clear_cache( $meta_link );
-				self::log_msg( "Cache has been purged for {$meta_name}: {$meta->name}" );
+				self::log_msg( "Cache has been purged for $meta_name: $meta->name" );
 			}
 		}
 
@@ -1533,7 +1554,7 @@ class Page_Cache extends Module {
 
 				$meta_link = str_replace( get_option( 'home' ), $replacement, get_term_link( $meta->term_id, $term ) );
 				$this->clear_cache( $meta_link );
-				self::log_msg( "Cache has been purged for {$term}: {$meta->name}" );
+				self::log_msg( "Cache has been purged for $term: $meta->name" );
 
 				if ( ( ! isset( $meta->parent ) || 0 === $meta->parent ) && ! is_wp_error( $meta ) ) {
 					continue;
@@ -1541,7 +1562,7 @@ class Page_Cache extends Module {
 
 				$meta_link = str_replace( get_option( 'home' ), $replacement, get_term_link( $meta->parent, $term ) );
 				$this->clear_cache( $meta_link );
-				self::log_msg( "Cache has been purged for {$term}: {$meta->name}" );
+				self::log_msg( "Cache has been purged for $term: $meta->name" );
 			}
 		}
 	}
@@ -1628,7 +1649,7 @@ class Page_Cache extends Module {
 					return;
 				}
 			}
-			// Cache headers enabled: Check for header cache file, if doesn't exists; unlink page cache file.
+			// Cache headers enabled: Check for header cache file, if it doesn't exist, unlink page cache file.
 			if ( $wphb_cache_config->cache_headers && ! file_exists( $wphb_meta_file ) ) {
 				self::log_msg( "Cache file found, but header cache file doesn't exists. Removing file." );
 				unlink( $wphb_cache_file );
@@ -1762,8 +1783,13 @@ class Page_Cache extends Module {
 			return;
 		}
 
-		// The is_nav_menu_item() check will prevent cache clear on Appearance - Menus save action.
-		if ( wp_is_post_revision( $post_id ) || is_nav_menu_item( $post_id ) ) {
+		if ( wp_is_post_revision( $post_id ) ) {
+			return;
+		}
+
+		// Only trigger for public post types.
+		$post = get_post( $post_id );
+		if ( ! isset( $post->post_type ) || ! is_post_type_viewable( $post->post_type ) ) {
 			return;
 		}
 
@@ -1848,7 +1874,7 @@ class Page_Cache extends Module {
 	 * @param array $messages  Messages.
 	 * @used-by Page_Cache::run() (post_updated_messages filter)
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	public function clear_cache_message( $messages ) {
 		$messages['post'][4] = __( 'Cache for post has been cleared.', 'wphb' );
@@ -1891,7 +1917,7 @@ class Page_Cache extends Module {
 		$options = parent::get_options();
 
 		if ( is_multisite() ) {
-			// We need to use this define for calls from Hub.
+			// We need to use this `define` for calls from Hub.
 			$is_network_admin = defined( 'WPHB_IS_NETWORK_ADMIN' ) && WPHB_IS_NETWORK_ADMIN;
 			if ( $network && ( is_network_admin() || $is_network_admin ) ) {
 				// Updating for the whole network.
@@ -2034,7 +2060,7 @@ class Page_Cache extends Module {
 	public static function get_page_headers_cached() {
 		global $wphb_meta_file, $wphb_cache_config;
 
-		// If headers caching is disabled or the headers file doesn't exists.
+		// If headers caching is disabled or the headers file doesn't exist.
 		if ( ! $wphb_cache_config->cache_headers || ! file_exists( $wphb_meta_file ) ) {
 			return array();
 		}

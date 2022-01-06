@@ -164,7 +164,7 @@ class Caching extends Module_Server {
 	/**
 	 * Get code for Nginx
 	 *
-	 * @param array $expiry_times Type expiry times (javascript, css...). Used with AJAX call caching_reload_snippet.
+	 * @param array $expiry_times Type expiry times (javascript, css...). Used with React-based AJAX call update_expiry().
 	 *
 	 * @return string
 	 */
@@ -203,15 +203,13 @@ location ~* \.(jpg|jpeg|png|gif|swf|webp)$ {
 		$code = str_replace( '%%MEDIA%%', $media_expiration, $code );
 		$code = str_replace( '%%IMAGES%%', $images_expiration, $code );
 		$code = str_replace( '%%ASSETS%%', $assets_expiration, $code );
-		$code = str_replace( '%%CSS%%', $css_expiration, $code );
-
-		return $code;
+		return str_replace( '%%CSS%%', $css_expiration, $code );
 	}
 
 	/**
 	 * Get code for Apache
 	 *
-	 * @param array $expiry_times Type expiry times (javascript, css...). Used with AJAX call caching_reload_snippet.
+	 * @param array $expiry_times Type expiry times (javascript, css...). Used with React-based AJAX call caching_reload_snippet.
 	 *
 	 * @return string
 	 */
@@ -278,27 +276,7 @@ ExpiresDefault %%IMAGES%%
 		$code = str_replace( '%%MEDIA_HEAD%%', ltrim( $media_expiration, 'A' ), $code );
 		$code = str_replace( '%%IMAGES_HEAD%%', ltrim( $images_expiration, 'A' ), $code );
 		$code = str_replace( '%%ASSETS_HEAD%%', ltrim( $assets_expiration, 'A' ), $code );
-		$code = str_replace( '%%CSS_HEAD%%', ltrim( $css_expiration, 'A' ), $code );
-
-		return $code;
-	}
-
-	/**
-	 * Get code for IIS
-	 *
-	 * @return string
-	 */
-	public function get_iis_code() {
-		return '';
-	}
-
-	/**
-	 * Get code for IIS 7
-	 *
-	 * @return string
-	 */
-	public function get_iis_7_code() {
-		return '';
+		return str_replace( '%%CSS_HEAD%%', ltrim( $css_expiration, 'A' ), $code );
 	}
 
 	/**

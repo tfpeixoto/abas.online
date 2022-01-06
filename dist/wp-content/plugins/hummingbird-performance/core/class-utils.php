@@ -16,6 +16,7 @@
 namespace Hummingbird\Core;
 
 use Hummingbird\WP_Hummingbird;
+use stdClass;
 use WP_User;
 use WPMUDEV_Dashboard;
 
@@ -31,6 +32,7 @@ class Utils {
 	/***************************
 	 *
 	 * I. General helper functions
+	 * is_wpmu_dev_admin()
 	 * is_member()
 	 * is_free_installed()
 	 * is_dash_logged_in()
@@ -38,13 +40,30 @@ class Utils {
 	 * enqueue_admin_scripts()
 	 * get_admin_capability()
 	 * get_current_user_name()
-	 * get_user_for_report()
 	 * calculate_sum()
 	 * format_bytes()
 	 * format_interval()
 	 * format_interval_hours()
 	 * is_ajax_network_admin()
 	 ***************************/
+
+	/**
+	 * Check if user is a WPMU DEV admin.
+	 *
+	 * @since 3.1.4
+	 *
+	 * @return bool
+	 */
+	public static function is_wpmu_dev_admin() {
+		if ( class_exists( 'WPMUDEV_Dashboard' ) ) {
+			if ( method_exists( 'WPMUDEV_Dashboard_Site', 'allowed_user' ) ) {
+				$user_id = get_current_user_id();
+				return WPMUDEV_Dashboard::$site->allowed_user( $user_id );
+			}
+		}
+
+		return false;
+	}
 
 	/**
 	 * Check if user is a paid one in WPMU DEV
@@ -70,27 +89,6 @@ class Utils {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Check if WPMU DEV Dashboard Plugin is logged in
-	 *
-	 * @return bool
-	 */
-	public static function is_dash_logged_in() {
-		if ( ! class_exists( 'WPMUDEV_Dashboard' ) ) {
-			return false;
-		}
-
-		if ( ! is_object( WPMUDEV_Dashboard::$api ) ) {
-			return false;
-		}
-
-		if ( ! method_exists( WPMUDEV_Dashboard::$api, 'has_key' ) ) {
-			return false;
-		}
-
-		return WPMUDEV_Dashboard::$api->has_key();
 	}
 
 	/**
@@ -171,18 +169,15 @@ class Utils {
 				'successRedisPurge'      => __( 'Your cache has been cleared.', 'wphb' ),
 				'selectZone'             => __( 'Select zone', 'wphb' ),
 				/* Misc */
-				'htaccessUpdated'        => __( 'Your .htaccess file has been updated', 'wphb' ),
-				'htaccessUpdatedFailed'  => __( 'There was an error updating the .htaccess file', 'wphb' ),
 				'errorSettingsUpdate'    => __( 'Error updating settings', 'wphb' ),
 				'successUpdate'          => __( 'Settings updated', 'wphb' ),
-				'deleteAll'              => __( 'Delete All', 'wphb' ),
+				'deleteAll'              => __( 'Delete All Permanently', 'wphb' ),
+				'dbDeleteButton'         => __( 'Delete permanently', 'wphb' ),
+				'dbDeleteDraftsButton'   => __( 'Clear draft posts', 'wphb' ),
 				'db_delete'              => __( 'Are you sure you wish to delete', 'wphb' ),
+				'dbDeleteDrafts'         => __( 'Are you sure you want to clear draft posts and move them to the trash? Trashed posts can be permanently deleted below.', 'wphb' ),
 				'db_entries'             => __( 'database entries', 'wphb' ),
 				'db_backup'              => __( 'Make sure you have a current backup just in case.', 'wphb' ),
-				'successRecipientAdded'  => __( ' has been added as a recipient but you still need to save your changes below to set this live.', 'wphb' ),
-				'confirmRecipient'       => __( 'Your changes have been saved successfully. Any new recipients will receive an email shortly to confirm their subscription to these emails.', 'wphb' ),
-				'awaitingConfirmation'   => __( 'Awaiting confirmation', 'wphb' ),
-				'resendEmail'            => __( 'Resend email', 'wphb' ),
 				'dismissLabel'           => __( 'Dismiss', 'wphb' ),
 				'successAdvPurgeCache'   => __( 'Preload cache purged successfully.', 'wphb' ),
 				'successAdvPurgeMinify'  => __( 'All database data and Custom Post Type information related to Asset Optimization has been cleared successfully.', 'wphb' ),
@@ -190,10 +185,19 @@ class Utils {
 				/* Cloudflare */
 				'CloudflareHelpAPItoken' => __( 'Need help getting your API token?', 'wphb' ),
 				'CloudflareHelpAPIkey'   => __( 'Need help getting your Global API key?', 'wphb' ),
+				/* Notifications */
+				'removeRecipient'        => __( 'Remove recipient', 'wphb' ),
+				'noRecipients'           => __( "You've not added the users. In order to activate the notification you need to add users first.", 'wphb' ),
+				'noRecipientDisable'     => __( "You've removed all recipients. If you save without a recipient, we'll automatically turn off notifications.", 'wphb' ),
+				'recipientExists'        => __( 'Recipient already exists.', 'wphb' ),
+				'awaitingConfirmation'   => __( 'Awaiting confirmation', 'wphb' ),
+				'resendInvite'           => __( 'Resend invite email', 'wphb' ),
+				'addRecipient'           => __( 'Add recipient', 'wphb' ),
 			),
 			'links'      => array(
 				'audits'        => self::get_admin_menu_url( 'performance' ),
 				'tutorials'     => self::get_admin_menu_url( 'tutorials' ),
+				'notifications' => self::get_admin_menu_url( 'notifications' ),
 				'disableUptime' => add_query_arg(
 					array(
 						'action'   => 'disable',
@@ -342,29 +346,6 @@ class Utils {
 	}
 
 	/**
-	 * Get the default user data for the report.
-	 *
-	 * @since 1.9.4
-	 *
-	 * @return array
-	 */
-	public static function get_user_for_report() {
-		/** Current user @var WP_User $user */
-		$user = wp_get_current_user();
-
-		if ( empty( $user->first_name ) && empty( $user->last_name ) ) {
-			$name = $user->user_login;
-		} else {
-			$name = $user->first_name . ' ' . $user->last_name;
-		}
-
-		return array(
-			'name'  => $name,
-			'email' => $user->user_email,
-		);
-	}
-
-	/**
 	 * This function will calculate the sum of file sizes in an array.
 	 *
 	 * We need this, because Asset Optimization module will store 'original_size' and 'compressed_size' values as
@@ -375,17 +356,17 @@ class Utils {
 	 *
 	 * @param array $arr  Array of items with sizes as strings.
 	 *
-	 * @return int|mixed
+	 * @return float
 	 */
 	public static function calculate_sum( $arr ) {
 		$sum = 0;
 
 		// Get separators from locale. Some Windows servers will return blank values.
 		$locale        = localeconv();
-		$thousands_sep = $locale['thousands_sep'] ?: ',';
-		$decimal_point = $locale['decimal_point'] ?: '.';
+		$thousands_sep = isset( $locale['thousands_sep'] ) ? $locale['thousands_sep'] : ',';
+		$decimal_point = isset( $locale['decimal_point'] ) ? $locale['decimal_point'] : '.';
 
-		foreach ( $arr as $item => $value ) {
+		foreach ( $arr as $value ) {
 			if ( is_null( $value ) ) {
 				continue;
 			}
@@ -490,73 +471,8 @@ class Utils {
 	/***************************
 	 *
 	 * II. Layout functions
-	 * get_servers_dropdown()
-	 * get_caching_frequencies_dropdown()
 	 * get_whitelabel_class()
 	 ***************************/
-
-	/**
-	 * Get servers dropdown.
-	 *
-	 * @param bool|string $selected  Selected server.
-	 */
-	public static function get_servers_dropdown( $selected = false ) {
-		$selected = $selected ? $selected : Module_Server::get_server_type();
-		$disabled = is_multisite() && ! is_main_site();
-		?>
-		<select class="sui-select" name="wphb-server-type" id="wphb-server-type" class="server-type" <?php disabled( $disabled ); ?>>
-			<?php foreach ( Module_Server::get_servers() as $server => $server_name ) : ?>
-				<option value="<?php echo esc_attr( $server ); ?>" <?php selected( $server, $selected ); ?>>
-					<?php
-					if ( 'Apache/LiteSpeed' === $server_name ) {
-						$server_name = 'Apache';
-					}
-					echo esc_html( $server_name );
-					?>
-				</option>
-			<?php endforeach; ?>
-			<option value="litespeed" <?php selected( 'litespeed', $selected ); ?>>
-				Open LiteSpeed
-			</option>
-		</select>
-		<?php
-	}
-
-	/**
-	 * Prepare dropdown select with caching expiry settings.
-	 *
-	 * @param array $args        Arguments list.
-	 * @param bool  $cloudflare  Get Cloudflare frequencies.
-	 */
-	public static function get_caching_frequencies_dropdown( $args = array(), $cloudflare = false ) {
-		$defaults = array(
-			'selected'  => false,
-			'name'      => 'expiry-select',
-			'id'        => false,
-			'class'     => 'sui-select',
-			'data-type' => '',
-		);
-
-		$args = wp_parse_args( $args, $defaults );
-
-		if ( ! $args['id'] ) {
-			$args['id'] = $args['name'];
-		}
-
-		if ( $cloudflare ) {
-			$frequencies = Modules\Cloudflare::get_frequencies();
-		} else {
-			$frequencies = Modules\Caching::get_frequencies();
-		}
-
-		?>
-		<select id="<?php echo esc_attr( $args['id'] ); ?>" name="<?php echo esc_attr( $args['name'] ); ?>" class="<?php echo esc_attr( $args['class'] ); ?>" data-type="<?php echo esc_attr( $args['data-type'] ); ?>">
-			<?php foreach ( $frequencies as $key => $value ) : ?>
-				<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $args['selected'], $key ); ?>><?php echo $value; ?></option>
-			<?php endforeach; ?>
-		</select>
-		<?php
-	}
 
 	/**
 	 * Return rebranded class.
@@ -579,6 +495,7 @@ class Utils {
 	 * human_read_time_diff()
 	 * get_days_of_week()
 	 * get_times()
+	 * get_timezone_string()
 	 ***************************/
 
 	/**
@@ -624,7 +541,7 @@ class Utils {
 			$seconds = $seconds - MINUTE_IN_SECONDS;
 		}
 
-		$diff = new \stdClass();
+		$diff = new stdClass();
 
 		$diff->y = $years;
 		$diff->m = $months;
@@ -700,6 +617,30 @@ class Utils {
 		return apply_filters( 'wphb_scan_get_times', $data );
 	}
 
+	/**
+	 * Return time zone string.
+	 *
+	 * @since 3.1.1
+	 *
+	 * @return string
+	 */
+	public static function get_timezone_string() {
+		$current_offset = get_option( 'gmt_offset' );
+		$tzstring       = get_option( 'timezone_string' );
+
+		if ( empty( $tzstring ) ) { // Create a UTC+- zone if no timezone string exists.
+			if ( 0 === $current_offset ) {
+				$tzstring = 'UTC+0';
+			} elseif ( $current_offset < 0 ) {
+				$tzstring = 'UTC' . $current_offset;
+			} else {
+				$tzstring = 'UTC+' . $current_offset;
+			}
+		}
+
+		return $tzstring;
+	}
+
 	/***************************
 	 *
 	 * IV. Link and url functions
@@ -721,30 +662,30 @@ class Utils {
 	public static function get_link( $link_for, $campaign = 'hummingbird_pro_modal_upgrade' ) {
 		$domain   = 'https://wpmudev.com';
 		$wp_org   = 'https://wordpress.org';
-		$utm_tags = "?utm_source=hummingbird&utm_medium=plugin&utm_campaign={$campaign}";
+		$utm_tags = "?utm_source=hummingbird&utm_medium=plugin&utm_campaign=$campaign";
 
 		switch ( $link_for ) {
 			case 'configs':
-				$link = "{$domain}/hub2/configs/my-configs";
+				$link = "$domain/hub2/configs/my-configs";
 				break;
 			case 'hub-welcome':
-				$link = "{$domain}/hub-welcome/{$utm_tags}";
+				$link = "$domain/hub-welcome/$utm_tags";
 				break;
 			case 'chat':
-				$link = "{$domain}/live-support/{$utm_tags}";
+				$link = "$domain/live-support/$utm_tags";
 				break;
 			case 'plugin':
-				$link = "{$domain}/project/wp-hummingbird/{$utm_tags}";
+				$link = "$domain/project/wp-hummingbird/$utm_tags";
 				break;
 			case 'support':
 				if ( self::is_member() ) {
-					$link = "{$domain}/hub2/support/#get-support";
+					$link = "$domain/hub2/support/#get-support";
 				} else {
-					$link = "{$wp_org}/support/plugin/hummingbird-performance";
+					$link = "$wp_org/support/plugin/hummingbird-performance";
 				}
 				break;
 			case 'docs':
-				$link = "{$domain}/docs/wpmu-dev-plugins/hummingbird/{$utm_tags}";
+				$link = "$domain/docs/wpmu-dev-plugins/hummingbird/$utm_tags";
 				break;
 			case 'smush':
 				if ( self::is_member() ) {
@@ -757,16 +698,16 @@ class Utils {
 				}
 				break;
 			case 'smush-plugin':
-				$link = "{$domain}/project/wp-smush-pro/{$utm_tags}";
+				$link = "$domain/project/wp-smush-pro/$utm_tags";
 				break;
 			case 'hosting':
-				$link = "{$domain}/hosting/{$utm_tags}";
+				$link = "$domain/hosting/$utm_tags";
 				break;
 			case 'wpmudev':
-				$link = "{$domain}/{$utm_tags}";
+				$link = "$domain/$utm_tags";
 				break;
 			case 'tutorials':
-				$link = "{$domain}/blog/tutorials/tutorial-category/hummingbird-pro/{$utm_tags}";
+				$link = "$domain/blog/tutorials/tutorial-category/hummingbird-pro/$utm_tags";
 				break;
 			default:
 				$link = '';
@@ -880,6 +821,7 @@ class Utils {
 	 *
 	 * V. Modules functions
 	 * get_api()
+	 * pro()
 	 * get_modules()
 	 * get_module()
 	 * get_active_cache_modules()
@@ -899,11 +841,19 @@ class Utils {
 	}
 
 	/**
+	 * Get PRO.
+	 */
+	public static function pro() {
+		$hummingbird = WP_Hummingbird::get_instance();
+		return $hummingbird->pro;
+	}
+
+	/**
 	 * Return the list of modules and their object instances
 	 *
 	 * Do not try to load before 'wp_hummingbird_loaded' action has been executed
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	private static function get_modules() {
 		$hummingbird = WP_Hummingbird::get_instance();
@@ -923,7 +873,7 @@ class Utils {
 	}
 
 	/**
-	 * Return human readable names of active modules that have a cache.
+	 * Return human-readable names of active modules that have a cache.
 	 *
 	 * Checks Page, Gravatar & Asset Optimization.
 	 *
@@ -1005,7 +955,7 @@ class Utils {
 				}
 
 				$invalid = 0;
-				foreach ( $report as $item => $type ) {
+				foreach ( $report as $type ) {
 					if ( ! $type || 'privacy' === $type ) {
 						$invalid++;
 					}

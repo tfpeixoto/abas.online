@@ -1,0 +1,69 @@
+/* purgecss start ignore */
+.blog-form{
+    background-color: $cinza-claro;
+    
+    #msg-sucesso{
+        display: none;
+        background-color: rgba(0, 252, 0, 0.171);
+        color: green;
+        border-radius: 10px;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .blog-form__titulo{
+        font: 800 $h2-font-size $font-family-sans-serif;
+        color: $roxo;
+        max-width: 700px;
+        margin: 0px auto 10px;
+    }
+
+    &__subtitulo{
+        font-size: 1.2rem;
+    }
+
+    .form{
+        margin-top: 15px;
+
+        &__campos{
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-around;
+            flex-wrap: wrap;
+
+            &-input{
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+                padding: 10px 15px;
+                flex: 1 0 250px;
+    
+                .label{
+                    font-size: 1rem;
+                    font-weight: 700;
+                    margin: 0.25rem 1rem;
+                }
+                .input{
+                    border: 2px solid $roxo;
+                    border-radius: 10px;
+                    padding: 1rem;
+                    width: 100%;
+                }
+            }
+    
+            &-input.invalido{
+                .msg-erro{
+                    color: rgba(226, 28, 28, 0.904);
+                    margin-top: 10px;
+                }
+            }
+        }
+
+        &__submit{
+            display: block;
+            margin: 30px auto 0;
+        }
+    }
+}
+/* purgecss end ignore */

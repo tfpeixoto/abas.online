@@ -30,7 +30,7 @@ class Builders {
 		add_action( 'fl_builder_after_save_layout', array( $this, 'beaver_builder_clear_cache' ) );
 
 		/**
-		 * Cornerstone actions that require to deactivate the minify module.
+		 * Cornerstone actions that require to deactivate minify module.
 		 * Taken from Cornerstone_Integration_Caching -> __construct().
 		 */
 		add_action( 'cornerstone_load_builder', array( $this, 'deactivate_minify_module' ) );
@@ -50,7 +50,7 @@ class Builders {
 	}
 
 	/**
-	 * Maybe deactivate the minify module on REST API requests.
+	 * Maybe deactivate minify module on REST API requests.
 	 *
 	 * @since 2.6.2
 	 */
@@ -69,7 +69,7 @@ class Builders {
 	}
 
 	/**
-	 * Deactivate the minify module.
+	 * Deactivate minify module.
 	 *
 	 * @since 2.6.2
 	 *

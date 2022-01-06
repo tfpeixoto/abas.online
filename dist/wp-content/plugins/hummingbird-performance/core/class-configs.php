@@ -164,6 +164,8 @@ class Configs {
 	 * @since 3.0.1
 	 *
 	 * @param int $id The ID of the config to apply.
+	 *
+	 * @return void|WP_Error
 	 */
 	public function apply_config_by_id( $id ) {
 		$stored_configs = get_site_option( 'wphb-preset_configs', array() );
@@ -502,7 +504,7 @@ class Configs {
 			),
 		);
 
-		// Overwrites for non common values.
+		// Overwrites for non-common values.
 		if ( 'page_cache' === $module ) {
 			if ( 'enabled' === $setting && 'blog-admins' === $value ) {
 				$value = true;

@@ -31,7 +31,7 @@ class Errors_Controller {
 	 *
 	 * @var array
 	 */
-	private $server_errors = array();
+	private $server_errors;
 
 	/**
 	 * Errors_Controller constructor.
@@ -126,7 +126,7 @@ class Errors_Controller {
 			$error    = wp_parse_args( $this->errors[ $type ][ $handle ], $defaults );
 		}
 
-		return apply_filters( "wphb_handle_error_{$handle}_{$type}", $error, $handle, $type );
+		return apply_filters( "wphb_handle_error_{$handle}_$type", $error, $handle, $type );
 	}
 
 	/**
@@ -141,7 +141,7 @@ class Errors_Controller {
 	 * Delete a single handle error
 	 *
 	 * @param string|array $handles  Asset handle, or array of handles.
-	 * @param string       $type     Type of assset.
+	 * @param string       $type     Type of asset.
 	 */
 	public function clear_handle_error( $handles, $type ) {
 		if ( ! is_array( $handles ) ) {

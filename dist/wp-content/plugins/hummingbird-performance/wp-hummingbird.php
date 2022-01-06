@@ -12,7 +12,7 @@
  * Plugin Name:       Hummingbird
  * Plugin URI:        https://wpmudev.com/project/wp-hummingbird/
  * Description:       Hummingbird zips through your site finding new ways to make it load faster, from file compression and minification to browser caching – because when it comes to pagespeed, every millisecond counts.
- * Version:           3.1.1
+ * Version:           3.2.1
  * Author:            WPMU DEV
  * Author URI:        https://profiles.wordpress.org/wpmudev/
  * Network:           true
@@ -43,11 +43,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 namespace Hummingbird;
 
 if ( ! defined( 'WPHB_VERSION' ) ) {
-	define( 'WPHB_VERSION', '3.1.1' );
+	define( 'WPHB_VERSION', '3.2.1' );
 }
 
 if ( ! defined( 'WPHB_SUI_VERSION' ) ) {
-	define( 'WPHB_SUI_VERSION', 'sui-2-10-12' );
+	define( 'WPHB_SUI_VERSION', 'sui-2-11-1' );
 }
 
 if ( ! defined( 'WPHB_DIR_PATH' ) ) {
@@ -154,7 +154,7 @@ if ( ! class_exists( 'Hummingbird\\WP_Hummingbird' ) ) {
 				return;
 			}
 
-			// Prevents from erroring out on free version.
+			// Prevents errors on free version.
 			if ( ! is_readable( WPHB_DIR_PATH . 'core/pro/class-pro.php' ) ) {
 				if ( ! defined( 'WPHB_WPORG' ) ) {
 					define( 'WPHB_WPORG', true );
@@ -170,7 +170,7 @@ if ( ! class_exists( 'Hummingbird\\WP_Hummingbird' ) ) {
 				$this->pro->init();
 			}
 
-			$this->pro->load_ajax();
+			add_action( 'admin_init', array( $this->pro, 'load_ajax' ) );
 		}
 
 		/**
@@ -264,7 +264,6 @@ if ( ! class_exists( 'Hummingbird\\WP_Hummingbird' ) ) {
 				// Pro is activated, deactivate this one.
 				deactivate_plugins( WPHB_BASENAME );
 				update_site_option( 'wphb-notice-free-deactivated-show', 'yes' );
-				return;
 			} elseif ( $pro_installed ) {
 				// Pro is installed but not activated, let's activate it.
 				deactivate_plugins( WPHB_BASENAME );

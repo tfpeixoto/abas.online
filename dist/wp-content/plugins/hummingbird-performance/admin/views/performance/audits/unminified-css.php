@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <h4><?php esc_html_e( 'Overview', 'wphb' ); ?></h4>
 <p>
-	<?php esc_html_e( 'CSS files control the look and feel of your website. Often, these files come with a lot of extra \'bloat\' that they don\'t need. By compressing those files and removing all the excess you\'ll reduce payload sizes and reduce your page load speed. Optimizing CSS files includes removing comments, formatting and duplicate code.', 'wphb' ); ?>
+	<?php esc_html_e( 'CSS files control the look and feel of your website. Often, these files come with a lot of extra \'bloat\' that they don\'t need. By compressing those files and removing all the excess you\'ll reduce payload sizes and increase your page load speed. Optimizing CSS files includes removing comments, formatting and duplicate code.', 'wphb' ); ?>
 </p>
 
 <h4><?php esc_html_e( 'Status', 'wphb' ); ?></h4>

@@ -102,7 +102,7 @@ class PerfScanner extends Scanner {
 		} );
 
 		// Give a second for the report to be saved to the db.
-		window.setTimeout( function () {
+		window.setTimeout( function() {
 			window.location = getLink( 'audits' );
 		}, 2000 );
 	}

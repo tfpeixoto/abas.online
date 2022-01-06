@@ -49,7 +49,6 @@ $.validator.addMethod('validardigitos', function (value, element) {
   }
 
 }, "Telefone inválido! Por favor, verifique o número informado.");
-
 // Validacao
 function validarFormulario(formLead) {
   $(formLead).validate({

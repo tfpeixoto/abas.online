@@ -667,7 +667,7 @@
         .sui-border-frame div {
             margin-bottom: 30px;
 
-            &:nth-child(3) {
+            &:nth-child(4) {
                 margin-bottom: 0;
             }
 
@@ -687,6 +687,10 @@
                 padding-bottom: 30px !important;
                 margin-bottom: -30px !important;
                 margin-top: 30px;
+            }
+
+            .sui-notice.sui-notice-warning {
+                margin-bottom: 10px;
             }
         }
 

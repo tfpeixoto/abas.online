@@ -118,7 +118,7 @@
 }
 
 /**
- * Uptime reponse time meta box
+ * Uptime response time meta box
  */
 .wpmud .box-uptime-response-time {
     .uptime-chart {
@@ -269,54 +269,6 @@
         margin-bottom: -25px;
         margin-left: -28px;
         position: absolute;
-    }
-}
-
-.wpmud .box-uptime-notifications .spinner,
-.wpmud .box-uptime-notifications-disabled .spinner {
-    margin-top: 2px;
-    margin-right: 10px;
-}
-
-/**
- * Reporting
- */
-@include body-class(true) {
-    .sui-recipients {
-        .sui-form-field {
-            margin-bottom: 10px;
-            .select-container {
-                max-width: 240px;
-            }
-        }
-
-        .sui-recipient-status {
-            margin-right: 13px;
-            padding-right: 13px;
-            border-right: 1px solid #E6E6E6;
-        }
-
-        .wphb-resend-recipient {
-            margin-right: 10px !important;
-        }
-
-        .sui-recipient-status i:before {
-            font-size: 16px;
-            line-height: 30px;
-            vertical-align: bottom;
-        }
-
-        .wphb-not-pending-recipient {
-            margin-left: 35px;
-        }
-
-        .sui-icon-check-tick:before {
-            color: #1ABC9C;
-        }
-
-        .wphb-remove-recipient {
-            margin-right: 0 !important;
-        }
     }
 }
 

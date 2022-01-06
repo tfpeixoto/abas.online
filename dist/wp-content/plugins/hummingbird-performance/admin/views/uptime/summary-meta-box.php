@@ -4,8 +4,13 @@
  *
  * @package Hummingbird
  *
- * @var object $uptime_stats       Last stats report.
- * @var string $data_range_text    Human readable data range text.
+ * @var object $uptime_stats           Last stats report.
+ * @var string $data_range_text        Human readable data range text.
+ * @var bool   $notifications_enabled  Status of uptime notifications.
+ * @var string $notifications_next     Next scheduled notification label.
+ * @var bool   $reports_enabled        Status of uptime reports.
+ * @var string $reports_next           Next scheduled report label.
+ * @var string $notifications_url      Notifications module link.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -81,6 +86,38 @@ $branded_image = apply_filters( 'wpmudev_branding_hero_image', '' );
 					echo esc_html( $site_date );
 				}
 				?>
+			</span>
+		</li>
+		<li>
+			<span class="sui-list-label">
+				<?php esc_html_e( 'Scheduled reports', 'wphb' ); ?>
+			</span>
+			<span class="sui-list-detail">
+				<?php if ( $reports_enabled ) : ?>
+					<?php echo esc_html( $reports_next ); ?>
+					<a href="<?php echo esc_url( $notifications_url ); ?>#uptime-reports">
+						<span class="sui-icon-pencil" aria-hidden="true"></span>
+					</a>
+				<?php else : ?>
+					<a href="<?php echo esc_url( $notifications_url ); ?>#uptime-reports">
+						<span class="sui-tag"><?php esc_html_e( 'Disabled', 'wphb' ); ?></span>
+					</a>
+				<?php endif; ?>
+			</span>
+		</li>
+		<li>
+			<span class="sui-list-label"><?php esc_html_e( 'Scheduled notifications', 'wphb' ); ?></span>
+			<span class="sui-list-detail">
+				<?php if ( $notifications_enabled ) : ?>
+					<?php echo esc_html( $notifications_next ); ?>
+					<a href="<?php echo esc_url( $notifications_url ); ?>#uptime-notifications">
+						<span class="sui-icon-pencil" aria-hidden="true"></span>
+					</a>
+				<?php else : ?>
+					<a href="<?php echo esc_url( $notifications_url ); ?>#uptime-notifications">
+						<span class="sui-tag"><?php esc_html_e( 'Disabled', 'wphb' ); ?></span>
+					</a>
+				<?php endif; ?>
 			</span>
 		</li>
 	</ul>

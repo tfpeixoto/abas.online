@@ -30,6 +30,7 @@ class Installer {
 		update_site_option( 'wphb_version', WPHB_VERSION );
 		update_site_option( 'wphb-notice-uptime-info-show', 'yes' ); // Add uptime notice.
 		update_site_option( 'wphb_run_onboarding', true );
+		update_site_option( 'wphb-show-black-friday', true );
 	}
 
 	/**
@@ -45,7 +46,7 @@ class Installer {
 	 * Plugin deactivation
 	 */
 	public static function deactivate() {
-		// Avoid to execute this over an over in same thread execution.
+		// Avoid executing this over an over in same thread execution.
 		if ( defined( 'WPHB_SWITCHING_VERSION' ) ) {
 			return;
 		}
@@ -54,6 +55,8 @@ class Installer {
 		WP_Hummingbird::flush_cache( $settings['remove_data'], $settings['remove_settings'] );
 
 		Utils::get_module( 'page_cache' )->toggle_service( false, true );
+
+		wp_clear_scheduled_hook( 'wphb_clear_logs' );
 
 		if ( $settings['remove_settings'] ) {
 			// Completely remove hummingbird-asset folder.
@@ -66,7 +69,7 @@ class Installer {
 	 * Plugin upgrades
 	 */
 	public static function maybe_upgrade() {
-		// Avoid to execute this over an over in same thread execution.
+		// Avoid executing this over an over in same thread execution.
 		if ( defined( 'WPHB_ACTIVATING' ) ) {
 			return;
 		}
@@ -151,6 +154,14 @@ class Installer {
 
 			if ( version_compare( $version, '3.1.0', '<' ) ) {
 				self::upgrade_3_1_0();
+			}
+
+			if ( version_compare( $version, '3.1.3', '<' ) ) {
+				update_site_option( 'wphb-show-black-friday', true );
+			}
+
+			if ( version_compare( $version, '3.2.0', '<' ) ) {
+				self::upgrade_3_2_0();
 			}
 
 			update_site_option( 'wphb_version', WPHB_VERSION );
@@ -312,6 +323,7 @@ class Installer {
 	 * Upgrade to 2.7.1
 	 *
 	 * @since 2.7.1
+	 * @deprecated
 	 */
 	private static function upgrade_2_7_1() {
 		if ( Settings::get_setting( 'enabled', 'page_cache' ) ) {
@@ -323,6 +335,7 @@ class Installer {
 	 * Upgrade to 2.7.1
 	 *
 	 * @since 2.7.1
+	 * @deprecated
 	 */
 	private static function upgrade_2_7_1_multi() {
 		wp_cache_delete( 'wphb_process_queue', 'options' );
@@ -332,6 +345,7 @@ class Installer {
 	 * Upgrade to 2.7.1 (single and subsites).
 	 *
 	 * @since 2.7.2
+	 * @deprecated
 	 */
 	private static function upgrade_2_7_2_multi() {
 		$minify  = Utils::get_module( 'minify' );
@@ -441,4 +455,103 @@ class Installer {
 		}
 	}
 
+	/**
+	 * Upgrade to 3.1.1
+	 */
+	private static function upgrade_3_2_0() {
+		$settings = Settings::get_settings();
+
+		if ( isset( $settings['performance'] ) && isset( $settings['performance']['reports'] ) ) {
+			if ( isset( $settings['performance']['reports']['enabled'] ) && false === $settings['performance']['reports']['enabled'] ) {
+				$settings['performance']['reports']['recipients'] = array();
+			} elseif ( ! empty( $settings['performance']['reports']['recipients'] ) ) {
+				foreach ( $settings['performance']['reports']['recipients'] as $key => $recipient ) {
+					$user = get_user_by( 'email', $recipient['email'] );
+
+					$settings['performance']['reports']['recipients'][ $key ]['id']   = false === $user ? 0 : $user->ID;
+					$settings['performance']['reports']['recipients'][ $key ]['role'] = false === $user || empty( $user->roles ) ? '' : ucfirst( $user->roles[0] );
+				}
+			}
+		}
+
+		if ( isset( $settings['uptime'] ) && isset( $settings['uptime']['reports'] ) ) {
+			if ( isset( $settings['uptime']['reports']['enabled'] ) && false === $settings['uptime']['reports']['enabled'] ) {
+				$settings['uptime']['reports']['recipients'] = array();
+			} elseif ( ! empty( $settings['uptime']['reports']['recipients'] ) ) {
+				foreach ( $settings['uptime']['reports']['recipients'] as $key => $recipient ) {
+					$user = get_user_by( 'email', $recipient['email'] );
+
+					$settings['uptime']['reports']['recipients'][ $key ]['id']   = false === $user ? 0 : $user->ID;
+					$settings['uptime']['reports']['recipients'][ $key ]['role'] = false === $user || empty( $user->roles ) ? '' : ucfirst( $user->roles[0] );
+				}
+			}
+		}
+
+		if ( isset( $settings['uptime'] ) && isset( $settings['uptime']['notifications'] ) ) {
+			if ( isset( $settings['uptime']['notifications']['enabled'] ) && false === $settings['uptime']['notifications']['enabled'] ) {
+				$settings['uptime']['notifications']['recipients'] = array();
+			} elseif ( ! empty( $settings['uptime']['notifications']['recipients'] ) ) {
+				foreach ( $settings['uptime']['notifications']['recipients'] as $key => $recipient ) {
+					$user = get_user_by( 'email', $recipient['email'] );
+
+					$settings['uptime']['notifications']['recipients'][ $key ]['id']   = false === $user ? 0 : $user->ID;
+					$settings['uptime']['notifications']['recipients'][ $key ]['role'] = false === $user || empty( $user->roles ) ? '' : ucfirst( $user->roles[0] );
+
+					// We need to do some converting.
+					if ( ! isset( $settings['uptime']['notifications']['recipients'][ $key ]['is_pending'] ) ) {
+						$settings['uptime']['notifications']['recipients'][ $key ]['is_pending'] = false;
+					} else {
+						$settings['uptime']['notifications']['recipients'][ $key ]['is_pending'] = filter_var( $settings['uptime']['notifications']['recipients'][ $key ]['is_pending'], FILTER_VALIDATE_BOOLEAN );
+					}
+
+					if ( isset( $settings['uptime']['notifications']['recipients'][ $key ]['is_subscribed'] ) ) {
+						$settings['uptime']['notifications']['recipients'][ $key ]['is_subscribed'] = filter_var( $settings['uptime']['notifications']['recipients'][ $key ]['is_subscribed'], FILTER_VALIDATE_BOOLEAN );
+					}
+					if ( isset( $settings['uptime']['notifications']['recipients'][ $key ]['is_can_resend_confirmation'] ) ) {
+						$settings['uptime']['notifications']['recipients'][ $key ]['is_can_resend_confirmation'] = filter_var( $settings['uptime']['notifications']['recipients'][ $key ]['is_can_resend_confirmation'], FILTER_VALIDATE_BOOLEAN );
+					}
+				}
+			}
+		}
+
+		if ( isset( $settings['advanced'] ) ) {
+			$new_options = array();
+
+			$new_options['enabled'] = isset( $settings['advanced']['db_cleanups'] ) ? $settings['advanced']['db_cleanups'] : false;
+			unset( $settings['advanced']['db_cleanups'] );
+
+			if ( isset( $settings['advanced']['db_frequency'] ) ) {
+				$new_options['frequency'] = $settings['advanced']['db_frequency'];
+				unset( $settings['advanced']['db_frequency'] );
+			}
+
+			if ( isset( $settings['advanced']['db_tables'] ) ) {
+				$new_options['tables'] = $settings['advanced']['db_tables'];
+				unset( $settings['advanced']['db_tables'] );
+			}
+
+			// Migrate to new schedule format.
+			if ( $new_options['enabled'] ) {
+				$timestamp = wp_next_scheduled( 'wphb_database_cleanup' );
+				if ( $timestamp ) {
+					$new_options['time'] = wp_date( 'H:i', $timestamp );
+
+					if ( isset( $new_options['frequency'] ) && 7 === (int) $new_options['frequency'] ) {
+						$new_options['day'] = wp_date( 'l', $timestamp );
+					}
+
+					if ( isset( $new_options['frequency'] ) && 30 === (int) $new_options['frequency'] ) {
+						$new_options['day'] = wp_date( 'j', $timestamp );
+					}
+
+					wp_unschedule_event( $timestamp, 'wphb_database_cleanup' );
+					wp_schedule_single_event( $timestamp, 'wphb_database_report' );
+				}
+			}
+
+			$settings['database']['reports'] = $new_options;
+		}
+
+		Settings::update_settings( $settings );
+	}
 }

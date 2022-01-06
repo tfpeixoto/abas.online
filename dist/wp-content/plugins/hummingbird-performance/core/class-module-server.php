@@ -1,7 +1,7 @@
 <?php
 /**
  * A parent class for those modules that offers a piece of code to
- * setup the server (gzip and caching)
+ * set up the server (gzip and caching)
  *
  * @package Hummingbird\Core
  */
@@ -109,7 +109,7 @@ abstract class Module_Server extends Module {
 	/**
 	 * Return the server type (Apache, NGINX...)
 	 *
-	 * @param bool $check_for_cloudflare  Should we check for Cloudflare.
+	 * @param bool $check_for_cloudflare  If we should check for Cloudflare.
 	 *
 	 * @return string Server type
 	 */
@@ -139,10 +139,8 @@ abstract class Module_Server extends Module {
 			}
 		} elseif ( $is_nginx ) {
 			$type = 'nginx';
-		} elseif ( $is_IIS ) {
-			$type = 'IIS';
-		} elseif ( $is_iis7 ) {
-			$type = 'IIS 7';
+		} elseif ( $is_IIS || $is_iis7 ) {
+			$type = 'iis';
 		}
 
 		if ( $check_for_cloudflare && apply_filters( 'wp_hummingbird_is_active_module_cloudflare', false ) ) {

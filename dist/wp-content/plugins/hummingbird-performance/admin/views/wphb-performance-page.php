@@ -26,8 +26,6 @@ if ( $this->has_meta_boxes( 'summary' ) ) {
 	<?php $this->do_meta_boxes(); ?>
 <?php endif; ?>
 
-<?php $this->modal( 'add-recipient' ); ?>
-
 <script>
 	jQuery(document).ready( function() {
 		window.WPHB_Admin.getModule( 'performance' );

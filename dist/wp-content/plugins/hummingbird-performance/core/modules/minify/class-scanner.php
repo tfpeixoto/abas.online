@@ -109,7 +109,7 @@ class Scanner {
 	/**
 	 * Get the current scan step being scanned
 	 *
-	 * @return mixed
+	 * @return int
 	 */
 	public function get_current_scan_step() {
 		$this->refresh_status();

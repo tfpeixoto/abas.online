@@ -107,7 +107,7 @@ class Minify_Group {
 	private $preload = array();
 
 	/**
-	 * What handles should by loaded asynchronously.
+	 * What handles should be loaded asynchronously.
 	 *
 	 * @var array
 	 */
@@ -250,9 +250,21 @@ class Minify_Group {
 	 * @param string $version  Source version (specified by WP).
 	 */
 	public function add_handle( $handle, $url, $version = '' ) {
-		$this->handles[]                          = $handle;
-		$this->handle_urls[ $handle ]             = $url;
-		$this->handle_versions[ $handle ]         = $version;
+		$this->handles[]              = $handle;
+		$this->handle_urls[ $handle ] = $url;
+
+		/**
+		 * Assets that use timestamp as a version will end up in a forever loop, causing issues for Hummingbird.
+		 * To mitigate future issues, we are discarding the version. This will make sure the asset hash stays static,
+		 * preventing such assets from being auto re-added to the queue in add_items_to_persistent_queue().
+		 *
+		 * @since 3.1.2
+		 */
+		if ( is_int( $version ) && 10 === strlen( $version ) ) {
+			$version = false;
+		}
+		$this->handle_versions[ $handle ] = $version;
+
 		$this->handle_dependencies[ $handle ]     = array();
 		$this->handle_compressed_sizes[ $handle ] = 0;
 		$this->handle_original_sizes[ $handle ]   = 0;
@@ -542,7 +554,7 @@ class Minify_Group {
 	 */
 	public function get_all_handles_dependencies() {
 		$all_deps = array();
-		foreach ( $this->handle_dependencies as $handle => $deps ) {
+		foreach ( $this->handle_dependencies as $deps ) {
 			$all_deps = array_merge( $all_deps, $deps );
 		}
 
@@ -757,7 +769,7 @@ class Minify_Group {
 			if ( isset( wp_styles()->text_direction ) && 'rtl' === wp_styles()->text_direction && isset( $this->extra['rtl'] ) && $this->extra['rtl'] ) {
 				if ( is_bool( $this->extra['rtl'] ) || 'replace' === $this->extra['rtl'] ) {
 					$suffix    = isset( $this->extra['suffix'] ) ? $this->extra['suffix'] : '';
-					$file_path = str_replace( "{$suffix}.css", "-rtl{$suffix}.css", wp_styles()->_css_href( $this->handle_urls[ $handle ], '', "$handle-rtl" ) );
+					$file_path = str_replace( "$suffix.css", "-rtl$suffix.css", wp_styles()->_css_href( $this->handle_urls[ $handle ], '', "$handle-rtl" ) );
 				} else {
 					$file_path = wp_styles()->_css_href( $this->extra['rtl'], '', "$handle-rtl" );
 				}
@@ -1461,6 +1473,14 @@ class Minify_Group {
 
 		$handles = $this->get_handles();
 
+		if ( ! $handles ) {
+			return false;
+		}
+
+		if ( ! is_array( $handles ) ) {
+			$handles = array( $handles );
+		}
+
 		// Always process group if CDN is enabled.
 		if ( $minify->get_cdn_status() && $this->is_handle_local( $handles[0] ) ) {
 			return true;
@@ -1529,10 +1549,13 @@ class Minify_Group {
 		if ( ! $this->should_generate_file() ) {
 			return '';
 		}
+
 		$versions = get_post_meta( $this->file_id, '_handle_versions', true );
+
 		if ( false === $versions ) {
 			return '';
 		}
+
 		return self::hash( $versions );
 	}
 
@@ -1556,7 +1579,7 @@ class Minify_Group {
 			$content = URI_Rewriter::prepend( $content, trailingslashit( dirname( $path ) ) );
 		}
 
-		// If content is empty - return back to enqueue the file.
+		// If content is empty - return to enqueue the file.
 		if ( empty( $content ) ) {
 			return false;
 		}
@@ -1612,7 +1635,7 @@ class Minify_Group {
 	/**
 	 * Enqueue the new group (only one file)
 	 *
-	 * @param bool  $in_footer     If must be enqueued on footer.
+	 * @param bool  $in_footer     Should be enqueued on footer.
 	 * @param array $dependencies  Dependencies.
 	 */
 	public function enqueue( $in_footer, $dependencies ) {
@@ -1783,7 +1806,7 @@ class Minify_Group {
 	 * Enqueue just one handle with its original URL but will change the slug
 	 *
 	 * @param string $handle        Handle.
-	 * @param bool   $in_footer     If must be enqueued on footer.
+	 * @param bool   $in_footer     Should be enqueued on footer.
 	 * @param array  $dependencies  List of dependencies.
 	 */
 	public function enqueue_one_handle( $handle, $in_footer, $dependencies = array() ) {

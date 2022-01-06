@@ -43,6 +43,7 @@ class Settings {
 		'rss',
 		'settings',
 		'redis',
+		'database',
 	);
 
 	/**
@@ -198,7 +199,6 @@ class Settings {
 				'emoji_global'         => false, // If true, will force emoji on all subsites.
 				'prefetch'             => array(),
 				'preconnect'           => array(),
-				'db_cleanups'          => false,
 				'cart_fragments'       => false,
 				'lazy_load'            => array(
 					'enabled'   => false,
@@ -240,6 +240,11 @@ class Settings {
 			'redis'       => array(
 				'enabled' => false,
 			),
+			'database'    => array(
+				'reports' => array(
+					'enabled' => false,
+				),
+			),
 		);
 
 		/**
@@ -267,7 +272,7 @@ class Settings {
 			'caching'     => array( 'expiry_css', 'expiry_javascript', 'expiry_media', 'expiry_images' ),
 			'minify'      => array( 'minify_blog', 'view', 'type', 'do_assets', 'block', 'dont_minify', 'dont_combine', 'position', 'defer', 'inline', 'nocdn', 'fonts', 'preload', 'async' ),
 			'page_cache'  => array( 'cache_blog' ),
-			'performance' => array( 'dismissed' ),
+			'performance' => array( 'dismissed', 'reports' ),
 			'advanced'    => array( 'query_string', 'emoji', 'prefetch', 'preconnect', 'cart_fragments' ),
 			'cloudflare'  => array( 'enabled', 'connected', 'last_check', 'email', 'api_key', 'account_id', 'zone', 'zone_name', 'plan', 'page_rules', 'cache_expiry', 'apo_paid', 'apo' ),
 		);
@@ -438,7 +443,7 @@ class Settings {
 			'performance' => 'super-admins',
 		);
 
-		// Cache control in Settings can be an array or a boolean.
+		// Cache control in Settings can be an array or boolean.
 		if ( 'settings' === $module && 'control' === $option_name && is_array( $options[ $option_name ] ) ) {
 			return true;
 		}

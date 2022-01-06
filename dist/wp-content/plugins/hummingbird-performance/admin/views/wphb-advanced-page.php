@@ -18,10 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<form id="advanced-general-settings" method="post">
 			<?php $this->do_meta_boxes( 'main' ); ?>
 		</form>
-	<?php elseif ( 'db' === $this->get_current_tab() ) : ?>
-		<form id="advanced-db-settings" method="post">
-			<?php $this->do_meta_boxes( 'db' ); ?>
-		</form>
 	<?php elseif ( 'lazy' === $this->get_current_tab() ) : ?>
 		<form id="advanced-lazy-settings" method="post">
 			<?php $this->do_meta_boxes( 'lazy' ); ?>

@@ -4,12 +4,12 @@
 import Fetcher from '../utils/fetcher';
 import { getString } from '../utils/helpers';
 
-( function ( $ ) {
+( function( $ ) {
 	WPHB_Admin.dashboard = {
 		module: 'dashboard',
 
 		init() {
-			$( '.wphb-performance-report-item' ).on( 'click', function () {
+			$( '.wphb-performance-report-item' ).on( 'click', function() {
 				const url = $( this ).data( 'performance-url' );
 				if ( url ) {
 					location.href = url;
@@ -60,7 +60,7 @@ import { getString } from '../utils/helpers';
 		/**
 		 * Skip quick setup.
 		 *
-		 * @param {boolean} reload  Reload the page after skipping setup.
+		 * @param {boolean} reload Reload the page after skipping setup.
 		 */
 		skipSetup( reload = true ) {
 			Fetcher.common.call( 'wphb_dash_skip_setup' ).then( () => {

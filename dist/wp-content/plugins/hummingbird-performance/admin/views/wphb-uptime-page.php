@@ -49,8 +49,6 @@ if ( $this->has_meta_boxes( 'box-uptime-disabled' ) ) {
 }
 ?>
 
-<?php $this->modal( 'add-recipient' ); ?>
-
 <script>
 	jQuery(document).ready( function() {
 		if ( window.WPHB_Admin ) {

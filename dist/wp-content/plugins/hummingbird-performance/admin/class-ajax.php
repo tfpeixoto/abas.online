@@ -10,7 +10,6 @@ namespace Hummingbird\Admin;
 use Hummingbird\Core\Configs;
 use Hummingbird\Core\Filesystem;
 use Hummingbird\Core\Integration\Opcache;
-use Hummingbird\Core\Module_Server;
 use Hummingbird\Core\Modules\Caching\Preload;
 use Hummingbird\Core\Modules\Minify;
 use Hummingbird\Core\Modules\Page_Cache;
@@ -40,6 +39,7 @@ class AJAX {
 
 		// React. Hide tutorials.
 		add_action( 'wp_ajax_wphb_react_hide_tutorials', array( $this, 'hide_tutorials' ) );
+		add_action( 'wp_ajax_wphb_hide_black_friday', array( $this, 'hide_black_friday' ) );
 
 		// Parse clear cache click from frontend admin bar.
 		add_action( 'wp_ajax_wphb_front_clear_cache', array( $this, 'clear_frontend_cache' ) );
@@ -102,29 +102,6 @@ class AJAX {
 		// Remove advanced-cache.php file.
 		add_action( 'wp_ajax_wphb_remove_advanced_cache', array( $this, 'remove_advanced_cache' ) );
 
-		/* BROWSER CACHING */
-
-		// Activate browser caching.
-		add_action( 'wp_ajax_wphb_caching_activate', array( $this, 'caching_activate' ) );
-		// Re-check expiry.
-		add_action( 'wp_ajax_wphb_caching_recheck_expiry', array( $this, 'caching_recheck_expiry' ) );
-		// Set expiration for browser caching.
-		add_action( 'wp_ajax_wphb_caching_set_expiration', array( $this, 'caching_set_expiration' ) );
-		// Set server type.
-		add_action( 'wp_ajax_wphb_caching_set_server_type', array( $this, 'caching_set_server_type' ) );
-		// Reload snippet.
-		add_action( 'wp_ajax_wphb_caching_reload_snippet', array( $this, 'caching_reload_snippet' ) );
-		// Updat htaccess file.
-		add_action( 'wp_ajax_wphb_caching_update_htaccess', array( $this, 'caching_update_htaccess' ) );
-		// Cloudflare expirtion cache.
-		add_action( 'wp_ajax_wphb_cloudflare_set_expiry', array( $this, 'cloudflare_set_expiry' ) );
-		// Cloudflare purge cache.
-		add_action( 'wp_ajax_wphb_cloudflare_purge_cache', array( $this, 'cloudflare_purge_cache' ) );
-		// Cloudflare recheck zones.
-		add_action( 'wp_ajax_wphb_cloudflare_recheck_zones', array( $this, 'cloudflare_recheck_zones' ) );
-
-		/* GRAVATAR CACHING */
-
 		/* RSS CACHING */
 
 		// Save settings for rss caching module.
@@ -141,6 +118,10 @@ class AJAX {
 
 		// Cloudflare connect.
 		add_action( 'wp_ajax_wphb_cloudflare_connect', array( $this, 'cloudflare_connect' ) );
+		// Cloudflare purge cache.
+		add_action( 'wp_ajax_wphb_cloudflare_purge_cache', array( $this, 'cloudflare_purge_cache' ) );
+		// Cloudflare recheck zones.
+		add_action( 'wp_ajax_wphb_cloudflare_recheck_zones', array( $this, 'cloudflare_recheck_zones' ) );
 
 		/* CACHE SETTINGS */
 
@@ -302,7 +283,7 @@ class AJAX {
 
 			// Page cache is disabled in modules... Oh well, force manual purge.
 			if ( ! in_array( 'page_cache', $modules, true ) ) {
-				Opcache::get_instance()->purge_cache( '' );
+				Opcache::get_instance()->purge_cache();
 			}
 		}
 
@@ -355,6 +336,19 @@ class AJAX {
 		check_ajax_referer( 'wphb-fetch' );
 
 		update_option( 'wphb-hide-tutorials', true, false );
+
+		wp_send_json_success();
+	}
+
+	/**
+	 * Hide Black Friday notice.
+	 *
+	 * @since 3.1.3
+	 */
+	public function hide_black_friday() {
+		check_ajax_referer( 'wphb-fetch', 'nonce' );
+
+		delete_site_option( 'wphb-show-black-friday' );
 
 		wp_send_json_success();
 	}
@@ -728,7 +722,7 @@ class AJAX {
 		}
 
 		// Clear cache interval. Only update, when option is enabled.
-		$settings['clear_interval']['enabled'] = isset( $data['clear_interval']['enabled'] ) ? true : false;
+		$settings['clear_interval']['enabled'] = isset( $data['clear_interval']['enabled'] );
 		if ( 'days' === $data['clear_interval']['period'] ) {
 			$interval = $data['clear_interval']['interval'] * 24;
 		} else {
@@ -803,214 +797,6 @@ class AJAX {
 	}
 
 	/**
-	 * Activate browser caching.
-	 *
-	 * @since 1.9.0
-	 */
-	public function caching_activate() {
-		check_ajax_referer( 'wphb-fetch', 'nonce' );
-
-		if ( ! current_user_can( Utils::get_admin_capability() ) ) {
-			die();
-		}
-
-		// Enable caching in .htaccess (only for apache servers).
-		$result = Module_Server::save_htaccess( 'caching' );
-		if ( $result ) {
-			// Clear saved status.
-			Utils::get_module( 'caching' )->clear_cache();
-			wp_send_json_success(
-				array(
-					'success' => true,
-				)
-			);
-		}
-
-		wp_send_json_error();
-	}
-
-	/**
-	 * Re-check browser expiry button clicked.
-	 *
-	 * @since 1.9.0
-	 */
-	public function caching_recheck_expiry() {
-		check_ajax_referer( 'wphb-fetch', 'nonce' );
-
-		if ( ! current_user_can( Utils::get_admin_capability() ) ) {
-			die();
-		}
-
-		$module = Utils::get_module( 'caching' );
-
-		$cf_module = Utils::get_module( 'cloudflare' );
-		// See if we have Cloudflare connected.
-		if ( $cf_module->is_connected() && $cf_module->is_zone_selected() ) {
-			$expiration = $cf_module->get_caching_expiration( true );
-			// Fill the report with values from Cloudflare.
-			$values = array_fill_keys( array_keys( $module->get_types() ), $expiration );
-		} else {
-			// If not - try to get values from header analysis.
-			$module->get_analysis_data( true, true );
-			$values = $module->status;
-		}
-
-		$expiry_values = array_map( array( 'Hummingbird\\Core\\Utils', 'human_read_time_diff' ), $values );
-
-		wp_send_json_success(
-			array(
-				'success'       => true,
-				'expiry_values' => $expiry_values,
-			)
-		);
-	}
-
-	/**
-	 * Set expiration for browser caching.
-	 */
-	public function caching_set_expiration() {
-		check_ajax_referer( 'wphb-fetch', 'nonce' );
-
-		if ( ! current_user_can( Utils::get_admin_capability() ) || ! isset( $_POST['expiry_times'] ) ) { // Input var okay.
-			die();
-		}
-
-		$sanitized_expiry_times                      = array();
-		$sanitized_expiry_times['expiry_javascript'] = sanitize_text_field( wp_unslash( $_POST['expiry_times']['expiry_javascript'] ) ); // Input var ok.
-		$sanitized_expiry_times['expiry_css']        = sanitize_text_field( wp_unslash( $_POST['expiry_times']['expiry_css'] ) ); // Input var ok.
-		$sanitized_expiry_times['expiry_media']      = sanitize_text_field( wp_unslash( $_POST['expiry_times']['expiry_media'] ) ); // Input var ok.
-		$sanitized_expiry_times['expiry_images']     = sanitize_text_field( wp_unslash( $_POST['expiry_times']['expiry_images'] ) ); // Input var ok.
-
-		$caching = Utils::get_module( 'caching' );
-
-		$frequencies = $caching::get_frequencies();
-
-		foreach ( $sanitized_expiry_times as $value ) {
-			if ( ! isset( $frequencies[ $value ] ) ) {
-				die();
-			}
-		}
-
-		$options                      = $caching->get_options();
-		$options['expiry_css']        = $sanitized_expiry_times['expiry_css'];
-		$options['expiry_javascript'] = $sanitized_expiry_times['expiry_javascript'];
-		$options['expiry_media']      = $sanitized_expiry_times['expiry_media'];
-		$options['expiry_images']     = $sanitized_expiry_times['expiry_images'];
-		$caching->update_options( $options );
-
-		/**
-		 * Pass in caching type and value into a custom function.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param array $args {
-		 *     Array of selected type and value.
-		 *
-		 *     @type string $type                   Type of cached data, can be one of following:
-		 *                                          `javascript`, `css`, `media` or `images`.
-		 *     @type array  $sanitized_expiry_times Set expiry values (for example, 1h/A3600), first part can be:
-		 *                                          `[n]h` for [n] hours (for example, 1h, 4h, 11h, etc),
-		 *                                          `[n]d` for [n] days (for example, 1d, 4d, 11d, etc),
-		 *                                          `[n]M` for [n] months (for example, 1M, 4M, 11M, etc),
-		 *                                          `[n]y` for [n] years (for example, 1y, 4y, 11y, etc),
-		 *                                          second part is the first part in seconds ( 1 hour = 3600 sec).
-		 * }
-		 */
-		do_action(
-			'wphb_caching_set_expiration',
-			array(
-				'expiry_times' => $sanitized_expiry_times,
-			)
-		);
-
-		wp_send_json_success();
-	}
-
-	/**
-	 * Set server type.
-	 */
-	public function caching_set_server_type() {
-		check_ajax_referer( 'wphb-fetch', 'nonce' );
-
-		if ( ! current_user_can( Utils::get_admin_capability() ) || ! isset( $_POST['value'] ) ) { // Input var okay.
-			die();
-		}
-
-		$value = sanitize_text_field( wp_unslash( $_POST['value'] ) ); // Input var okay.
-
-		if ( ! array_key_exists( $value, Module_Server::get_servers() ) ) {
-			wp_send_json_error();
-		}
-
-		wp_send_json_success();
-	}
-
-	/**
-	 * Reload snippet after new expiration interval has been selected.
-	 */
-	public function caching_reload_snippet() {
-		check_ajax_referer( 'wphb-fetch', 'nonce' );
-
-		if ( ! current_user_can( Utils::get_admin_capability() ) ) {
-			die();
-		}
-
-		if ( ! isset( $_POST['type'] ) || ! isset( $_POST['expiry_times'] ) ) { // Input var okay.
-			die();
-		}
-
-		$cloudflare = Utils::get_module( 'cloudflare' );
-
-		$type = sanitize_text_field( wp_unslash( $_POST['type'] ) ); // Input var okay.
-		// Check if Clouflare value (array won't exist).
-		if ( ! strpos( wp_unslash( $_POST['expiry_times']['expiry_javascript'] ), '/A' ) ) { // Input var ok.
-			// Convert to readable value.
-			$frequency                                   = $cloudflare->convert_frequency( (int) $_POST['expiry_times']['expiry_javascript'] ); // Input var ok.
-			$sanitized_expiry_times                      = array();
-			$sanitized_expiry_times['expiry_javascript'] = $frequency;
-			$sanitized_expiry_times['expiry_css']        = $frequency;
-			$sanitized_expiry_times['expiry_media']      = $frequency;
-			$sanitized_expiry_times['expiry_images']     = $frequency;
-		} else {
-			$sanitized_expiry_times                      = array();
-			$sanitized_expiry_times['expiry_javascript'] = sanitize_text_field( wp_unslash( $_POST['expiry_times']['expiry_javascript'] ) ); // Input var ok.
-			$sanitized_expiry_times['expiry_css']        = sanitize_text_field( wp_unslash( $_POST['expiry_times']['expiry_css'] ) ); // Input var ok.
-			$sanitized_expiry_times['expiry_media']      = sanitize_text_field( wp_unslash( $_POST['expiry_times']['expiry_media'] ) ); // Input var ok.
-			$sanitized_expiry_times['expiry_images']     = sanitize_text_field( wp_unslash( $_POST['expiry_times']['expiry_images'] ) ); // Input var ok.
-		}
-
-		$code = Module_Server::get_code_snippet( 'caching', $type, $sanitized_expiry_times );
-
-		wp_send_json_success(
-			array(
-				'type' => $type,
-				'code' => $code,
-			)
-		);
-	}
-
-	/**
-	 * Update htaccess file.
-	 *
-	 * @since 1.9.0
-	 */
-	public function caching_update_htaccess() {
-		check_ajax_referer( 'wphb-fetch', 'nonce' );
-
-		if ( ! current_user_can( Utils::get_admin_capability() ) ) {
-			die();
-		}
-
-		Module_Server::unsave_htaccess( 'caching' );
-
-		wp_send_json_success(
-			array(
-				'success' => Module_Server::save_htaccess( 'caching' ),
-			)
-		);
-	}
-
-	/**
 	 * Connect to Cloudflare.
 	 *
 	 * @since 3.0.0
@@ -1077,31 +863,6 @@ class AJAX {
 		}
 
 		wp_send_json_success();
-	}
-
-	/**
-	 * Set expiration for Cloudflare cache.
-	 */
-	public function cloudflare_set_expiry() {
-		check_ajax_referer( 'wphb-fetch', 'nonce' );
-
-		if ( ! current_user_can( Utils::get_admin_capability() ) || ! isset( $_POST['value'] ) ) { // Input var okay.
-			die();
-		}
-
-		$value = absint( $_POST['value'] ); // Input var ok.
-
-		$result = Utils::get_module( 'cloudflare' )->set_caching_expiration( $value );
-		if ( is_wp_error( $result ) ) {
-			wp_send_json_error();
-			return;
-		}
-
-		wp_send_json_success(
-			array(
-				'success' => true,
-			)
-		);
 	}
 
 	/**
@@ -1557,7 +1318,7 @@ class AJAX {
 			die();
 		}
 
-		wp_parse_str( sanitize_text_field( wp_unslash( $_POST['settings'] ) ), $form );
+		wp_parse_str( sanitize_text_field( wp_unslash( urldecode( $_POST['settings'] ) ) ), $form );
 
 		if ( isset( $form['enabled'] ) && 'super-admins' !== $form['enabled'] ) {
 			$form['enabled'] = (bool) $form['enabled'];
@@ -1566,8 +1327,9 @@ class AJAX {
 		$minify  = Utils::get_module( 'minify' );
 		$options = $minify->get_options();
 
-		$options['use_cdn'] = isset( $form['use_cdn'] ) ? (bool) $form['use_cdn'] : false;
-		$options['log']     = isset( $form['log'] ) ? (bool) $form['log'] : false;
+		$options['use_cdn']   = isset( $form['use_cdn'] ) && $form['use_cdn'];
+		$options['log']       = isset( $form['log'] ) && $form['log'];
+		$options['file_path'] = isset( $form['file_path'] ) ? htmlspecialchars( $form['file_path'] ) : '';
 
 		$minify->update_options( $options );
 		if ( ! isset( $form['network'] ) ) {
@@ -1688,7 +1450,7 @@ class AJAX {
 		wp_send_json_success(
 			array(
 				/* translators: %d: number of database entries */
-				'message' => sprintf( __( '<strong>%d database entries</strong> were deleted successfully.', 'wphb' ), $removed['items'] ),
+				'message' => sprintf( __( '%d database entries were deleted successfully.', 'wphb' ), $removed['items'] ),
 				'left'    => $removed['left'],
 			)
 		);
@@ -1741,27 +1503,6 @@ class AJAX {
 			if ( isset( $data['preconnect_strings'] ) && ! empty( $data['preconnect_strings'] ) ) {
 				$options['preconnect'] = preg_split( '/[\r\n\t]+/', $data['preconnect_strings'] );
 			}
-		}
-
-		// Database cleanup settings tab.
-		if ( 'advanced-db-settings' === $form ) {
-			$tables = array(
-				'revisions'          => isset( $data['revisions'] ) && 'on' === $data['revisions'],
-				'drafts'             => isset( $data['drafts'] ) && 'on' === $data['drafts'],
-				'trash'              => isset( $data['trash'] ) && 'on' === $data['trash'],
-				'spam'               => isset( $data['spam'] ) && 'on' === $data['spam'],
-				'trash_comment'      => isset( $data['trash_comment'] ) && 'on' === $data['trash_comment'],
-				'expired_transients' => isset( $data['expired_transients'] ) && 'on' === $data['expired_transients'],
-				'transients'         => isset( $data['transients'] ) && 'on' === $data['transients'],
-			);
-
-			$options['db_cleanups'] = false;
-			if ( isset( $data['scheduled_cleanup'] ) && 'on' === $data['scheduled_cleanup'] ) {
-				$options['db_cleanups'] = true;
-			}
-
-			$options['db_frequency'] = absint( $data['cleanup_frequency'] );
-			$options['db_tables']    = $tables;
 		}
 
 		// Lazy load tab.

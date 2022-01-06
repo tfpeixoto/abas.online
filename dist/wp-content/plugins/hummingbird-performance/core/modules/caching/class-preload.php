@@ -41,7 +41,7 @@ class Preload extends Background_Process {
 	 *
 	 * @param mixed $item  Queue item to iterate over.
 	 *
-	 * @return mixed
+	 * @return bool
 	 */
 	protected function task( $item ) {
 		$args = array(

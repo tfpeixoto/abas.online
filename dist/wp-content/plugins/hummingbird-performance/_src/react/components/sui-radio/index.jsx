@@ -7,8 +7,14 @@ import classNames from 'classnames';
 /**
  * Radio functional component.
  *
- * @param {string} message  Notice message.
- * @return {*} Radio component.
+ * @param {Object}  props          Component props.
+ * @param {string}  props.text     Input text (label).
+ * @param {string}  props.id       Input ID.
+ * @param {string}  props.name     Input name.
+ * @param {string}  props.value    Input value.
+ * @param {boolean} props.checked  Checked status.
+ * @param {Object}  props.onChange Callback for onChange action.
+ * @return {JSX.Element} Radio component.
  * @class
  */
 export default function Radio( { text, id, name, value, checked = false, onChange } ) {

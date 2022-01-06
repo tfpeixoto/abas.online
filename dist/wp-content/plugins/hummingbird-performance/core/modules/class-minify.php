@@ -144,7 +144,7 @@ class Minify extends Module {
 	}
 
 	/**
-	 * Delete files attached to a minify group.
+	 * Delete files attached to a `minify` group.
 	 *
 	 * @param int $post_id  Post ID.
 	 */
@@ -202,7 +202,7 @@ class Minify extends Module {
 	}
 
 	/**
-	 * Disable module on login pages. Fixes conflicts with Defender masked login and LoginPress.
+	 * Disable module on login pages. Fix conflicts with Defender masked login and LoginPress.
 	 *
 	 * @since 2.7.1
 	 */
@@ -307,7 +307,7 @@ class Minify extends Module {
 
 		$return_to_wp = array();
 
-		// Collect the handles information to use in admin later.
+		// Collect handles information to use in admin later.
 		foreach ( $handles as $key => $handle ) {
 			/**
 			 * Not registered for some reason - return to WP.
@@ -411,7 +411,7 @@ class Minify extends Module {
 				$group->enqueue( self::is_in_footer(), $deps );
 				$return_to_wp = array_merge( $return_to_wp, array( $group->group_id ) );
 			} else {
-				// The group has not yet a file attached or it cannot be processed for some reason.
+				// The group has not yet a file attached, or it cannot be processed for some reason.
 				foreach ( $group->get_handles() as $handle ) {
 					$group->enqueue_one_handle( $handle, self::is_in_footer(), $deps );
 					$return_to_wp = array_merge( $return_to_wp, array( $handle ) );
@@ -527,7 +527,7 @@ class Minify extends Module {
 		$handles = $group->get_handles();
 
 		// Here we'll save sources that don't need to be minified/combine/deferred...
-		// Then we'll extract those handles from the group and we'll create
+		// Then we'll extract those handles from the group, and we'll create
 		// a new group for them keeping the groups order.
 		$group_todos = array();
 		foreach ( $handles as $handle ) {
@@ -671,7 +671,7 @@ class Minify extends Module {
 				$new_group->set_args( $registered_dependency->args );
 
 				/**
-				 * A little bit of explanation behind this. Originally, we were only checking to see if the
+				 * A bit of explanation behind this. Originally, we were only checking to see if the
 				 * $registered_dependency->src was present. But at some point there were conflicts with themes/plugins
 				 * that were enqueueing an asset with an empty source (just to inline something). That was first noticed
 				 * with WP core mediaelement, with a fix introduced in 2.0. Then later on in 2.0.1 this lead to a more
@@ -694,7 +694,7 @@ class Minify extends Module {
 			} else {
 				end( $groups );
 				$last_key = key( $groups );
-				$groups[ $last_key ]->add_handle( $handle, $registered_dependency->src );
+				$groups[ $last_key ]->add_handle( $handle, $registered_dependency->src, $registered_dependency->ver );
 				// Add dependencies.
 				$groups[ $last_key ]->add_handle_dependency( $handle, $registered_dependency->deps );
 				reset( $groups );
@@ -851,7 +851,7 @@ class Minify extends Module {
 	 * Trigger the action to process the queue
 	 */
 	public function trigger_process_queue_cron() {
-		// Trigger que the queue through WP CRON so we don't waste load time.
+		// Trigger the queue through WP CRON, so we don't waste load time.
 		$this->sources_collector->save_collection();
 
 		$queue = $this->get_queue_to_process();
@@ -945,33 +945,36 @@ class Minify extends Module {
 	}
 
 	/**
-	 * Save a list of groups to a persistent option in database
+	 * Save a list of groups to a persistent option in database.
 	 *
-	 * If a timeout happens during groups processing, we won't loose
-	 * the data needed to process the rest of groups
+	 * If a timeout happens during groups processing, we won't lose the data needed to process the rest of groups.
 	 *
 	 * @param array $items  Array of items.
 	 */
 	private function add_items_to_persistent_queue( $items ) {
+		// Nothing to be added.
 		if ( empty( $items ) ) {
-			// Nothing to be added.
 			return;
 		}
+
 		$current_queue = $this->get_pending_persistent_queue();
 		if ( empty( $current_queue ) ) {
 			update_option( 'wphb_process_queue', $items );
-		} else {
-			$updated              = false;
-			$current_queue_hashes = wp_list_pluck( $current_queue, 'hash' );
-			foreach ( $items as $item ) {
-				if ( ! in_array( $item->hash, $current_queue_hashes, true ) ) {
-					$updated         = true;
-					$current_queue[] = $item;
-				}
+			return;
+		}
+
+		$updated = false;
+
+		$current_queue_hashes = wp_list_pluck( $current_queue, 'hash' );
+		foreach ( $items as $item ) {
+			if ( ! in_array( $item->hash, $current_queue_hashes, true ) ) {
+				$updated         = true;
+				$current_queue[] = $item;
 			}
-			if ( $updated ) {
-				update_option( 'wphb_process_queue', $current_queue );
-			}
+		}
+
+		if ( $updated ) {
+			update_option( 'wphb_process_queue', $current_queue );
 		}
 	}
 
@@ -1658,7 +1661,7 @@ class Minify extends Module {
 		}
 
 		$fonts  = '<link rel="preload" as="style" href="' . $href . '" />';
-		$fonts .= str_replace( "media='all'", "media='print' onload='this.media=\"all\"'", $tag );
+		$fonts .= str_replace( "media='all'", "media='print' onload='this.media=&#34;all&#34;'", $tag );
 
 		return $fonts;
 	}

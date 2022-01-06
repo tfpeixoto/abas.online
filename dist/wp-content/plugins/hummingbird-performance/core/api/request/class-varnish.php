@@ -32,7 +32,7 @@ class Varnish extends Request {
 	 *
 	 * @param string $path  Path.
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	public function get_api_url( $path = '' ) {
 		return get_option( 'home' ) . $path;

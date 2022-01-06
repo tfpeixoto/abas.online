@@ -96,7 +96,7 @@ if ( 0 === $page_comments && 'newest' === $comments_page_order && 1 === $cpage )
 		<?php
 	}
 	?>
-	<style type="text/css">
+	<style>
 		#wphb-load-comments-spinner-wrap{
 			text-align: center;
 			margin: 10px auto;

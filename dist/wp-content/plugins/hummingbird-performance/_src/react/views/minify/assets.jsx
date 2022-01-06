@@ -223,16 +223,12 @@ export default class Assets extends React.Component {
 			{
 				title: __( 'Automatic', 'wphb' ),
 				id: 'wphb-ao-auto',
-				name: 'asset_optimization_mode',
-				value: 'auto',
-				checked: true,
+				active: true,
 			},
 			{
 				title: __( 'Manual', 'wphb' ),
 				id: 'wphb-ao-manual',
-				name: 'asset_optimization_mode',
-				value: 'manual',
-				onChange: this.onManualClick,
+				onClick: this.onManualClick,
 			},
 		];
 

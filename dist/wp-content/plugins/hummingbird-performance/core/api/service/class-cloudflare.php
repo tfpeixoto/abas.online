@@ -8,6 +8,7 @@
 namespace Hummingbird\Core\Api\Service;
 
 use Hummingbird\Core\Api\Exception;
+use Hummingbird\Core\Settings;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -45,7 +46,7 @@ class Cloudflare extends Service {
 	 * @since 3.1.0
 	 */
 	public function refresh_auth() {
-		$settings = \Hummingbird\Core\Settings::get_settings( 'cloudflare' );
+		$settings = Settings::get_settings( 'cloudflare' );
 
 		if ( ! isset( $settings['api_key'] ) || empty( $settings['api_key'] ) ) {
 			return;
@@ -94,7 +95,7 @@ class Cloudflare extends Service {
 	 * @return array|mixed|object|WP_Error
 	 */
 	public function get_page_rules_list( $zone ) {
-		return $this->request->get( "zones/{$zone}/pagerules" );
+		return $this->request->get( "zones/$zone/pagerules" );
 	}
 
 	/**
@@ -116,7 +117,7 @@ class Cloudflare extends Service {
 			'status'   => $status,
 		);
 
-		return $this->request->post( "zones/{$zone}/pagerules", wp_json_encode( $data ) );
+		return $this->request->post( "zones/$zone/pagerules", wp_json_encode( $data ) );
 	}
 
 	/**
@@ -139,7 +140,7 @@ class Cloudflare extends Service {
 			'status'   => $status,
 		);
 
-		return $this->request->patch( "zones/{$zone}/pagerules/{$id}", wp_json_encode( $data ) );
+		return $this->request->patch( "zones/$zone/pagerules/$id", wp_json_encode( $data ) );
 	}
 
 	/**
@@ -151,7 +152,7 @@ class Cloudflare extends Service {
 	 * @return array|mixed|object|WP_Error
 	 */
 	public function delete_page_rule( $id, $zone ) {
-		return $this->request->delete( "zones/{$zone}/pagerules/{$id}" );
+		return $this->request->delete( "zones/$zone/pagerules/$id" );
 	}
 
 	/**
@@ -166,7 +167,7 @@ class Cloudflare extends Service {
 		$data = array(
 			'value' => $value,
 		);
-		return $this->request->patch( "zones/{$zone}/settings/browser_cache_ttl", wp_json_encode( $data ) );
+		return $this->request->patch( "zones/$zone/settings/browser_cache_ttl", wp_json_encode( $data ) );
 	}
 
 	/**
@@ -177,7 +178,7 @@ class Cloudflare extends Service {
 	 * @return array|mixed|object|WP_Error
 	 */
 	public function get_caching_expiration( $zone ) {
-		return $this->request->get( "zones/{$zone}/settings/browser_cache_ttl" );
+		return $this->request->get( "zones/$zone/settings/browser_cache_ttl" );
 	}
 
 	/**
@@ -189,7 +190,7 @@ class Cloudflare extends Service {
 	 */
 	public function purge_cache( $zone ) {
 		return $this->request->delete(
-			"zones/{$zone}/purge_cache",
+			"zones/$zone/purge_cache",
 			wp_json_encode(
 				array(
 					'purge_everything' => true,
@@ -254,17 +255,17 @@ class Cloudflare extends Service {
 	 * @param array $value {
 	 *     An array of properties.
 	 *
-	 *     @type bool  $enabled               Indicates whether or not APO is enabled.
+	 *     @type bool  $enabled               Indicates whether APO is enabled.
 	 *                                        Default 'false'. Accepts 'true', 'false'.
-	 *     @type bool  $cf                    Indicates whether or not Cloudflare proxy is enabled.
+	 *     @type bool  $cf                    Indicates whether Cloudflare proxy is enabled.
 	 *                                        Default 'false'. Accepts 'true', 'false'.
-	 *     @type bool  $wordpress             Indicates whether or not site is powered by WordPress.
+	 *     @type bool  $wordpress             Indicates whether site is powered by WordPress.
 	 *                                        Default 'false'. Accepts 'true', 'false'.
-	 *     @type bool  $wp_plugin             Indicates whether or not Hummingbird plugin is installed.
+	 *     @type bool  $wp_plugin             Indicates whether Hummingbird plugin is installed.
 	 *                                        Default 'false'. Accepts 'true', 'false'.
 	 *     @type array $hostnames             An array of hostnames where Automatic Platform Optimization for WordPress is activated.
 	 *                                        Default 'null'.
-	 *     @type bool  $cache_by_device_type  Indicates whether or not Cache by Device Type is enabled.
+	 *     @type bool  $cache_by_device_type  Indicates whether Cache by Device Type is enabled.
 	 *                                        Default 'null'. Accepts 'true', 'false'.
 	 * }
 	 *

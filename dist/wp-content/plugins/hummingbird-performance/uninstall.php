@@ -61,6 +61,7 @@ if ( $settings['remove_settings'] ) {
 	delete_site_option( 'wphb-cloudflare-dash-notice' ); // network wide.
 	delete_site_option( 'wphb-notice-free-deactivated-dismissed' );
 	delete_site_option( 'wphb-notice-free-deactivated-show' );
+	delete_site_option( 'wphb-show-black-friday' );
 	// Asset optimization notices.
 	delete_option( 'wphb-notice-http2-info-show' );
 	delete_option( 'wphb-notice-minification-optimized-show' );
@@ -70,6 +71,7 @@ if ( $settings['remove_settings'] ) {
 	// Clean all cron.
 	wp_clear_scheduled_hook( 'wphb_performance_report' );
 	wp_clear_scheduled_hook( 'wphb_uptime_report' );
+	wp_clear_scheduled_hook( 'wphb_database_report' );
 	if ( wp_next_scheduled( 'wphb_minify_clear_files' ) ) {
 		wp_clear_scheduled_hook( 'wphb_minify_clear_files' );
 	}

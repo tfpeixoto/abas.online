@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit2edf6c0d76d0c31c573da2d867f99461
+class ComposerStaticInit8a276389ac47902891e8d3faa372b77e
 {
     public static $prefixLengthsPsr4 = array (
         'P' => 
@@ -46,6 +46,7 @@ class ComposerStaticInit2edf6c0d76d0c31c573da2d867f99461
         'Hummingbird\\Admin\\Pages\\Caching' => __DIR__ . '/../..' . '/admin/pages/class-caching.php',
         'Hummingbird\\Admin\\Pages\\Dashboard' => __DIR__ . '/../..' . '/admin/pages/class-dashboard.php',
         'Hummingbird\\Admin\\Pages\\Minification' => __DIR__ . '/../..' . '/admin/pages/class-minification.php',
+        'Hummingbird\\Admin\\Pages\\Notifications' => __DIR__ . '/../..' . '/admin/pages/class-notifications.php',
         'Hummingbird\\Admin\\Pages\\Performance' => __DIR__ . '/../..' . '/admin/pages/class-performance.php',
         'Hummingbird\\Admin\\Pages\\React\\Gzip' => __DIR__ . '/../..' . '/admin/pages/react/class-gzip.php',
         'Hummingbird\\Admin\\Pages\\React\\Tutorials' => __DIR__ . '/../..' . '/admin/pages/react/class-tutorials.php',
@@ -104,10 +105,11 @@ class ComposerStaticInit2edf6c0d76d0c31c573da2d867f99461
         'Hummingbird\\Core\\Modules\\Rss' => __DIR__ . '/../..' . '/core/modules/class-rss.php',
         'Hummingbird\\Core\\Modules\\Uptime' => __DIR__ . '/../..' . '/core/modules/class-uptime.php',
         'Hummingbird\\Core\\Pro\\Admin\\Pro_Admin' => __DIR__ . '/../..' . '/core/pro/admin/class-pro-admin.php',
-        'Hummingbird\\Core\\Pro\\Modules\\Cleanup_Cron' => __DIR__ . '/../..' . '/core/pro/modules/class-cleanup-cron.php',
-        'Hummingbird\\Core\\Pro\\Modules\\Reporting_Cron' => __DIR__ . '/../..' . '/core/pro/modules/class-reporting-cron.php',
+        'Hummingbird\\Core\\Pro\\Modules\\Notifications' => __DIR__ . '/../..' . '/core/pro/modules/class-notifications.php',
         'Hummingbird\\Core\\Pro\\Modules\\Reports' => __DIR__ . '/../..' . '/core/pro/modules/class-reports.php',
-        'Hummingbird\\Core\\Pro\\Modules\\Uptime_Reports' => __DIR__ . '/../..' . '/core/pro/modules/class-uptime-reports.php',
+        'Hummingbird\\Core\\Pro\\Modules\\Reports_Database' => __DIR__ . '/../..' . '/core/pro/modules/class-reports-database.php',
+        'Hummingbird\\Core\\Pro\\Modules\\Reports_Performance' => __DIR__ . '/../..' . '/core/pro/modules/class-reports-performance.php',
+        'Hummingbird\\Core\\Pro\\Modules\\Reports_Uptime' => __DIR__ . '/../..' . '/core/pro/modules/class-reports-uptime.php',
         'Hummingbird\\Core\\Pro\\Pro' => __DIR__ . '/../..' . '/core/pro/class-pro.php',
         'Hummingbird\\Core\\Pro\\Pro_AJAX' => __DIR__ . '/../..' . '/core/pro/class-pro-ajax.php',
         'Hummingbird\\Core\\Settings' => __DIR__ . '/../..' . '/core/class-settings.php',
@@ -391,9 +393,9 @@ class ComposerStaticInit2edf6c0d76d0c31c573da2d867f99461
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit2edf6c0d76d0c31c573da2d867f99461::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit2edf6c0d76d0c31c573da2d867f99461::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit2edf6c0d76d0c31c573da2d867f99461::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit8a276389ac47902891e8d3faa372b77e::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit8a276389ac47902891e8d3faa372b77e::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit8a276389ac47902891e8d3faa372b77e::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -22,18 +22,19 @@ function Fetcher() {
 	 * Request ajax with a promise.
 	 * Use FormData Object as data if you need to upload file
 	 *
-	 * @param {string} action
-	 * @param {Object} or {FormData Object} data
-	 * @param {string} method
+	 * @param {string}          action
+	 * @param {Object|FormData} data
+	 * @param {string}          method
 	 * @return {Promise<any>} Request results.
 	 */
 	function request( action, data = {}, method = 'GET' ) {
 		const args = {
-			url 	: fetchUrl,
-			method 	: method,
-			cache 	: false
+			url: fetchUrl,
+			method,
+			cache: false
 		};
-		if( data instanceof FormData ) {
+
+		if ( data instanceof FormData ) {
 			data.append( 'nonce', fetchNonce );
 			data.append( 'action', action );
 			args.contentType = false;
@@ -59,7 +60,7 @@ function Fetcher() {
 			 *
 			 * @since 1.9.0
 			 * @param {string} module
-			 * @param {string} data  Serialized form data.
+			 * @param {string} data   Serialized form data.
 			 */
 			saveSettings: ( module, data ) => {
 				return request(
@@ -81,50 +82,6 @@ function Fetcher() {
 				return request(
 					actionPrefix + 'clear_module_cache',
 					{ module },
-					'POST'
-				).then( ( response ) => {
-					return response;
-				} );
-			},
-
-			/**
-			 * Set expiration for browser caching.
-			 *
-			 * @param {Object} expiry_times Type expiry times.
-			 */
-			setExpiration: ( expiry_times ) => {
-				return request(
-					actionPrefix + 'caching_set_expiration',
-					{ expiry_times },
-					'POST'
-				).then( ( response ) => {
-					return response;
-				} );
-			},
-
-			/**
-			 * Set server type.
-			 *
-			 * @param {string} value Server type.
-			 */
-			setServer: ( value ) => {
-				return request(
-					actionPrefix + 'caching_set_server_type',
-					{ value },
-					'POST'
-				);
-			},
-
-			/**
-			 * Reload snippet.
-			 *
-			 * @param {string} type Server type.
-			 * @param {Object} expiry_times Type expiry times.
-			 */
-			reloadSnippets: ( type, expiry_times ) => {
-				return request(
-					actionPrefix + 'caching_reload_snippet',
-					{ type, expiry_times },
 					'POST'
 				).then( ( response ) => {
 					return response;
@@ -216,19 +173,6 @@ function Fetcher() {
 				).then( ( response ) => {
 					return response;
 				} );
-			},
-
-			/**
-			 * Set expiry for Cloudflare cache.
-			 *
-			 * @param {Object} value Expiry value.
-			 */
-			setExpiration: ( value ) => {
-				return request(
-					actionPrefix + 'cloudflare_set_expiry',
-					{ value },
-					'POST'
-				);
 			},
 		},
 
@@ -390,8 +334,8 @@ function Fetcher() {
 			/**
 			 * Save settings from advanced tools general and db cleanup sections.
 			 *
-			 * @param {string} data  Type.
-			 * @param {string} form  Serialized form.
+			 * @param {string} data Type.
+			 * @param {string} form Serialized form.
 			 */
 			saveSettings: ( data, form ) => {
 				const action = actionPrefix + 'advanced_save_settings';
@@ -481,40 +425,6 @@ function Fetcher() {
 		 */
 		common: {
 			/**
-			 * Add recipient for Performance and Uptime reports.
-			 *
-			 * @param {string} module   Module name.
-			 * @param {string} setting  Setting name.
-			 * @param {string} email    Email.
-			 * @param {string} name     User.
-			 */
-			addRecipient: ( module, setting, email, name ) => {
-				const action = actionPrefixPro + 'add_recipient';
-				return request(
-					action,
-					{ module, setting, email, name },
-					'POST'
-				).then( ( response ) => {
-					return response;
-				} );
-			},
-
-			/**
-			 * Save report settings for Performance and Uptime modules.
-			 *
-			 * @param {string} module  Module name.
-			 * @param {Array}  data    From data.
-			 */
-			saveReportsSettings: ( module, data ) => {
-				const action = actionPrefixPro + 'save_report_settings';
-				return request( action, { module, data }, 'POST' ).then(
-					( response ) => {
-						return response;
-					}
-				);
-			},
-
-			/**
 			 * Dismiss notice.
 			 *
 			 * @param {string} id
@@ -532,7 +442,7 @@ function Fetcher() {
 			 *
 			 * @since 1.9.2
 			 *
-			 * @param {string} module  Module slug.
+			 * @param {string} module Module slug.
 			 */
 			clearLogs: ( module ) => {
 				const action = actionPrefix + 'logger_clear';
@@ -561,7 +471,7 @@ function Fetcher() {
 			 * Do a POST request to an AJAX endpoint.
 			 *
 			 * @since 2.5.0
-			 * @param {string} endpoint  AJAX endpoint.
+			 * @param {string} endpoint AJAX endpoint.
 			 */
 			call: ( endpoint ) => {
 				return request( endpoint, {}, 'POST' ).then( ( response ) => {
@@ -574,7 +484,7 @@ function Fetcher() {
 			 *
 			 * @since 2.7.1
 			 *
-			 * @param {Array} modules  List of modules to clear cache for.
+			 * @param {Array} modules List of modules to clear cache for.
 			 */
 			clearCaches: ( modules ) => {
 				const action = actionPrefix + 'clear_caches';
@@ -587,22 +497,99 @@ function Fetcher() {
 		},
 
 		/**
-		 * Uptime actions.
+		 * Notifications module actions.
 		 *
-		 * @since 2.3.0
+		 * @since 3.1.1
 		 */
-		uptime: {
+		notifications: {
 			/**
 			 * Resend email confirmation.
 			 *
 			 * @since 2.3.0
+			 * @since 3.1.1 Moved from uptime module.
 			 *
-			 * @param {string} name   JSON encoded recipient name string.
-			 * @param {string} email  JSON encoded recipient email string.
+			 * @param {string} name  JSON encoded recipient name string.
+			 * @param {string} email JSON encoded recipient email string.
 			 */
 			resendConfirmationEmail: ( name, email ) => {
 				const action = actionPrefixPro + 'resend_confirmation';
 				return request( action, { name, email }, 'POST' ).then(
+					( response ) => {
+						return response;
+					}
+				);
+			},
+
+			/**
+			 * Send email confirmation.
+			 *
+			 * @since 3.1.1
+			 *
+			 * @param {string} name  JSON encoded recipient name string.
+			 * @param {string} email JSON encoded recipient email string.
+			 */
+			sendConfirmationEmail: ( name, email ) => {
+				const action = actionPrefixPro + 'send_confirmation';
+				return request( action, { name, email }, 'POST' ).then(
+					( response ) => {
+						return response;
+					}
+				);
+			},
+
+			/**
+			 * Disable notification.
+			 *
+			 * @since 3.1.1
+			 * @param {string} id
+			 * @param {string} type
+			 */
+			disable: ( id, type ) => {
+				const action = actionPrefixPro + 'disable_notification';
+				return request( action, { id, type }, 'POST' );
+			},
+
+			/**
+			 * Activate/enable notification and save settings.
+			 *
+			 * @since 3.1.1
+			 * @param {Object}  settings Settings object.
+			 * @param {boolean} update   Is this an update of current settings?
+			 *
+			 */
+			enable: ( settings, update = false ) => {
+				const action = actionPrefixPro + 'enable_notification';
+				return request( action, { settings, update }, 'POST' ).then(
+					( response ) => {
+						return response;
+					}
+				);
+			},
+
+			/**
+			 * Get user avatar based on email.
+			 *
+			 * @since 3.1.1
+			 * @param {string} email
+			 */
+			getAvatar: ( email ) => {
+				const action = actionPrefixPro + 'get_avatar';
+				return request( action, { email }, 'POST' ).then(
+					( response ) => {
+						return response;
+					}
+				);
+			},
+
+			/**
+			 * Get users.
+			 *
+			 * @since 3.1.1
+			 * @param {Array} exclude
+			 */
+			getUsers: ( exclude ) => {
+				const action = actionPrefixPro + 'search_users';
+				return request( action, { exclude }, 'POST' ).then(
 					( response ) => {
 						return response;
 					}

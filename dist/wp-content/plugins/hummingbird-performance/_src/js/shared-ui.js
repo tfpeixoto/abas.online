@@ -15,3 +15,4 @@ require( '@wpmudev/shared-ui/dist/js/_src/side-tabs' );
 require( '@wpmudev/shared-ui/dist/js/_src/reviews' );
 require( '@wpmudev/shared-ui/dist/js/_src/sticky-box' );
 require( '@wpmudev/shared-ui/dist/js/_src/password' );
+require( '@wpmudev/shared-ui/dist/js/_src/dropdowns' );

@@ -1,4 +1,8 @@
 .blog__list {
+  
+  article:first-child{
+    margin-top: 0 !important;
+  }
   .blog__image {
     img {
       border-radius: 10px;

@@ -87,7 +87,7 @@ class SiteGround {
 	}
 
 	/**
-	 * Allows to enable/disable switchers in minification page.
+	 * Allows enable/disable switchers in minification page.
 	 *
 	 * @since 2.1.0
 	 *

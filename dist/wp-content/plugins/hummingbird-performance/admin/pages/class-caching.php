@@ -32,15 +32,6 @@ class Caching extends Page {
 	use \Hummingbird\Core\Traits\WPConfig;
 
 	/**
-	 * Current report.
-	 *
-	 * @since  1.5.3
-	 * @var    array $report
-	 * @access private
-	 */
-	private $report;
-
-	/**
 	 * Number of issues.
 	 *
 	 * If Cloudflare is enabled will calculate number of issues for it, if not - number of local issues.
@@ -49,47 +40,6 @@ class Caching extends Page {
 	 * @var   int $issues  Default 0.
 	 */
 	private $issues = 0;
-
-	/**
-	 * Settings expiration values.
-	 *
-	 * @since 1.5.3
-	 * @var   array $expires
-	 */
-	private $expires;
-
-	/**
-	 * Cloudflare module status.
-	 *
-	 * @since  1.5.3
-	 * @var    bool $cloudflare  Default false.
-	 * @access private
-	 */
-	private $cloudflare = false;
-
-	/**
-	 * If site is using Cloudflare.
-	 *
-	 * @since 1.7.1
-	 * @var   bool $cf_server
-	 */
-	private $cf_server = false;
-
-	/**
-	 * Cloudflare expiration value.
-	 *
-	 * @since  1.5.3
-	 * @var    int $expiration Default 0.
-	 * @access private
-	 */
-	private $expiration = 0;
-
-	/**
-	 * If .htaccess is written by the module.
-	 *
-	 * @var bool
-	 */
-	private $htaccess_written = false;
 
 	/**
 	 * Register meta boxes for the page.
@@ -145,20 +95,6 @@ class Caching extends Page {
 				null,
 				'page_cache',
 				array( 'box_content_class' => 'sui-box sui-message' )
-			);
-		}
-
-		/**
-		 * BROWSER CACHING META BOXES.
-		 */
-		if ( ( is_multisite() && ( is_network_admin() || ! is_main_site() ) ) || ! is_multisite() ) {
-			$this->add_meta_box(
-				'caching-settings',
-				__( 'Configure', 'wphb' ),
-				array( $this, 'caching_settings_metabox' ),
-				array( $this, 'caching_settings_metabox_header' ),
-				null,
-				'caching'
 			);
 		}
 
@@ -247,6 +183,11 @@ class Caching extends Page {
 			return;
 		}
 
+		$cloudflare = Utils::get_module( 'cloudflare' )->is_connected() && Utils::get_module( 'cloudflare' )->is_zone_selected();
+		if ( 'caching' === $this->get_current_tab() && is_multisite() && ! is_main_site() && ! $cloudflare ) {
+			return;
+		}
+
 		// Load styles.
 		if ( file_exists( WPHB_DIR_PATH . 'admin/assets/css/wphb-react-' . $this->get_current_tab() . '.min.css' ) ) {
 			wp_enqueue_style(
@@ -295,6 +236,14 @@ class Caching extends Page {
 						'htaccessWritten'  => Module_Server::is_htaccess_written( 'caching' ),
 						'cacheTypes'       => Utils::get_module( 'caching' )->get_types(),
 						'recommended'      => Utils::get_module( 'caching' )->get_recommended_caching_values(),
+						'detectedServer'   => Module_Server::get_server_type(),
+						'frequencies'      => \Hummingbird\Core\Modules\Caching::get_frequencies(),
+						'frequenciesCF'    => Cloudflare::get_frequencies(),
+						'snippets'         => array(
+							'apache' => Module_Server::get_code_snippet( 'caching', 'apache' ),
+							'nginx'  => Module_Server::get_code_snippet( 'caching', 'nginx' ),
+							'iis'    => Module_Server::get_code_snippet( 'caching', 'iis' ),
+						),
 					),
 				)
 			);
@@ -366,6 +315,7 @@ class Caching extends Page {
 				unset( $this->tabs['page_cache'] );
 			}
 
+			unset( $this->tabs['caching'] );
 			unset( $this->tabs['gravatar'] );
 			unset( $this->tabs['rss'] );
 			unset( $this->tabs['settings'] );
@@ -379,8 +329,8 @@ class Caching extends Page {
 	 * - Both action and module vars are defined;
 	 * - Action is available as a methods in a selected module.
 	 *
-	 * Currently used actions: enable, disable, disconnect.
-	 * Currently supported modules: page_cache, caching, cloudflare, gravatar, rss.
+	 * Used actions: enable, disable, disconnect.
+	 * Supported modules: page_cache, caching, cloudflare, gravatar, rss.
 	 *
 	 * @since 1.9.0  Moved here from on_load().
 	 */
@@ -407,16 +357,7 @@ class Caching extends Page {
 			call_user_func( array( $mod, $action ) );
 		}
 
-		// Cloudflare module is located on caching page.
-		$module = 'cloudflare' === $module ? $this->get_current_tab() : $module;
-
 		$redirect_url = add_query_arg( array( 'view' => $module ), Utils::get_admin_menu_url( 'caching' ) );
-
-		if ( 'enable' === $action && 'caching' === $module ) {
-			$redirect_url = add_query_arg( array( 'enabled' => true ), $redirect_url );
-		} elseif ( 'disable' === $action && 'caching' === $module ) {
-			$redirect_url = add_query_arg( array( 'disabled' => true ), $redirect_url );
-		}
 		wp_safe_redirect( $redirect_url );
 	}
 
@@ -436,36 +377,11 @@ class Caching extends Page {
 	}
 
 	/**
-	 * Overwrites parent class render_header method.
-	 *
-	 * Renders the template header that is repeated on every page.
-	 * From WPMU DEV Dashboard
-	 */
-	public function render_header() {
-		if ( filter_input( INPUT_GET, 'enabled' ) ) {
-			$this->admin_notices->show_floating( __( 'Browser cache enabled. Your .htaccess file has been updated', 'wphb' ) );
-		} elseif ( filter_input( INPUT_GET, 'disabled' ) ) {
-			$this->admin_notices->show_floating( __( 'Browser cache disabled. Your .htaccess file has been updated', 'wphb' ) );
-		}
-
-		parent::render_header();
-	}
-
-	/**
 	 * Init browser cache settings.
 	 *
 	 * @since 1.8.1
 	 */
 	private function update_cache_status() {
-		$options = Settings::get_settings( 'caching' );
-
-		$this->expires = array(
-			'CSS'        => $options['expiry_css'],
-			'JavaScript' => $options['expiry_javascript'],
-			'Media'      => $options['expiry_media'],
-			'Images'     => $options['expiry_images'],
-		);
-
 		/**
 		 * Check Cloudflare status.
 		 *
@@ -473,26 +389,30 @@ class Caching extends Page {
 		 * Else - we store the local setting in the report variable. That way we don't have to query and check
 		 * later on what report to show to the user.
 		 */
-		$this->cf_server  = Utils::get_module( 'cloudflare' )->has_cloudflare();
-		$this->cloudflare = Utils::get_module( 'cloudflare' )->is_connected() && Utils::get_module( 'cloudflare' )->is_zone_selected();
+		if ( Utils::get_module( 'cloudflare' )->is_connected() && Utils::get_module( 'cloudflare' )->is_zone_selected() ) {
+			$options = Settings::get_settings( 'caching' );
+			$expires = array(
+				'CSS'        => $options['expiry_css'],
+				'JavaScript' => $options['expiry_javascript'],
+				'Media'      => $options['expiry_media'],
+				'Images'     => $options['expiry_images'],
+			);
 
-		if ( $this->cloudflare ) {
-			$this->expiration = Utils::get_module( 'cloudflare' )->get_caching_expiration();
+			$expiration = Utils::get_module( 'cloudflare' )->get_caching_expiration();
 			// Fill the report with values from Cloudflare.
-			$this->report = array_fill_keys( array_keys( $this->expires ), $this->expiration );
+			$report = array_fill_keys( array_keys( $expires ), $expiration );
 			// Get number of issues.
-			if ( YEAR_IN_SECONDS > $this->expiration ) {
-				$this->issues = count( $this->report ) + 1; // One additional issue for Cloudflare.
+			if ( YEAR_IN_SECONDS > $expiration ) {
+				$this->issues = count( $report ) + 1; // One additional issue for Cloudflare.
 			}
 			return;
 		}
 
-		// Get latest local report.
-		$this->report = Utils::get_module( 'caching' )->get_analysis_data();
+		// Get the latest local report.
+		$report = Utils::get_module( 'caching' )->get_analysis_data();
 
 		// Get number of issues.
-		$this->htaccess_written = Module_Server::is_htaccess_written( 'caching' );
-		$this->issues           = Utils::get_number_of_issues( 'caching', $this->report );
+		$this->issues = Utils::get_number_of_issues( 'caching', $report );
 	}
 
 	/**
@@ -523,26 +443,6 @@ class Caching extends Page {
 		} elseif ( isset( $module->error ) && is_wp_error( $module->error ) ) {
 			echo '<span class="sui-icon-warning-alert sui-warning" aria-hidden="true"></span>';
 		}
-	}
-
-	/**
-	 * Check to see if caching is fully enabled.
-	 *
-	 * @access private
-	 * @return bool
-	 */
-	private function is_caching_fully_enabled() {
-		$result_sum  = 0;
-		$recommended = Utils::get_module( 'caching' )->get_recommended_caching_values();
-
-		foreach ( $this->report as $key => $result ) {
-			$key = strtolower( $key );
-			if ( $result >= $recommended[ $key ]['value'] ) {
-				$result_sum++;
-			}
-		}
-
-		return count( $this->report ) === $result_sum;
 	}
 
 	/**
@@ -694,107 +594,6 @@ class Caching extends Page {
 	 */
 	public function page_caching_metabox_footer() {
 		$this->view( 'caching/page/meta-box-footer', array() );
-	}
-
-	/**
-	 * *************************
-	 * BROWSER CACHING
-	 *
-	 * @since forever
-	 ***************************/
-
-	/**
-	 * Display browser caching settings header meta box.
-	 */
-	public function caching_settings_metabox_header() {
-		$this->view(
-			'caching/browser/configure-meta-box-header',
-			array(
-				'title'     => __( 'Configure', 'wphb' ),
-				'cf_active' => Utils::get_module( 'cloudflare' )->is_connected(),
-			)
-		);
-	}
-
-	/**
-	 * Display browser caching settings meta box.
-	 */
-	public function caching_settings_metabox() {
-		$show_cf_notice    = false;
-		$htaccess_writable = Module_Server::is_htaccess_writable();
-		$server_type       = Module_Server::get_server_type();
-
-		// Server code snippets.
-		$snippets = array(
-			'apache' => Module_Server::get_code_snippet( 'caching', 'apache' ),
-			'nginx'  => Module_Server::get_code_snippet( 'caching', 'nginx' ),
-			'iis'    => Module_Server::get_code_snippet( 'caching', 'iis' ),
-		);
-
-		// Default to show Cloudflare or Apache if set up.
-		if ( $this->cloudflare ) {
-			$server_type = 'cloudflare';
-			// Clear cached status.
-			Utils::get_module( 'caching' )->clear_cache();
-		} elseif ( $this->cf_server ) {
-			$server_type = 'cloudflare';
-			$cf_module   = Utils::get_module( 'cloudflare' );
-			if ( ! ( $cf_module->is_active() && $cf_module->is_connected() && $cf_module->is_zone_selected() ) ) {
-				if ( get_site_option( 'wphb-cloudflare-dash-notice' ) && 'dismissed' === get_site_option( 'wphb-cloudflare-dash-notice' ) ) {
-					$show_cf_notice = true;
-				}
-			}
-		} elseif ( $htaccess_writable && $this->htaccess_written ) {
-			$server_type = 'apache';
-		}
-
-		$this->view(
-			'caching/browser/configure-meta-box',
-			array(
-				'results'            => $this->report,
-				'human_results'      => array_map( array( 'Hummingbird\\Core\\Utils', 'human_read_time_diff' ), $this->report ),
-				'expires'            => $this->expires,
-				'different_expiry'   => 1 >= count( array_unique( array_values( $this->expires ) ) ),
-				'server_type'        => $server_type,
-				'snippets'           => $snippets,
-				'htaccess_written'   => $this->htaccess_written,
-				'htaccess_writable'  => $htaccess_writable,
-				'already_enabled'    => $this->is_caching_fully_enabled() && ! $this->htaccess_written,
-				'cf_active'          => $this->cloudflare,
-				'cf_server'          => $this->cf_server,
-				'cf_current'         => $this->expiration,
-				'all_expiry'         => count( array_unique( $this->expires ) ) === 1,
-				'show_cf_notice'     => $show_cf_notice,
-				'recheck_expiry_url' => add_query_arg( 'run', 'true' ),
-				'cf_disable_url'     => wp_nonce_url(
-					add_query_arg(
-						array(
-							'action' => 'disconnect',
-							'module' => 'cloudflare',
-						)
-					),
-					'wphb-caching-actions'
-				),
-				'enable_link'        => wp_nonce_url(
-					add_query_arg(
-						array(
-							'action' => 'enable',
-							'module' => 'caching',
-						)
-					),
-					'wphb-caching-actions'
-				),
-				'disable_link'       => wp_nonce_url(
-					add_query_arg(
-						array(
-							'action' => 'disable',
-							'module' => 'caching',
-						)
-					),
-					'wphb-caching-actions'
-				),
-			)
-		);
 	}
 
 	/**

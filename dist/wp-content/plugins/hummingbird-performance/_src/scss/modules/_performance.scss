@@ -333,37 +333,3 @@
 
     .sui-accordion .sui-accordion-item-header .sui-accordion-open-indicator { margin-left: 30px !important; }
 }
-
-// Reporting.
-
-@include body-class(true) {
-    @include bp(phone) {
-        .sui-form-field.sui-no-margin-bottom.days-container  {
-            padding-bottom: 20px !important;
-        }
-    }
-
-    .box-performance-reporting,
-    .box-settings-summary {
-        .sui-box-settings-col-2 .sui-description {
-            margin: 0 0 10px;
-        }
-    }
-
-    .box-settings-summary {
-        .sui-button.sui-button-ghost {
-            margin-bottom: 10px;
-        }
-    }
-
-    #wphb-performance-reporting .sui-box-settings-row{
-        &.wphb-first-of-type {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom-width: 0;
-        }
-
-        &.sui-hidden { display: none; }
-    }
-
-}

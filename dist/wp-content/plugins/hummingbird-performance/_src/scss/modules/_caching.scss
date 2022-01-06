@@ -118,7 +118,7 @@
         color: #333333;
     }
 }
-.sui-wrap:not(.sui-color-accessible) .box-dashboard-browser-caching-module .sui-upsell-notice p,
+.sui-wrap:not(.sui-color-accessible) .box-dashboard-caching-browser .sui-upsell-notice p,
 .sui-wrap:not(.sui-color-accessible) .box-caching-status .sui-upsell-notice p {
     border-left: 2px solid #17a8e3 !important;
     &:before { color: #17a8e3 !important; }
@@ -127,33 +127,6 @@
         &:hover { color: #fff !important }
     }
     a:not(.sui-button) { color: #17a8e3 !important; }
-}
-
-/**
- * Browser caching configure meta box
- */
-.wpmud .box-caching-settings {
-    .sui-border-frame .sui-form-field {
-        margin-bottom: 10px;
-    }
-
-    .wphb-expiry-changes .update-htaccess {
-        margin-top: 10px;
-    }
-
-    .wphb-server-instructions p,
-    .wphb-server-instructions .wphb-listing li {
-        color: #888888;
-        font-size: 13px;
-        line-height: 22px;
-    }
-    .wphb-server-instructions .sui-notice p {
-        color: #333;
-    }
-
-    .wphb-server-instructions .wphb-listing li {
-        margin-top: 0;
-    }
 }
 
 /**

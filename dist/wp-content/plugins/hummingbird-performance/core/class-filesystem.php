@@ -160,7 +160,7 @@ class Filesystem {
 
 			// You can safely run request_filesystem_credentials() without any issues
 			// and don't need to worry about passing in a URL.
-			$credentials = request_filesystem_credentials( site_url() . '/wp-admin/', '', false, false, null );
+			$credentials = request_filesystem_credentials( site_url() . '/wp-admin/', '', false, false );
 
 			// Initialize the Filesystem API.
 			if ( ! WP_Filesystem( $credentials ) ) {
@@ -302,11 +302,10 @@ class Filesystem {
 			$assets_url = site_url( $rel_path );
 		}
 
-		$info = array(
+		return array(
 			'path' => $assets_path,
 			'url'  => trailingslashit( $assets_url ),
 		);
-		return $info;
 	}
 
 

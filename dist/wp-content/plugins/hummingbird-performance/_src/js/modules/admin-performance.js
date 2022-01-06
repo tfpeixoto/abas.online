@@ -5,7 +5,7 @@
 import Fetcher from '../utils/fetcher';
 import PerfScanner from '../scanners/PerfScanner';
 
-( function ( $ ) {
+( function( $ ) {
 	'use strict';
 	WPHB_Admin.performance = {
 		module: 'performance',
@@ -19,7 +19,7 @@ import PerfScanner from '../scanners/PerfScanner';
 
 			this.wphbSetInterval();
 
-			document.onkeyup = function ( e ) {
+			document.onkeyup = function( e ) {
 				clearInterval( self.key_timer );
 				self.wphbSetInterval();
 				e = e || event;
@@ -43,7 +43,7 @@ import PerfScanner from '../scanners/PerfScanner';
 			this.scanner = new PerfScanner( 100, 0 );
 
 			// Run performance test from empty report meta box.
-			$( '#run-performance-test' ).on( 'click', function ( e ) {
+			$( '#run-performance-test' ).on( 'click', function( e ) {
 				e.preventDefault();
 				self.startPerformanceScan();
 			} );
@@ -66,7 +66,7 @@ import PerfScanner from '../scanners/PerfScanner';
 			}
 
 			// Save performance test settings
-			$( 'body' ).on( 'submit', '.settings-frm', function ( e ) {
+			$( 'body' ).on( 'submit', '.settings-frm', function( e ) {
 				e.preventDefault();
 				const formData = $( this ).serialize();
 
@@ -121,7 +121,7 @@ import PerfScanner from '../scanners/PerfScanner';
 			 *
 			 * @since 2.0.0
 			 */
-			$( 'input[name=subsite-tests]' ).on( 'change', function ( e ) {
+			$( 'input[name=subsite-tests]' ).on( 'change', function( e ) {
 				const otherClass =
 					'subsite_tests-false' === e.target.id
 						? 'subsite_tests-true'
@@ -137,7 +137,7 @@ import PerfScanner from '../scanners/PerfScanner';
 			 *
 			 * @since 2.0.0
 			 */
-			$( 'input[name=report-type]' ).on( 'change', function ( e ) {
+			$( 'input[name=report-type]' ).on( 'change', function( e ) {
 				const divs = document.querySelectorAll(
 					'input[name=report-type]'
 				);
@@ -170,7 +170,7 @@ import PerfScanner from '../scanners/PerfScanner';
 			 *
 			 * @since 3.1.0
 			 */
-			$( '#wphb-audits-filter-button' ).on( 'click', function ( e ) {
+			$( '#wphb-audits-filter-button' ).on( 'click', function( e ) {
 				e.preventDefault();
 				$( '.wphb-audits-filter' ).toggle( 'slow' );
 				$( this ).toggleClass( 'active' ).blur();
@@ -181,7 +181,7 @@ import PerfScanner from '../scanners/PerfScanner';
 			 *
 			 * @since 3.1.0
 			 */
-			$( 'input[name="audits_filter"]' ).on( 'change', function () {
+			$( 'input[name="audits_filter"]' ).on( 'change', function() {
 				const audits = $( '.sui-accordion-item' );
 
 				for ( const [ id, audit ] of Object.entries( audits ) ) {
@@ -219,7 +219,7 @@ import PerfScanner from '../scanners/PerfScanner';
 		wphbSetInterval() {
 			const self = this;
 
-			this.key_timer = window.setInterval( function () {
+			this.key_timer = window.setInterval( function() {
 				// Clean pressedKeys every 1sec
 				self.pressedKeys = [];
 			}, 1000 );
@@ -280,8 +280,8 @@ import PerfScanner from '../scanners/PerfScanner';
 		 *
 		 * @since 2.0.0
 		 *
-		 * @param {string} type   Metrics type. Accepts: fast, average, slow.
-		 * @param {string} value  Tooltip text.
+		 * @param {string} type  Metrics type. Accepts: fast, average, slow.
+		 * @param {string} value Tooltip text.
 		 *
 		 * @return {string} Div element.
 		 */

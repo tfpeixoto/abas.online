@@ -299,7 +299,7 @@ abstract class Request {
 			$args['blocking'] = false;
 		}
 
-		$this->logger->log( "WPHB API: Sending request to {$url}", 'api' );
+		$this->logger->log( "WPHB API: Sending request to $url", 'api' );
 		$this->logger->log( 'WPHB API: Arguments:', 'api' );
 		$this->logger->log( $args, 'api' );
 

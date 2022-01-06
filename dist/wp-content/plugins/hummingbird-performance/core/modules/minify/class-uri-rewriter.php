@@ -67,7 +67,7 @@ class URI_Rewriter {
 	 *
 	 * @param string $path  Path to process.
 	 *
-	 * @return mixed path with no trailing slash
+	 * @return string path with no trailing slash
 	 */
 	protected static function realpath( $path ) {
 		$real_path = realpath( $path );

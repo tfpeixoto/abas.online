@@ -30,8 +30,8 @@ class GzipSummary extends React.Component {
 	 * Generate the status tag for Gzip compression, based on the number of active
 	 * elements (HTML, JavaScrip, CSS).
 	 *
-	 * @param {Object}  status      Gzip compression status object.
-	 * @param {boolean} successTag  On success show a tick tag.
+	 * @param {Object}  status     Gzip compression status object.
+	 * @param {boolean} successTag On success show a tick tag.
 	 * @return {*} Gzip compression status.
 	 */
 	static getStatus( status, successTag = false ) {
@@ -55,7 +55,7 @@ class GzipSummary extends React.Component {
 	/**
 	 * Get an array of failed items.
 	 *
-	 * @param {Object} items  Gzip compression statues.
+	 * @param {Object} items Gzip compression statues.
 	 * @return {Array} Array of items.
 	 */
 	static getFailedItems( items ) {
