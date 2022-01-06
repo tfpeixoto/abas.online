@@ -6,10 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="<?= get_template_directory_uri() . '/images/favicon.png' ?>" type="image/x-icon">
 
-  <?php
-  header("Link: </wp-content/themes/site-2020/css/critical.css>; rel=preload; as=style; crossorigin=anonymous", false);
-  ?>
-
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link rel="preload" href="<?= get_template_directory_uri() . '/webfonts/fa-solid-900.woff' ?>" as="font" type="font/woff2" crossorigin="anonymous">
   <link rel="preload" href="<?= get_template_directory_uri() . '/webfonts/fa-brands-400.woff' ?>" as="font" type="font/woff2" crossorigin="anonymous">

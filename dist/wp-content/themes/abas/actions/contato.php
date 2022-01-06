@@ -19,18 +19,19 @@ if(isset($email)){
 
     try {
         //Server settings
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
-        $mail->isSMTP();                                            //Send using SMTP
-        $mail->Host       = 'smtp-mail.outlook.com';                     //Set the SMTP server to send through
-        $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-        $mail->Username   = 'carlos.mendes@groupsoftware.com.br';                     //SMTP username
-        $mail->Password   = 'gsoft@123';                               //SMTP password
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
-        $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-    
+        $mail->SMTPDebug  = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+        $mail->isSMTP();                                             //Send using SMTP
+        $mail->Host       = 'smtp-mail.outlook.com';                 //Set the SMTP server to send through
+        $mail->SMTPAuth   = true;                                    //Enable SMTP authentication
+        $mail->Username   = 'rafael.amorim@groupsoftware.com.br';    //SMTP username
+        $mail->Password   = 'group@123';                             //SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;          //Enable implicit TLS encryption
+        $mail->Port       = 587;                                     //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+        $mail->CharSet    = 'UTF-8';
+
         //Recipients
-        $mail->setFrom('carlos.mendes@groupsoftware.com.br', 'Abas');
-        $mail->addAddress('carlos.mendes@groupsoftware.com.br', 'Abas');     //Add a recipient
+        $mail->setFrom('rafael.amorim@groupsoftware.com.br', 'Formulário Abas');
+        $mail->addAddress('contato@abas.online', 'Contato Abas');     //Add a recipient
     
         //Content
         $mail->isHTML(true);                                  //Set email format to HTML

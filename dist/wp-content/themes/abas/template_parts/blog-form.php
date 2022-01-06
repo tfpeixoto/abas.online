@@ -33,7 +33,7 @@
               <input type="text" name="blog-telefone" id="blog-telefone" class="input" placeholder="Seu telefone">
             </div>
           </div>
-          <input type="hidden" name="blog-url" value="<?php echo get_permalink(); ?>">
+          <input type="hidden" name="blog-url" id="blog-url" value="<?php echo $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; ?>" maxlength="100">
           <input type="submit" value="Receber contato" class="form__submit btn btn-amarelo">
         </form>
       </div>
