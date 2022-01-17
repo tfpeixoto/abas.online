@@ -103,7 +103,7 @@ function cadastrarLead(event, form) {
   event.preventDefault();
 
   var myHeaders = new Headers();
-  myHeaders.append("Authorization", "Bearer ${{ secrets.API_ABAS }}");
+  myHeaders.append("Authorization", "Bearer fV/oh7SnZJ4baYPayeQgRO");
 
   var raw = new FormData(form)
 
