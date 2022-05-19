@@ -42,6 +42,8 @@ function abas_scripts()
   wp_enqueue_script('mask', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js', array('jquery'), '1.14.16', true);
   wp_enqueue_script('validate', 'https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js', array('jquery'), '1.19.2', true);
   wp_enqueue_script('acoes', get_template_directory_uri() . '/js/scripts.min.js', array('jquery'), '1.0', true);
+
+  wp_enqueue_script('rd-station', 'https://d335luupugsy2.cloudfront.net/js/loader-scripts/b8a3d2c9-9098-478e-b56a-0d9970fe937e-loader.js', array(), '1.0.0', true);
 }
 add_action('wp_enqueue_scripts', 'abas_scripts');
 

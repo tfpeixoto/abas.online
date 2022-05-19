@@ -2,10 +2,10 @@
 Contributors: rankmath
 Plugin link: https://rankmath.com/?utm_source=LP&utm_campaign=WP
 Tags: seo, sitemap, google search console, schema, redirection, WordPress SEO
-Tested up to: 5.8
+Tested up to: 5.9
 Requires at least: 5.6
 Requires PHP: 7.2
-Stable tag: 1.0.80
+Stable tag: 1.0.88.1
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -144,7 +144,7 @@ Even with significantly more features than other plugins, Rank Math SEO loads am
 
 * **Quick Edit SEO Details** - Go through a lot of posts/pages quickly by ensuring they are optimized for search engines. Quickly edit multiple SEO fields at once using Rank Math SEO.
 
-* **[Instant Indexing for Bing](https://rankmath.com/blog/bing-indexing-api/)** - Get your content instantly indexed by Bing. Enter a few key details and you are all set and ready to go.
+* **[Instant Indexing for Bing & Yandex](https://rankmath.com/kb/how-to-use-indexnow/)** - Get your content instantly indexed by Bing & Yandex using their IndexNow API.
 
 * **[Instant Indexing for Google](https://rankmath.com/blog/google-indexing-api/)** - Instantly getting indexed by Google used to be reserved to huge brands and large websites. Not anymore. Just about anyone can take advantage of Google’s Instant Indexing feature using Rank Math SEO.
 
@@ -270,7 +270,6 @@ Even with significantly more features than other plugins, Rank Math SEO loads am
 * **Search Engine Verification Tools**
 	* Bing Site Verification
 	* Baidu Site Verification
-	* Alexa Site Verification
 	* Yandex Site Verification
 	* **Google Site Verification**
 	* Pinterest Site Verification
@@ -368,7 +367,7 @@ and many more
 ✔ Open External Links in New Tabs
 ✔ Nofollow External Links
 ✔ `Noindex` Paginated, Archive, Search Result Pages
-✔ Instant Indexing for Bing [Also Google using our <a href="https://rankmath.com/blog/google-indexing-api/" target="_blank">Instant Indexing Plugin</a>]
+✔ Instant Indexing for Bing & Yandex [Also Google using our <a href="https://rankmath.com/blog/google-indexing-api/" target="_blank">Instant Indexing Plugin</a>]
 
 **WooCommerce SEO**
 ✔ Automatic Schema for WooCommerce Products
@@ -581,14 +580,23 @@ Please drop us an email at support@rankmath.com and we would be more than happy 
 
 == Changelog ==
 
-= 1.0.80 [Jan 05, 2022] =
-* Improved: [HUGE!] Made several significant code improvements that have made the plugin even FASTER. Now, the plugin folder is lighter than 450 KB
-* Added: [Slack sharing](https://rankmath.com/kb/slack-enhanced-sharing/) option in all the post types
-* Fixed: Slack item number tag was not showing on the custom taxonomies
-* Fixed: Missing `article:published_time` & `article:modified_time` tags on posts using default [Article Schema](https://rankmath.com/kb/article-schema/) from Titles & Meta settings
-* Fixed: [Article Schema](https://rankmath.com/kb/article-schema/) was not showing the default Heading & Description value from the [general settings](https://rankmath.com/kb/general-settings/) on the new posts
-* Fixed: [External link tests](https://rankmath.com/kb/score-100-in-tests/#linking-to-external-content-with-a-followed-link) was not working properly when [NoFollow External links](https://rankmath.com/kb/should-you-nofollow-external-links/#nofollow-all-external-links) option was enabled
-* Fixed: `#current_year` variable was not getting imported from the [AIO SEO plugin](https://rankmath.com/alternative-for-aio-seo/)
-* Fixed: PHP notice on archive pages
+= 1.0.88.1 [May 04, 2022] =
+* Fixed: [GA4 Data stream](https://rankmath.com/kb/using-ga4/#datastream-and-country) dropdown was not showing any value even if it was working fine
+
+= 1.0.88 [May 04, 2022] =
+* Added: [HUGE!] Rank Math now supports [Google Analytics 4](https://rankmath.com/kb/using-ga4/)
+* Added: Option to create GA4 property with one click
+* Added: New option in [Database Tools](https://rankmath.com/kb/rank-math-status-and-tools/#fix-analytics-table-collations) to match the collations of all Analytics tables
+* Fixed: [Content AI](https://rankmath.com/kb/how-to-use-content-ai/) was not working on secondary language posts created using the WPML plugin
+* Fixed: [Search form on the Settings page](https://rankmath.com/kb/general-settings/) was showing irrelevant items in the dropdown 
+* Fixed: Both `index` & `noindex` options could be selected in the [Date Archive Robots settings](https://rankmath.com/kb/titles-and-meta/#date-robots-meta)
+* Fixed: Dashboard widget was showing 403 error to the Shop Manager user role
+* Fixed: Dashboard widget was showing an error when the site couldn't load the Blog posts from rankmath.com/blog/
+* Fixed: "Exclude this attachment from the Sitemap" option on the attachment details popup was showing to all the users
+* Fixed: [Content Analysis](https://rankmath.com/blog/divi-seo/) was also analyzing the global Header & Footer content added in the Divi's Theme Builder
+* Fixed: On Divi's frontend editor, the SEO modal was getting closed after clicking on the Schema generator button
+* Fixed: In [Easy Mode](https://rankmath.com/kb/switch-from-easy-to-advanced-mode/), [Instant Indexing](https://rankmath.com/kb/how-to-use-indexnow/#submit-urls-manually) settings were linked to the wrong page
+* Fixed: [Update data manually](https://rankmath.com/kb/general-settings/#analytics-database) option was not working well on some setups in the Analytics Module
+* Fixed: Invalid `%searchphrase%` variable was used as a default value on the Search page
 
 Full changelog can be found here - **[Rank Math SEO changelog](https://rankmath.com/changelog/?utm_source=Plugin&utm_medium=Changelog&utm_campaign=WP)**

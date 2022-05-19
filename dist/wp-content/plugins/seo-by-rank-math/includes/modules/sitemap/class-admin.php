@@ -47,8 +47,12 @@ class Admin extends Base {
 
 		// Attachment.
 		$this->filter( 'media_send_to_editor', 'media_popup_html', 10, 2 );
-		$this->filter( 'attachment_fields_to_edit', 'media_popup_fields', 20, 2 );
-		$this->filter( 'attachment_fields_to_save', 'media_popup_fields_save', 20, 2 );
+
+		if ( Helper::has_cap( 'sitemap' ) ) {
+			$this->filter( 'attachment_fields_to_edit', 'media_popup_fields', 20, 2 );
+			$this->filter( 'attachment_fields_to_save', 'media_popup_fields_save', 20, 2 );
+		}
+
 		$this->ajax( 'remove_nginx_notice', 'remove_nginx_notice' );
 	}
 
@@ -286,7 +290,7 @@ class Admin extends Base {
 	 * @return string
 	 */
 	private function get_nginx_notice() {
-		if ( empty( Param::server( 'SERVER_SOFTWARE' ) ) || get_option( 'rank_math_remove_nginx_notice' ) ) {
+		if ( 'rank-math-options-sitemap' !== Param::get( 'page' ) || empty( Param::server( 'SERVER_SOFTWARE' ) ) || get_option( 'rank_math_remove_nginx_notice' ) ) {
 			return '';
 		}
 

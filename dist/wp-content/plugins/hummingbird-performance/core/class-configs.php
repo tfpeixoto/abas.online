@@ -58,7 +58,7 @@ class Configs {
 					'configsPage'  => Utils::get_admin_menu_url( 'settings' ) . '&view=configs',
 				),
 				'module'       => array(
-					'isMember'       => Utils::is_member(),
+					'isMember'       => Utils::has_access_to_service(),
 					'isWhiteLabeled' => apply_filters( 'wpmudev_branding_hide_branding', false ),
 				),
 				'requestsData' => array(
@@ -212,10 +212,14 @@ class Configs {
 
 		Settings::update_settings( $new_settings );
 
-		// Enable Uptime module.
-		if ( $config['settings']['uptime']['enabled'] && $config['settings']['uptime']['enabled'] !== $settings['uptime']['enabled'] ) {
-			Utils::get_module( 'uptime' )->enable();
-			Utils::get_module( 'uptime' )->get_last_report( 'week', true );
+		// Toggle Uptime module.
+		if ( $config['settings']['uptime']['enabled'] !== $settings['uptime']['enabled'] ) {
+			if ( $config['settings']['uptime']['enabled'] ) {
+				Utils::get_module( 'uptime' )->enable();
+				Utils::get_module( 'uptime' )->get_last_report( 'week', true );
+			} else {
+				Utils::get_module( 'uptime' )->disable();
+			}
 		}
 	}
 
@@ -358,6 +362,11 @@ class Configs {
 			unset( $settings['redis'] );
 		}
 
+		// Database reports.
+		if ( isset( $settings['database'] ) ) {
+			unset( $settings['database'] );
+		}
+
 		return $settings;
 	}
 
@@ -488,7 +497,6 @@ class Configs {
 			'performance'             => array(
 				'subsite_tests' => __( 'Performance tests on subsites', 'wphb' ),
 			),
-
 			'rss'                     => array(
 				'enabled'  => __( 'RSS caching', 'wphb' ),
 				'duration' => __( 'Expiry time', 'wphb' ),

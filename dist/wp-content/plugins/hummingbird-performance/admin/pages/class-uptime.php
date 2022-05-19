@@ -41,7 +41,9 @@ class Uptime extends Page {
 	 * Register meta boxes.
 	 */
 	public function register_meta_boxes() {
-		if ( ! Utils::is_member() || ( defined( 'WPHB_WPORG' ) && WPHB_WPORG ) ) {
+		$this->uptime = Utils::get_module( 'uptime' );
+
+		if ( ! $this->uptime->has_access() ) {
 			$this->add_meta_box(
 				'uptime/no-membership',
 				__( 'Upgrade', 'wphb' ),
@@ -56,8 +58,6 @@ class Uptime extends Page {
 
 			return;
 		}
-
-		$this->uptime = Utils::get_module( 'uptime' );
 
 		if ( ! $this->uptime->is_active() ) {
 			$this->add_meta_box(
@@ -225,7 +225,7 @@ class Uptime extends Page {
 	 * @since 2.5.0
 	 */
 	public function add_header_actions() {
-		if ( ! Utils::is_member() || ( defined( 'WPHB_WPORG' ) && WPHB_WPORG ) || ! $this->uptime->is_active() ) {
+		if ( ! $this->uptime->has_access() || ! $this->uptime->is_active() ) {
 			return;
 		}
 
@@ -289,7 +289,8 @@ class Uptime extends Page {
 	 * @return string
 	 */
 	private function get_current_data_range() {
-		$data_range = filter_input( INPUT_GET, 'data-range', FILTER_SANITIZE_STRING );
+		$data_range = filter_input( INPUT_GET, 'data-range', FILTER_UNSAFE_RAW );
+		$data_range = sanitize_text_field( $data_range );
 		return $data_range && array_key_exists( $data_range, $this->get_data_ranges() ) ? $data_range : 'week';
 	}
 
@@ -324,19 +325,14 @@ class Uptime extends Page {
 	 * Render inner content.
 	 */
 	protected function render_inner_content() {
-		if ( ! Utils::is_member() || ( defined( 'WPHB_WPORG' ) && WPHB_WPORG ) ) {
+		if ( ! is_object( $this->uptime ) || ! $this->uptime->has_access() ) {
 			parent::render_inner_content();
 			return;
 		}
 
 		$error = false;
 
-		if ( ! Utils::is_member() ) {
-			parent::render_inner_content();
-			return;
-		}
-
-		if ( is_object( $this->uptime ) && $this->uptime->is_active() && isset( $this->current_report->code ) ) {
+		if ( $this->uptime->is_active() && isset( $this->current_report->code ) ) {
 			$error = $this->current_report->message;
 		}
 
@@ -434,7 +430,7 @@ class Uptime extends Page {
 		$notifications_next = '';
 		$reports_next       = '';
 
-		if ( Utils::is_member() && Utils::pro() ) {
+		if ( Utils::get_module( 'uptime' )->has_access() && Utils::pro() ) {
 			$notifications_next = Utils::pro()->module( 'notifications' )->get_schedule_label_for( 'uptime', 'notifications' );
 			$reports_next       = Utils::pro()->module( 'notifications' )->get_schedule_label_for( 'uptime', 'reports' );
 		}

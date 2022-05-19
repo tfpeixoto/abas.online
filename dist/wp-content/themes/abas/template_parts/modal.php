@@ -9,7 +9,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form id="formLead" onsubmit="cadastrarLead(event, this);">
+        <form id="formLead" name="solicitar-demonstracao" onsubmit="cadastrarLead(event, this);">
           <div class="form-group">
             <div id="retornoEnvio" class="text-center">
             </div>

@@ -7,7 +7,7 @@
                 <form action="<?php echo site_url(); ?>" class="buscador__form" method="GET">
                     <i class="fas fa-search buscador__form-icon"></i>
                     <input type="text" class="buscador__form-input" name="s" placeholder="Buscar post" 
-                        value="<?php if (isset($_GET['s'])) { echo $_GET['s']; } ?>">
+                        value="<?php if (isset($_GET['s'])) { echo $_GET['s']; }; ?>">
                 </form>
             </div>
         </div>

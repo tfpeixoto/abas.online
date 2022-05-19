@@ -10,8 +10,8 @@
           <span id="msg-sucesso">Obrigado! Em breve entraremos em contato.</span>
         </div>
 
-        <iframe title="Formulário de contato" src="<?php echo get_template_directory_uri().'/actions/contato.php'; ?>" name="b-form" frameborder="0" class="d-none"></iframe>
-        <form action="<?php echo get_template_directory_uri().'/actions/contato.php'; ?>" method="post" class="form" target="b-form" id="blog-form">
+        <iframe title="Formulário de contato" src="<?php echo get_template_directory_uri().'/actions/contato.php'; ?>" name="b-form" frameborder="0" class="d-none" width="0"></iframe>
+        <form action="<?php echo get_template_directory_uri().'/actions/contato.php'; ?>" method="post" class="form" target="b-form" id="blog-form" name="blog-form">
 
           <div class="form__campos">
             <!-- NOME -->

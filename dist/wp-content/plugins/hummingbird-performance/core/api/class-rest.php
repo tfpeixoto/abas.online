@@ -277,6 +277,18 @@ class Rest {
 			return new WP_Error( '400', esc_html__( 'Missing configs data', 'wphb' ), array( 'status' => 400 ) );
 		}
 
+		foreach ( $data as $key => $value ) {
+			if ( isset( $value['name'] ) ) {
+				$name = sanitize_text_field( $value['name'] );
+
+				$data[ $key ]['name'] = empty( $name ) ? __( 'Undefined', 'wphb' ) : $name;
+			}
+
+			if ( isset( $value['description'] ) ) {
+				$data[ $key ]['description'] = sanitize_text_field( $value['description'] );
+			}
+		}
+
 		// We might want to sanitize before this.
 		update_site_option( 'wphb-preset_configs', $data );
 

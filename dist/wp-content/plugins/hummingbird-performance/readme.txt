@@ -1,14 +1,14 @@
 === Hummingbird – Optimize Speed, Enable Cache, Minify CSS & Defer Critical JS ===
 Plugin Name: Hummingbird – Optimize Speed, Enable Cache, Minify CSS & Defer Critical JS
-Version: 3.2.1
+Version: 3.3.2
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV
 Tags: defer css javascript, cache, minify css, minify javascript, speed up wordpress, page cache, wordpress speed optimization, page speed, wordpress cache plugin, wordpress performance optimization, lazy load, performance optimization, seo, pagespeed, wp cache
 Requires at least: 5.2
-Tested up to: 5.8
+Tested up to: 5.9
 Requires PHP: 5.6
-Stable tag: 3.2.1
+Stable tag: 3.3.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -183,6 +183,50 @@ Asset Optimization is a great way to speed up your site but moving, combining, u
 
 == Changelog ==
 
+= 3.3.2 ( 2022-03-14 ) =
+
+- Fix: XSS vulnerability
+
+= 3.3.1 ( 2022-02-24 ) =
+
+- New: Onboarding setup wizard
+- Enhance: Support for WPMU DEV Hub
+- Enhance: Add a unique salt when enabling Redis integration
+- Enhance: "How does it work" section in asset optimization module
+- Fix: Incorrect detection of Cloudflare APO status
+- Fix: Missing action buttons on Integrations page in sub sites
+- Fix: Page cache not clearing when caching is disabled on subsites
+- Fix: Duplicate ID elements on dashboard page
+- Fix: Inability to auto start asset optimization scan from dashboard page on free version
+- Fix: Remove global configs from network subsites
+- Fix: An invalid form control with name='cloudflare-email' is not focusable error
+- Fix: Documentation link in Notifications module
+- Fix: Translation strings
+- Fix: Styles for Select2 textarea elements
+
+= 3.3.0 ( 2022-01-11 ) =
+
+- New: Font optimization is now part of automatic asset optimization mode
+- New: Notification email designs
+- New: Plugin icon
+- Enhance: Add file size limits for inlining assets in asset optimization module
+- Enhance: Status of assets in asset optimization module
+- Enhance: Updating of exclusion list in asset optimization UI
+- Enhance: Page types exclusions in page caching
+- Enhance: PHP 8.1 compatibility
+- Fix: Clearing page cache on subsites in a network sub-directory installs
+- Fix: Page caching module not showing for site admins
+- Fix: Browser caching module not showing on subsites with Cloudflare integration
+- Fix: Cached files counter when purging cache
+- Fix: Infinite loop with orphaned assets when page cache integrations are enabled
+- Fix: Cases when asset optimization breaks CSS with background SVG images
+- Fix: Asset optimization auto selecting files in auto mode
+- Fix: Cloudflare integration when a site is installed in a sub-folder
+- Fix: Missing notification modules and translations
+- Fix: Errors when purging Varnish cache
+- Fix: Fatal error when scheduling database reports
+- Fix: Fatal error with WP Ultimo 2.x
+
 = 3.2.1 ( 2021-11-24 ) =
 
 - Fix: Sync issues with WPMU DEV Hub
@@ -296,91 +340,6 @@ Asset Optimization is a great way to speed up your site but moving, combining, u
 - Fix: Overwriting network admin settings in advanced tools
 - Fix: Page cache clearing taking too long during post edit
 - Fix: Cloudflare browser caching settings not syncing with Hub
-
-= 2.7.3 ( 2021-04-12 ) =
-
-- New: Tutorials module
-- New: LiteSpeed instructions for Browser Caching module
-- Enhance: Update the Plugin Health module UI/UX
-- Enhance: REST API endpoints now require at least edit_posts capability
-- Enhance: Uptime reporting description
-- Enhance: Improve export/import description
-- Enhance: CSS above the fold description
-- Enhance: Privacy mode detection in GZIP compression module
-- Enhance: Asset Optimization UI/UX
-- Enhance: Asset Optimization processing of compressed assets
-- Enhance: Asset Optimization switching between modes
-- Enhance: Support for RGBA when optimizing CSS files
-- Enhance: Fallback to siteurl if HTTP_HOST is not defined when clearing cache
-- Fix: Recursive loops in Page Caching preloader
-- Fix: Asset Optimization not rewriting relative paths for inlined assets
-- Fix: Remove unused expiry time option for IIS servers in browser caching module
-- Fix: Page caching not properly detecting Asset Optimization CDN status
-- Fix: Page caching clearing all cache when static page is set as home page
-- Fix: Selects overlapping other DOM elements
-- Fix: PHP notice when re-checking browser caching status
-- Fix: PHP notice for undefined index db_frequency
-- Fix: Performance test notices on mobile
-
-= 2.7.2 ( 2021-02-25 ) =
-
-- New: Redis support for unix sockets
-- New: Select database for Redis integration
-- New: Add support for WOFF2 fonts in Browser Caching module
-- New: Support for LiteSpeed server in Browser Caching module
-- New: Clear Cloudflare cache from admin bar
-- Enhance: Asset Optimization notifications
-- Enhance: Asset Optimization support for RTL assets
-- Enhance: Integration with Varnish cache
-- Fix: Asset Optimization combining assets on Basic mode
-- Fix: Asset Optimization not being able to inline remote assets in rare cases
-- Fix: Asset Optimization duplicating inline scripts during processing
-- Fix: Asset Optimization improve handling of core WordPress scripts
-- Fix: Asset Optimization compatibility with Oxygen builder
-- Fix: Asset Optimization compatibility with Bimber theme
-- Fix: Browser Caching module overwriting individual expiry values
-- Fix: High contrast icons in Asset Optimization module
-- Fix: 500 server error when clearing Varnish cache from the dashboard
-- Fix: Tabs navigation on mobile devices
-
-= 2.7.1 ( 2021-01-18 ) =
-
-- New: Integration with ACF - page cache will be auto purged on changes in ACF options
-- New: Select what cache to clear from the dashboard page
-- Enhance: PHP 8.0 compatibility
-- Enhance: Asset Optimization handling expired assets
-- Enhance: Allow hiding Asset Optimization modals
-- Enhance: Remove unused assets from plugin package
-- Enhance: Plugin health module descriptions
-- Enhance: Performance in wp-admin
-- Enhance: jQuery 3 compatibility
-- Enhance: Compatibility with object cache
-- Fix: Cloudflare integration breaking Gzip server value on the Hub
-- Fix: Compatibility issues with Themeco Pro theme page builder
-- Fix: Asset Optimization not respecting order for some inlined assets
-- Fix: Do not auto enable Asset Optimization on new subsites in a network
-- Fix: Disable Asset Optimization on login pages
-- Fix: Cloudflare integration wizard UI
-- Fix: Cloudflare re-check status returning incorrect values
-- Fix: Browser cache returning false status
-- Fix: Page caching status on subsites
-- Fix: Notices on image optimization meta box on the dashboard page
-- Fix: Toggling page caching module from Hub
-
-= 2.7.0 ( 2020-11-12 ) =
-
-- New: Site Health module
-- New: Clear page cache for all subsites from network admin
-- Enhance: Asset Optimization on WPMU DEV hosting staging
-- Enhance: Asset Optimization "How does it work?" section
-- Enhance: Gzip configuration UI/UX
-- Enhance: White labelling support
-- Enhance: Nginx instructions for browser caching and gzip compression
-- Fix: Rare instance of fatal PHP error in Page Caching module in multisite
-- Fix: Database cleanup removing drafts that are not from WordPress posts/pages
-- Fix: Cloudflare configuration wizard
-- Fix: Upgrade page buttons hover state
-- Fix: Elements with non-unique IDs in Asset Optimization module
 
 [Changelog for previous versions](https://wpmudev.com/project/wp-hummingbird/#view-changelog).
 
