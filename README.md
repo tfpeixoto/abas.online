@@ -2,7 +2,7 @@
 
 Criado por: Thiago Peixoto
 
-##Tecnologias
+## Tecnologias
 
 - PHP
 - SASS
