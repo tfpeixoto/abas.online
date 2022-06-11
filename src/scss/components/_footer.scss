@@ -30,6 +30,13 @@ footer {
               min-width: 40px;
               text-align: center;
             }
+
+            svg{
+              fill: $roxo;
+              height: 35px;
+              margin-right: calc(0.5rem + 5px);
+              width: 35px;
+            }
           }
         }
       }
