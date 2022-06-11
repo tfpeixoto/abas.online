@@ -1,6 +1,7 @@
 node_modules
 package-lock.json
 dist/wp-config.php
+tmpnodejsnpm-cache
 
 # dist/wp-admin
 # dist/wp-includes
