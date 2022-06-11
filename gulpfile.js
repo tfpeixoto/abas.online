@@ -13,7 +13,7 @@ gulp.task('browser-sync', function () {
   var files = ["dist/wp-content/themes/abas/**/*.php", 'dist/wp-content/themes/abas/css/*.css'];
 
   browserSync.init(files, {
-    proxy: "http://localhost/abas/dist/",
+    proxy: "http://localhost/abas.online/dist/",
     notify: true,
   });
 });
@@ -30,7 +30,7 @@ gulp.task('purgecss', ['sass'], function () {
   ])
     .pipe(purgecss({
       content: ['dist/wp-content/themes/abas/*.php', 'public/wp-content/themes/abas/template_parts/*.php'],
-      whitelist: ['btn', 'fixed', 'msg-sucesso'],
+      whitelist: ['btn', 'fixed', 'msg-sucesso', 'fa-brands', 'fa-instagram', 'fa-search'],
       whitelistPatterns: [/wp-block-columns/, /^has/, /^depoimento/, /^modal/, /fa-search/],
       whitelistPatternsChildren: [/form$/, /buscador/, /sugeridos/]
     }))
