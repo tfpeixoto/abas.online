@@ -13,7 +13,7 @@ gulp.task('browser-sync', function () {
   var files = ["dist/wp-content/themes/abas/**/*.php", 'dist/wp-content/themes/abas/css/*.css'];
 
   browserSync.init(files, {
-    proxy: "http://localhost/abas.online/dist/",
+    proxy: "http://localhost/abas/dist/",
     notify: true,
   });
 });
