@@ -120,7 +120,8 @@ require_once("header.php");
 
     <div class="row">
       <div class="col-12">
-        <a type="button" href="#" class="btn btn-amarelo" data-toggle="modal" data-target="#modalConversao">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
+        <!-- <a type="button" href="#" class="btn btn-amarelo" data-toggle="modal" data-target="#modalConversao">Fale com um consultor <i class="fas fa-chevron-right"></i></a> -->
+        <a type="button" href="https://conteudo.abas.online/gerenciamento-de-tarefas" class="btn btn-amarelo" target="_blank" rel="noopener noreferrer">Testar Grátis <i class="fas fa-chevron-right"></i></a>
       </div>
     </div>
   </div>
@@ -236,7 +237,8 @@ require_once("header.php");
         <div class="col-12 col-md-6">
           <h3 class="h2">Eliminamos planilhas e centralizamos tarefas</h3>
           <p>Somos o sistema de gestão de processos mais completo do país. Por isso, <strong>transformamos controles manuais de qualquer setor do seu negócio em processos automáticos</strong>: gerenciamento de vendas, alertas automáticos, gestão de contas a pagar e a receber, compras, estoque e muito mais. Além disso, com o nosso sistema as suas atividades ficam centralizadas em um único gerenciador, facilitando a rotina e fortalecendo a segurança das informações.</p>
-          <a type="button" href="#" class="btn btn-outline-roxo" data-toggle="modal" data-target="#modalConversao">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
+          <!-- <a type="button" href="#" class="btn btn-outline-roxo" data-toggle="modal" data-target="#modalConversao">Fale com um consultor <i class="fas fa-chevron-right"></i></a> -->
+          <a type="button" href="https://conteudo.abas.online/gerenciamento-de-tarefas" class="btn btn-outline-roxo" target="_blank" rel="noopener noreferrer">Solicite demonstração <i class="fas fa-chevron-right"></i></a>
         </div>
       </div>
     </div>

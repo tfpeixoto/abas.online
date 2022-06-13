@@ -44,7 +44,8 @@
         ));
         ?>
 
-        <a type="button" href="#" class="btn btn-amarelo d-none d-md-block" data-toggle="modal" data-target="#modalConversao">Solicitar demonstração <i class="fas fa-chevron-right"></i></a>
+        <!-- <a type="button" href="#" class="btn btn-amarelo d-none d-md-block" data-toggle="modal" data-target="#modalConversao">Solicitar demonstração <i class="fas fa-chevron-right"></i></a> -->
+        <a type="button" href="https://conteudo.abas.online/gerenciamento-de-tarefas" target="_blank" rel="noopener noreferrer" class="btn btn-amarelo d-none d-md-block" >Testar Grátis <i class="fas fa-chevron-right"></i></a>
       </nav>
     </div>
   </header>
