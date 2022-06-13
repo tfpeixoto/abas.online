@@ -252,8 +252,8 @@ require_once("header.php");
         </div>
 
         <div class="col-12 col-md-6">
-          <h3 class="h2">Não limitamos funcionalidades por assinatura</h3>
-          <p>Isso mesmo, você não precisa fazer upgrade de plano para usar mais recursos do sistema! Somos o único software para gestão de processos que não limita funcionalidades. Assim que você se torna um de nossos clientes, <strong>todas as opções de fluxos de trabalho estarão disponíveis</strong> para o uso do seu negócio. Quanto mais processos você cria, mais fácil se torna seu trabalho.</p>
+          <h3 class="h2">Escolha o melhor plano para a sua empresa</h3>
+          <p>Contratando o Abas Online, você pode optar pela assinatura do plano que mais se encaixar na realidade da sua empresa: starter, business ou enterprise. Dessa forma, você estará contratando apenas as funcionalidades que realmente for utilizar! E não se preocupe: caso deseje obter novas funções, nossa equipe estará pronta para fazer a mudança de plano da maneira mais ágil possível!</p>
           <a type="button" href="#" class="btn btn-outline-roxo" data-toggle="modal" data-target="#modalConversao">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
         </div>
       </div>

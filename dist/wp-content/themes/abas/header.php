@@ -7,9 +7,9 @@
   <link rel="shortcut icon" href="<?= get_template_directory_uri() . '/images/favicon.png' ?>" type="image/x-icon">
 
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link rel="preload" href="<?= get_template_directory_uri() . '/webfonts/fa-solid-900.woff' ?>" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="<?= get_template_directory_uri() . '/webfonts/fa-brands-400.woff' ?>" as="font" type="font/woff2" crossorigin="anonymous">
-  <link rel="preload" href="<?= get_template_directory_uri() . '/webfonts/fa-regular-400.woff' ?>" as="font" type="font/woff2" crossorigin="anonymous">
+  <link href="<?= get_template_directory_uri() . '/webfonts/fa-solid-900.woff' ?>" type="font/woff2">
+  <link href="<?= get_template_directory_uri() . '/webfonts/fa-brands-400.woff' ?>" type="font/woff2">
+  <link href="<?= get_template_directory_uri() . '/webfonts/fa-regular-400.woff' ?>" type="font/woff2">
 
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@800&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <?php wp_head(); ?>
