@@ -1,0 +1,71 @@
+$roxo-500: #411b54;
+$amarelo-500: #f2c30d;
+$branco: #ffffff;
+
+body {
+  background-color: $roxo-500;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 1rem;
+}
+
+.main {
+
+  &-container {
+    text-align: center;
+    
+    img {
+      width: 250px;
+      height: auto;
+      margin-bottom: 2.3rem;
+    }
+
+    .titulo {
+      font: 500 1.7rem/2.3rem "Lexend", sans-serif;
+      max-width: 650px;
+      margin: 0 auto 2rem;
+      color: $branco;
+    }
+
+    .contador {
+      .tempo {
+        font: 600 3rem/3.5rem "Lexend", sans-serif;
+        color: $amarelo-500;
+      }
+      
+      p {
+        font: 500 1.7rem/2.5rem "Lexend", sans-serif;
+        color: $branco;
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .main {
+    &-container {
+      img {
+        width: 180px;
+        margin-bottom: 2.1rem;
+      }
+  
+      .titulo {
+        font-size: 1.2rem;
+        line-height: 1.8rem;
+      }
+  
+      .contador {
+        .tempo {
+          font-size: 1.8rem;
+          line-height: 2rem;
+        }
+        
+        p {
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+}
