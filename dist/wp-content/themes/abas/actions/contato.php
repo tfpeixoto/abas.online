@@ -8,9 +8,9 @@ use PHPMailer\PHPMailer\Exception;
 //Load Composer's autoloader
 require '../lib/vendor/autoload.php';
 
-$nome = filter_input(INPUT_POST, 'blog-nome', FILTER_SANITIZE_STRING);
+$nome = filter_input(INPUT_POST, 'blog-nome', FILTER_SANITIZE_SPECIAL_CHARS);
 $email = filter_input(INPUT_POST, 'blog-email', FILTER_SANITIZE_EMAIL);
-$telefone = filter_input(INPUT_POST, 'blog-telefone', FILTER_SANITIZE_STRING);
+$telefone = filter_input(INPUT_POST, 'blog-telefone', FILTER_SANITIZE_SPECIAL_CHARS);
 $url = filter_input(INPUT_POST, 'blog-url', FILTER_SANITIZE_URL);
 
 if(isset($email)){
@@ -31,7 +31,8 @@ if(isset($email)){
 
         //Recipients
         $mail->setFrom('rafael.amorim@groupsoftware.com.br', 'Formulário Abas');
-        $mail->addAddress('contato@abas.online', 'Contato Abas');     //Add a recipient
+        // $mail->addAddress('contato@abas.online', 'Contato Abas');     //Add a recipient
+        $mail->addAddress('carlos.mendes@groupsoftware.com.br');     //Add a recipient
     
         //Content
         $mail->isHTML(true);                                  //Set email format to HTML

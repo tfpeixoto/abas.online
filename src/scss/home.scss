@@ -4,13 +4,14 @@
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/solid";
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/brands";
+@import "../../node_modules/owl.carousel/src/scss/owl.carousel.scss";
 
 // HOME
 @import "components/wordpress";
 @import "components/segmentos-home";
 @import "components/fluxos-home";
 @import "components/dobras";
-@import "components/depoimentos";
+@import "components/depoimentos-carrossel";
 
 // FOOTER
 @import "components/modal";

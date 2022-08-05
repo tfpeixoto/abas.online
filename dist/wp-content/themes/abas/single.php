@@ -44,7 +44,7 @@ require_once("header.php");
 </section>
 
 <?php get_template_part('template_parts/posts-sugeridos'); ?>
-<?php get_template_part( 'template_parts/blog-form' ); ?>
+<?php //get_template_part( 'template_parts/blog-form' ); ?>
 
 <?php require_once("template_parts/depoimentos.php"); ?>
 

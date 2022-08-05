@@ -1,0 +1,147 @@
+.depoimentos {
+  background-color: $roxo;
+  color: $white;
+
+  &__titulo {
+    margin-left: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  &__carrossel {
+    position: relative;
+
+    .depoimento {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+
+      &__conteudo {
+        flex: 1 0 300px;
+        max-width: 550px;
+        padding: 0 20px;
+
+        &-nome {
+          color: $amarelo;
+          font-weight: 700;
+          margin-top: 1.5rem;
+          margin-bottom: 0.3rem;
+        }
+
+        &-empresa {
+          font-family: Roboto, sans-serif;
+          font-size: 1rem;
+          font-weight: 400;
+          position: relative;
+
+          @include media-breakpoint-up(md) {
+            &:before {
+              content: "";
+              background: url(../images/grafismo-3bolinhas.png) no-repeat;
+              background-size: contain;
+              position: absolute;
+              bottom: -10px; right: 150px;
+              display: block;
+
+              transform: rotate(-45deg);
+              width: 50px;
+              height: 50px;
+            }
+          }
+        }
+      }
+
+      &__imagem {
+        flex: 1 0 250px;
+        align-self: flex-start;
+
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+
+        &-molde {
+          max-width: 200px;
+          margin-top: 20px;
+          margin-bottom: 20px;
+  
+          position: relative;
+  
+          &:before {
+            content: "";
+            background: url(../images/grafismo-3bolinhas.png) no-repeat;
+            background-size: contain;
+            position: absolute;
+            top: -10px; left: -35px;
+            z-index: 2;
+  
+            transform: rotate(-45deg);
+            width: 50px;
+            height: 50px;
+          }
+          &:after {
+            content: "";
+            background: url(../images/grafismo-3bolinhas.png) no-repeat;
+            background-size: contain;
+            position: absolute;
+            bottom: -10px; right: -35px; 
+  
+            transform: rotate(45deg);
+            width: 50px;
+            height: 50px;
+          }
+          img {
+            max-width: 200px;
+            max-height: 200px;
+  
+            border-radius: 15px;
+            box-shadow: 0 0 10px #00000070;
+          }
+        }
+      }
+    }
+
+    .owl-nav {
+      position: absolute;
+      top: 20%; left: 0;
+      width: 100%;
+
+      display: flex;
+      justify-content: space-between;
+
+      button{
+        position: absolute;
+        span {
+          color: $amarelo;
+          font-weight: 700;
+          font-size: 4rem;
+        }
+      }
+      .owl-prev {
+        left: -2%;
+      }
+      .owl-next {
+        right: -2%;
+      }
+    }
+
+    .owl-dots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .owl-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 10px;
+        background-color: #ffffff;
+        margin: 0 2px;
+        transition: 0.2s;
+
+        &.active{
+          background-color: $amarelo;
+          width: 25px;
+        }
+      }
+    }
+  }
+}

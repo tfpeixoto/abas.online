@@ -30,9 +30,9 @@ gulp.task('purgecss', ['sass'], function () {
   ])
     .pipe(purgecss({
       content: ['dist/wp-content/themes/abas/*.php', 'public/wp-content/themes/abas/template_parts/*.php'],
-      whitelist: ['btn', 'fixed', 'msg-sucesso', 'fa-brands', 'fa-instagram', 'fa-search'],
+      whitelist: ['btn', 'fixed', 'msg-sucesso', 'fa-brands', 'fa-instagram', 'fa-search', 'owl-carousel', 'depoimentos__carrossel', 'owl-stage', 'active', 'owl-drag', 'owl-loaded', 'owl-item', 'owl-stage-outer'],
       whitelistPatterns: [/wp-block-columns/, /^has/, /^depoimento/, /^modal/, /fa-search/],
-      whitelistPatternsChildren: [/form$/, /buscador/, /sugeridos/]
+      whitelistPatternsChildren: [/form$/, /buscador/, /sugeridos/, /^owl/, /owl-stage-outer/, /owl-item/, /owl-loaded/, /owl-drag/]
     }))
     .pipe(gulp.dest('dist/wp-content/themes/abas/css'))
 });
