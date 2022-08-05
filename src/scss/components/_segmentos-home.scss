@@ -8,40 +8,102 @@
 
 .segmentos{
   text-align: center;
+  
+    h2{
+      color: $roxo;
+      margin-bottom: 5rem;
+    }
 
-  h2{
-    color: $roxo;
-    margin-bottom: 5rem;
-  }
-  .segmentos__card{
-    margin-bottom: 50px;
+  &__card {
+    display: inline-block;
+    margin-bottom: 1.7rem;
 
-    a{
-      img{
-        border-radius: 20px;
-        box-shadow: 0 5px 5px rgba(0,0,0,.3);
-        margin-bottom: 1rem;
-        transition: all ease-in-out .25s;
-
+    .card-head {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 0.7rem;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 0 8px #00000080;
+      transition: all 0.3s ease-out;
+      
+      img {
+        transition: all 0.4s ease-out;
       }
-      h3{
-        color: $roxo;
-        transition: all ease-in-out .25s;
-      }
-      p{
-        color: $cinza;
-      }
 
-      &:hover{
-        text-decoration: none;
+      p {
+        position: absolute;
+        top: 15%; left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        background-color: #141414e0;
 
-        img{
-          box-shadow: 0 5px 5px rgba(0,0,0,.2);
+        margin: 0 auto;
+        padding: 0.5rem 0.3rem;
+        opacity: 0;
+        color: rgb(235, 228, 228);
+
+        transition: 0.5s ease-in;
+      }
+    }
+
+    h3 {
+      color: $roxo;
+    }
+
+    &:hover {
+      text-decoration: none;
+
+      .card-head {
+        box-shadow: none;
+        
+        img {
+          filter: blur(2px);
         }
-        img, h3, p{
-          opacity: .8;
+
+        p {
+          opacity: 1;
+          top: 0;
         }
       }
     }
   }
+
+
+
+  // .segmentos__card{
+  //   margin-bottom: 50px;
+
+  //   a{
+  //     img{
+  //       border-radius: 20px;
+  //       box-shadow: 0 5px 5px rgba(0,0,0,.3);
+  //       margin-bottom: 1rem;
+  //       transition: all ease-in-out .25s;
+
+  //     }
+  //     h3{
+  //       color: $roxo;
+  //       transition: all ease-in-out .25s;
+  //     }
+  //     p{
+  //       color: $cinza;
+  //     }
+
+  //     &:hover{
+  //       text-decoration: none;
+
+  //       img{
+  //         box-shadow: 0 5px 5px rgba(0,0,0,.2);
+  //       }
+  //       img, h3, p{
+  //         opacity: .8;
+  //       }
+  //     }
+  //   }
+  // }
 }
