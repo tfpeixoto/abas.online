@@ -14,6 +14,7 @@ $amarelo: #F2C30D;
 $cinza: #404040;
 $cinza-claro: #fafafa;
 $white: #ffffff;
+$rosa-500: #D02752;
 
 $theme-colors: (
   "roxo": $roxo,
@@ -31,3 +32,7 @@ $btn-font-weight: 700;
 // NAVBAR
 $navbar-padding-y: .5rem;
 $navbar-padding-x: 1rem;
+
+html {
+  scroll-behavior: smooth;
+}

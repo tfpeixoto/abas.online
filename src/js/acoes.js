@@ -34,6 +34,10 @@ var maskBehavior = function (val) {
   };
 $('#telefone').mask(maskBehavior, options);
 
+if (document.querySelector("#phone")) {
+  $('#phone').mask(maskBehavior, options);
+}
+
 // Validação de telefone - digitos iguais e DDD
 $.validator.addMethod('validardigitos', function (value, element) {
   let digitosIguais = /^\((\d)\d\)\s\1{4,5}-\1{4}/;
@@ -87,6 +91,51 @@ function validarFormulario(formLead) {
   });
 }
 validarFormulario('#formLead');
+
+if (document.querySelector(".contato__form")) {
+  $(".contato__form").validate({
+    rules: {
+      name: {
+        required: true,
+        minlength: 3
+      },
+      email: {
+        email: true,
+        required: true
+      },
+      phone: {
+        required: true
+      }
+    },
+    messages: {
+      name: {
+        required: "O preenchimento deste campo é obrigatório.",
+        minlength: "O nome deve ter no mínimo 3 caractéres."
+      },
+      email: {
+        email: "Por favor, informe um endereço de e-mail válido.",
+        required: "O preenchimento deste campo é obrigatório."
+      },
+      phone: {
+        required: "O preenchimento deste campo é obrigatório."
+      }
+    },
+    submitHandler: function (form) {
+      document.querySelector("#submitButton").innerText = "Enviando...";
+
+      setTimeout(() => {
+        $("#name")[0].value = "";
+        $("#email")[0].value = "";
+        $("#phone")[0].value = "";
+        $("#company")[0].value = "";
+
+        $("#submitButton").attr({ disabled: "disabled" }).fadeOut(200);
+
+        $(".success-message").fadeIn(700);
+      }, 2000);
+    }
+  });
+}
 
 // Scroll após clique
 $("#v-pills-tab a").on('click', function (e) {

@@ -68,7 +68,7 @@
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <p>© Copyright 2020. Abas Online. Todos os direitos reservados.</p>
+          <p>© Copyright 2022. Abas Online. Todos os direitos reservados.</p>
         </div>
       </div>
     </div>

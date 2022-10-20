@@ -21,12 +21,11 @@ require_once("header.php");
 <section class="intro bg-cinza-claro">
   <div class="container">
     <div class="row d-flex justify-content-between align-items-center">
-      <div class="col-12 col-md-5">
-        <img src="<?php bloginfo('template_url'); ?>/images/canivete-suico.png" class="img-fluid" alt="Abas Online - Canivete Suíço" />
-      </div>
-
       <div class="col-12 col-md-6">
-        <h2 class="text-roxo">O que é o Abas Online?</h2>
+        <img src="<?php echo get_template_directory_uri() . '/images/telas-abas.webp'; ?>" alt="Telas Aplicativo Abas Online" width="445" height="367" class="img-fluid">
+      </div>
+      <div class="col-12 col-md-6">
+        <h2 class="text-roxo  mb-3">O que é o Abas Online?</h2>
         <p class="lead text-roxo font-weight-bold">Somos o único e mais completo Software de Gestão de Processos capaz de criar e automatizar fluxos de trabalho para atender diversas áreas em uma única empresa.</p>
         <p>Nosso <strong>gerenciador de tarefas</strong> contribui diretamente para o <strong>aumento da produtividade e redução do custo</strong> operacional, através da otimização de processos de vários setores:</p>
         <p>Departamento Pessoal, Comercial, Marketing, Recursos Humanos, Financeiro, Tecnologia da Informação e muito mais. </p>

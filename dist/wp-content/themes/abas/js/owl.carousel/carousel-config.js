@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
   $(".depoimentos__carrossel").owlCarousel({
     items: 1,
     mouseDrag: true,
@@ -12,3 +12,23 @@ $(document).ready(function() {
     autoHeight: true
   });
 })
+
+if (document.querySelector(".planos")) {
+  $(".planos").owlCarousel({
+    loop: true,
+    nav: true,
+    nav: true,
+    responsive: {
+      0: {
+        items: 1,
+        autoHeight: true
+      },
+      768: {
+        items: 2
+      },
+      1024: {
+        items: 3
+      }
+    }
+  })
+}

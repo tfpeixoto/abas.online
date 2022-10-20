@@ -68,6 +68,7 @@ class Yoast extends Plugin_Importer {
 	 */
 	public function convert_variables( $string ) {
 		$string = str_replace( '%%term_title%%', '%term%', $string );
+		$string = str_replace( '%%category_description%%', '%term_description%', $string );
 		$string = preg_replace( '/%%cf_([^%]+)%%/i', '%customfield($1)%', $string );
 		$string = preg_replace( '/%%ct_([^%]+)%%/i', '%customterm($1)%', $string );
 		$string = preg_replace( '/%%ct_desc_([^%]+)%%/i', '%customterm($1)%', $string );
@@ -1174,12 +1175,11 @@ class Yoast extends Plugin_Importer {
 		$this->replace( $hash, $yoast_internallinks, $this->settings, 'convert_bool' );
 
 		// RSS.
-		$yoast_rss = get_option( 'wpseo_rss' );
 		$hash      = [
 			'rssbefore' => 'rss_before_content',
 			'rssafter'  => 'rss_after_content',
 		];
-		$this->replace( $hash, $yoast_rss, $this->settings, 'convert_variables' );
+		$this->replace( $hash, $yoast_titles, $this->settings, 'convert_variables' );
 	}
 
 	/**

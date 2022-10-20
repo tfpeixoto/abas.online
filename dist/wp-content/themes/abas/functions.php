@@ -45,9 +45,9 @@ function abas_scripts()
 
   wp_enqueue_script('rd-station', 'https://d335luupugsy2.cloudfront.net/js/loader-scripts/b8a3d2c9-9098-478e-b56a-0d9970fe937e-loader.js', array(), '1.0.0', true);
 
-  if( is_front_page() ) {
+  if( is_front_page() || is_page('planos') ) {
     wp_enqueue_script('owl-carousel', get_template_directory_uri()."/js/owl.carousel/owl.carousel.min.js", array("jquery"), "1.0.0", true);
-    wp_enqueue_script('owl-carousel-config', get_template_directory_uri()."/js/owl.carousel/carousel-config.js", array(), "1.0.0", true);
+    wp_enqueue_script('owl-carousel-config', get_template_directory_uri()."/js/owl.carousel/carousel-config.js", array("owl-carousel"), "1.0.0", true);
   }
 }
 add_action('wp_enqueue_scripts', 'abas_scripts');
