@@ -13,164 +13,117 @@ require_once("header.php");
         <h2>CONHEÇA NOSSOS PLANOS:</h2>
       </div>
       <div class="col-12">
-        <div class="planos owl-carousel">
-          <div class="item">
-            <h3 class="planos__lettering">PLANO ONE</h3>
+        <div class="planos">
 
-            <div class="planos__card">
-              <div class="header">
-                <h3>PLANO ONE</h3>
+          <div class="planos__card">
+            <div class="header">
+              <h3>PLANO STARTER</h3>
+            </div>
+            <div class="body">
+              <div class="price">
+                <p>R$ <strong>35</strong></p>
+                <span>Por usuário</span>
               </div>
-              <div class="body">
-                <div class="price">
-                  <p>R$ <strong>69</strong></p>
-                  <span>Por mês</span>
-                </div>
 
-                <ul class="descriptions">
-                  <li>
-                    <p>Até 1 usuário.</p>
-                  </li>
-                  <li>
-                    <p>Todos os templates disponíveis + 1 workspace com até 10 abas.</p>
-                  </li>
-                  <li>
-                    <p>1 evento por aba.</p>
-                  </li>
-                  <li>
-                    <p>Visão de Formulários, Calendário e Planilha.</p>
-                  </li>
-                  <li>
-                    <p>Customização de cores e marca.</p>
-                  </li>
-                  <li>
-                    <p>Atendimento via ticket.</p>
-                  </li>
-                </ul>
-
-                <a href="#contato">Quero esse!</a>
-
-                <span class="aviso">Converse com um dos nossos atendentes.</span>
-              </div>
+              <ul class="descriptions">
+                <li>
+                  <p>Mínimo de 3 usuários.</p>
+                </li>
+                <li>
+                  <p>Todos os templates disponíveis + 3 workspaces com até 10 abas.</p>
+                </li>
+                <li>
+                  <p>2 eventos por aba.</p>
+                </li>
+                <li>
+                  <p>Visão de Formulários, Calendário e Planilha.</p>
+                </li>
+                <li>
+                  <p>Customização de cores e marca.</p>
+                </li>
+                <li>
+                  <p>Atendimento via ticket.</p>
+                </li>
+              </ul>
+            </div>
+            <div class="footer">
+              <a href="#contato">Quero esse!</a>
+              <span class="aviso">Converse com um dos nossos atendentes.</span>
             </div>
           </div>
-          <div class="item">
-            <h3 class="planos__lettering">PLANO STARTER</h3>
 
-            <div class="planos__card">
-              <div class="header">
-                <h3>PLANO STARTER</h3>
+
+          <div class="planos__card">
+            <div class="header">
+              <h3>PLANO BUSINESS</h3>
+            </div>
+            <div class="body">
+              <div class="price">
+                <p>R$ <strong>45</strong></p>
+                <span>Por usuário</span>
               </div>
-              <div class="body">
-                <div class="price">
-                  <p>R$ <strong>157</strong></p>
-                  <span>Por mês</span>
-                </div>
 
-                <ul class="descriptions">
-                  <li>
-                    <p>Até 3 usuários.</p>
-                  </li>
-                  <li>
-                    <p>Todos os templates disponíveis + 3 workspaces com até 10 abas.</p>
-                  </li>
-                  <li>
-                    <p>2 eventos por aba.</p>
-                  </li>
-                  <li>
-                    <p>Visão de Formulários, Calendário e Planilha.</p>
-                  </li>
-                  <li>
-                    <p>Customização de cores e marca.</p>
-                  </li>
-                  <li>
-                    <p>Atendimento via ticket.</p>
-                  </li>
-                </ul>
-
-                <a href="#contato">Quero esse!</a>
-
-                <span class="aviso">Converse com um dos nossos atendentes.</span>
-              </div>
+              <ul class="descriptions">
+                <li>
+                  <p>Mínimo de 5 usuários.</p>
+                </li>
+                <li>
+                  <p>Todos os templates disponíveis + 3 workspaces com até 10 abas.</p>
+                </li>
+                <li>
+                  <p>5 eventos por aba.</p>
+                </li>
+                <li>
+                  <p>Visão de Formulários, Calendário e Planilha + Dashboard, Matriz Gantt, Galeria e Kanbam.</p>
+                </li>
+                <li>
+                  <p>Permissão multinível: App IOS e Android.</p>
+                </li>
+                <li>
+                  <p>Atendimento via ticket e vídeo conferência.</p>
+                </li>
+              </ul>
+            </div>
+            <div class="footer">
+              <a href="#contato">Quero esse!</a>
+              <span class="aviso">Converse com um dos nossos atendentes.</span>
             </div>
           </div>
-          <div class="item">
-            <h3 class="planos__lettering">PLANO BUSINESS</h3>
 
-            <div class="planos__card">
-              <div class="header">
-                <h3>PLANO BUSINESS</h3>
-              </div>
-              <div class="body">
-                <div class="price">
-                  <p>R$ <strong>225</strong></p>
-                  <span>Por mês</span>
-                </div>
 
-                <ul class="descriptions">
-                  <li>
-                    <p>Pelo menos 5 usuários.</p>
-                  </li>
-                  <li>
-                    <p>Todos os templates disponíveis + 3 workspaces com até 10 abas.</p>
-                  </li>
-                  <li>
-                    <p>5 eventos por aba.</p>
-                  </li>
-                  <li>
-                    <p>Visão de Formulários, Calendário e Planilha + Dashboard, Matriz Gantt, Galeria e Kanbam.</p>
-                  </li>
-                  <li>
-                    <p>Permissão multinível: App IOS e Android.</p>
-                  </li>
-                  <li>
-                    <p>Atendimento via ticket e vídeo conferência.</p>
-                  </li>
-                </ul>
-
-                <a href="#contato">Quero esse!</a>
-
-                <span class="aviso">Converse com um dos nossos atendentes.</span>
-              </div>
+          <div class="planos__card">
+            <div class="header">
+              <h3>PLANO ENTERPRISE</h3>
             </div>
-          </div>
-          <div class="item">
-            <h3 class="planos__lettering">PLANO ENTERPRISE</h3>
-
-            <div class="planos__card">
-              <div class="header">
-                <h3>PLANO ENTERPRISE</h3>
+            <div class="body">
+              <div class="price">
+                <p class="texto">Sob Consulta</p>
               </div>
-              <div class="body">
-                <div class="price">
-                  <p class="texto">Sob Consulta</p>
-                </div>
 
-                <ul class="descriptions">
-                  <li>
-                    <p>Pelo menos 10 usuários.</p>
-                  </li>
-                  <li>
-                    <p>Workspaces e abas ilimitadas.</p>
-                  </li>
-                  <li>
-                    <p>
-                      Visão de Formulários, Calendário e Planilha + Dashboard, Matriz Gantt, Galeria e Kanbam
-                      + Integração com site e Condomínio21, em nuvem
-                    </p>
-                  </li>
-                  <li>
-                    <p>Permissão multinível: App IOS e Android.</p>
-                  </li>
-                  <li>
-                    <p>Atendimento via ticket e vídeo conferência.</p>
-                  </li>
-                </ul>
-
-                <a href="#contato">Quero esse!</a>
-
-                <span class="aviso">Converse com um dos nossos atendentes.</span>
-              </div>
+              <ul class="descriptions">
+                <li>
+                  <p>Pelo menos 10 usuários.</p>
+                </li>
+                <li>
+                  <p>Workspaces e abas ilimitadas.</p>
+                </li>
+                <li>
+                  <p>
+                    Visão de Formulários, Calendário e Planilha + Dashboard, Matriz Gantt, Galeria e Kanbam
+                    + Integração com site e Condomínio21, em nuvem
+                  </p>
+                </li>
+                <li>
+                  <p>Permissão multinível: App IOS e Android.</p>
+                </li>
+                <li>
+                  <p>Atendimento via ticket e vídeo conferência.</p>
+                </li>
+              </ul>
+            </div>
+            <div class="footer">
+              <a href="#contato">Quero esse!</a>
+              <span class="aviso">Converse com um dos nossos atendentes.</span>
             </div>
           </div>
         </div>

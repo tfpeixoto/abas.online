@@ -33,7 +33,8 @@ header {
           display: block;
         }
       }
-      .nav-link {
+      .nav-link,
+      .dropdown-item {
         color: $white !important;
       }
     }

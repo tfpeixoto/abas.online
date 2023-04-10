@@ -19,6 +19,11 @@
 
   .planos {
     position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: center;
+    gap: 20px;
 
     &__lettering {
       text-align: center;
@@ -30,10 +35,15 @@
     }
 
     &__card {
+      flex: 1 1 300px;
+      max-width: 400px;
       background-color: #ffffff;
       border-radius: 1rem;
       overflow: hidden;
-      margin: 0 1rem 2rem;
+      // margin: 0 1rem 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
 
       .header {
         background-color: $amarelo;
@@ -53,7 +63,7 @@
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          
+
           text-align: center;
           margin-top: 2rem;
           margin-bottom: 2rem;
@@ -62,7 +72,7 @@
             font-size: 1.1rem;
             margin-bottom: -1rem;
             font-weight: 800;
-            
+
             &.texto {
               font-size: 2rem;
             }
@@ -89,6 +99,10 @@
             }
           }
         }
+      }
+
+      .footer {
+        margin-top: auto;
 
         a {
           background-color: $rosa-500;
@@ -116,30 +130,6 @@
         }
       }
     }
-
-    .owl-nav {
-      position: absolute;
-      top: 40%; left: 0;
-      width: 100%;
-
-      display: flex;
-      justify-content: space-between;
-
-      button{
-        position: absolute;
-        span {
-          color: $amarelo;
-          font-weight: 700;
-          font-size: 4rem;
-        }
-      }
-      .owl-prev {
-        left: -2%;
-      }
-      .owl-next {
-        right: -2%;
-      }
-    }
   }
 }
 
@@ -150,7 +140,7 @@
     margin-bottom: 2rem;
     text-align: center;
     color: $roxo;
-  
+
     @media(max-width: 450px) {
       font-size: 1.85rem;
     }
@@ -175,6 +165,7 @@
         &.error {
           border: solid 1px rgba(192, 10, 10, 0.664);
         }
+
         &.valid {
           border: solid 1px rgba(26, 194, 26, 0.555);
         }
