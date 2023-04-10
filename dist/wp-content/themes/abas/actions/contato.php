@@ -13,7 +13,7 @@ $email = filter_input(INPUT_POST, 'blog-email', FILTER_SANITIZE_EMAIL);
 $telefone = filter_input(INPUT_POST, 'blog-telefone', FILTER_SANITIZE_SPECIAL_CHARS);
 $url = filter_input(INPUT_POST, 'blog-url', FILTER_SANITIZE_URL);
 
-if(isset($email)){
+if (isset($email)) {
     //Create an instance; passing `true` enables exceptions
     $mail = new PHPMailer(true);
 
@@ -31,9 +31,9 @@ if(isset($email)){
 
         //Recipients
         $mail->setFrom('rafael.amorim@groupsoftware.com.br', 'Formulário Abas');
-        // $mail->addAddress('contato@abas.online', 'Contato Abas');     //Add a recipient
-        $mail->addAddress('carlos.mendes@groupsoftware.com.br');     //Add a recipient
-    
+        $mail->addAddress('contato@abas.online', 'Contato Abas');     //Add a recipient
+        // $mail->addAddress('carlos.mendes@groupsoftware.com.br');     //Add a recipient
+
         //Content
         $mail->isHTML(true);                                  //Set email format to HTML
         $mail->Subject = 'Nova solicitacao de contato';
@@ -55,7 +55,7 @@ if(isset($email)){
             \nEmail: $email
             \nTelefone: $telefone
         ";
-    
+
         $mail->send();
         echo 'O email foi enviado com sucesso.';
     } catch (Exception $e) {
