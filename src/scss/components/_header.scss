@@ -1,6 +1,6 @@
 header {
   margin-top: 20px;
-  position: fixed;
+  position: absolute;
   top: 0;
   width: 100%;
   z-index: 999;
@@ -13,11 +13,13 @@ header {
       &.positiva {
         display: block;
       }
+
       &.negativa {
         display: none;
       }
     }
   }
+
   &.fixed {
     .navbar {
       background: $roxo;
@@ -29,16 +31,19 @@ header {
         &.positiva {
           display: none;
         }
+
         &.negativa {
           display: block;
         }
       }
+
       .nav-link,
       .nav-item a {
         color: $white !important;
       }
     }
   }
+
   nav {
     background: $white;
     border-radius: 10px;
@@ -50,11 +55,13 @@ header {
         font-weight: 600;
         padding: 0.5rem 0;
       }
+
       .btn {
         font-weight: 600;
         padding: 0;
       }
     }
+
     .navbar-nav {
       overflow-y: scroll;
       max-height: 80vh;
@@ -63,12 +70,14 @@ header {
         margin: 0;
         overflow-y: initial;
       }
+
       .nav-item {
         padding: 0;
 
         @include media-breakpoint-up(sm) {
           padding: 15px;
         }
+
         &:hover {
           .dropdown-menu {
             opacity: 1;
@@ -77,12 +86,14 @@ header {
           }
         }
       }
+
       .dropdown {
         &:hover {
-          & > .dropdown-menu {
+          &>.dropdown-menu {
             display: block;
           }
         }
+
         .dropdown-menu {
           border: 0;
           border-radius: 20px;
@@ -100,11 +111,13 @@ header {
             transform: translate(0);
             visibility: initial;
           }
+
           @include media-breakpoint-up(sm) {
             box-shadow: -1px 2px 19px 3px rgba(14, 0, 40, 0.1);
             padding: 1rem 0.75rem;
             width: 300px;
           }
+
           .dropdown-header {
             color: $roxo;
             font-family: "Roboto Slab", serif;
@@ -115,6 +128,7 @@ header {
             padding: 0.5rem;
             text-transform: uppercase;
           }
+
           .nav-item {
             padding: 0;
 
@@ -135,6 +149,7 @@ header {
                   color: $white;
                 }
               }
+
               i {
                 color: $roxo;
                 font-size: 2rem;
