@@ -62,8 +62,8 @@ var maskBehavior = function (val) {
   };
 $('#telefone').mask(maskBehavior, options);
 
-if (document.querySelector("#phone")) {
-  $('#phone').mask(maskBehavior, options);
+if (document.querySelector("#phoneTrial")) {
+  $('#phoneTrial').mask(maskBehavior, options);
 }
 
 // Validação de telefone - digitos iguais e DDD
