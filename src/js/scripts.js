@@ -13,6 +13,34 @@ function navbarFixed() {
 };
 navbarFixed()
 
+function closeModal(modal) {
+  modal.classList.remove('open')
+}
+
+function openModal(modal) {
+  modal.classList.add('open')
+}
+
+function controlModal(btnClass, modalClass) {
+  const buttons = document.querySelectorAll(btnClass)
+  let modal = document.querySelector(modalClass)
+
+  buttons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      e.preventDefault()
+      openModal(modal)
+    })
+  })
+
+  modal.addEventListener('click', (e) => {
+    if (e.target.dataset.modal === 'outside' || e.target.dataset.modal === 'close-btn') {
+      closeModal(modal)
+    }
+  })
+}
+controlModal('.contactBtn', '.consultor')
+controlModal('.trialBtn', '.trial')
+
 // Incluir data-toggle nos links do Gutemberg
 function obterLinks() {
   let linkModal = document.querySelectorAll("a[href='#modalConversao']")
@@ -53,6 +81,13 @@ $.validator.addMethod('validardigitos', function (value, element) {
   }
 
 }, "Telefone inválido! Por favor, verifique o número informado.");
+
+
+function onSucceeded(modalClass) {
+  const modal = document.querySelector(modalClass)
+  modal.classList.add('success')
+}
+
 // Validacao
 function validarFormulario(formLead) {
   $(formLead).validate({
@@ -90,7 +125,77 @@ function validarFormulario(formLead) {
     },
   });
 }
-validarFormulario('#formLead');
+
+function validarFormularioConsultor(formLead) {
+  $(formLead).validate({
+    rules: {
+      nome: {
+        required: true,
+        minlength: 3,
+      },
+      email: {
+        required: true,
+        email: true,
+      },
+      contato: {
+        required: true,
+        minlength: 14,
+        maxlength: 15,
+        validardigitos: true,
+      }
+    },
+    messages: {
+      nome: {
+        required: "Por favor, insira seu nome",
+        minlength: "Seu nome deve conter, pelo menos, 3 caracteres"
+      },
+      email: {
+        required: "Por favor, insira seu e-mail",
+        email: "Por favor, inclua um e-mail válido (ex: nome@dominio.com.br)",
+      },
+      contato: {
+        required: "Por favor, insira seu telefone",
+        minlength: "Telefone inválido! Seu telefone deve conter no mínimo 10 números",
+        maxlength: "Telefone inválido! Seu telefone deve conter no máximo 11 números",
+        validardigitos: "Telefone inválido! Por favor, verifique o número informado",
+      }
+    },
+    submitHandler: function (form) {
+      const submitButton = form.querySelector('button[type=submit]')
+
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", "Bearer fV/oh7SnZJ4baYPayeQgRO");
+
+      var raw = new FormData(form)
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+
+      submitButton.innerText = "Enviando...";
+
+      fetch("https://api.abas.online/api/table/value/603cdda9f0f8d700125fae6d?actions=true", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          console.log(result)
+          onSucceeded('.consultor-modal')
+        })
+        .catch(error => {
+          console.log('error', error)
+          $('.request-error').fadeIn()
+        }).finally(() => {
+          submitButton.innerText = "Receber Contato";
+        });
+
+    }
+  });
+}
+
+validarFormularioConsultor('#formLead');
+validarFormulario('#trialForm');
 
 if (document.querySelector(".contato__form")) {
   $(".contato__form").validate({

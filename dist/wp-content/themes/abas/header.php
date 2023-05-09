@@ -6,12 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="<?= get_template_directory_uri() . '/images/favicon.png' ?>" type="image/x-icon">
 
-  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="<?= get_template_directory_uri() . '/webfonts/fa-solid-900.woff' ?>" type="font/woff2">
   <link href="<?= get_template_directory_uri() . '/webfonts/fa-brands-400.woff' ?>" type="font/woff2">
   <link href="<?= get_template_directory_uri() . '/webfonts/fa-regular-400.woff' ?>" type="font/woff2">
 
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@800&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@800&family=Roboto:wght@400;700&display=swap" rel="stylesheet"> -->
   <?php wp_head(); ?>
   <link rel="stylesheet" href="<?= get_template_directory_uri() . '/css/' . $estiloPagina ?>" as="style" media="print" onload="this.media='all'; this.onload=null;" crossorigin>
 
@@ -46,7 +48,7 @@
         ?>
 
         <!-- <a type="button" href="#" class="btn btn-amarelo d-none d-md-block" data-toggle="modal" data-target="#modalConversao">Solicitar demonstração <i class="fas fa-chevron-right"></i></a> -->
-        <a type="button" href="https://conteudo.abas.online/gerenciamento-de-tarefas" target="_blank" rel="noopener noreferrer" class="btn btn-amarelo d-none d-md-block">Testar Grátis <i class="fas fa-chevron-right"></i></a>
+        <a type="button" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-amarelo d-none d-md-block trialBtn">Testar Grátis</a>
       </nav>
     </div>
   </header>

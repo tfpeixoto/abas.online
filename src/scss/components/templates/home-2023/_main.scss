@@ -1,0 +1,134 @@
+.main {
+  background: url(../images/banner-wave.webp) right -200px bottom no-repeat;
+  background-size: contain;
+  padding: 8.5rem 1rem 10rem;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+
+  @include media-breakpoint-down(md) {
+    background: url(../images/wave-mobile-background.webp) left bottom -3rem no-repeat;
+    background-size: cover;
+    padding-bottom: 2.25rem;
+  }
+
+  @media(min-width: 768px) and (max-width: 991px) {
+    background-position: left bottom -18rem;
+  }
+
+  &__container {
+    width: 100%;
+    // max-width: 1140px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      align-items: center;
+
+      @include media-breakpoint-up(md) {
+        flex: 1 1 440px;
+        align-items: flex-start;
+      }
+
+      .title {
+        font: 600 3rem/4.05rem $font_primary;
+        color: $title_primary;
+
+        strong {
+          font-weight: 700;
+          color: $title_dark;
+        }
+      }
+
+      .dash {
+        margin-top: 1rem;
+        margin-bottom: 1.75rem;
+        margin-right: auto;
+      }
+
+      .lead {
+        font: 400 1.5rem/2rem $font_primary;
+        margin-bottom: 2rem;
+
+        @include media-breakpoint-up(md) {
+          max-width: 498px;
+        }
+      }
+
+      .ctas {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1.5rem;
+
+        @include media-breakpoint-down(sm) {
+          flex-direction: column;
+        }
+      }
+
+      @include media-breakpoint-down(sm) {
+        .title {
+          font-size: 1.5rem;
+          line-height: 2rem;
+        }
+
+        .lead {
+          font-size: 1rem;
+          line-height: 1.25rem;
+          color: $title_primary;
+        }
+      }
+    }
+
+    .imagens {
+      flex: 1 2 460px;
+      position: relative;
+
+      @include media-breakpoint-down(sm){
+        margin-top: 20px;
+      }
+
+      .dashboard {
+        position: absolute;
+        left: 0;
+        bottom: -1.5rem;
+
+        @include media-breakpoint-down(sm){
+          width: 100%;
+          height: auto;
+          bottom: -0.5rem;
+        }
+      }
+
+      .persona {
+        display: block;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+
+        @include media-breakpoint-down(sm){
+          width: 85%;
+          height: auto;
+        }
+      }
+
+      .bubbles {
+        &-one {
+          top: 25%;
+          left: 10%;
+        }
+
+        &-two {
+          bottom: -2rem;
+          right: 0;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,130 @@
+// Colors
+$alert: #FF3231;
+$success: #4AA142;
+$title_primary: #777777;
+$title_dark: rgba(0, 0, 0, 0.87);
+$text: rgba(0, 0, 0, 1);
+$text_light: rgba(0, 0, 0, 0.87);
+$border: #D8D8D8;
+$border_light: #EBEBEB;
+$shape: #ffffff;
+$background_secondary: rgba(217, 217, 217, 0.5);
+$primary: #3F2154;
+$primary_light: #7E6A8C;
+$secondary: #F2C30D;
+
+
+// Fonts
+$font_primary: 'Open Sans', sans-serif;
+
+// Animations
+@keyframes bubblesOne {
+  0% { transform: translateX(0px); }
+  50% { transform: translateX(30px); }
+  100% { transform: translateX(0px); }
+}
+
+@keyframes bubblesTwo {
+  0% { transform: translateX(0px); }
+  50% { transform: translateX(-30px); }
+  100% { transform: translateX(0px); }
+}
+
+// Buttons
+.borderless-button {
+  display: inline-block;
+  text-align: center;
+  font: 400 1.5rem/2rem $font_primary;
+  color: $text;
+  transition: color 0.2s;
+  
+  &:hover {
+    text-decoration: none;
+    color: $text_light;
+    
+    .fa {
+      color: $text_light;
+      transform: translateX(4px);
+    }
+  }
+  
+  .fa {
+    font-size: 1rem;
+    margin-left: 0.5rem;
+    color: $text;
+    transition: 0.2s;
+  }
+
+  @media(max-width: 767.98px) {
+    font-size: 1rem;
+    color: $title_primary;
+
+    .fa {
+      color: $title_primary;
+      font-size: 0.875rem;
+    }
+  }
+}
+
+.colored-button {
+  display: inline-block;
+  padding: 16px 50px;
+  text-align: center;
+  font: 400 1.5rem/2rem $font_primary;
+  color: $shape;
+  background-color: $secondary;
+  border-radius: 3rem;
+  box-shadow: 0 0 12px #3f3f3f50;
+  transition: 0.3s;
+
+  &:hover {
+    text-decoration: none;
+    color: $shape;
+    transform: scale(0.97);
+  }
+
+  @media(max-width: 767.98px) {
+    font-size: 1rem;
+    padding: 5px 50px;
+  }
+}
+
+.dash {
+  display: inline-block;
+  width: 3.75rem;
+  height: 10px;
+  border-radius: 1rem;
+  background-color: $primary;
+
+  @media(max-width: 767.98px) {
+    width: 2.25rem;
+    height: 6px;
+  }
+}
+
+.bubbles {
+  position: absolute;
+  z-index: 4;
+
+  &.bubbles-one {
+    animation: bubblesOne 4s infinite;
+    -moz-animation: bubblesOne 4s infinite;
+    -webkit-animation: bubblesOne 4s infinite;
+
+    @media(max-width: 767.98px) {
+      width: auto !important;
+      height: 53.8px !important;
+    }
+  }
+
+  &.bubbles-two {
+    animation: bubblesTwo 4s infinite;
+    -moz-animation: bubblesTwo 4s infinite;
+    -webkit-animation: bubblesTwo 4s infinite;
+
+    @media(max-width: 767.98px) {
+      width: auto !important;
+      height: 40.4px !important;
+    }
+  }
+}

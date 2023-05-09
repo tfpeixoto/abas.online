@@ -1,0 +1,23 @@
+// PLUGINS
+@import "components/variaveis";
+@import "components/config";
+@import "../../node_modules/owl.carousel/src/scss/owl.carousel.scss";
+@import "../../node_modules/bootstrap/scss/bootstrap";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/solid";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/brands";
+
+// HOME 2023
+@import "components/wordpress";
+@import "components/templates/home-2023/main";
+@import "components/templates/home-2023/clientes";
+@import "components/templates/home-2023/fluxos";
+@import "components/templates/home-2023/efficiency";
+@import "components/templates/home-2023/depoimentos";
+@import "components/templates/home-2023/planos";
+@import "components/modal-form-trial";
+@import "components/modal-form-consultor";
+
+
+// FOOTER
+@import "components/footer";

@@ -4,9 +4,9 @@
   // }
   .lead{
     color: $roxo;
-    font-family: "Roboto Slab", serif;
+    font-family: "Open Sans", serif;
     font-size: 1.5rem;
-    font-weight: 800;
+    font-weight: 700;
 
     @include media-breakpoint-up(md) {
       padding: 0 5rem;

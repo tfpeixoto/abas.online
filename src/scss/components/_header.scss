@@ -33,7 +33,8 @@ header {
           display: block;
         }
       }
-      .nav-link {
+      .nav-link,
+      .nav-item a {
         color: $white !important;
       }
     }

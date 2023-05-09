@@ -81,6 +81,7 @@ class DB {
 		if ( ! empty( $args['search'] ) ) {
 			$table->whereLike( 'sources', $args['search'] );
 			$table->orWhereLike( 'url_to', $args['search'] );
+			$table->where( 'status', $status[0], $status[1] );
 		}
 
 		if ( ! empty( $args['orderby'] ) && in_array( $args['orderby'], [ 'id', 'url_to', 'header_code', 'hits', 'created', 'last_accessed' ], true ) ) {
@@ -280,7 +281,11 @@ class DB {
 		}
 
 		// Exist by ID.
-		return self::get_redirection_by_id( $data['id'] );
+		if ( ! empty( $data['id'] ) ) {
+			return self::get_redirection_by_id( $data['id'] );
+		}
+
+		return false;
 	}
 
 	/**
@@ -438,7 +443,14 @@ class DB {
 	 */
 	public static function delete( $ids ) {
 		Cache::purge( $ids );
-		return self::table()->whereIn( 'id', (array) $ids )->delete();
+		$deleted = self::table()->whereIn( 'id', (array) $ids )->delete();
+
+		/**
+		 * Fires after deleting redirections.
+		 */
+		do_action( 'rank_math/redirection/deleted', $ids, $deleted );
+
+		return $deleted;
 	}
 
 	/**

@@ -19,7 +19,7 @@ require_once("header.php");
     <div class="row">
       <div class="col-12 text-center">
         <h1><?php the_field('slogan'); ?></h1>
-        <a type="button" href="#" class="btn btn-amarelo" data-toggle="modal" data-target="#modalConversao">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
+        <a type="button" href="#" class="btn btn-amarelo contactBtn" data-toggle="modal" data-target="#modalConversao">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
       </div>
     </div>
   </div>
@@ -39,14 +39,16 @@ require_once("header.php");
       <div class="col-12 col-md-6 text-center">
         <h2 class="text-amarelo">Quer automatizar todos os processos da sua empresa?</h2>
         <p>Personalizamos todo nosso sistema à sua maneira, para impulsionar os resultados da sua gestão.</p>
-        <a type="button" href="#modalConversao" class="btn btn-roxo">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
+        <a type="button" href="#modalConversao" class="btn btn-roxo contactBtn">Fale com um consultor <i class="fas fa-chevron-right"></i></a>
       </div>
     </div>
   </div>
 </section>
 
 <?php
+require_once("template_parts/modal-form-consultor.php");
+require_once("template_parts/modal-form-trial.php");
 require_once("template_parts/acesso.php");
-require_once("template_parts/modal.php");
+// require_once("template_parts/modal.php");
 require_once("footer.php");
 ?>

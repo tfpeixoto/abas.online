@@ -1,0 +1,231 @@
+.consultor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 999999;
+  width: 100vw;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+
+  &.open {
+    display: flex;
+  }
+
+  &-modal {
+    position: relative;
+    background-color: $shape;
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem 1.5rem;
+    border-radius: 40px;
+
+    .form-container {
+      max-width: 280px;
+      margin: 0 auto;
+
+      .title {
+        font: 600 1.25rem/1.75rem $font_primary;
+        color: $title_primary;
+        margin-bottom: 1.25rem;
+        max-width: 75%;
+
+        strong {
+          color: $title_dark;
+          font-weight: 700;
+        }
+      }
+
+      .dash {
+        margin-bottom: 1rem;
+      }
+
+      .form {
+        .form-field {
+          margin-bottom: 1.5rem;
+
+          label {
+            display: block;
+            font: 400 0.75rem/1.125rem $font_primary;
+            color: $title_primary;
+            margin-bottom: 0;
+          }
+
+          input {
+            display: block;
+            font: 400 0.75rem/1.125rem $font_primary;
+            color: $text;
+            background-color: transparent;
+            border: none;
+            border-bottom: solid 1px $border;
+            width: 100%;
+            height: 1.875rem;
+            padding: 0 5px;
+
+            &:focus {
+              outline: none;
+              border-bottom: solid 1px $primary;
+            }
+
+            &.error {
+              border-color: $alert;
+              color: $alert;
+
+              &+.error {
+                display: block;
+                font: 400 0.675rem/1rem $font_primary;
+                text-align: right;
+                color: $alert;
+                margin-top: 5px;
+              }
+            }
+          }
+        }
+
+        .colored-button {
+          display: block;
+          margin: 0 auto;
+          border: none;
+          font-size: 1rem;
+          line-height: 1.5rem;
+          margin-bottom: 0.55rem;
+        }
+
+        .request-error {
+          display: none;
+          font: 400 0.75rem/1.125rem $font_primary;
+          color: $alert;
+          text-align: center;
+        }
+
+        .aviso {
+          display: block;
+          font: 400 0.75rem/1.125rem $font_primary;
+          color: $title_primary;
+          text-align: center;
+          margin-top: 0.55rem;
+        }
+      }
+    }
+
+    .close-btn {
+      position: absolute;
+      z-index: 99999;
+      display: inline-block;
+      top: 1rem;
+      right: 1.75rem;
+      color: $title_primary;
+      font-size: 1.25rem;
+      padding: 5px;
+      cursor: pointer;
+      transition: 0.2s;
+
+      @include media-breakpoint-down(sm) {
+        top: 1rem;
+        right: 1rem;
+        font-size: 1.125rem;
+      }
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+
+    .bubbles {
+      &-one {
+        top: -1rem;
+        left: -2rem;
+        width: 4rem;
+        height: auto;
+      }
+
+      &-two {
+        bottom: -1rem;
+        right: -2rem;
+        width: 4rem;
+        height: auto;
+      }
+
+      @include media-breakpoint-down(sm) {
+        &-one {
+          top: -1rem;
+          left: 0rem;
+          width: 1.25rem;
+          height: auto;
+        }
+
+        &-two {
+          bottom: -1rem;
+          right: 0;
+          width: 1.25rem;
+          height: auto;
+        }
+      }
+    }
+
+    .modal-succeeded {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background-color: $shape;
+      z-index: 3;
+      border-radius: 40px;
+      padding: 1rem;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      .circle {
+        width: 115px;
+        height: 115px;
+        border-radius: 100px;
+        background-color: $success;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3.5rem;
+        color: $shape;
+        margin-bottom: 0.75rem;
+      }
+
+      .title {
+        font: 600 1.25rem/1.75rem $font_primary;
+        color: $title_primary;
+        margin-bottom: 0.75rem;
+
+        strong {
+          color: $title_dark;
+          font-weight: 700;
+        }
+      }
+
+      .dash {
+        margin-bottom: 1rem;
+      }
+
+      .lead {
+        font: 600 0.875rem/1.25rem $font_primary;
+        color: $title_primary;
+        text-align: center;
+        max-width: 230px;
+        margin: 1rem auto 0;
+      }
+    }
+
+    &.success {
+      .modal-succeeded {
+        display: flex;
+      }
+    }
+  }
+}

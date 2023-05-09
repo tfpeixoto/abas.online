@@ -1,0 +1,76 @@
+.clientes {
+  background-color: $shape;
+  padding: 5.6rem 1rem;
+  box-shadow: 0 0 15px 7px rgba(141, 141, 141, 0.15);
+
+  @include media-breakpoint-down(sm) {
+    padding-top: 1.55rem;
+    padding-bottom: 2.5rem;
+  }
+
+  &__container {
+    margin: 0 auto;
+    display: flex;
+    gap: 90px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .content {
+      width: 242px;
+
+      .title {
+        font: 600 1.5rem/2rem $font_primary;
+        color: $title_primary;
+
+        strong {
+          font-weight: 700;
+          color: $title_dark;
+        }
+      }
+
+      @include media-breakpoint-down(sm) {
+        width: unset;
+
+        .title {
+          font-size: 0.875rem;
+          text-align: center;
+
+          strong {
+            color: $title_primary;
+          }
+        }
+      }
+    }
+
+    .marcas {
+      flex: 1 1 280px;
+      display: flex;
+      gap: 70px;
+      align-items: center;
+      flex-wrap: wrap;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      @include media-breakpoint-down(sm) {
+        gap: 30px;
+        justify-content: center;
+        max-width: 296px;
+
+        li {
+          img {
+            object-fit: cover;
+            max-height: 59px;
+            width: auto;
+          }
+        }
+      }
+    }
+  }
+}

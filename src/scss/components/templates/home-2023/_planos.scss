@@ -1,0 +1,389 @@
+.planos {
+  background: url(../images/abas-waves-2.svg) center top 50px no-repeat;
+  background-size: 135%;
+  padding: 6.25rem 0 0;
+  overflow: hidden;
+
+  &__container {
+    margin: 0 auto;
+
+    @include media-breakpoint-up(lg) {
+      max-width: 1140px;
+    }
+
+    .title {
+      font: 700 2rem/2.5rem $font_primary;
+      color: $title_primary;
+      text-align: center;
+
+      strong {
+        color: $title_dark;
+      }
+    }
+
+    .dash {
+      display: block;
+      margin: 1.5rem auto 5rem;
+    }
+
+    @include media-breakpoint-down(sm) {
+      .title {
+        font-size: 1.25rem;
+        line-height: 1.5rem;
+      }
+
+      .dash {
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+      }
+    }
+
+    .planos-cards {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      justify-content: space-between;
+      gap: 20px;
+      position: relative;
+
+      .bubbles {
+        @include media-breakpoint-down(md) {
+          display: none;
+        }
+
+        &-one {
+          top: -2.5rem;
+          left: -2rem;
+        }
+
+        &-two {
+          bottom: -3rem;
+          right: -2.25rem;
+        }
+      }
+
+      &__carrossel {
+
+        .owl-dots {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          .owl-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            background-color: $border;
+            margin: 0 2px;
+            transition: 0.2s;
+
+            &.active {
+              background-color: $amarelo;
+              width: 25px;
+            }
+          }
+        }
+      }
+
+      .plano {
+        flex: 1 1 290px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        max-width: 367px;
+        margin: 0.825rem;
+        border-radius: 50px;
+        background-color: $shape;
+        box-shadow: 0 0 10px #00000020;
+        overflow: hidden;
+
+        &:nth-child(2) {
+          transform: scale(1.02);
+        }
+
+        &-header {
+          position: relative;
+          min-height: 183px;
+          background: linear-gradient(0deg, #6A1B9A -19.48%, #3F2154 17.82%);
+          border-radius: 50px 50px 100px 100px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 1.5rem 0;
+
+          @include media-breakpoint-down(sm) {
+            padding: 0.875rem 0;
+            min-height: 122px;
+          }
+
+          .destaque {
+            position: absolute;
+            top: 2.5rem;
+            right: 36%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: $secondary;
+            color: $text;
+            font: 700 0.9375rem/1.25rem $font_primary;
+            height: 2.5rem;
+            transform: rotate(-52.74deg);
+          }
+
+          .category {
+            display: inline-block;
+            font: 700 1.5rem/2rem $font_primary;
+            color: $shape;
+            margin-bottom: 5px;
+            text-align: center;
+          }
+
+          .price {
+            display: inline-block;
+            font: 400 1.5rem/2rem $font_primary;
+            color: $shape;
+            text-align: center;
+
+            .reais {
+              display: inline-block;
+              font: 700 3rem/4rem $font_primary;
+            }
+
+            .cents {
+              display: inline-block;
+              font: 700 1.5rem/2rem $font_primary;
+            }
+          }
+
+          .description {
+            display: inline-block;
+            font: 300 1.25rem/1.5rem $font_primary;
+            color: $shape;
+          }
+
+          .advise {
+            display: inline-block;
+            font: 700 2.25rem/3rem $font_primary;
+            color: $shape;
+          }
+
+          @include media-breakpoint-down(sm) {
+            .category {
+              font-size: 1.25rem;
+              line-height: 1.75rem;
+            }
+
+            .destaque {
+              font-size: 0.675rem;
+              line-height: 0.875rem;
+              height: 1.5rem;
+            }
+
+            .price {
+              font-size: 1.25rem;
+              line-height: 1.75rem;
+
+              .reais {
+                font-size: 2.25rem;
+                line-height: 3rem;
+              }
+
+              .cents {
+                font-size: 1.25rem;
+                line-height: 1.75rem;
+              }
+            }
+
+            .description {
+              font-size: 1rem;
+              line-height: 1.25rem;
+            }
+
+            .advise {
+              font-size: 1.75rem;
+              line-height: 2rem;
+            }
+          }
+        }
+
+        &-body {
+          list-style: none;
+          padding: 1.5rem 2.25rem 1rem 2rem;
+          margin: 0;
+          margin-bottom: auto;
+
+          li {
+            position: relative;
+            padding-left: 1.75rem;
+
+            span {
+              display: inline-block;
+              padding: 1rem 0;
+              font: 400 1.125rem/1.5rem $font_primary;
+              color: $text;
+            }
+
+            &::before {
+              content: '';
+              position: absolute;
+              left: 0.5rem;
+              top: 1.5rem;
+              width: 8px;
+              height: 8px;
+              border-radius: 8px;
+              background-color: #9D28B1;
+
+              @include media-breakpoint-down(sm) {
+                width: 6px;
+                height: 6px;
+              }
+            }
+
+            &+li {
+              border-top: solid 3px $border_light
+            }
+          }
+
+          @include media-breakpoint-down(sm) {
+            padding: 1.5rem 2rem 1rem 1rem;
+
+            li {
+              span {
+                font-size: 0.8125rem;
+                line-height: 1rem;
+              }
+            }
+          }
+        }
+
+        &-footer {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          background-color: $background_secondary;
+          padding: 2rem 0;
+          border-radius: 0 0 50px 50px;
+
+          .colored-button {
+            margin-bottom: 10px;
+            padding-top: 0;
+            padding-bottom: 0;
+            box-shadow: none;
+            font-size: 1.25rem;
+            line-height: 3.25rem;
+            font-weight: 700;
+          }
+
+          .call {
+            font: 300 0.875rem/1.25rem $font_primary;
+            color: $text;
+            text-align: center;
+          }
+
+          @include media-breakpoint-down(sm) {
+            .colored-button {
+              font-size: 0.875rem;
+              line-height: 2.25rem;
+            }
+
+            .call {
+              font-size: 0.625rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .aprenda {
+    &__container {
+      max-width: 600px;
+      padding: 0 1rem;
+      margin: 200px auto;
+
+      @include media-breakpoint-down(sm) {
+        margin: 40px auto;
+      }
+
+      .title {
+        font: 600 2rem/2.75rem $font_primary;
+        color: $title_primary;
+        text-align: center;
+
+        strong {
+          font-weight: 700;
+          color: $title_dark;
+        }
+      }
+
+      .dash {
+        display: block;
+        margin: 2rem auto 4rem;
+      }
+
+      @include media-breakpoint-down(sm) {
+        .title {
+          font-size: 1.25rem;
+          line-height: 1.5rem;
+        }
+
+        .dash {
+          margin-top: 1rem;
+          margin-bottom: 2rem;
+        }
+      }
+
+      .video {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+
+        iframe {
+          border: none;
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          height: 100%;
+          max-width: 100%;
+        }
+      }
+
+      .lead {
+        max-width: 486px;
+        margin: 3.25rem auto 4.75rem;
+        text-align: center;
+        font: 400 1.5rem/2rem $font_primary;
+        color: $title_primary;
+
+        @include media-breakpoint-down(sm) {
+          font-size: 1rem;
+          line-height: 1.25rem;
+          margin: 2rem auto 1.5rem;
+        }
+      }
+
+      .ctas {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        gap: 1rem;
+
+        @include media-breakpoint-down(sm) {
+          flex-direction: column;
+          flex-wrap: nowrap;
+        }
+
+        .borderless-button {}
+
+        .colored-button {}
+      }
+    }
+  }
+}

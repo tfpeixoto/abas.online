@@ -1,5 +1,6 @@
 // PLUGINS
 @import "components/variaveis";
+@import "components/config";
 @import "../../node_modules/bootstrap/scss/bootstrap";
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/solid";
@@ -12,6 +13,8 @@
 @import "components/fluxos-home";
 @import "components/dobras";
 @import "components/depoimentos-carrossel";
+@import "components/modal-form-trial";
+@import "components/modal-form-consultor";
 
 // FOOTER
 @import "components/modal";

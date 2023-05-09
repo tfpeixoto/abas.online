@@ -1,0 +1,214 @@
+.trial {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 999999;
+  width: 100vw;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+
+  &.open {
+    display: flex;
+  }
+
+  &-modal {
+    background-color: $shape;
+    position: relative;
+    max-width: 700px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 32px;
+    border-radius: 40px;
+    box-shadow: 0 0 15px 7px rgba(141, 141, 141, 0.15);
+    padding: 2rem 1.5rem;
+
+    @include media-breakpoint-down(md) {
+      max-width: 500px;
+    }
+
+    @include media-breakpoint-down(sm) {
+      max-width: 400px;
+      flex-wrap: nowrap;
+      flex-direction: column;
+      border-radius: 1.5rem;
+    }
+
+    .thumb {
+      flex: 1 1 180px;
+      max-width: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+
+      @include media-breakpoint-down(sm) {
+        display: none;
+      }
+
+      &-img {
+        width: 100%;
+        height: auto;
+        border-radius: 40px;
+      }
+
+      .bubbles {
+        &-one {
+          top: -1rem;
+          left: -2rem;
+          width: 4rem;
+          height: auto;
+        }
+
+        &-two {
+          bottom: -1rem;
+          right: -2rem;
+          width: 4rem;
+          height: auto;
+        }
+
+        @include media-breakpoint-down(md) {
+          &-one {
+            left: -1rem;
+            width: 2rem;
+            height: auto;
+          }
+
+          &-two {
+            right: -1rem;
+            width: 2rem;
+            height: auto;
+          }
+        }
+
+        @include media-breakpoint-down(sm) {
+          &-one {
+            top: 0.25rem;
+            left: 0rem;
+            width: 1.25rem;
+            height: auto;
+          }
+
+          &-two {
+            bottom: 0.25rem;
+            right: 0;
+            width: 1.25rem;
+            height: auto;
+          }
+        }
+      }
+    }
+
+    .form-container {
+      flex: 1 1 200px;
+
+      .title {
+        font: 600 1.25rem/1.75rem $font_primary;
+        color: $title_primary;
+        margin-bottom: 1.25rem;
+        max-width: 75%;
+
+        @include media-breakpoint-down(md) {
+          max-width: 85%;
+        }
+
+        @include media-breakpoint-down(sm) {
+          font-size: 1.125rem;
+          line-height: 1.5rem;
+        }
+
+        strong {
+          color: $title_dark;
+          font-weight: 700;
+        }
+      }
+
+      .dash {
+        margin-bottom: 1rem;
+      }
+
+      .form {
+        max-width: 280px;
+
+        .form-field {
+          margin-bottom: 1.5rem;
+
+          label {
+            display: block;
+            font: 400 0.75rem/1.125rem $font_primary;
+            color: $text_light;
+            margin-bottom: 0;
+          }
+
+          input {
+            display: block;
+            font: 400 0.75rem/1.125rem $font_primary;
+            color: $text;
+            background-color: transparent;
+            border: none;
+            border-bottom: solid 1px $border;
+            width: 100%;
+            height: 1.875rem;
+            padding: 0 5px;
+
+            &:focus {
+              outline: none;
+              border-bottom: solid 1px $primary;
+            }
+
+            &.error {
+              border-color: $alert;
+              color: $alert;
+
+              &+.error {
+                display: block;
+                font: 400 0.675rem/1rem $font_primary;
+                text-align: right;
+                color: $alert;
+                margin-top: 5px;
+              }
+            }
+          }
+        }
+
+        .colored-button {
+          display: block;
+          margin: 0 auto;
+          border: none;
+          font-size: 1rem;
+          line-height: 1.5rem;
+        }
+      }
+    }
+
+    .close-btn {
+      position: absolute;
+      z-index: 99999;
+      display: inline-block;
+      top: 1rem;
+      right: 1.75rem;
+      color: $title_primary;
+      font-size: 1.25rem;
+      padding: 5px;
+      cursor: pointer;
+      transition: 0.2s;
+
+      @include media-breakpoint-down(sm) {
+        top: 1rem;
+        right: 1rem;
+        font-size: 1.125rem;
+      }
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+}

@@ -2,10 +2,10 @@
 Contributors: rankmath
 Plugin link: https://rankmath.com/?utm_source=LP&utm_campaign=WP
 Tags: seo, sitemap, google search console, schema, redirection, WordPress SEO
-Tested up to: 6.0
+Tested up to: 6.2
 Requires at least: 5.6
 Requires PHP: 7.4
-Stable tag: 1.0.99
+Stable tag: 1.0.112
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -77,7 +77,7 @@ Rank Math's integrated LSI keyword tool gives you multiple keyword variations of
 Rank Math makes social thumbnails click magnets by giving you the option of overlaying a GIF or a video icon on the thumbnail.
 
 * **Advanced SEO Analysis Tool**
-With just a single click, Rank Math can perform an SEO audit of your website.
+With just a single click, Rank Math can perform an SEO Analyzer of your website.
 
 * **30 Detailed SEO Tests**
 Rank Math is designed to completely supercharge your website's SEO with its 30 detailed SEO tests. Free account needed.
@@ -417,7 +417,10 @@ Rank Math® SEO is a registered trademark. Please use the following format when 
 
 **<a href="https://rankmath.com/kb/wordpress/seo-suite/?utm_source=LP&utm_campaign=WP" target="_blank">3. User Documentation:</a>** Although Rank Math is already easy to set up, we've put together tutorials, guides, and some knowledge bases to help you set up and get started with Rank Math.
 
-**<a href="https://translate.wordpress.org/projects/wp-plugins/seo-by-rank-math/?utm_campaign=Rank+Math" target="_blank">4. Contribute (Sharing is caring):</a>** If you are one of those caring hearts that want to help, go to our <a href="https://github.com/RankMath/seo-by-rank-math/?utm_campaign=Rank+Math" target="_blank">Rank Math's GitHub Repository</a> and see how you can contribute to the SEO community. You can also add a new language via <a href="https://translate.wordpress.org/projects/wp-plugins/seo-by-rank-math/?utm_campaign=Rank+Math" target="_blank">translate.wordpress.org.</a>
+**<a href="https://translate.wordpress.org/projects/wp-plugins/seo-by-rank-math/?utm_campaign=Rank+Math" target="_blank">4. Contribute (Sharing is caring):</a>** If you are one of those caring hearts that want to help, please check the following resources:
+* [Rank Math's GitHub repository](https://github.com/RankMath/seo-by-rank-math/) - Includes all the uncompressed files.
+* [Content Analyzer Code Files](https://github.com/rankmath/content-analyzer) - Includes all supplementary uncompressed files.
+* [Translation](https://translate.wordpress.org/projects/wp-plugins/seo-by-rank-math/) - If you are looking to translate the plugin into your local language.
 
 **<a href="https://mythemeshop.com/wordpress-errors-fixes/?utm_campaign=Rank+Math" target="_blank">5. Fixing Common Errors:</a>** Sometimes, avoidable or common issues can get you stuck. We’ve created a common guide where we discuss all the common issues and how to fix them.
 
@@ -580,15 +583,16 @@ Please drop us an email at support@rankmath.com and we would be more than happy 
 
 == Changelog ==
 
-= 1.0.99 [Oct 06, 2022] =
-* Improved: Remove all Action Scheduler tasks related to Rank Math after uninstalling the plugin
-* Updated: Description links in the [Webmaster Tools tab](https://rankmath.com/kb/general-settings/#webmaster-tools) of the General Settings
-* Fixed: Converting Yoast's HowTo & FAQ block was working only on the 'Posts', not on other post types
-* Fixed: PHP warning on some setups after importing the data from [SEOPress](https://rankmath.com/kb/seopress-migration/)
-* Fixed: PHP error after deleting the post when [Link Counter module](https://rankmath.com/kb/link-counter/) was enabled
-* Fixed: PHP error when invalid schema data is saved in the Database
-* Fixed: Copying [Schema shortcode](https://rankmath.com/kb/rich-snippets/#book-shortcode) using the Keyboard was not working in the Elementor editor
-* Fixed: [Index Now API key](https://rankmath.com/kb/how-to-use-indexnow/#managing-api-key) was changed every time the Settings are updated
-* Fixed: Missing Analytics table error on some setups
+= 1.0.112 [Apr 19, 2023] =
+- Improved: Significant code improvements in the [Analytics module](https://rankmath.com/kb/analytics) resulting in FASTER and LIGHTER performance of the plugin
+- Fixed: [Schema Block](https://rankmath.com/kb/rich-snippets/) was not working with WordPress 6.2
+- Fixed: Missing SEO tab in the beta version of [Elementor editor](https://rankmath.com/blog/elementor-seo/)
+- Fixed: PHP error related to [SEO Analyzer](https://rankmath.com/kb/seo-analysis/) on some setups
+- Fixed: PHP warning related to [Slack Open Graph tags](https://rankmath.com/kb/slack-enhanced-sharing/) on some setups
+- Fixed: [Title wrapper option](https://rankmath.com/kb/table-of-contents-block/#title-wrapper) in the Table of Contents Block was not working with the default TOC title on the frontend
+- Fixed: Redirection rules from Trash will no longer be displayed when searching for [Redirection](https://rankmath.com/kb/setting-up-redirections/).
+- Fixed: Empty Taxonomies & Author archive pages displayed in the [HTML sitemap](https://rankmath.com/kb/html-sitemap/)
+- Fixed: Misaligned [SEO Metabox](https://rankmath.com/kb/on-page-seo/#classic-editor) on Product taxonomy pages in the latest version of WooCommerce
+- Fixed: [Analytics pages](https://rankmath.com/kb/analytics/) were not working with the Gutenberg plugin
 
 Full changelog can be found here - **[Rank Math changelog](https://rankmath.com/changelog/?utm_source=Plugin&utm_medium=Changelog&utm_campaign=WP)**

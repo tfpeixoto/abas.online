@@ -1,0 +1,325 @@
+// .depoimentos {
+//   background-color: $shape;
+//   box-shadow: 0 0 15px 7px $border;
+
+//   &__titulo {
+//     font: 600 2.5rem/3rem $font_primary;
+//     color: $title_primary;
+//     margin-left: 1rem;
+
+//     strong {
+//       color: $title_dark;
+//       font-weight: 700;
+//     }
+//   }
+
+//   .dash {
+//     display: inline-block;
+//     margin: 1rem auto 2rem;
+//     margin-left: 1rem;
+//     background-color: $secondary;
+//   }
+
+//   &__carrossel {
+//     position: relative;
+
+//     .depoimento {
+//       display: flex;
+//       align-items: center;
+//       justify-content: space-between;
+//       flex-wrap: wrap;
+
+//       &__conteudo {
+//         flex: 2 1 280px;
+//         max-width: 710px;
+//         padding: 0 20px;
+
+//         p {
+//           font: 400 1.125rem/1.5rem $font_primary;
+//           color: $text;
+//         }
+
+//         &-nome {
+//           display: block;
+//           font: 700 1.125rem/1.5rem $font_primary;
+//           color: $primary;
+//           margin-top: 1.5rem;
+//           margin-bottom: 0.3rem;
+//         }
+
+//         &-empresa {
+//           font: 400 1.125rem/1.5rem $font_primary;
+//           color: $text;
+//         }
+//       }
+
+//       &__imagem {
+//         flex: 1 0 250px;
+//         align-self: flex-start;
+
+//         display: flex;
+//         align-items: flex-start;
+//         justify-content: center;
+
+//         &-molde {
+//           max-width: 200px;
+//           margin-top: 20px;
+//           margin-bottom: 20px;
+
+//           position: relative;
+
+//           img {
+//             max-width: 200px;
+//             max-height: 200px;
+
+//             border-radius: 15px;
+//             box-shadow: 0 0 10px #00000070;
+//           }
+//         }
+//       }
+//     }
+
+//     .owl-nav {
+//       position: absolute;
+//       top: 20%;
+//       left: 0;
+//       width: 100%;
+
+//       display: flex;
+//       justify-content: space-between;
+
+//       button {
+//         position: absolute;
+
+//         span {
+//           color: $amarelo;
+//           font-weight: 700;
+//           font-size: 4rem;
+//         }
+//       }
+
+//       .owl-prev {
+//         left: -2%;
+//       }
+
+//       .owl-next {
+//         right: -2%;
+//       }
+//     }
+
+//     .owl-dots {
+//       display: flex;
+//       align-items: center;
+//       justify-content: center;
+
+//       .owl-dot {
+//         width: 10px;
+//         height: 10px;
+//         border-radius: 10px;
+//         background-color: $border;
+//         margin: 0 2px;
+//         transition: 0.2s;
+
+//         &.active {
+//           background-color: $amarelo;
+//           width: 25px;
+//         }
+//       }
+//     }
+//   }
+// }
+
+
+
+.depoimentos {
+  padding: 5rem 1rem 3.375rem;
+  background-color: $shape;
+  box-shadow: 0 0 15px 7px $border;
+
+  &__container {
+    margin: 0 auto;
+
+    .title {
+      font: 600 2.5rem/3rem $font_primary;
+      color: $title_primary;
+      margin-left: 1.5rem;
+
+      strong {
+        font-weight: 700;
+        color: $title_dark;
+      }
+    }
+
+    .dash {
+      background-color: $secondary;
+      margin-top: 1rem;
+      margin-left: 1.5rem;
+    }
+
+    @include media-breakpoint-down(sm) {
+      .title {
+        font-size: 1.5rem;
+        line-height: 2rem;
+      }
+
+      margin-bottom: 2rem;
+    }
+
+    .depoimentos__carrossel {
+
+      .depoimento {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 2.5rem 0;
+        margin: 0 1.5rem;
+
+        @include media-breakpoint-down(sm) {
+          flex-direction: column;
+          padding: 2rem 0 0;
+        }
+
+        .content {
+          flex: 1 0;
+          max-width: 710px;
+
+          p {
+            font: 400 1.125rem/1.5rem $font_primary;
+            color: $text_light;
+            margin-bottom: 1rem;
+          }
+
+          .name {
+            font: 700 1.125rem/1.75rem $font_primary;
+            color: $primary;
+            margin-bottom: 0.5rem;
+          }
+
+          .company {
+            font: 400 1.125rem/1.75rem $font_primary;
+            color: $text_light;
+          }
+
+          @include media-breakpoint-down(sm) {
+
+            p,
+            .name,
+            .company {
+              font-size: 1rem;
+              line-height: 1.25rem;
+            }
+
+            p, .company {
+              color: $title_primary;
+            }
+          }
+        }
+
+        .image {
+          flex: 1 2 200px;
+          max-width: 230px;
+          position: relative;
+
+          &-wrap {
+            margin-left: auto;
+            // height: 280px;
+            width: 100%;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+
+            img {
+              width: 100%;
+              min-height: 100%;
+              height: auto;
+
+              @include media-breakpoint-down(sm) {
+                text-align: center;
+                width: 150px;
+                height: auto;
+              }
+            }
+          }
+
+          .bubbles {
+            @include media-breakpoint-up(md) {
+              width: auto !important;
+              height: auto !important;
+            }
+
+            &-one {
+              top: -3rem;
+              left: -4rem;
+            }
+
+            &-two {
+              bottom: -2rem;
+              right: -2rem;
+            }
+
+            @include media-breakpoint-down(sm) {
+              &-one {
+                top: -1rem;
+                left: -2.5rem;
+              }
+
+              &-two {
+                bottom: 2rem;
+              }
+            }
+          }
+        }
+      }
+
+      .owl-nav {
+        position: absolute;
+        top: 20%;
+        left: 0;
+        width: 100%;
+
+        display: flex;
+        justify-content: space-between;
+
+        button {
+          position: absolute;
+
+          span {
+            color: $amarelo;
+            font-weight: 700;
+            font-size: 4rem;
+          }
+        }
+
+        .owl-prev {
+          left: -2%;
+        }
+
+        .owl-next {
+          right: -2%;
+        }
+      }
+
+      .owl-dots {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .owl-dot {
+          width: 10px;
+          height: 10px;
+          border-radius: 10px;
+          background-color: $border;
+          margin: 0 2px;
+          transition: 0.2s;
+
+          &.active {
+            background-color: $amarelo;
+            width: 25px;
+          }
+        }
+      }
+    }
+  }
+}
