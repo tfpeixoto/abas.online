@@ -235,10 +235,10 @@ endif;
             <strong class="category">Starter</strong>
             <span class="price">
               R$
-              <span class="reais">35</span>
-              <span class="cents">,00</span>
+              <span class="reais">157</span>
+              <span class="cents"> ,00</span>
             </span>
-            <span class="description">por usuário</span>
+            <span class="description">por mês</span>
           </div>
           <ul class="plano-body">
             <li><span>Mínimo de 3 usuários.</span></li>
@@ -261,10 +261,10 @@ endif;
             <strong class="category">Business</strong>
             <span class="price">
               R$
-              <span class="reais">45</span>
-              <span class="cents">,00</span>
+              <span class="reais">225</span>
+              <span class="cents"> ,00</span>
             </span>
-            <span class="description">por usuário</span>
+            <span class="description">por mês</span>
           </div>
           <ul class="plano-body">
             <li><span>Mínimo de 5 usuários.</span></li>
